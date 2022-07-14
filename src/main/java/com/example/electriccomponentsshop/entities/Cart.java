@@ -1,24 +1,21 @@
 package com.example.electriccomponentsshop.entities;
 
-import com.example.electriccomponentsshop.common.ERole;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="Roles")
-public class Role {
+@Table(name="Cart")
+public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
     private Integer id;
-    @Enumerated(EnumType.STRING)
-    @Column(length = 20)
-    private ERole roleName;
-
-
+    @OneToMany(mappedBy = "cart",fetch =FetchType.LAZY)
+    private List<Product> products= new ArrayList<>();
 }

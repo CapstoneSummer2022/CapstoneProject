@@ -8,8 +8,10 @@ import com.example.electriccomponentsshop.dto.LoginRequest;
 import com.example.electriccomponentsshop.dto.MessageResponse;
 import com.example.electriccomponentsshop.dto.SignupRequest;
 import com.example.electriccomponentsshop.entities.Account;
+import com.example.electriccomponentsshop.entities.Category;
 import com.example.electriccomponentsshop.entities.Role;
 import com.example.electriccomponentsshop.repositories.AccountRepository;
+import com.example.electriccomponentsshop.repositories.CategoryRepository;
 import com.example.electriccomponentsshop.repositories.RoleRepository;
 import com.example.electriccomponentsshop.services.AccountDetailImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -42,7 +45,23 @@ public class AuthController {
     PasswordEncoder passwordEncoder;
     @Autowired
     JwtUtils jwtUtils;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
+    @GetMapping("/signin")
+    public ResponseEntity<?> login() throws Exception{
+        return ResponseEntity.ok("hoang");
+
+    }
+    @PostMapping("/change_password/{id}")
+    public ResponseEntity<?> changePassword(@Validated @RequestBody @PathVariable("id") int id, LoginRequest login) throws Exception{
+
+        Account accountFromDB = accountRepository.findById(id).orElseThrow();
+        accountFromDB.setEmail(login.getEmail());
+        accountFromDB.setPassword(login.getPassword());
+        accountRepository.save(accountFromDB);
+        return ResponseEntity.ok("Thay đổi thành công");
+    }
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Validated @RequestBody LoginRequest loginRequest) throws Exception {
         Authentication authentication = authenticationManager.authenticate(

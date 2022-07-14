@@ -14,10 +14,13 @@ public interface AccountRepository extends JpaRepository<Account,Integer> {
      * @return Account
      */
     Optional<Account> findByEmail(String email);
+    Optional<Account> findById(int id);
     /**
      * Check exist account with email
      *
      */
     Boolean existsAccountByEmail(String email);
 
+    @Override
+    <S extends Account> S save(S entity);
 }

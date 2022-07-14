@@ -1,5 +1,6 @@
 package com.example.electriccomponentsshop.config;
 
+import com.example.electriccomponentsshop.controller.AuthController;
 import com.example.electriccomponentsshop.services.AccountDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -44,12 +45,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Override
     protected void configure(HttpSecurity http) throws  Exception{
-
+        http.logout()
+                .logoutSuccessUrl("/signin")
+                .logoutUrl("/logout")
+                .invalidateHttpSession(true)
+                .permitAll();
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/**").permitAll()
-                .antMatchers("/**").permitAll()
+                .antMatchers("/category").permitAll()
                 .anyRequest().authenticated();
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
