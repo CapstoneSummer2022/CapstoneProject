@@ -26,7 +26,7 @@ public class Account {
     private Set<Role> roles = new HashSet<>();
     @OneToOne(mappedBy = "account")
     @PrimaryKeyJoinColumn
-    private AccountInformation accountInformation;
+    private UserInformation userInformation;
     @OneToMany(mappedBy = "account",fetch = FetchType.LAZY)
     List<Feedback> feedbackList =new ArrayList<>();
     public Account(String email, String password) {

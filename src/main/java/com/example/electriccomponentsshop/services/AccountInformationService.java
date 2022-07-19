@@ -1,6 +1,6 @@
 package com.example.electriccomponentsshop.services;
 
-import com.example.electriccomponentsshop.entities.AccountInformation;
+import com.example.electriccomponentsshop.entities.UserInformation;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,48 +12,48 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public interface AccountInformationService {
-    Optional<AccountInformation> findAccountInformationById(int id);
+    Optional<UserInformation> findAccountInformationById(int id);
 
-    <S extends AccountInformation> S save(S entity);
+    <S extends UserInformation> S save(S entity);
 
-    List<AccountInformation> findAll();
+    List<UserInformation> findAll();
 
-    List<AccountInformation> findAll(Sort sort);
+    List<UserInformation> findAll(Sort sort);
 
-    List<AccountInformation> findAllById(Iterable<Integer> integers);
+    List<UserInformation> findAllById(Iterable<Integer> integers);
 
-    <S extends AccountInformation> List<S> saveAll(Iterable<S> entities);
+    <S extends UserInformation> List<S> saveAll(Iterable<S> entities);
 
     void flush();
 
-    <S extends AccountInformation> S saveAndFlush(S entity);
+    <S extends UserInformation> S saveAndFlush(S entity);
 
-    <S extends AccountInformation> List<S> saveAllAndFlush(Iterable<S> entities);
+    <S extends UserInformation> List<S> saveAllAndFlush(Iterable<S> entities);
 
     @Deprecated
-    void deleteInBatch(Iterable<AccountInformation> entities);
+    void deleteInBatch(Iterable<UserInformation> entities);
 
-    void deleteAllInBatch(Iterable<AccountInformation> entities);
+    void deleteAllInBatch(Iterable<UserInformation> entities);
 
     void deleteAllByIdInBatch(Iterable<Integer> integers);
 
     void deleteAllInBatch();
 
     @Deprecated
-    AccountInformation getOne(Integer integer);
+    UserInformation getOne(Integer integer);
 
     @Deprecated
-    AccountInformation getById(Integer integer);
+    UserInformation getById(Integer integer);
 
-    AccountInformation getReferenceById(Integer integer);
+    UserInformation getReferenceById(Integer integer);
 
-    <S extends AccountInformation> List<S> findAll(Example<S> example);
+    <S extends UserInformation> List<S> findAll(Example<S> example);
 
-    <S extends AccountInformation> List<S> findAll(Example<S> example, Sort sort);
+    <S extends UserInformation> List<S> findAll(Example<S> example, Sort sort);
 
-    Page<AccountInformation> findAll(Pageable pageable);
+    Page<UserInformation> findAll(Pageable pageable);
 
-    Optional<AccountInformation> findById(Integer integer);
+    Optional<UserInformation> findById(Integer integer);
 
     boolean existsById(Integer integer);
 
@@ -61,21 +61,21 @@ public interface AccountInformationService {
 
     void deleteById(Integer integer);
 
-    void delete(AccountInformation entity);
+    void delete(UserInformation entity);
 
     void deleteAllById(Iterable<? extends Integer> integers);
 
-    void deleteAll(Iterable<? extends AccountInformation> entities);
+    void deleteAll(Iterable<? extends UserInformation> entities);
 
     void deleteAll();
 
-    <S extends AccountInformation> Optional<S> findOne(Example<S> example);
+    <S extends UserInformation> Optional<S> findOne(Example<S> example);
 
-    <S extends AccountInformation> Page<S> findAll(Example<S> example, Pageable pageable);
+    <S extends UserInformation> Page<S> findAll(Example<S> example, Pageable pageable);
 
-    <S extends AccountInformation> long count(Example<S> example);
+    <S extends UserInformation> long count(Example<S> example);
 
-    <S extends AccountInformation> boolean exists(Example<S> example);
+    <S extends UserInformation> boolean exists(Example<S> example);
 
-    <S extends AccountInformation, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction);
+    <S extends UserInformation, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction);
 }

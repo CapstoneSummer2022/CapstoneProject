@@ -2,25 +2,19 @@ package com.example.electriccomponentsshop.controller;
 
 import com.example.electriccomponentsshop.config.ModelMap;
 import com.example.electriccomponentsshop.dto.SupplierDTO;
-import com.example.electriccomponentsshop.entities.AccountInformation;
+import com.example.electriccomponentsshop.entities.UserInformation;
 import com.example.electriccomponentsshop.entities.Category;
-import com.example.electriccomponentsshop.entities.Product;
 import com.example.electriccomponentsshop.entities.Supplier;
 import com.example.electriccomponentsshop.repositories.AccountInformationRepository;
 import com.example.electriccomponentsshop.repositories.CategoryRepository;
 import com.example.electriccomponentsshop.repositories.ProductRepository;
 import com.example.electriccomponentsshop.repositories.SupplierRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -38,8 +32,8 @@ public class Controller {
 
     @PostMapping("/update/{id}")
     public ResponseEntity<?> updateInformation(@PathVariable("id") int id, @Validated @RequestParam("phone") String phone, @Validated @RequestParam("name") String name, @Validated @RequestParam("email") String email) throws  Exception{
-       Optional<AccountInformation> accountInformation= accountInformationRepository.findAccountInformationById(id);
-       AccountInformation infor= new AccountInformation();
+       Optional<UserInformation> accountInformation= accountInformationRepository.findAccountInformationById(id);
+       UserInformation infor= new UserInformation();
        if(accountInformation.isPresent()){
                 infor = accountInformation.get();
                 infor.setEmail(email);

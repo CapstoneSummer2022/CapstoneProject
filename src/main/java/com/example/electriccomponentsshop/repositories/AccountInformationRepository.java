@@ -1,15 +1,15 @@
 package com.example.electriccomponentsshop.repositories;
 
-import com.example.electriccomponentsshop.entities.AccountInformation;
+import com.example.electriccomponentsshop.entities.UserInformation;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface AccountInformationRepository extends JpaRepository<AccountInformation,Integer> {
+public interface AccountInformationRepository extends JpaRepository<UserInformation,Integer> {
     //Optional<AccountInformation> findAccountInformationByEmail();
 
-    Optional<AccountInformation> findAccountInformationById(int id);
+    Optional<UserInformation> findAccountInformationById(int id);
 
     @Override
-    <S extends AccountInformation> S save(S entity);
+    <S extends UserInformation> S save(S entity);
 }
