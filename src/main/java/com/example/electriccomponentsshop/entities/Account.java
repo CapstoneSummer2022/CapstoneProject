@@ -11,6 +11,8 @@ import java.util.Set;
 @Setter
 @Entity
 @AllArgsConstructor
+@NoArgsConstructor
+
 @Table(name = "Accounts", uniqueConstraints = {@UniqueConstraint(columnNames = "Email")})
 public class Account {
     @Id
@@ -27,6 +29,9 @@ public class Account {
     @OneToOne(mappedBy = "account")
     @PrimaryKeyJoinColumn
     private UserInformation userInformation;
+    @OneToOne(mappedBy = "account")
+    @PrimaryKeyJoinColumn
+    private RefreshToken refreshToken;
     @OneToMany(mappedBy = "account",fetch = FetchType.LAZY)
     List<Feedback> feedbackList =new ArrayList<>();
     public Account(String email, String password) {
@@ -35,7 +40,5 @@ public class Account {
     }
 
 
-    public Account() {
 
-    }
 }

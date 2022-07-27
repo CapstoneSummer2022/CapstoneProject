@@ -3,17 +3,17 @@ package com.example.electriccomponentsshop.controller;
 
 import com.example.electriccomponentsshop.common.ERole;
 import com.example.electriccomponentsshop.common.JwtUtils;
-import com.example.electriccomponentsshop.dto.JwtResponse;
-import com.example.electriccomponentsshop.dto.LoginRequest;
+import com.example.electriccomponentsshop.dto.AccountDTO;
 import com.example.electriccomponentsshop.dto.MessageResponse;
 import com.example.electriccomponentsshop.dto.SignupRequest;
 import com.example.electriccomponentsshop.entities.Account;
-import com.example.electriccomponentsshop.entities.Category;
+import com.example.electriccomponentsshop.entities.RefreshToken;
 import com.example.electriccomponentsshop.entities.Role;
 import com.example.electriccomponentsshop.repositories.AccountRepository;
 import com.example.electriccomponentsshop.repositories.CategoryRepository;
 import com.example.electriccomponentsshop.repositories.RoleRepository;
 import com.example.electriccomponentsshop.services.AccountDetailImpl;
+import com.example.electriccomponentsshop.services.RefreshTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,17 +21,23 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import java.util.*;
 import java.util.stream.Collectors;
+import javax.servlet.http.Cookie;
 
 @CrossOrigin
-@RestController
+@Controller
 @RequestMapping("/")
 public class AuthController {
 
@@ -44,17 +50,14 @@ public class AuthController {
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
+    private RefreshTokenService refreshTokenService;
+    @Autowired
     JwtUtils jwtUtils;
     @Autowired
     private CategoryRepository categoryRepository;
 
-    @GetMapping("/signin")
-    public ResponseEntity<?> login() throws Exception{
-        return ResponseEntity.ok("hoang");
-
-    }
     @PostMapping("/change_password/{id}")
-    public ResponseEntity<?> changePassword(@Validated @RequestBody @PathVariable("id") int id, LoginRequest login) throws Exception{
+    public ResponseEntity<?> changePassword(@Validated @RequestBody @PathVariable("id") int id, AccountDTO login) throws Exception{
 
         Account accountFromDB = accountRepository.findById(id).orElseThrow();
         accountFromDB.setEmail(login.getEmail());
@@ -62,20 +65,47 @@ public class AuthController {
         accountRepository.save(accountFromDB);
         return ResponseEntity.ok("Thay đổi thành công");
     }
+    @GetMapping("")
+    public String login(ModelMap modelMap){
+       // modelMap.addAttribute("account", new AccountDTO());
+        System.out.println("ppp");
+        return "signin";
+    }
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@Validated @RequestBody LoginRequest loginRequest) throws Exception {
+    public ModelAndView authenticateUser(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response, @Valid @ModelAttribute("account") AccountDTO accountDTO, BindingResult bindingResult) throws Exception {
+
+        if(bindingResult.hasErrors()){
+            bindingResult.getFieldErrors().forEach(fieldError -> modelMap.addAttribute(fieldError.getField(),fieldError.getDefaultMessage()));
+            return new ModelAndView("signin");
+        }
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
+                new UsernamePasswordAuthenticationToken(accountDTO.getEmail(), accountDTO.getPassword())
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
         AccountDetailImpl accountDetail = (AccountDetailImpl) authentication.getPrincipal();
         List<String> roles = accountDetail.getAuthorities().stream().map(item -> item.getAuthority()).collect(Collectors.toList());
-        return ResponseEntity.ok(new JwtResponse(jwt, accountDetail.getId(), accountDetail.getEmail(), roles));
+        Optional<RefreshToken> refreshToken=refreshTokenService.findByAccount_Email(accountDTO.getEmail());
+        if(!refreshToken.isPresent()||refreshTokenService.isExpiration(refreshToken.get())){
+             refreshTokenService.createRefreshToken(accountDetail.getEmail());
+        }
+        String jwt= jwtUtils.generateJwtToken(authentication);
+        Cookie cookie = new Cookie("accessToken",jwt);
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(1200);
+        response.addCookie(cookie);
+
+        if(roles.contains("ROLE_MANAGER")||roles.contains("ROLE_EMPLOYEE")){
+            System.out.println("Ff");
+            return new ModelAndView("signin1");
+        }
+        return new ModelAndView("home");
+
+
+
     }
 
     @PostMapping ("/signup")
-    public ResponseEntity<?> registerUser(@Validated @RequestBody SignupRequest signupRequest) {
+    public ResponseEntity<?> registerUser(@Valid @ModelAttribute("signup") SignupRequest signupRequest) {
 
         if (accountRepository.existsAccountByEmail(signupRequest.getEmail())) {
             return ResponseEntity.badRequest().body(new MessageResponse("This email is registered"));
@@ -90,6 +120,7 @@ public class AuthController {
                 strRoles.forEach(role -> {
                     switch (role) {
                         case "employee":
+                            System.out.println("Gg");
                             Role roleEmp = roleRepository.findByRoleName(ERole.ROLE_EMPLOYEE).orElseThrow(() -> new RuntimeException("Role not found"));
                             roles.add(roleEmp);
                         case "manager":

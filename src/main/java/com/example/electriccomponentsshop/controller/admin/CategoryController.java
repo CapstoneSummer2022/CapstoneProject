@@ -4,7 +4,9 @@ import com.example.electriccomponentsshop.config.ModelMap;
 import com.example.electriccomponentsshop.dto.CategoryDTO;
 import com.example.electriccomponentsshop.entities.Category;
 import com.example.electriccomponentsshop.services.CategoryService;
+import com.example.electriccomponentsshop.services.RefreshTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -12,11 +14,12 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.*;
 
 @CrossOrigin
-@RestController
+@Controller
 @RequestMapping("admin/categories")
 public class CategoryController  {
     @Autowired
     CategoryService categoryService;
+
     @Autowired
     ModelMap modelMap;
     @GetMapping("/list")
