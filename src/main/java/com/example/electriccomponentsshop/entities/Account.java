@@ -21,14 +21,14 @@ public class Account {
     private Integer id;
     @Column
     private String email;
+    private String name;
+    private String phone;
     @Column
     private String password;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "account_roles", joinColumns = @JoinColumn(name = "account_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
-    @OneToOne(mappedBy = "account")
-    @PrimaryKeyJoinColumn
-    private UserInformation userInformation;
     @OneToOne(mappedBy = "account")
     @PrimaryKeyJoinColumn
     private RefreshToken refreshToken;

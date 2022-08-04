@@ -11,24 +11,31 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.*;
 
 @CrossOrigin
 @Controller
-@RequestMapping("admin/categories")
+@RequestMapping("/")
 public class CategoryController  {
-    @Autowired
+    final
     CategoryService categoryService;
 
-    @Autowired
+    final
     ModelMap modelMap;
+
+    public CategoryController(CategoryService categoryService, ModelMap modelMap) {
+        this.categoryService = categoryService;
+        this.modelMap = modelMap;
+    }
+
     @GetMapping("/list")
     public String list(){
-        return "admin/categories/list";
+        return "administrator/category-management";
 
     }
     @PostMapping("/add")
-    public String addCategory(@Validated @RequestBody CategoryDTO categoryDTO){
+    public String addCategory(@Valid @ModelAttribute("category") CategoryDTO categoryDTO){
         Category category = new Category(categoryDTO.getName());
         if(categoryDTO.getParentId()==null){
             categoryService.save(category);
@@ -46,10 +53,28 @@ public class CategoryController  {
             }
         }
         return "ok";
+    }
+    @PostMapping("category/update/{id}")
+    public ModelAndView editCategory(@PathVariable int id,@Valid @ModelAttribute("category") CategoryDTO categoryDTO){
+      try{
+          Category category = categoryService.findById(id);
+          if(category.getParentCategory()==null){
+              category.setName(categoryDTO.getName());
+              categoryService.save(category);
+          }
+          else if(category.getParentCategory()!=null){
+              Category parent = categoryService.findById(categoryDTO.getParentId());
+              category.setParentCategory(parent);
+              Set<Category> childCategories = parent.getChildCategories();
+              childCategories.add(category);
+              categoryService.save(category);
+          }
+      }
+      catch(NoSuchElementException e){
+            return new ModelAndView("Không tìm thấy category");
 
-
-
-
+      }
+        return new ModelAndView("category");
     }
     public Category convertToEntity(CategoryDTO categoryDTO){
         Category category = modelMap.modelMapper().map(categoryDTO,Category.class);

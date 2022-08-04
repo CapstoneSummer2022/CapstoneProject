@@ -13,6 +13,8 @@ import com.example.electriccomponentsshop.repositories.AccountRepository;
 import com.example.electriccomponentsshop.repositories.CategoryRepository;
 import com.example.electriccomponentsshop.repositories.RoleRepository;
 import com.example.electriccomponentsshop.services.AccountDetailImpl;
+import com.example.electriccomponentsshop.services.CategoryService;
+import com.example.electriccomponentsshop.services.OrderService;
 import com.example.electriccomponentsshop.services.RefreshTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -50,25 +52,34 @@ public class AuthController {
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
+    OrderService orderService;
+    @Autowired
     private RefreshTokenService refreshTokenService;
     @Autowired
     JwtUtils jwtUtils;
     @Autowired
     private CategoryRepository categoryRepository;
-
-    @PostMapping("/change_password/{id}")
-    public ResponseEntity<?> changePassword(@Validated @RequestBody @PathVariable("id") int id, AccountDTO login) throws Exception{
+    @Autowired
+    CategoryService categoryService;
+    @GetMapping("/change-password")
+    public ModelAndView showChangePassword(){
+        return new ModelAndView("change-password");
+    }
+    @PostMapping("/change-password/{id}")
+    public ModelAndView changePassword(@Valid @PathVariable("id") int id, HttpServletResponse response , @ModelAttribute("account") AccountDTO login) throws Exception{
 
         Account accountFromDB = accountRepository.findById(id).orElseThrow();
         accountFromDB.setEmail(login.getEmail());
         accountFromDB.setPassword(login.getPassword());
         accountRepository.save(accountFromDB);
-        return ResponseEntity.ok("Thay đổi thành công");
+        Cookie cookie = new Cookie("accessToken",null);
+        response.addCookie(cookie);
+        cookie.setHttpOnly(true);
+        return new ModelAndView("logout");
     }
-    @GetMapping("")
-    public String login(ModelMap modelMap){
-       // modelMap.addAttribute("account", new AccountDTO());
-        System.out.println("ppp");
+    @GetMapping("/signin")
+    public String login(){
+
         return "signin";
     }
     @PostMapping("/signin")
@@ -93,9 +104,7 @@ public class AuthController {
         cookie.setHttpOnly(true);
         cookie.setMaxAge(1200);
         response.addCookie(cookie);
-
         if(roles.contains("ROLE_MANAGER")||roles.contains("ROLE_EMPLOYEE")){
-            System.out.println("Ff");
             return new ModelAndView("signin1");
         }
         return new ModelAndView("home");
@@ -105,7 +114,7 @@ public class AuthController {
     }
 
     @PostMapping ("/signup")
-    public ResponseEntity<?> registerUser(@Valid @ModelAttribute("signup") SignupRequest signupRequest) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signupRequest) {
 
         if (accountRepository.existsAccountByEmail(signupRequest.getEmail())) {
             return ResponseEntity.badRequest().body(new MessageResponse("This email is registered"));

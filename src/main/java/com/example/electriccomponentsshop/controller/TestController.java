@@ -1,17 +1,19 @@
 package com.example.electriccomponentsshop.controller;
 
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 @CrossOrigin
 @RequestMapping("/api/test")
 public class TestController {
         @GetMapping("/all")
         public String allAccess() {
+            System.out.println("fff");
             return "Public Content.";
         }
 

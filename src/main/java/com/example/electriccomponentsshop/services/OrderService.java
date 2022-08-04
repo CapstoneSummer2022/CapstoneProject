@@ -1,5 +1,6 @@
 package com.example.electriccomponentsshop.services;
 
+import com.example.electriccomponentsshop.dto.OrderDTO;
 import com.example.electriccomponentsshop.entities.Order;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -12,10 +13,11 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public interface OrderService {
-    List<Order> findAll();
-
+    List<OrderDTO> findAll();
+    List<Order> findOrdersByStatus(String status);
     List<Order> findAll(Sort sort);
-
+    Order convertToEntity(OrderDTO orderDTO);
+    OrderDTO convertToDTO(Order order);
     List<Order> findAllById(Iterable<Integer> integers);
 
     <S extends Order> List<S> saveAll(Iterable<S> entities);
@@ -51,7 +53,7 @@ public interface OrderService {
 
     <S extends Order> S save(S entity);
 
-    Optional<Order> findById(Integer integer);
+    Optional<OrderDTO> findById(Integer integer);
 
     boolean existsById(Integer integer);
 

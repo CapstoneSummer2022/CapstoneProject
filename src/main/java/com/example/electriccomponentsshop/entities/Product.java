@@ -35,5 +35,7 @@ public class Product {
     private List<ExportPrice> exportPrices = new ArrayList<>();
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "product")
     private List<Feedback> feedbackList = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "product")
+    private List<SpecificationValue> specificationValues = new ArrayList<>();
 
 }

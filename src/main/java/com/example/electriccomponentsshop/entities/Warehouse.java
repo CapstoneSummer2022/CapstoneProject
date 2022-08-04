@@ -18,6 +18,7 @@ public class Warehouse {
     private Integer id;
     @Column
     private Integer storeId;
+    private String status;
     @Column
     private String address;
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "warehouse")

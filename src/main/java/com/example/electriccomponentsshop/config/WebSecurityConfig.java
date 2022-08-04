@@ -20,6 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+
     @Autowired
     AccountDetailServiceImpl accountDetailService;
     @Autowired
@@ -30,7 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception{
-       authenticationManagerBuilder.userDetailsService(accountDetailService).passwordEncoder(passwordEncoder());
+        authenticationManagerBuilder.userDetailsService(accountDetailService).passwordEncoder(passwordEncoder());
 
     }
     @Bean
@@ -43,8 +44,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder() ;
 
     }
+
+
     @Override
-    protected void configure(HttpSecurity http) throws  Exception{
+    protected void configure(HttpSecurity http) throws  Exception {
         http.logout()
                 .logoutSuccessUrl("/signin")
                 .logoutUrl("/logout")
@@ -53,13 +56,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/**").permitAll()
-                .antMatchers("/category").permitAll()
+                .authorizeRequests().antMatchers("/list", "/test", "/signup", "/order", "cart", "/signin").permitAll().and()
+                .authorizeRequests().antMatchers("/administrator/**").hasAnyAuthority("ROLE_EMPLOYEE", "ROLE_MANAGER")
+                .antMatchers("/customer/change-password/**").hasAuthority("ROLE_CUSTOMER")
+                .antMatchers("/customer/information/**").hasAnyAuthority("ROLE_CUSTOMER")
+                .antMatchers("/logout").hasAnyAuthority("ROLE_CUSTOMER", "ROLE_EMPLOYEE", "ROLE_MANAGER")
                 .anyRequest().authenticated();
+
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-
     }
-
-
-
 }
+
+
+
+

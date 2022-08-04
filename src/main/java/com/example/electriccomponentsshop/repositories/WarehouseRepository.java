@@ -1,4 +1,8 @@
 package com.example.electriccomponentsshop.repositories;
 
-public interface WarehouseRepository {
+import com.example.electriccomponentsshop.entities.Warehouse;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface WarehouseRepository extends JpaRepository<Warehouse,Integer> {
+
 }

@@ -3,7 +3,9 @@ package com.example.electriccomponentsshop.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -18,13 +20,15 @@ public class Order {
     private Integer id;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "orders_account", joinColumns = @JoinColumn(name = "orders_id"), inverseJoinColumns = @JoinColumn(name = "account_id"))
-    private Set<Account> accounts = new HashSet<>();
+    private List<Account> accounts = new ArrayList<>();
     @Column
     private String status;
     @Column
     private Double paidMoney;
     @Column
     private Double totalPayment;
+
+
 
 
 }

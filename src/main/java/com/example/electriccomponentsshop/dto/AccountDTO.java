@@ -17,7 +17,9 @@ public class AccountDTO {
     @Email(message = "Email không hợp lệ",regexp = "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$")
     private String email;
     @NotEmpty(message = "Không được để trống")
-    private String password;
 
+    private String name;
+    private String phone;
+    private String password;
 
 }

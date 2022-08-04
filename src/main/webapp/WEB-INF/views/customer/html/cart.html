@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Giỏ hàng</title>
+        <link rel="stylesheet" href="../css/style.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href='https://fonts.googleapis.com/css?family=Alef' rel='stylesheet'>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+      </head>
+      <body>    
+        <!--Page Header-->
+        <header>
+          <div id="first_row">
+            <a href="home.html"><h1 id="store_name">Electroco</h1></a>
+            <div id="searchByCate">
+              <form action="" id="store_search">
+                <select name="cate_search" id="cate_search">
+                  <option value="">Tất cả</option>
+                  <option value="">Diode</option>
+                  <option value="">Transistor</option>
+                  <option value="">Thysistor</option>
+                  <option value="">Triac - Diac</option>
+                  <option value="">IGBT</option>
+                  <option value="">Fet</option>
+                  <option value="">Tụ điện</option>
+                  <option value="">Cuộn cảm</option>
+                  <option value="">Điện trở</option>
+                  <option value="">Thạch anh</option>
+                  <option value="">Biến trở</option>
+                  <option value="">Chiết áp</option>
+                  <option value="">Nút bấm</option>
+                  <option value="">Cầu chì</option>
+                  <option value="">Led</option>
+                  <option value="">Lcd</option>
+                  <option value="">Cảm biến nhiệt độ</option>
+                  <option value="">Cảm biến độ ẩm</option>
+                  <option value="">Cảm biến ánh sáng</option>
+                  <option value="">Cảm biến màu</option>
+                  <option value="">Cảm biến chuyển động</option>
+                  <option value="">Cảm biến nước</option>
+                  <option value="">Cảm biến âm thanh</option>
+                  <option value="">Cảm biến từ</option>
+                  <option value="">IC cảm ứng</option>
+                  <option value="">IC giao tiếp</option>
+                  <option value="">IC real time</option>
+                  <option value="">IC nguồn</option>
+                  <option value="">IC audio</option>
+                  <option value="">Dây kết nối</option>
+                  <option value="">Cổng kết nối</option>
+                </select>
+                <input type="text" id="prod_search" name="prod_search" placeholder="Tìm kiếm..."/>
+                <button type="submit"><i class="material-icons">search</i></button>
+              </form>
+            </div>
+            <div id="store_icons">
+              <div id="cart_icon">
+                <a href="cart.html"><i class="material-icons">shopping_cart</i><span id="no_of_prods">1</span> </a> <a href="cart.html">Giỏ hàng</a>
+              </div>
+              <div id="avatar_icon"> 
+                <a href="signin.html"><i class="material-icons">person</i></a><a href="signin.html">Đăng nhập</a> / <a href="signup.html">Đăng ký</a>
+              </div>
+            </div>
+          </div>
+          <div id="second_row">
+            <ul id="nav">
+              <li><a href="#">Danh mục sản phẩm <i class="material-icons">arrow_drop_down</i></a>
+                <ul>
+                  <li><a href="parent-cgr.html">Linh kiện bán dẫn </a>
+                    <ul>
+                      <li><a href="child-cgr.html">Transistor</a>
+                      <li><a href="#">Diode</a>
+                      <li><a href="#">Thysistor</a>
+                      <li><a href="#">Diac - Triac</a>
+                    </ul>
+                  </li>
+                  <li><a href="#">Linh kiện thụ động </a>
+                    <ul>
+                      <li><a href="child-cgr.html">Tụ điện</a>
+                      <li><a href="#">Cuộn cảm</a>
+                      <li><a href="#">Biến trở</a>
+                      <li><a href="#">Điện trở</a>
+                      <li><a href="#">Chiết áp</a>
+                    </ul>
+                  </li>
+                  <li><a href="#">Cảm biến</a></li>
+                </ul>
+              </li>
+              <li><a href="#">Nhà cung cấp <i class="material-icons">arrow_drop_down</i></a>
+                <ul>
+                  <li><a href="prod-by-supplier.html">DAEWOO</a></li>
+                  <li><a href="#">ABECO</a></li>
+                  <li><a href="#">DIGIKEY</a></li>
+                </ul>
+              </li>
+              <li><a href="track-order.html">Theo dõi đơn hàng</a></li>
+              <li><a href="contact.html">Thông tin liên hệ</a></li>
+            </ul>
+          </div>
+        </header>
+    
+        <!--Page Content-->
+        <main>
+          <ul class="breadcrumb">
+            <li><a href="home.html">Trang chủ</a></li>
+            <li>Giỏ hàng</li>
+          </ul>
+          <div id="cart_content">
+            <div id="product_table">
+              <table>
+                <tr>
+                  <th></th>
+                  <th class="prod_name">Tên sản phẩm</th>
+                  <th>Giá</th>
+                  <th>Số lượng</th>
+                  <th>Tổng</th>
+                  <th></th>
+                </tr>
+                <tr>
+                  <td><img src="/img/pros/1N4148 SMD 1206.webp" alt=""> </td>
+                  <td class="prod_name"><a href="product.html">Tụ điện 3V </a></td>
+                  <td>2500đ</td>
+                  <td>
+                    <div>
+                      <button onclick="decreaseNum('a21');"><i class="material-icons">remove</i></button>
+                      <input type="text" name="product" id="a21" value="1" max="1000" onchange="updateCart('a21')" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                      <button onclick="increaseNum('a21')"><i class="material-icons">add</i></button>
+                    </div>
+                  </td>
+                  <td >20000đ</td>
+                  <td><a href="#"><i class="material-icons">delete</i></a></td>
+                </tr>
+                <tr>
+                  <td><img src="/img/pros/0 Ohm 0.25W Precision Resistor.jpg" alt=""> </td>
+                  <td class="prod_name"><a href="product.html"> Tụ điện 5V</a></td>
+                  <td>3000đ</td>
+                  <td>
+                    <div>
+                      <button onclick="decreaseNum('a11');"><i class="material-icons">remove</i></button>
+                      <input type="text" name="product" id="a11" value="1" max="1000" onchange="updateCart('a11')" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                      <button onclick="increaseNum('a11')"><i class="material-icons">add</i></button>
+                    </div>
+                  </td>
+                  <td>60000đ</td>
+                  <td><a href="#"><i class="material-icons">delete</i></a></td>
+                </tr>
+              </table>
+            </div>
+            <div id="leadto_order">
+              <table table class="w3-table-all">
+                <tr>
+                  <td colspan="2" style="text-align: center; font-weight: bold;">Giỏ hàng</td>
+                </tr>
+                <tr>
+                  <td>Tổng thanh toán: </td>
+                  <td id="total">60000đ</td>
+                </tr>
+                <tr>
+                  <td colspan="2" style="padding: 0;"><button onclick="goToCreateOrder()" id="createorder_btn">Đặt hàng</button></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </main>
+    
+        <!--Page Footer-->
+        <footer style="display: grid; grid-template-columns: repeat(2, 45%); column-gap: 10%;">
+          <div id="contact_info">
+            <h5>Thông tin liên hệ</h5>
+            <p>Số điện thoại: 0962352843</p>
+            <p>Email: electroco@gmail.com</p>
+            <p>Địa chỉ: 444 Xuân Phương, P. Xuân Phương, Q. Nam Từ Liêm, Tp. Hà Nội</p>
+          </div>
+          <div id="connect_info">
+            <h5>Kết nối</h5>
+            <a href="#"><img src="../img/logo/facebook.png" alt="facebook"></a>
+            <a href="#"><img src="../img/logo/twitter.png" alt="twitter"></a>
+            <a href="#"><img src="../img/logo/instagram.png" alt="instagram"></a>
+          </div>
+        </footer>
+
+        <!--Javascript-->
+        <script>          
+          function updateCart(productId, oldNum) {
+            const product = document.getElementById(productId);
+            const maxNum = product.max;
+
+            if (parseInt(product.value) > parseInt(maxNum)) {
+              product.value = maxNum;
+            } 
+
+              //Continue update cart here
+            
+          }
+
+          function decreaseNum (productId) {
+            const product = document.getElementById(productId);
+            const oldNum = parseInt(product.value);
+            const newNum = oldNum - 1;
+
+            if (newNum >= 1) {
+              product.value = newNum;
+              updateCart(productId);
+            } else {
+              removeProd(productId);
+            }
+          }
+
+          function increaseNum (productId) {
+            const product = document.getElementById(productId);
+
+            if(parseInt(product.value) < parseInt(product.max)) {
+              product.value = parseInt(product.value) + 1;
+              updateCart(productId);
+            }
+          }
+
+          function removeProd (productId) {
+            if(confirm("Bạn muốn xóa sản phẩm này khỏi giỏ hàng?")){
+                alert("Sản phẩm " + productId + "đã được xóa!");
+                //Contitnue remove product here
+            }
+          }
+
+          function goToCreateOrder () {
+            window.location.href = "create-order.html";
+          }
+        </script>
+      </body>
+</html>

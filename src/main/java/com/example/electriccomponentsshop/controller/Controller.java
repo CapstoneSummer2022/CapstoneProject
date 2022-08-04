@@ -1,11 +1,11 @@
 package com.example.electriccomponentsshop.controller;
 
+import com.example.electriccomponentsshop.common.ERole;
 import com.example.electriccomponentsshop.config.ModelMap;
 import com.example.electriccomponentsshop.dto.SupplierDTO;
-import com.example.electriccomponentsshop.entities.UserInformation;
-import com.example.electriccomponentsshop.entities.Category;
+import com.example.electriccomponentsshop.entities.Account;
 import com.example.electriccomponentsshop.entities.Supplier;
-import com.example.electriccomponentsshop.repositories.AccountInformationRepository;
+import com.example.electriccomponentsshop.repositories.AccountRepository;
 import com.example.electriccomponentsshop.repositories.CategoryRepository;
 import com.example.electriccomponentsshop.repositories.ProductRepository;
 import com.example.electriccomponentsshop.repositories.SupplierRepository;
@@ -13,36 +13,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Optional;
+import java.util.HashSet;
+import java.util.Set;
 
-@RestController
+@org.springframework.stereotype.Controller
 public class Controller {
     @Autowired
     private CategoryRepository categoryRepository;
     @Autowired
     private ProductRepository productRepository;
-    @Autowired
-    private AccountInformationRepository accountInformationRepository;
+     @Autowired
+    AccountRepository accountRepository;
     @Autowired
     private ModelMap modelMap;
     @Autowired
     private SupplierRepository supplierRepository;
 
-    @PostMapping("/update/{id}")
-    public ResponseEntity<?> updateInformation(@PathVariable("id") int id, @Validated @RequestParam("phone") String phone, @Validated @RequestParam("name") String name, @Validated @RequestParam("email") String email) throws  Exception{
-       Optional<UserInformation> accountInformation= accountInformationRepository.findAccountInformationById(id);
-       UserInformation infor= new UserInformation();
-       if(accountInformation.isPresent()){
-                infor = accountInformation.get();
-                infor.setEmail(email);
-                infor.setPhone(phone);
-                infor.setName(name);
-                accountInformationRepository.save(infor);
-       }
-       return ResponseEntity.ok(infor);
-    }
+
     @PostMapping("/suppliers/add")
     public ResponseEntity<?> addNewSupplier(@Validated @RequestBody SupplierDTO supplierDTO)throws  Exception{
             Supplier s = convertToEntity(supplierDTO);
@@ -50,12 +45,13 @@ public class Controller {
             return ResponseEntity.ok(s);
 
     }
-    @GetMapping("/category")
-    public ResponseEntity<?> getParentCategories() throws Exception{
+    @GetMapping("/home")
+    public ResponseEntity<?> addNewSupplier()throws  Exception{
+
+       ArrayList<Account> accounts=(ArrayList<Account>) accountRepository.findAllByRoleName("ROLE_CUSTOMER");
+        return ResponseEntity.ok(accounts);
 
 
-        ArrayList<Category> c = (ArrayList<Category>) categoryRepository.findCategoriesByParentCategoryIdIsNull();
-        return ResponseEntity.ok(c);
     }
     private SupplierDTO convertToDto(Supplier s){
         SupplierDTO supplierDTO = modelMap.modelMapper().map(s,SupplierDTO.class);
@@ -65,5 +61,6 @@ public class Controller {
         Supplier s =  modelMap.modelMapper().map(supplierDTO,Supplier.class);
         return s;
     }
+
 
 }

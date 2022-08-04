@@ -1,29 +1,58 @@
 package com.example.electriccomponentsshop.services.impl;
 
+import com.example.electriccomponentsshop.config.ModelMap;
+import com.example.electriccomponentsshop.dto.CategoryDTO;
+import com.example.electriccomponentsshop.dto.OrderDTO;
+import com.example.electriccomponentsshop.entities.Category;
 import com.example.electriccomponentsshop.entities.Order;
 import com.example.electriccomponentsshop.repositories.OrderRepository;
 import com.example.electriccomponentsshop.services.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery;
+import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.Function;
-
+@Service
 public class OrderServiceImpl implements OrderService {
     OrderRepository orderRepository;
 
-    public OrderServiceImpl(OrderRepository orderRepository) {
+    @Override
+    public List<Order> findOrdersByStatus(String status) {
+        return orderRepository.findOrdersByStatus(status);
+    }
+
+    private final ModelMap modelMap ;
+    public Order convertToEntity(OrderDTO orderDTO){
+        return modelMap.modelMapper().map(orderDTO,Order.class);
+    }
+    public OrderDTO convertToDTO(Order order){
+        return modelMap.modelMapper().map(order,OrderDTO.class);
+    }
+    public OrderServiceImpl(OrderRepository orderRepository, ModelMap modelMap) {
         this.orderRepository = orderRepository;
+        this.modelMap = modelMap;
     }
 
     @Override
-    public List<Order> findAll() {
-        return orderRepository.findAll();
+    public List<OrderDTO> findAll() {
+        List<Order> orderList = orderRepository.findAll();
+        List<OrderDTO> orderDTOList = new ArrayList<>();
+        for (Order o: orderList
+             ) {
+            orderDTOList.add(convertToDTO(o));
+        }
+        return orderDTOList;
     }
+
+
 
     @Override
     public List<Order> findAll(Sort sort) {
@@ -114,8 +143,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Optional<Order> findById(Integer integer) {
-        return orderRepository.findById(integer);
+    public Optional<OrderDTO> findById(Integer integer) {
+         return orderRepository.findById(integer).map(this::convertToDTO);
     }
 
     @Override
