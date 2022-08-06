@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <head>
   <title>Trang chủ| Quản trị</title>
+
+  <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Main CSS-->
-  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <link href="<c:url value="/css/main.css"/>" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
   <!-- or -->
   <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
@@ -42,10 +45,10 @@
   <!-- Sidebar menu-->
   <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
   <aside class="app-sidebar">
-    <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="resources/images/avatar.jpg" width="50px"
-        alt="User Image">
+    <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="../resources/images/avatar.jpg"
+                                        width="50px" alt="User Image">
       <div>
-        <p class="app-sidebar__user-name"><b>Bùi Minh Hiệu</b></p>
+        <p class="app-sidebar__user-name"><b>hoang</b></p>
         <p class="app-sidebar__user-designation">Quản lý</p>
       </div>
     </div>
@@ -53,35 +56,38 @@
     <ul class="app-menu">
       <li><a class="app-menu__item active" href="home-page.html"><i class='app-menu__icon bx bx-cart-alt'></i>
           <span class="app-menu__label">Trang chủ</span></a></li>
-      <li><a class="app-menu__item" href="system-account-management.html"><i class='app-menu__icon bx bx-id-card'></i>
+      <sec:authorize access="hasRole('ROLE_MANAGER')">
+        <li><a class="app-menu__item" href="/admin/employees"><i class='app-menu__icon bx bx-id-card'></i>
           <span class="app-menu__label">Quản lý tài khoản</span>
         </a>
-      </li>
-      <li><a class="app-menu__item" href="category-management.html"><i class='app-menu__icon bx bx-category'></i><span
-            class="app-menu__label">Quản lý danh mục</span></a></li>
-      <li><a class="app-menu__item" href="product-management.html"><i
-            class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản
-            phẩm</span></a>
-      </li>
-      <li><a class="app-menu__item" href="supplier-management.html"><i
-            class='app-menu__icon bx bxs-user-account'></i><span class="app-menu__label">Quản lý nhà cung cấp
+        </li>
+        <li><a class="app-menu__item" href="category-management.html"><i class='app-menu__icon bx bx-category'></i><span
+                class="app-menu__label">Quản lý danh mục</span></a></li>
+        <li><a class="app-menu__item" href="supplier-management.html"><i
+                class='app-menu__icon bx bxs-user-account'></i><span class="app-menu__label">Quản lý nhà cung cấp
           </span></a></li>
-      <li><a class="app-menu__item" href="warehouse-management.html"><i
-            class='app-menu__icon bx bx-building-house'></i><span class="app-menu__label">Quản lý kho
+        <li><a class="app-menu__item" href="product-package-management.html"><i
+                class='app-menu__icon bx bxs-package '></i><span class="app-menu__label">Quản lý lô sản
+            phẩm</span></a>
+        </li>
+        <li><a class="app-menu__item" href="feedback-management.html"><i class='app-menu__icon bx bx-user-voice'></i><span
+                class="app-menu__label">Feedback</span></a>
+        </li>
+        <li><a class="app-menu__item" href="report.html"><i class='app-menu__icon bx bx-pie-chart-alt-2'></i><span
+                class="app-menu__label">Báo cáo thống kê</span></a>
+        </li>
+        <li><a class="app-menu__item" href="warehouse-management.html"><i
+                class='app-menu__icon bx bx-building-house'></i><span class="app-menu__label">Quản lý kho
             hàng
           </span></a></li>
-      <li><a class="app-menu__item" href="order-management.html"><i class='app-menu__icon bx bx-task'></i><span
-            class="app-menu__label">Quản lý đơn hàng</span></a></li>
-      <li><a class="app-menu__item" href="product-package-management.html"><i
-            class='app-menu__icon bx bxs-package '></i><span class="app-menu__label">Quản lý lô sản
+      </sec:authorize>
+      <li><a class="app-menu__item" href="product-management.html"><i
+              class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản
             phẩm</span></a>
       </li>
-      <li><a class="app-menu__item" href="feedback-management.html"><i class='app-menu__icon bx bx-user-voice'></i><span
-            class="app-menu__label">Feedback</span></a>
-      </li>
-      <li><a class="app-menu__item" href="report.html"><i class='app-menu__icon bx bx-pie-chart-alt-2'></i><span
-            class="app-menu__label">Báo cáo thống kê</span></a>
-      </li>
+      <li><a class="app-menu__item" href="order-management.html"><i class='app-menu__icon bx bx-task'></i><span
+            class="app-menu__label">Quản lý đơn hàng</span></a></li>
+
     </ul>
   </aside>
   <main class="app-content">
@@ -277,20 +283,21 @@
     -->
 
   </main>
-  <script src="js/jquery-3.2.1.min.js"></script>
+  <script src="../js/jquery-3.2.1.min.js"></script>
   <!--===============================================================================================-->
   <script src="js/popper.min.js"></script>
   <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
   <!--===============================================================================================-->
-  <script src="js/bootstrap.min.js"></script>
+  <script src="../js/bootstrap.min.js"></script>
   <!--===============================================================================================-->
-  <script src="js/main.js"></script>
+  <script src="../js/main.js"></script>
   <!--===============================================================================================-->
-  <script src="js/plugins/pace.min.js"></script>
+  <script src="../js/plugins/pace.min.js"></script>
   <!--===============================================================================================-->
-  <script type="text/javascript" src="js/plugins/chart.js"></script>
+  <script type="text/javascript" src="../js/plugins/chart.js"></script>
   <!--===============================================================================================-->
   <script type="text/javascript">
+
     var data = {
       labels: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6"],
       datasets: [{
@@ -316,6 +323,7 @@
       ]
     };
     var ctxl = $("#lineChartDemo").get(0).getContext("2d");
+
     var lineChart = new Chart(ctxl).Line(data);
 
     var ctxb = $("#barChartDemo").get(0).getContext("2d");

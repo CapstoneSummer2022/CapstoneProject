@@ -7,6 +7,8 @@ import com.example.electriccomponentsshop.services.CategoryService;
 import com.example.electriccomponentsshop.services.RefreshTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,12 +32,17 @@ public class CategoryController  {
     }
 
     @GetMapping("/list")
-    public String list(){
+    public String list(Model model,CategoryDTO categoryDTO){
+        ArrayList<Category> categories = (ArrayList<Category>)categoryService.findAll();
+        model.addAttribute("categories", categories);
         return "administrator/category-management";
 
     }
     @PostMapping("/add")
-    public String addCategory(@Valid @ModelAttribute("category") CategoryDTO categoryDTO){
+    public String addCategory(@Valid @ModelAttribute("categoryDTO") CategoryDTO categoryDTO,BindingResult bindingResult,Model model){
+        if(bindingResult.hasErrors()){
+            System.out.println("ff");
+        }
         Category category = new Category(categoryDTO.getName());
         if(categoryDTO.getParentId()==null){
             categoryService.save(category);
@@ -52,11 +59,13 @@ public class CategoryController  {
                 return "Not found parent category";
             }
         }
-        return "ok";
+        return "redirect:/list";
+
     }
     @PostMapping("category/update/{id}")
-    public ModelAndView editCategory(@PathVariable int id,@Valid @ModelAttribute("category") CategoryDTO categoryDTO){
+    public ModelAndView editCategory(@PathVariable int id, @Valid @ModelAttribute("category1") CategoryDTO categoryDTO, BindingResult bindingResult){
       try{
+
           Category category = categoryService.findById(id);
           if(category.getParentCategory()==null){
               category.setName(categoryDTO.getName());

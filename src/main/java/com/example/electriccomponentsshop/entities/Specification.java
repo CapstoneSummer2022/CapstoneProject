@@ -10,7 +10,7 @@ import java.util.List;
 public class Specification implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer specificationId;
     private String name;
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "specification")
     List<SpecificationValue> specificationValues = new ArrayList<>();

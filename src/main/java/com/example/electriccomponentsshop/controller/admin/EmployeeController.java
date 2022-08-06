@@ -22,11 +22,11 @@ public class EmployeeController {
 
     final
     AccountService accountService;
-    @GetMapping("/infor")
+    @GetMapping("")
         public String viewInformationOfAllEmp(Model model){
         ArrayList<Account> accounts =(ArrayList<Account>) accountService.findAllByRoleName("ROLE_EMPLOYEE");
         model.addAttribute("accounts",accounts);
-        return "employee-infor-management";
+        return "administrator/personal-info";
     }
     @PostMapping("/edit/{id}")
         public String editInformation(Model model, @PathVariable @Valid Integer id, @ModelAttribute("account")AccountDTO accountDTO, BindingResult bindingResult){

@@ -1,39 +1,26 @@
 package com.example.electriccomponentsshop.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Embeddable;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Embeddable
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class SpecificationValueId implements Serializable  {
-
-    @ManyToOne
-    @JoinColumn(name = "specification_id")
-    private Specification specification;
-
-    public Specification getSpecification() {
-        return specification;
-    }
-
-    public void setSpecification(Specification specification) {
-        this.specification = specification;
-    }
+   @Column(name="product_id")
+   private Integer productId;
+   @Column(name="specification_id")
+   private Integer specificationId;
 
 
-    @Transient
-    private Product product;
 
-    public Product getProduct() {
-        return product;
-    }
+
+
+
 
 }

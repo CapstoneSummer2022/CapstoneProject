@@ -1,38 +1,67 @@
 package com.example.electriccomponentsshop.controller;
 
+import com.example.electriccomponentsshop.config.ModelMap;
+import com.example.electriccomponentsshop.dto.SupplierDTO;
+import com.example.electriccomponentsshop.entities.Account;
+import com.example.electriccomponentsshop.entities.Supplier;
+import com.example.electriccomponentsshop.repositories.AccountRepository;
+import com.example.electriccomponentsshop.repositories.CategoryRepository;
+import com.example.electriccomponentsshop.repositories.ProductRepository;
+import com.example.electriccomponentsshop.repositories.SupplierRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 @Controller
 @CrossOrigin
-@RequestMapping("/api/test")
+@RequestMapping("/")
 public class TestController {
-        @GetMapping("/all")
-        public String allAccess() {
-            System.out.println("fff");
-            return "Public Content.";
-        }
+    @Autowired
+    private CategoryRepository categoryRepository;
+    @Autowired
+    private ProductRepository productRepository;
+    @Autowired
+    AccountRepository accountRepository;
+    @Autowired
+    private ModelMap modelMap;
+    @Autowired
+    private SupplierRepository supplierRepository;
 
-        @GetMapping("/customer")
-        @PreAuthorize("hasRole('ROLE_CUSTOMER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_EMPLOYEE')")
-        public String userAccess() {
-            return "Customer Content.";
-        }
 
-        @GetMapping("/employee")
-        @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
-        public String moderatorAccess() {
-            return "Employee Board.";
-        }
+    @PostMapping("/suppliers/add")
+    public ResponseEntity<?> addNewSupplier(@Validated @RequestBody SupplierDTO supplierDTO)throws  Exception{
+        Supplier s = convertToEntity(supplierDTO);
+        supplierRepository.save(s);
+        return ResponseEntity.ok(s);
 
-        @GetMapping("/manager")
-        @PreAuthorize("hasRole('ROLE_MANAGER')")
-        public String adminAccess() {
-            return "Manager Board.";
-        }
     }
+    @GetMapping("/error23")
+    public String error(){
+        System.out.println("dd");
+        return "signin1";
+    }
+    @GetMapping("/home")
+    public ResponseEntity<?> addNewSupplier()throws  Exception{
+
+        ArrayList<Account> accounts=(ArrayList<Account>) accountRepository.findAllByRoleName("ROLE_CUSTOMER");
+        return ResponseEntity.ok(accounts);
+
+
+    }
+    private SupplierDTO convertToDto(Supplier s){
+        SupplierDTO supplierDTO = modelMap.modelMapper().map(s,SupplierDTO.class);
+        return supplierDTO;
+    }
+    private Supplier convertToEntity(SupplierDTO supplierDTO){
+        Supplier s =  modelMap.modelMapper().map(supplierDTO,Supplier.class);
+        return s;
+    }
+
+
+}
 

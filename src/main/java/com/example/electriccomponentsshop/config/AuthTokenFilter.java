@@ -19,6 +19,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -64,7 +65,7 @@ private JwtUtils jwtUtils;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try{
-            String jwt = parseJwt(request);
+            String jwt = getJwtFromRequest(request);
             if(jwt!=null&&jwtUtils.isTokenCorrect(jwt)){
                 String email = jwtUtils.getEmailFromJwtToken(jwt);
                 UserDetails userDetails = accountDetailService.loadUserByUsername(email);
@@ -78,11 +79,16 @@ private JwtUtils jwtUtils;
         }
         filterChain.doFilter(request,response);
     }
-    private String parseJwt(HttpServletRequest request){
-        String headerAuth = request.getHeader("Authorization");
-        if(StringUtils.hasText(headerAuth)&&headerAuth.startsWith("Bearer ")){
-            return headerAuth.substring(7,headerAuth.length());
+    private String getJwtFromRequest(HttpServletRequest request){
+        Cookie[] c = request.getCookies();
+        String value ="";
+        for (int i = 0; i< c.length;i++){
+            if(c[i].equals("accessToken")){
+                value = c[i].getValue();
+                return value;
+            }
         }
         return null;
     }
+
 }

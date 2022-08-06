@@ -3,16 +3,11 @@ package com.example.electriccomponentsshop.controller.admin;
 import com.example.electriccomponentsshop.dto.OrderDTO;
 import com.example.electriccomponentsshop.entities.Order;
 import com.example.electriccomponentsshop.services.OrderService;
-import org.aspectj.weaver.ast.Or;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -42,7 +37,7 @@ public class OrderController {
         }
         else
             modelMap.addAttribute("notFound","Đơn hàng không tồn tại");
-        return "order-management";
+            return "order-management";
 
     }
     @PostMapping("/view/{id}")
@@ -51,9 +46,7 @@ public class OrderController {
             bindingResult.getFieldErrors().forEach(fieldError -> modelMap.addAttribute(fieldError.getField(),fieldError.getDefaultMessage()));
         }
         Optional<OrderDTO> orderDTOOptional = orderService.findById(id);
-        if(orderDTOOptional.isPresent()){
-            orderService.save(orderService.convertToEntity(orderDTOOptional.get()));
-        }
+        orderDTOOptional.ifPresent(dto -> orderService.save(orderService.convertToEntity(dto)));
         return "order-management";
     }
     @GetMapping("/view/{status}")

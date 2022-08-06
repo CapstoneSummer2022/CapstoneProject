@@ -18,7 +18,7 @@
         <%--@elvariable id="account" type="com.example.electriccomponentsshop.dto.AccountDTO"--%>
         <form:form action="/signin" method="POST" modelAttribute="account" style="width: 100%;">
             <div class="form-elements">
-                <input type="email" id="email" name ="email" placeholder="Email"/>
+                <form:input type="email" id="email" name ="email" placeholder="Email" path="email"/>
                 <form:errors path="email" element="span" />
             </div>
             <div class="form-elements">

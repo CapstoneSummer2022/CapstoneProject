@@ -24,6 +24,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -67,7 +68,6 @@ public class AuthController {
     }
     @PostMapping("/change-password/{id}")
     public ModelAndView changePassword(@Valid @PathVariable("id") int id, HttpServletResponse response , @ModelAttribute("account") AccountDTO login) throws Exception{
-
         Account accountFromDB = accountRepository.findById(id).orElseThrow();
         accountFromDB.setEmail(login.getEmail());
         accountFromDB.setPassword(login.getPassword());
@@ -78,16 +78,16 @@ public class AuthController {
         return new ModelAndView("logout");
     }
     @GetMapping("/signin")
-    public String login(){
-
+    public String login(Model model){
+        model.addAttribute("account", new AccountDTO());
         return "signin";
     }
     @PostMapping("/signin")
-    public ModelAndView authenticateUser(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response, @Valid @ModelAttribute("account") AccountDTO accountDTO, BindingResult bindingResult) throws Exception {
+    public String authenticateUser(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response, @Valid @ModelAttribute("account") AccountDTO accountDTO, BindingResult bindingResult) throws Exception {
 
         if(bindingResult.hasErrors()){
             bindingResult.getFieldErrors().forEach(fieldError -> modelMap.addAttribute(fieldError.getField(),fieldError.getDefaultMessage()));
-            return new ModelAndView("signin");
+            return "signin";
         }
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(accountDTO.getEmail(), accountDTO.getPassword())
@@ -105,9 +105,10 @@ public class AuthController {
         cookie.setMaxAge(1200);
         response.addCookie(cookie);
         if(roles.contains("ROLE_MANAGER")||roles.contains("ROLE_EMPLOYEE")){
-            return new ModelAndView("signin1");
+            modelMap.addAttribute("roles", roles);
+            return "redirect:/admin/home";
         }
-        return new ModelAndView("home");
+        return "home";
 
 
 
@@ -125,19 +126,24 @@ public class AuthController {
             if (strRoles == null) {
                 Role accountRole = roleRepository.findByRoleName(ERole.ROLE_CUSTOMER).orElseThrow(() -> new RuntimeException("Role not found"));
                 roles.add(accountRole);
+
             } else {
                 strRoles.forEach(role -> {
                     switch (role) {
                         case "employee":
-                            System.out.println("Gg");
+
                             Role roleEmp = roleRepository.findByRoleName(ERole.ROLE_EMPLOYEE).orElseThrow(() -> new RuntimeException("Role not found"));
                             roles.add(roleEmp);
+                            break;
                         case "manager":
                             Role roleManager = roleRepository.findByRoleName(ERole.ROLE_MANAGER).orElseThrow(() -> new RuntimeException("Role not found"));
                             roles.add(roleManager);
+                            break;
                         default:
                             Role roleCustomer = roleRepository.findByRoleName(ERole.ROLE_CUSTOMER).orElseThrow(() -> new RuntimeException("Role not found"));
                             roles.add(roleCustomer);
+                            break;
+
 
                     }
                 });

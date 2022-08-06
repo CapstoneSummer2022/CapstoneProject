@@ -1,11 +1,15 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+
+    <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý danh mục | Quản trị</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="<c:url value="/css/main.css"/>" rel="stylesheet" type="text/css">
     <!-- Main CSS-->
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
@@ -91,7 +95,7 @@
     <main class="app-content">
         <div class="app-title">
             <ul class="app-breadcrumb breadcrumb side">
-                <li class="breadcrumb-item active"><a href="#"><b>Quản lý sản phẩm</b></a></li>
+                <li class="breadcrumb-item active"><a href="#"><b>Quản lý Danh mục</b></a></li>
             </ul>
             <div id="clock"></div>
         </div>
@@ -120,80 +124,33 @@
                         <table class="table table-hover table-bordered" id="sampleTable">
                             <thead>
                                 <tr>
-                                    <th width="80">Trạng thái</th>
-                                    <th>Mã sản phẩm</th>
-                                    <th>Tên sản phẩm</th>
-                                    <th>Ảnh</th>
-                                    <th>Số lượng</th>
-                                    <th>Tình trạng</th>
-                                    <th>Giá tiền</th>
-                                    <th>Danh mục</th>
+
+                                    <th>Mã danh mục</th>
+                                    <th>Tên danh mục</th>
+                                    <th>Danh mục cha</th>
                                     <th>Tuỳ chọn</th>
                                 </tr>
                             </thead>
                             <tbody>
+                            <c:forEach items="${categories}" var ="category">
                                 <tr>
-                                    <td><input class="status-checkbox" onclick="return false" type="checkbox"
-                                            data-toggle="modal" data-target="#confirmStatus" name="check1" value="1">
-                                    <td>71309005</td>
-                                    <td>Bàn ăn gỗ Theresa</td>
-                                    <td><img src="/img-sanpham/theresa.jpg" alt="" width="100px;"></td>
-                                    <td>40</td>
-                                    <td><span class="badge bg-success">Còn hàng</span></td>
-                                    <td>5.600.000 đ</td>
-                                    <td>Bàn ăn</td>
-                                    <td>
-                                        <a href="setting-product.html" class="btn btn-primary btn-sm edit" type="button"
-                                            title="Sửa"><i class="fas fa-edit"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input class="status-checkbox" onclick="return false" type="checkbox"
-                                            data-toggle="modal" data-target="#confirmStatus" name="check1" value="1">
-                                    <td>61304005</td>
-                                    <td>Bàn ăn Reno mặt đá</td>
-                                    <td><img src="/img-sanpham/reno.jpg" alt="" width="100px;"></td>
-                                    <td>70</td>
-                                    <td><span class="badge bg-success">Còn hàng</span></td>
-                                    <td>24.200.000 đ</td>
-                                    <td>Bàn ăn</td>
-                                    <td>
-                                        <a href="setting-product.html" class="btn btn-primary btn-sm edit" type="button"
-                                            title="Sửa" id="show-emp"><i class="fas fa-edit"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input class="status-checkbox" onclick="return false" type="checkbox"
-                                            data-toggle="modal" data-target="#confirmStatus" name="check1" value="1">
-                                    <td>62304003</td>
-                                    <td>Bàn ăn Vitali mặt đá</td>
-                                    <td><img src="/img-sanpham/matda.jpg" alt="" width="100px;"></td>
-                                    <td>40</td>
-                                    <td><span class="badge bg-success">Còn hàng</span></td>
-                                    <td>33.235.000 đ</td>
-                                    <td>Bàn ăn</td>
-                                    <td>
-                                        <a href="setting-product.html" class="btn btn-primary btn-sm edit" type="button"
-                                            title="Sửa" id="show-emp"><i class="fas fa-edit"></i></a>
 
+                                    <td>${category.id}</td>
+                                    <td>${category.name}</td>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input class="status-checkbox" onclick="return false" type="checkbox"
-                                            data-toggle="modal" data-target="#confirmStatus" name="check1" value="1">
-                                    <td>72638003</td>
-                                    <td>Ghế ăn gỗ Theresa</td>
-                                    <td><img src="/img-sanpham/ghethera.jpg" alt="" width="100px;"></td>
-                                    <td>50</td>
-                                    <td><span class="badge bg-success">Còn hàng</span></td>
-                                    <td>950.000 đ</td>
-                                    <td>Ghế gỗ</td>
+                                    <c:if test="${category.parentCategory == null}">
+                                        <td> Không có</td>
+                                    </c:if>
+                                    <c:if test="${category.parentCategory != null}">
+                                        <td>${category.parentCategory.name}</td>
+                                    </c:if>
                                     <td>
                                         <a href="setting-product.html" class="btn btn-primary btn-sm edit" type="button"
-                                            title="Sửa" id="show-emp"><i class="fas fa-edit"></i></a>
+                                           title="Sửa"><i class="fas fa-edit"></i></a>
                                     </td>
                                 </tr>
+                            </c:forEach>
+
                             </tbody>
                         </table>
                         <div class="pagination-row">
@@ -294,7 +251,8 @@ MODAL
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
 
-                <div class="modal-body">
+                <%--@elvariable id="categoryDTO" type=""--%>
+                <form:form class="modal-body" action="/add" modelAttribute="categoryDTO" method="POST">
                     <div class="row">
                         <div class="form-group  col-md-12">
                             <span class="thong-tin-thanh-toan">
@@ -302,53 +260,31 @@ MODAL
                             </span>
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="control-label">Nhập tên danh mục mới</label>
-                            <input class="form-control" type="text" required>
+                            <label class="control-label" >Nhập tên danh mục mới</label>
+                            <form:input class="form-control" type="text" name="name" path="name" required="" />
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="exampleSelect1" class="control-label">Danh mục lớn</label>
-                            <select class="form-control" id="exampleSelect1">
-                                <option>-- Chọn danh mục lớn --</option>
-                                <option>Bàn ăn</option>
-                                <option>Bàn thông minh</option>
-                                <option>Tủ</option>
-                                <option>Ghế gỗ</option>
-                                <option>Ghế sắt</option>
-                                <option>Giường người lớn</option>
-                                <option>Giường trẻ em</option>
-                                <option>Bàn trang điểm</option>
-                                <option>Giá đỡ</option>
-                            </select>
+                            <label for="exampleSelect1" class="control-label" >Danh mục lớn</label>
+                            <form:select class="form-control" id="exampleSelect1" name="parentId" path="parentId">
+                                <c:forEach items="${categories}" var ="category">
+                                    <option value =${category.id}>${category.name}</option>
+                                </c:forEach>
+                            </form:select>
                         </div>
                         <div class="form-group col-md-12">
                             <label class="control-label">Danh mục sản phẩm hiện đang có</label>
                             <ul style="padding-left: 20px; overflow-y: scroll; height: 300px;">
-                                <li>Bàn ăn</li>
-                                <li>Bàn thông minh</li>
-                                <li>Tủ</li>
-                                <li>Ghế gỗ</li>
-                                <li>Ghế sắt</li>
-                                <li>Giường người lớn</li>
-                                <li>Giường trẻ em</li>
-                                <li>Bàn trang điểm</li>
-                                <li>Giá đỡ</li>
-                                <li>Bàn ăn</li>
-                                <li>Bàn thông minh</li>
-                                <li>Tủ</li>
-                                <li>Ghế gỗ</li>
-                                <li>Ghế sắt</li>
-                                <li>Giường người lớn</li>
-                                <li>Giường trẻ em</li>
-                                <li>Bàn trang điểm</li>
-                                <li>Giá đỡ</li>
+                                <c:forEach items="${categories}" var ="category">
+                                    <li>${category.name}</li>
+                                </c:forEach>
                             </ul>
                         </div>
                     </div>
                     <BR>
-                    <button class="btn btn-save" type="button">Lưu lại</button>
+                    <input class="btn btn-save" type="submit"></input>
                     <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
                     <BR>
-                </div>
+                </form:form>
                 <div class="modal-footer">
                 </div>
             </div>
@@ -383,24 +319,9 @@ MODAL DANH MỤC LỚN
                         <div class="form-group col-md-12">
                             <label class="control-label">Danh mục sản phẩm hiện đang có</label>
                             <ul style="padding-left: 20px; overflow-y: scroll; height: 300px;">
-                                <li>Bàn ăn</li>
-                                <li>Bàn thông minh</li>
-                                <li>Tủ</li>
-                                <li>Ghế gỗ</li>
-                                <li>Ghế sắt</li>
-                                <li>Giường người lớn</li>
-                                <li>Giường trẻ em</li>
-                                <li>Bàn trang điểm</li>
-                                <li>Giá đỡ</li>
-                                <li>Bàn ăn</li>
-                                <li>Bàn thông minh</li>
-                                <li>Tủ</li>
-                                <li>Ghế gỗ</li>
-                                <li>Ghế sắt</li>
-                                <li>Giường người lớn</li>
-                                <li>Giường trẻ em</li>
-                                <li>Bàn trang điểm</li>
-                                <li>Giá đỡ</li>
+                                <c:forEach items="${categories}" var ="category">
+                                    <li>${category.name}</li>
+                                </c:forEach>
                             </ul>
                         </div>
                     </div>

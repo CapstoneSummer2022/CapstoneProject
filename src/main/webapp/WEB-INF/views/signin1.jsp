@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -12,6 +13,6 @@
 </head>
 <body>
 <!--Page Header-->
-<h1>HEllo</h1>
+<h1>${response}</h1>
 </body>
 </html>
