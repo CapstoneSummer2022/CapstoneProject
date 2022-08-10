@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,16 +43,12 @@ public class TestController {
     }
     @GetMapping("/error23")
     public String error(){
-        System.out.println("dd");
         return "signin1";
     }
-    @GetMapping("/home")
-    public ResponseEntity<?> addNewSupplier()throws  Exception{
+    @GetMapping("/error-401")
+    public String error401(){
 
-        ArrayList<Account> accounts=(ArrayList<Account>) accountRepository.findAllByRoleName("ROLE_CUSTOMER");
-        return ResponseEntity.ok(accounts);
-
-
+        return "sos";
     }
     private SupplierDTO convertToDto(Supplier s){
         SupplierDTO supplierDTO = modelMap.modelMapper().map(s,SupplierDTO.class);

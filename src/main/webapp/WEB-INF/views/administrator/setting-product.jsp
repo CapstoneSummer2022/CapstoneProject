@@ -1,13 +1,15 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <title>Tuỳ chỉnh sản phẩm | Quản trị Admin</title>
+  <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Main CSS-->
-  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <link href="<c:url value="/css/main.css"/>" rel="stylesheet" type="text/css">
   <!-- Font-icon css-->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
   <!-- or -->
@@ -133,68 +135,10 @@
     }
   </style>
   <!-- Navbar-->
-  <header class="app-header">
-    <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar"
-      aria-label="Hide Sidebar"></a>
-    <!-- Navbar Right Menu-->
-    <ul class="app-nav">
-
-
-      <!-- User Menu-->
-      <div class="app-nav__button">
-        <div class="app-nav__item"><i class='bx bx-cog'></i></div>
-        <div class="app-nav__item-content">
-          <a href="personal-info.html">Thông tin cá nhân</a>
-          <a href="#">Đăng xuất</a>
-        </div>
-      </div>
-    </ul>
-  </header>
+  <jsp:include page="header.jsp"/>
   <!-- Sidebar menu-->
   <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-  <aside class="app-sidebar">
-    <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="resources/images/avatar.jpg" width="50px"
-        alt="User Image">
-      <div>
-        <p class="app-sidebar__user-name"><b>Bùi Minh Hiệu</b></p>
-        <p class="app-sidebar__user-designation">Quản lý</p>
-      </div>
-    </div>
-    <hr>
-    <ul class="app-menu">
-      <li><a class="app-menu__item" href="home-page.html"><i class='app-menu__icon bx bx-cart-alt'></i>
-          <span class="app-menu__label">Trang chủ</span></a></li>
-      <li><a class="app-menu__item" href="system-account-management.html"><i class='app-menu__icon bx bx-id-card'></i>
-          <span class="app-menu__label">Quản lý tài khoản</span>
-        </a>
-      </li>
-      <li><a class="app-menu__item" href="category-management.html"><i class='app-menu__icon bx bx-category'></i><span
-            class="app-menu__label">Quản lý danh mục</span></a></li>
-      <li><a class="app-menu__item active" href="product-management.html"><i
-            class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản
-            phẩm</span></a>
-      </li>
-      <li><a class="app-menu__item" href="supplier-management.html"><i class='app-menu__icon bx bxs-user-account'></i><span
-            class="app-menu__label">Quản lý nhà cung cấp
-          </span></a></li>
-      <li><a class="app-menu__item" href="warehouse-management.html"><i
-            class='app-menu__icon bx bx-building-house'></i><span class="app-menu__label">Quản lý kho
-            hàng
-          </span></a></li>
-      <li><a class="app-menu__item" href="order-management.html"><i class='app-menu__icon bx bx-task'></i><span
-            class="app-menu__label">Quản lý đơn hàng</span></a></li>
-      <li><a class="app-menu__item" href="product-package-management.html"><i
-            class='app-menu__icon bx bxs-package '></i><span class="app-menu__label">Quản lý lô sản
-            phẩm</span></a>
-      </li>
-      <li><a class="app-menu__item" href="feedback-management.html"><i
-            class='app-menu__icon bx bx-user-voice'></i><span class="app-menu__label">Feedback</span></a>
-      </li>
-      <li><a class="app-menu__item" href="report.html"><i class='app-menu__icon bx bx-pie-chart-alt-2'></i><span
-            class="app-menu__label">Báo cáo thống kê</span></a>
-      </li>
-    </ul>
-  </aside>
+  <jsp:include page="home-menu.jsp"/>
   <main class="app-content">
     <div class="app-title">
       <ul class="app-breadcrumb breadcrumb">
@@ -216,46 +160,29 @@
                 <label class="control-label">Số lượng</label>
                 <input class="form-control" type="number">
               </div>
-              <div class="form-group col-md-3 ">
-                <label for="exampleSelect1" class="control-label">Tình trạng</label>
-                <select class="form-control" id="exampleSelect1">
-                  <option>-- Chọn tình trạng --</option>
-                  <option>Còn hàng</option>
-                  <option>Hết hàng</option>
-                </select>
-              </div>
               <div class="form-group col-md-3">
                 <label for="exampleSelect1" class="control-label">Danh mục</label>
                 <select class="form-control" id="exampleSelect1">
                   <option>-- Chọn danh mục --</option>
-                  <option>Bàn ăn</option>
-                  <option>Bàn thông minh</option>
-                  <option>Tủ</option>
-                  <option>Ghế gỗ</option>
-                  <option>Ghế sắt</option>
-                  <option>Giường người lớn</option>
-                  <option>Giường trẻ em</option>
-                  <option>Bàn trang điểm</option>
-                  <option>Giá đỡ</option>
+                  <option>Cầu chì</option>
+                  <option>Biến trở</option>
+                  <option>Cảm biến nhiệt độ</option>
+                  <option>IC cảm ứng</option>
+                  <option>Cảm biến màu</option>
+                  <option>Cảm biến chuyển động</option>
+                  <option>Cảm biến nước</option>
+                  <option>Cảm biến âm thanh</option>
+                  <option>IC cảm ứng</option>
                 </select>
               </div>
               <div class="form-group col-md-3 ">
                 <label for="exampleSelect1" class="control-label">Nhà cung cấp</label>
                 <select class="form-control" id="exampleSelect1">
                   <option>-- Chọn nhà cung cấp --</option>
-                  <option>Phong vũ</option>
-                  <option>Thế giới di động</option>
-                  <option>FPT</option>
-                  <option>Võ Trường</option>
+                  <option>DAEWOO</option>
+                  <option>ABECO</option>
+                  <option>Nguyên Phi</option>
                 </select>
-              </div>
-              <div class="form-group col-md-3">
-                <label class="control-label">Giá bán</label>
-                <input class="form-control" type="text">
-              </div>
-              <div class="form-group col-md-3">
-                <label class="control-label">Giá vốn</label>
-                <input class="form-control" type="text">
               </div>
               <div class="form-group col-md-12">
                 <label class="control-label">Ảnh sản phẩm</label>
@@ -277,10 +204,14 @@
                 <textarea class="form-control" name="mota" id="mota"></textarea>
                 <script>CKEDITOR.replace('mota');</script>
               </div>
-
+              <div class="confirm-button">
+                <div class="button">
+                  <button type="submit" class="btn btn-save" type="button">Lưu lại</button>
+                  <button class="btn btn-cancel" href="/doc/table-data-table.html">Hủy bỏ</button>
+                </div>
+              </div>
+            </form>
           </div>
-          <button class="btn btn-save" type="button">Lưu lại</button>
-          <a class="btn btn-cancel" href="table-data-product.html">Hủy bỏ</a>
         </div>
   </main>
 

@@ -29,7 +29,7 @@ public class ProductController {
     public String viewAll(Model model){
         ArrayList<Product> products = (ArrayList<Product>) productService.findAll();
         model.addAttribute("products", products);
-        return "";
+        return "administrator/product-management";
     }
     @GetMapping("/view/{id}")
     public String viewById(ModelMap model,@PathVariable @Valid Integer id){
@@ -40,7 +40,7 @@ public class ProductController {
         else {
             model.addAttribute("error","Không tồn tại");
         }
-        return "";
+        return "administrator/product-management";
     }
     @PostMapping("/view/{id}")
     public String update(@PathVariable Integer id, @ModelAttribute("product") @Valid ProductDTO productDTO, BindingResult bindingResult){
@@ -56,7 +56,7 @@ public class ProductController {
         else {
 
         }
-        return "";
+        return "administrator/product-management";
     }
     }
 

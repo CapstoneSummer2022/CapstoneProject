@@ -18,7 +18,7 @@ import java.util.*;
 
 @CrossOrigin
 @Controller
-@RequestMapping("/")
+@RequestMapping("/admin/categories")
 public class CategoryController  {
     final
     CategoryService categoryService;
@@ -31,9 +31,10 @@ public class CategoryController  {
         this.modelMap = modelMap;
     }
 
-    @GetMapping("/list")
+    @GetMapping("")
     public String list(Model model,CategoryDTO categoryDTO){
         ArrayList<Category> categories = (ArrayList<Category>)categoryService.findAll();
+        System.out.println(categories.isEmpty());
         model.addAttribute("categories", categories);
         return "administrator/category-management";
 

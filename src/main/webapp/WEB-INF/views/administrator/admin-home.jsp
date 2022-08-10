@@ -1,10 +1,9 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <head>
   <title>Trang chủ| Quản trị</title>
-
   <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -25,71 +24,10 @@
 
 <body onload="time()" class="app sidebar-mini rtl">
   <!-- Navbar-->
-  <header class="app-header">
-    <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar"
-      aria-label="Hide Sidebar"></a>
-    <!-- Navbar Right Menu-->
-    <ul class="app-nav">
-
-
-      <!-- User Menu-->
-      <div class="app-nav__button">
-        <div class="app-nav__item"><i class='bx bx-cog'></i></div>
-        <div class="app-nav__item-content">
-          <a href="personal-info.html">Thông tin cá nhân</a>
-          <a href="#">Đăng xuất</a>
-        </div>
-      </div>
-    </ul>
-  </header>
+  <jsp:include page="header.jsp"/>
   <!-- Sidebar menu-->
   <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-  <aside class="app-sidebar">
-    <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="../resources/images/avatar.jpg"
-                                        width="50px" alt="User Image">
-      <div>
-        <p class="app-sidebar__user-name"><b>hoang</b></p>
-        <p class="app-sidebar__user-designation">Quản lý</p>
-      </div>
-    </div>
-    <hr>
-    <ul class="app-menu">
-      <li><a class="app-menu__item active" href="home-page.html"><i class='app-menu__icon bx bx-cart-alt'></i>
-          <span class="app-menu__label">Trang chủ</span></a></li>
-      <sec:authorize access="hasRole('ROLE_MANAGER')">
-        <li><a class="app-menu__item" href="/admin/employees"><i class='app-menu__icon bx bx-id-card'></i>
-          <span class="app-menu__label">Quản lý tài khoản</span>
-        </a>
-        </li>
-        <li><a class="app-menu__item" href="category-management.html"><i class='app-menu__icon bx bx-category'></i><span
-                class="app-menu__label">Quản lý danh mục</span></a></li>
-        <li><a class="app-menu__item" href="supplier-management.html"><i
-                class='app-menu__icon bx bxs-user-account'></i><span class="app-menu__label">Quản lý nhà cung cấp
-          </span></a></li>
-        <li><a class="app-menu__item" href="product-package-management.html"><i
-                class='app-menu__icon bx bxs-package '></i><span class="app-menu__label">Quản lý lô sản
-            phẩm</span></a>
-        </li>
-        <li><a class="app-menu__item" href="feedback-management.html"><i class='app-menu__icon bx bx-user-voice'></i><span
-                class="app-menu__label">Feedback</span></a>
-        </li>
-        <li><a class="app-menu__item" href="report.html"><i class='app-menu__icon bx bx-pie-chart-alt-2'></i><span
-                class="app-menu__label">Báo cáo thống kê</span></a>
-        </li>
-        <li><a class="app-menu__item" href="warehouse-management.html"><i
-                class='app-menu__icon bx bx-building-house'></i><span class="app-menu__label">Quản lý kho
-            hàng
-          </span></a></li>
-      </sec:authorize>
-      <li><a class="app-menu__item" href="product-management.html"><i
-              class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản
-            phẩm</span></a>
-      </li>
-      <li><a class="app-menu__item" href="order-management.html"><i class='app-menu__icon bx bx-task'></i><span
-            class="app-menu__label">Quản lý đơn hàng</span></a></li>
-
-    </ul>
-  </aside>
+  <jsp:include page="home-menu.jsp"/>
   <main class="app-content">
     <div class="row">
       <div class="col-md-12">
@@ -110,38 +48,38 @@
             <div class="widget-small primary coloured-icon"><i class='icon bx bxs-user-account fa-3x'></i>
               <div class="info">
                 <h4>Doanh thu trong tháng</h4>
-                <p><b>56 khách hàng</b></p>
+                <p><b>50.000.000 đ</b></p>
                 <p class="info-tong">Tổng số khách hàng được quản lý.</p>
               </div>
             </div>
           </div>
           <!-- col-6 -->
           <div class="col-md-6">
-            <div class="widget-small info coloured-icon"><i class='icon bx bxs-data fa-3x'></i>
+            <div class="widget-small info coloured-icon"><i class='icon bx bx-purchase-tag-alt fa-3x'></i>
               <div class="info">
                 <h4>Tổng số sản phẩm</h4>
-                <p><b>1850 sản phẩm</b></p>
+                <p><b>850 sản phẩm</b></p>
                 <p class="info-tong">Tổng số sản phẩm được quản lý.</p>
               </div>
             </div>
           </div>
           <!-- col-6 -->
           <div class="col-md-6">
-            <div class="widget-small info coloured-icon"><i class='icon bx bxs-data fa-3x'></i>
+            <div class="widget-small primary coloured-icon"><i class='icon bx bxs-user-badge fa-3x'></i>
               <div class="info">
                 <h4>Số lượng nhân viên</h4>
-                <p><b>1850 sản phẩm</b></p>
-                <p class="info-tong">Tổng số nhân viên trong hệ thộng</p>
+                <p><b>5 nhân viên</b></p>
+                <p class="info-tong">Tổng số nhân viên trong hệ thống.</p>
               </div>
             </div>
           </div>
           <!-- col-6 -->
           <div class="col-md-6">
-            <div class="widget-small info coloured-icon"><i class='icon bx bxs-data fa-3x'></i>
+            <div class="widget-small info coloured-icon"><i class='icon bx bxs-user-account fa-3x'></i>
               <div class="info">
                 <h4>Số lượng khách hàng</h4>
-                <p><b>1850 sản phẩm</b></p>
-                <p class="info-tong">Tổng số sản phẩm được quản lý.</p>
+                <p><b>300 khách hàng</b></p>
+                <p class="info-tong">Tổng số khách hàng được quản lý.</p>
               </div>
             </div>
           </div>
@@ -160,31 +98,31 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <td>AL3947</td>
-                      <td>Phạm Thị Ngọc</td>
+                      <td>1-A-9-5</td>
+                      <td>Tụ Cao Áp 221K- 2KV</td>
                       <td>
-                        19.770.000 đ
+                        5
                       </td>
                     </tr>
                     <tr>
-                      <td>ER3835</td>
-                      <td>Nguyễn Thị Mỹ Yến</td>
+                      <td>1-A-9-4</td>
+                      <td>Transistor S8550 TO-92 40V 1.5A PNP</td>
                       <td>
-                        16.770.000 đ
+                        10
                       </td>
                     </tr>
                     <tr>
-                      <td>MD0837</td>
-                      <td>Triệu Thanh Phú</td>
+                      <td>1-A-10-4</td>
+                      <td>Transistor S9014 TO-92 45V 0.1A NPN </td>
                       <td>
-                        9.400.000 đ
+                        9
                       </td>
                     </tr>
                     <tr>
-                      <td>MT9835</td>
-                      <td>Đặng Hoàng Phúc </td>
+                      <td>1-A-9-7</td>
+                      <td>Tụ Hóa 6.3V</td>
                       <td>
-                        40.650.000 đ
+                        6
                       </td>
                     </tr>
                   </tbody>
@@ -211,30 +149,30 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <td>#183</td>
-                      <td>Hột vịt muối</td>
+                      <td>DH3835</td>
+                      <td>Biến trở 10KΩ 1/2W 3.56mm</td>
                       <td>21/7/1992</td>
                       <td><span class="tag tag-success">0921387221</span></td>
                       <td><span class="badge bg-danger">Đã hủy </span></td>
                     </tr>
                     <tr>
-                      <td>#219</td>
-                      <td>Bánh tráng trộn</td>
+                      <td>DH5686</td>
+                      <td>Chiết áp 1/2W 100KΩ 24mm 20% 4cm</td>
                       <td>30/4/1975</td>
                       <td><span class="tag tag-warning">0912376352</span></td>
-                      <td><span class="badge bg-danger">Đã hủy </span></td>
+                      <td><span class="badge bg-success">Thành công</span></td>
                     </tr>
                     <tr>
-                      <td>#627</td>
-                      <td>Cút rang bơ</td>
+                      <td>DH7865</td>
+                      <td>Tụ Đỏ CBB 474J400V</td>
                       <td>12/3/1999</td>
                       <td><span class="tag tag-primary">01287326654</span></td>
                       <td><span class="badge bg-danger">Đã hủy </span></td>
                     </tr>
                     <tr>
-                      <td>#175</td>
-                      <td>Hủ tiếu nam vang</td>
-                      <td>4/12/20000</td>
+                      <td>DH7456</td>
+                      <td>Tụ Mica 104 275V</td>
+                      <td>04/01/2022</td>
                       <td><span class="tag tag-danger">0912376763</span></td>
                       <td><span class="badge bg-danger">Đã hủy </span></td>
                     </tr>
@@ -283,21 +221,20 @@
     -->
 
   </main>
-  <script src="../js/jquery-3.2.1.min.js"></script>
+  <script src="js/jquery-3.2.1.min.js"></script>
   <!--===============================================================================================-->
   <script src="js/popper.min.js"></script>
   <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
   <!--===============================================================================================-->
-  <script src="../js/bootstrap.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
   <!--===============================================================================================-->
-  <script src="../js/main.js"></script>
+  <script src="js/main.js"></script>
   <!--===============================================================================================-->
-  <script src="../js/plugins/pace.min.js"></script>
+  <script src="js/plugins/pace.min.js"></script>
   <!--===============================================================================================-->
-  <script type="text/javascript" src="../js/plugins/chart.js"></script>
+  <script type="text/javascript" src="js/plugins/chart.js"></script>
   <!--===============================================================================================-->
   <script type="text/javascript">
-
     var data = {
       labels: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6"],
       datasets: [{
@@ -323,7 +260,6 @@
       ]
     };
     var ctxl = $("#lineChartDemo").get(0).getContext("2d");
-
     var lineChart = new Chart(ctxl).Line(data);
 
     var ctxb = $("#barChartDemo").get(0).getContext("2d");

@@ -26,16 +26,16 @@ public class SupplierController {
         this.supplierService = supplierService;
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public String viewAll(Model model){
         ArrayList<Supplier> suppliers = (ArrayList<Supplier>)supplierService.findAll();
         model.addAttribute("listSupplier",suppliers);
-        return "";
+        return "administrator/supplier-management";
     }
     @PostMapping("/add")
     public String addNew(@Valid @ModelAttribute("newSupplier")SupplierDTO supplierDTO, BindingResult bindingResult){
         supplierService.save(convertToEntity(supplierDTO)) ;
-        return "";
+        return "administrator/supplier-management";
     }
     @PostMapping("/view/{id}")
     public String update(@PathVariable Integer id,@Valid @ModelAttribute("newSupplier")SupplierDTO supplierDTO, BindingResult bindingResult){
@@ -46,7 +46,7 @@ public class SupplierController {
         else {
 
         }
-        return "";
+        return "administrator/setting-management";
     }
     Supplier convertToEntity(SupplierDTO supplierDTO){
         ModelMap map = new ModelMap();

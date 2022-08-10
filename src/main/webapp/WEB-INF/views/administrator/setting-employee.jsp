@@ -1,13 +1,15 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <title>Tuỳ chỉnh thông tin nhân viên | Quản trị Admin</title>
+  <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Main CSS-->
-  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <link href="<c:url value="/css/main.css"/>" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
   <!-- or -->
   <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
@@ -132,74 +134,10 @@
     }
   </style>
   <!-- Navbar-->
-  <header class="app-header">
-    <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar"
-      aria-label="Hide Sidebar"></a>
-    <!-- Navbar Right Menu-->
-    <ul class="app-nav">
-
-
-      <!-- User Menu-->
-      <div class="app-nav__button">
-        <div class="app-nav__item"><i class='bx bx-cog'></i></div>
-        <div class="app-nav__item-content">
-          <a href="personal-info.html">Thông tin cá nhân</a>
-          <a href="#">Đăng xuất</a>
-        </div>
-      </div>
-    </ul>
-  </header>
+  <jsp:include page="header.jsp"/>
   <!-- Sidebar menu-->
   <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-  <aside class="app-sidebar">
-    <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="resources/images/avatar.jpg" width="50px"
-        alt="User Image">
-      <div>
-        <p class="app-sidebar__user-name"><b>Bùi Minh Hiệu</b></p>
-        <p class="app-sidebar__user-designation">Quản lý</p>
-      </div>
-    </div>
-    <hr>
-    <ul class="app-menu">
-      <li><a class="app-menu__item" href="home-page.html"><i class='app-menu__icon bx bx-cart-alt'></i>
-          <span class="app-menu__label">Trang chủ</span></a></li>
-      <li><a class="app-menu__item" href="system-account-management.html"><i class='app-menu__icon bx bx-id-card'></i>
-          <span class="app-menu__label active">Quản lý tài khoản</span>
-        </a>
-        <ul class="sub-app-menu">
-          <li><a class="sub-app-menu_item sub-item-active" href="system-account-management.html"><span
-              class="app-menu__label">Tài khoản hệ thống</span></a></li>
-          <li><a class="sub-app-menu_item" href="customer-management.html"><span
-                      class="app-menu__label">Tài khoản khách hàng</span></a></li>
-      </ul>
-      </li>
-      <li><a class="app-menu__item" href="category-management.html"><i class='app-menu__icon bx bx-category'></i><span
-            class="app-menu__label">Quản lý danh mục</span></a></li>
-      <li><a class="app-menu__item" href="product-management.html"><i
-            class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản
-            phẩm</span></a>
-      </li>
-      <li><a class="app-menu__item" href="supplier-management.html"><i class='app-menu__icon bx bxs-user-account'></i><span
-            class="app-menu__label">Quản lý nhà cung cấp
-          </span></a></li>
-      <li><a class="app-menu__item" href="warehouse-management.html"><i
-            class='app-menu__icon bx bx-building-house'></i><span class="app-menu__label">Quản lý kho
-            hàng
-          </span></a></li>
-      <li><a class="app-menu__item" href="order-management.html"><i class='app-menu__icon bx bx-task'></i><span
-            class="app-menu__label">Quản lý đơn hàng</span></a></li>
-      <li><a class="app-menu__item" href="product-package-management.html"><i
-            class='app-menu__icon bx bxs-package '></i><span class="app-menu__label">Quản lý lô sản
-            phẩm</span></a>
-      </li>
-      <li><a class="app-menu__item" href="feedback-management.html"><i
-            class='app-menu__icon bx bx-user-voice'></i><span class="app-menu__label">Feedback</span></a>
-      </li>
-      <li><a class="app-menu__item" href="report.html"><i class='app-menu__icon bx bx-pie-chart-alt-2'></i><span
-            class="app-menu__label">Báo cáo thống kê</span></a>
-      </li>
-    </ul>
-  </aside>
+  <jsp:include page="home-menu.jsp"/>
   <main class="app-content">
     <div class="app-title">
       <ul class="app-breadcrumb breadcrumb">
@@ -221,45 +159,42 @@
               </div>
             </div>
             <form class="row">
-              <div class="form-group col-md-4">
-                <label class="control-label">ID nhân viên</label>
-                <input class="form-control" type="text">
+              <div class="form-group col-md-3">
+                <label class="control-label">Mã nhân viên</label>
+                <input class="form-control" type="text" value="${account.id}" required>
               </div>
-              <div class="form-group col-md-4">
+              <div class="form-group col-md-3">
                 <label class="control-label">Họ và tên</label>
-                <input class="form-control" type="text" required>
+                <input class="form-control" type="text" value="${account.name}" required>
               </div>
-              <div class="form-group col-md-4">
+              <div class="form-group col-md-3">
                 <label class="control-label">Địa chỉ email</label>
+                <input class="form-control" type="text" value="${account.id}" required>
+              </div>
+              <div class="form-group col-md-3">
+                <label class="control-label">Tỉnh/Thành phố</label>
+                <select name="cars" id="cars">
+                  <option value="volvo">Volvo</option>
+                  <option value="saab">Saab</option>
+                  <option value="mercedes">Mercedes</option>
+                  <option value="audi">Audi</option>
+                </select>
+              </div>
+              <div class="form-group col-md-3">
+                <label class="control-label">Quận/huyện</label>
                 <input class="form-control" type="text" required>
               </div>
-              <div class="form-group col-md-4">
-                <label class="control-label">Địa chỉ thường trú</label>
+              <div class="form-group col-md-3">
+                <label class="control-label">Xã/Phường/Thị Trấn</label>
                 <input class="form-control" type="text" required>
               </div>
-              <div class="form-group  col-md-4">
+              <div class="form-group col-md-3">
                 <label class="control-label">Số điện thoại</label>
                 <input class="form-control" type="number" required>
               </div>
-              <div class="form-group col-md-4">
+              <div class="form-group col-md-3">
                 <label class="control-label">Ngày sinh</label>
                 <input class="form-control" type="date">
-              </div>
-              <div class="form-group  col-md-3">
-                <label class="control-label">Nơi sinh</label>
-                <input class="form-control" type="text" required>
-              </div>
-              <div class="form-group col-md-3">
-                <label class="control-label">Số CMND</label>
-                <input class="form-control" type="number" required>
-              </div>
-              <div class="form-group col-md-3">
-                <label class="control-label">Ngày cấp</label>
-                <input class="form-control" type="date" required>
-              </div>
-              <div class="form-group col-md-3">
-                <label class="control-label">Nơi cấp</label>
-                <input class="form-control" type="text" required>
               </div>
               <div class="form-group col-md-3">
                 <label class="control-label">Giới tính</label>
@@ -269,7 +204,6 @@
                   <option>Nữ</option>
                 </select>
               </div>
-
               <div class="form-group  col-md-3">
                 <label for="exampleSelect1" class="control-label">Chức vụ</label>
                 <select class="form-control" id="exampleSelect1">
@@ -284,28 +218,7 @@
                   <option>Bảo vệ</option>
                   <option>Tạp vụ</option>
                 </select>
-              </div>
-              <div class="form-group col-md-3">
-                <label class="control-label">Bằng cấp</label>
-                <select class="form-control" id="exampleSelect3">
-                  <option>-- Chọn bằng cấp --</option>
-                  <option>Tốt nghiệp Đại Học</option>
-                  <option>Tốt nghiệp Cao Đẳng</option>
-                  <option>Tốt nghiệp Phổ Thông</option>
-                  <option>Chưa tốt nghiệp</option>
-                  <option>Không bằng cấp</option>
-                </select>
-              </div>
-              <div class="form-group col-md-3">
-                <label class="control-label">Tình trạng hôn nhân</label>
-                <select class="form-control" id="exampleSelect2">
-                  <option>-- Chọn tình trạng hôn nhân --</option>
-                  <option>Độc thân</option>
-                  <option>Đã kết hôn</option>
-                  <option>Góa</option>
-                  <option>Khác</option>
-                </select>
-              </div>
+              </div>  
 
               <div class="form-group col-md-12">
                 <label class="control-label">Ảnh 3x4 nhân viên</label>
@@ -322,12 +235,14 @@
                 </div>
 
               </div>
-
-
-
+              <div class="confirm-button">
+                <div class="button">
+                  <button type="submit" class="btn btn-save" type="button">Lưu lại</button>
+                  <button class="btn btn-cancel" href="/doc/table-data-table.html">Hủy bỏ</button>
+                </div>
+              </div>
+            </form>
           </div>
-          <button class="btn btn-save" type="button">Lưu lại</button>
-          <a class="btn btn-cancel" href="/doc/table-data-table.html">Hủy bỏ</a>
         </div>
 
   </main>

@@ -1,13 +1,15 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <title>Quản lý sản phẩm | Quản trị</title>
+  <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Main CSS-->
-  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <link href="<c:url value="/css/main.css"/>" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
   <!-- or -->
   <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
@@ -23,68 +25,10 @@
 
 <body onload="time()" class="app sidebar-mini rtl">
   <!-- Navbar-->
-  <header class="app-header">
-    <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar"
-      aria-label="Hide Sidebar"></a>
-    <!-- Navbar Right Menu-->
-    <ul class="app-nav">
-
-
-      <!-- User Menu-->
-      <div class="app-nav__button">
-        <div class="app-nav__item"><i class='bx bx-cog'></i></div>
-        <div class="app-nav__item-content">
-          <a href="personal-info.html">Thông tin cá nhân</a>
-          <a href="#">Đăng xuất</a>
-        </div>
-      </div>
-    </ul>
-  </header>
+  <jsp:include page="header.jsp"/>
   <!-- Sidebar menu-->
   <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-  <aside class="app-sidebar">
-    <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="resources/images/avatar.jpg" width="50px"
-        alt="User Image">
-      <div>
-        <p class="app-sidebar__user-name"><b>Bùi Minh Hiệu</b></p>
-        <p class="app-sidebar__user-designation">Quản lý</p>
-      </div>
-    </div>
-    <hr>
-    <ul class="app-menu">
-      <li><a class="app-menu__item" href="home-page.html"><i class='app-menu__icon bx bx-cart-alt'></i>
-          <span class="app-menu__label">Trang chủ</span></a></li>
-      <li><a class="app-menu__item" href="system-account-management.html"><i class='app-menu__icon bx bx-id-card'></i>
-          <span class="app-menu__label">Quản lý tài khoản</span>
-        </a>
-      </li>
-      <li><a class="app-menu__item" href="category-management.html"><i class='app-menu__icon bx bx-category'></i><span
-            class="app-menu__label">Quản lý danh mục</span></a></li>
-      <li><a class="app-menu__item active" href="product-management.html"><i
-            class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản
-            phẩm</span></a>
-      </li>
-      <li><a class="app-menu__item" href="supplier-management.html"><i class='app-menu__icon bx bxs-user-account'></i><span
-            class="app-menu__label">Quản lý nhà cung cấp
-          </span></a></li>
-      <li><a class="app-menu__item" href="warehouse-management.html"><i
-            class='app-menu__icon bx bx-building-house'></i><span class="app-menu__label">Quản lý kho
-            hàng
-          </span></a></li>
-      <li><a class="app-menu__item" href="order-management.html"><i class='app-menu__icon bx bx-task'></i><span
-            class="app-menu__label">Quản lý đơn hàng</span></a></li>
-      <li><a class="app-menu__item" href="product-package-management.html"><i
-            class='app-menu__icon bx bxs-package '></i><span class="app-menu__label">Quản lý lô sản
-            phẩm</span></a>
-      </li>
-      <li><a class="app-menu__item" href="feedback-management.html"><i
-            class='app-menu__icon bx bx-user-voice'></i><span class="app-menu__label">Feedback</span></a>
-      </li>
-      <li><a class="app-menu__item" href="report.html"><i class='app-menu__icon bx bx-pie-chart-alt-2'></i><span
-            class="app-menu__label">Báo cáo thống kê</span></a>
-      </li>
-    </ul>
-  </aside>
+  <jsp:include page="home-menu.jsp"/>
   <main class="app-content">
     <div class="app-title">
       <ul class="app-breadcrumb breadcrumb side">
@@ -99,11 +43,11 @@
             <div class="row element-button">
               <div class="col-sm-2">
                 <a class="btn btn-add btn-sm" href="add-product.html" title="Thêm"><i class="fas fa-plus"></i>
-                  Tạo mới</a>
+                  Thêm sản phẩm</a>
               </div>
               <div class="col-sm-2">
                 <a class="btn btn-delete btn-sm nhap-tu-file" type="button" title="Nhập" onclick="myFunction(this)"><i
-                    class="fas fa-file-upload"></i> Tải từ file</a>
+                    class="fas fa-file-upload"></i> Nhập dữ liệu từ file</a>
               </div>
             </div>
             <div class="search-row">
@@ -120,8 +64,8 @@
                   <th width="80">Trạng thái</th>
                   <th>Mã sản phẩm</th>
                   <th>Tên sản phẩm</th>
-                  <th>Ảnh</th>
-                  <th>Số lượng</th>
+                  <th>Ảnh sản phẩm</th>
+                  <th>Số lượng tồn kho</th>
                   <th>Tình trạng</th>
                   <th>Giá tiền</th>
                   <th>Danh mục</th>
@@ -131,14 +75,14 @@
               <tbody>
                 <tr>
                   <td><input class="status-checkbox" onclick="return false" type="checkbox" data-toggle="modal"
-                      data-target="#confirmStatus" name="check1" value="1">
-                  <td>71309005</td>
-                  <td>Bàn ăn gỗ Theresa</td>
+                      data-target="#confirmStatus" name="check1" checked value="1">
+                  <td>1-A-2-2</td>
+                  <td>Diode Xung Đôi SBL3040 TO-247 600V 30A</td>
                   <td><img src="/img-sanpham/theresa.jpg" alt="" width="100px;"></td>
                   <td>40</td>
                   <td><span class="badge bg-success">Còn hàng</span></td>
-                  <td>5.600.000 đ</td>
-                  <td>Bàn ăn</td>
+                  <td>5.600 đ</td>
+                  <td>Đi-ốt</td>
                   <td>
                     <a href="setting-product.html" class="btn btn-primary btn-sm edit" type="button" title="Sửa"><i
                         class="fas fa-edit"></i></a>
@@ -146,14 +90,14 @@
                 </tr>
                 <tr>
                   <td><input class="status-checkbox" onclick="return false" type="checkbox" data-toggle="modal"
-                      data-target="#confirmStatus" name="check1" value="1">
-                  <td>61304005</td>
-                  <td>Bàn ăn Reno mặt đá</td>
+                      data-target="#confirmStatus" name="check1" checked value="1">
+                  <td>1-A-10-1</td>
+                  <td>Diode Chỉnh Lưu FR307 3A 1000V</td>
                   <td><img src="/img-sanpham/reno.jpg" alt="" width="100px;"></td>
                   <td>70</td>
                   <td><span class="badge bg-success">Còn hàng</span></td>
-                  <td>24.200.000 đ</td>
-                  <td>Bàn ăn</td>
+                  <td>24.200 đ</td>
+                  <td>Đi-ốt</td>
                   <td>
                     <a href="setting-product.html" class="btn btn-primary btn-sm edit" type="button" title="Sửa"
                       id="show-emp"><i class="fas fa-edit"></i></a>
@@ -161,14 +105,14 @@
                 </tr>
                 <tr>
                   <td><input class="status-checkbox" onclick="return false" type="checkbox" data-toggle="modal"
-                      data-target="#confirmStatus" name="check1" value="1">
-                  <td>62304003</td>
-                  <td>Bàn ăn Vitali mặt đá</td>
+                      data-target="#confirmStatus" name="check1" checked value="1">
+                  <td>1-A-6-2</td>
+                  <td>Diode Cầu 25A Dẹt 1000V KBJ2510</td>
                   <td><img src="/img-sanpham/matda.jpg" alt="" width="100px;"></td>
                   <td>40</td>
                   <td><span class="badge bg-success">Còn hàng</span></td>
-                  <td>33.235.000 đ</td>
-                  <td>Bàn ăn</td>
+                  <td>33.235 đ</td>
+                  <td>Đi-ốt</td>
                   <td>
                     <a href="setting-product.html" class="btn btn-primary btn-sm edit" type="button" title="Sửa"
                       id="show-emp"><i class="fas fa-edit"></i></a>
@@ -178,14 +122,14 @@
                 </tr>
                 <tr>
                   <td><input class="status-checkbox" onclick="return false" type="checkbox" data-toggle="modal"
-                      data-target="#confirmStatus" name="check1" value="1">
-                  <td>72638003</td>
-                  <td>Ghế ăn gỗ Theresa</td>
+                      data-target="#confirmStatus" name="check1" checked value="1">
+                  <td>1-A-10-2</td>
+                  <td>Tụ Hóa 6.3V</td>
                   <td><img src="/img-sanpham/ghethera.jpg" alt="" width="100px;"></td>
                   <td>50</td>
                   <td><span class="badge bg-success">Còn hàng</span></td>
-                  <td>950.000 đ</td>
-                  <td>Ghế gỗ</td>
+                  <td>9.500 đ</td>
+                  <td>Tụ điện</td>
                   <td>
                     <a href="setting-product.html" class="btn btn-primary btn-sm edit" type="button" title="Sửa"
                       id="show-emp"><i class="fas fa-edit"></i></a>
@@ -193,14 +137,14 @@
                 </tr>
                 <tr>
                   <td><input class="status-checkbox" onclick="return false" type="checkbox" data-toggle="modal"
-                      data-target="#confirmStatus" name="check1" value="1">
-                  <td>72109004</td>
-                  <td>Ghế làm việc Zuno</td>
+                      data-target="#confirmStatus" name="check1" checked value="1">
+                  <td>1-A-6-5</td>
+                  <td>Tụ Phân Tần Loa Trebel CBB 335J 250V</td>
                   <td><img src="/img-sanpham/zuno.jpg" alt="" width="100px;"></td>
                   <td>50</td>
                   <td><span class="badge bg-success">Còn hàng</span></td>
-                  <td>3.800.000 đ</td>
-                  <td>Ghế gỗ</td>
+                  <td>3.800 đ</td>
+                  <td>Tụ điện</td>
                   <td>
                     <a href="setting-product.html" class="btn btn-primary btn-sm edit" type="button" title="Sửa"
                       id="show-emp"><i class="fas fa-edit"></i></a>
@@ -209,14 +153,14 @@
                 </tr>
                 <tr>
                   <td><input class="status-checkbox" onclick="return false" type="checkbox" data-toggle="modal"
-                      data-target="#confirmStatus" name="check1" value="1">
-                  <td>82716001</td>
-                  <td>Ghế ăn Vitali</td>
+                      data-target="#confirmStatus" name="check1" checked value="1">
+                  <td>1-A-10-6</td>
+                  <td>Cuộn cảm HCI1005LF-10NJ-MS8</td>
                   <td><img src="/img-sanpham/vita.jpg" alt="" width="100px;"></td>
                   <td>55</td>
                   <td><span class="badge bg-success">Còn hàng</span></td>
-                  <td>4.600.000 đ</td>
-                  <td>Ghế gỗ</td>
+                  <td>4.600 đ</td>
+                  <td>Cuộn cảm</td>
                   <td>
                     <a href="setting-product.html" class="btn btn-primary btn-sm edit" type="button" title="Sửa"
                       id="show-emp"><i class="fas fa-edit"></i></a>
@@ -224,30 +168,29 @@
                 </tr>
                 <tr>
                   <td><input class="status-checkbox" onclick="return false" type="checkbox" data-toggle="modal"
-                      data-target="#confirmStatus" name="check1" value="1">
-                  <td>72109001</td>
-                  <td>Ghế ăn gỗ Lucy màu trắng</td>
+                      data-target="#confirmStatus" name="check1" checked value="1">
+                  <td>1-A-5-8</td>
+                  <td>Cuộn cảm SDB0625 10uH</td>
                   <td><img src="/img-sanpham/lucy.jpg" alt="" width="100px;"></td>
                   <td>38</td>
                   <td><span class="badge bg-success">Còn hàng</span></td>
-                  <td>1.100.000 đ</td>
-                  <td>Ghế gỗ</td>
+                  <td>11.000 đ</td>
+                  <td>Cuộn cảm</td>
                   <td>
                     <a href="setting-product.html" class="btn btn-primary btn-sm edit" type="button" title="Sửa"
                       id="show-emp"><i class="fas fa-edit"></i></a>
-
                   </td>
                 </tr>
                 <tr>
                   <td><input class="status-checkbox" onclick="return false" type="checkbox" data-toggle="modal"
-                      data-target="#confirmStatus" name="check1" value="1">
-                  <td>71304041</td>
-                  <td>Bàn ăn mở rộng Vegas</td>
+                      data-target="#confirmStatus" name="check1" checked value="1">
+                  <td>1-A-6-8</td>
+                  <td>Cuộn cảm DRGR875 10000uH</td>
                   <td><img src="/img-sanpham/vegas.jpg" alt="" width="100px;"></td>
                   <td>80</td>
                   <td><span class="badge bg-success">Còn hàng</span></td>
-                  <td>21.550.000 đ</td>
-                  <td>Bàn thông minh</td>
+                  <td>21.550 đ</td>
+                  <td>Cuộn cảm</td>
                   <td>
                     <a href="setting-product.html" class="btn btn-primary btn-sm edit" type="button" title="Sửa"
                       id="show-emp"><i class="fas fa-edit"></i></a>
@@ -256,14 +199,14 @@
                 </tr>
                 <tr>
                   <td><input class="status-checkbox" onclick="return false" type="checkbox" data-toggle="modal"
-                      data-target="#confirmStatus" name="check1" value="1">
-                  <td>71304037</td>
-                  <td>Bàn ăn mở rộng Gepa</td>
+                      data-target="#confirmStatus" name="check1" checked value="1">
+                  <td>1-A-5-9</td>
+                  <td>Điện trở 100Ω 1/2W</td>
                   <td><img src="/img-sanpham/banan.jpg" alt="" width="100px;"></td>
                   <td>80</td>
                   <td><span class="badge bg-success">Còn hàng</span></td>
-                  <td>16.770.000 đ</td>
-                  <td>Bàn thông minh</td>
+                  <td>16.770 đ</td>
+                  <td>Điện trở</td>
                   <td>
                     <a href="setting-product.html" class="btn btn-primary btn-sm edit" type="button" title="Sửa"
                       id="show-emp"><i class="fas fa-edit"></i></a>
@@ -272,14 +215,14 @@
                 </tr>
                 <tr>
                   <td><input class="status-checkbox" onclick="return false" type="checkbox" data-toggle="modal"
-                      data-target="#confirmStatus" name="check1" value="1">
-                  <td>71304032</td>
-                  <td>Bàn ăn mặt gốm vân đá Cera</td>
+                      data-target="#confirmStatus" name="check1" checked value="1">
+                  <td>1-A-3-10</td>
+                  <td>Điện trở 1Ω 1/4W</td>
                   <td><img src="/img-sanpham/cera.jpg" alt="" width="100px;"></td>
                   <td>46</td>
                   <td><span class="badge bg-success">Còn hàng</span></td>
-                  <td>20.790.000 đ</td>
-                  <td>Bàn thông minh</td>
+                  <td>20.790 đ</td>
+                  <td>Điện trở</td>
                   <td>
                     <a href="setting-product.html" class="btn btn-primary btn-sm edit" type="button" title="Sửa"
                       id="show-emp"><i class="fas fa-edit"></i></a>
@@ -288,14 +231,14 @@
                 </tr>
                 <tr>
                   <td><input class="status-checkbox" onclick="return false" type="checkbox" data-toggle="modal"
-                      data-target="#confirmStatus" name="check1" value="1">
-                  <td>71338008</td>
-                  <td>Bàn ăn mở rộng cao cấp Dolas</td>
+                      data-target="#confirmStatus" name="check1" checked value="1">
+                  <td>1-B-3-2</td>
+                  <td>Dây jumper đực/đực 10cm</td>
                   <td><img src="/img-sanpham/dolas.jpg" alt="" width="100px;"></td>
                   <td>66</td>
                   <td><span class="badge bg-success">Còn hàng</span></td>
-                  <td>22.650.000 đ</td>
-                  <td>Bàn thông minh</td>
+                  <td>22.650 đ</td>
+                  <td>Dây kết nối</td>
                   <td>
                     <a href="setting-product.html" class="btn btn-primary btn-sm edit" type="button" title="Sửa"
                       id="show-emp"><i class="fas fa-edit"></i></a>
@@ -304,14 +247,14 @@
                 </tr>
                 <tr>
                   <td><input class="status-checkbox" onclick="return false" type="checkbox" data-toggle="modal"
-                      data-target="#confirmStatus" name="check1" value="1">
-                  <td>83826226</td>
-                  <td>Tủ ly - tủ bát</td>
+                      data-target="#confirmStatus" name="check1" checked value="1">
+                  <td>1-C-2-1</td>
+                  <td>LCD1602 chữ trắng nền xanh dương 3mA</td>
                   <td><img src="/img-sanpham/tu.jpg" alt="" width="100px;"></td>
                   <td>0</td>
-                  <td><span class="badge bg-danger">Hét hàng</span></td>
-                  <td>2.450.000 đ</td>
-                  <td>Tủ</td>
+                  <td><span class="badge bg-danger">Hết hàng</span></td>
+                  <td>24.500 đ</td>
+                  <td>LCD</td>
                   <td>
                     <a href="setting-product.html" class="btn btn-primary btn-sm edit" type="button" title="Sửa"
                       id="show-emp"><i class="fas fa-edit"></i></a>
@@ -321,13 +264,13 @@
                 <tr>
                   <td><input class="status-checkbox" onclick="return false" type="checkbox" data-toggle="modal"
                       data-target="#confirmStatus" name="check1" value="1">
-                  <td>83252001</td>
-                  <td>Giường ngủ Thomas</td>
+                  <td>1-C-1-1</td>
+                  <td>LCD2004 chữ đen nền vàng xanh 50mA</td>
                   <td><img src="/img-sanpham/thomas.jpg" alt="" width="100px;"></td>
                   <td>73</td>
                   <td><span class="badge bg-success">Còn hàng</span></td>
-                  <td>12.950.000 đ</td>
-                  <td>Giường người lớn</td>
+                  <td>12.950 đ</td>
+                  <td>LCD</td>
                   <td>
                     <a href="setting-product.html" class="btn btn-primary btn-sm edit" type="button" title="Sửa"
                       id="show-emp"><i class="fas fa-edit"></i></a>
@@ -337,13 +280,13 @@
                 <tr>
                   <td><input class="status-checkbox" onclick="return false" type="checkbox" data-toggle="modal"
                       data-target="#confirmStatus" name="check1" value="1">
-                  <td>83252002</td>
-                  <td>Giường ngủ Jimmy</td>
+                  <td>1-B-10-10</td>
+                  <td>LED xanh ngọc lục bảo 5mm</td>
                   <td><img src="/img-sanpham/jimmy.jpg" alt="" width="100px;"></td>
                   <td>60</td>
                   <td><span class="badge bg-success">Còn hàng</span></td>
-                  <td>16.320.000 đ</td>
-                  <td>Giường người lớn</td>
+                  <td>16.320 đ</td>
+                  <td>LED/LCD</td>
                   <td>
                     <a href="setting-product.html" class="btn btn-primary btn-sm edit" type="button" title="Sửa"
                       id="show-emp"><i class="fas fa-edit"></i></a>
@@ -352,14 +295,14 @@
                 </tr>
                 <tr>
                   <td><input class="status-checkbox" onclick="return false" type="checkbox" data-toggle="modal"
-                      data-target="#confirmStatus" name="check1" value="1">
-                  <td>83216008</td>
-                  <td>Giường ngủ Tara chân gỗ</td>
+                      data-target="#confirmStatus" name="check1" checked value="1">
+                  <td>1-B-9-10</td>
+                  <td>LED cực tím 5mm</td>
                   <td><img src="/img-sanpham/tare.jpg" alt="" width="100px;"></td>
                   <td>65</td>
                   <td><span class="badge bg-success">Còn hàng</span></td>
-                  <td>19.600.000 đ</td>
-                  <td>Giường người lớn</td>
+                  <td>19.600 đ</td>
+                  <td>LED</td>
                   <td>
                     <a href="setting-product.html" class="btn btn-primary btn-sm edit" type="button" title="Sửa"
                       id="show-emp"><i class="fas fa-edit"></i></a>
@@ -368,13 +311,13 @@
                 <tr>
                   <td><input class="status-checkbox" onclick="return false" type="checkbox" data-toggle="modal"
                       data-target="#confirmStatus" name="check1" value="1">
-                  <td>83216006</td>
-                  <td>Giường ngủ Kara 1.6x2m</td>
+                  <td>1-B-8-10</td>
+                  <td>LED hổ phách 5mm</td>
                   <td><img src="/img-sanpham/kara.jpg" alt="" width="100px;"></td>
                   <td>60</td>
                   <td><span class="badge bg-success">Còn hàng</span></td>
-                  <td>14.500.000 đ</td>
-                  <td>Giường người lớn</td>
+                  <td>14.500 đ</td>
+                  <td>LED</td>
                   <td>
                     <a href="setting-product.html" class="btn btn-primary btn-sm edit" type="button" title="Sửa"
                       id="show-emp"><i class="fas fa-edit"></i></a>
@@ -505,18 +448,6 @@ MODAL
       e.stopImmediatePropagation();
     });
 
-    //EXCEL
-    // $(document).ready(function () {
-    //   $('#').DataTable({
-
-    //     dom: 'Bfrtip',
-    //     "buttons": [
-    //       'excel'
-    //     ]
-    //   });
-    // });
-
-
     //Thời Gian
     function time() {
       var today = new Date();
@@ -567,23 +498,6 @@ MODAL
         win.print();
       }
     }
-    //     //Sao chép dữ liệu
-    //     var copyTextareaBtn = document.querySelector('.js-textareacopybtn');
-
-    // copyTextareaBtn.addEventListener('click', function(event) {
-    //   var copyTextarea = document.querySelector('.js-copytextarea');
-    //   copyTextarea.focus();
-    //   copyTextarea.select();
-
-    //   try {
-    //     var successful = document.execCommand('copy');
-    //     var msg = successful ? 'successful' : 'unsuccessful';
-    //     console.log('Copying text command was ' + msg);
-    //   } catch (err) {
-    //     console.log('Oops, unable to copy');
-    //   }
-    // });
-
 
     //Modal
     $("#show-emp").on("click", function () {

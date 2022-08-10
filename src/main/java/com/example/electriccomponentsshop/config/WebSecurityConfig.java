@@ -5,6 +5,7 @@ import com.example.electriccomponentsshop.services.AccountDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -15,13 +16,16 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
+@Primary
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
@@ -56,20 +60,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public AccessDeniedHandler accessDeniedHandler(){
         return new MyAccessDeniedHandler();
     }
-
+    @Bean
+    LogoutHandler logoutHandler(){
+        return new MyLogoutHandler();
+    }
+    @Bean
+    AuthenticationFailureHandler authenticationFailureHandler(){
+        return new CustomFailureHandler();
+    }
     @Override
     protected void configure(HttpSecurity http) throws  Exception {
 
-            http.logout()
-                    .logoutSuccessUrl("/signin")
-                    .logoutUrl("/logout")
-                    .permitAll();
+            http.logout().invalidateHttpSession(true).addLogoutHandler(logoutHandler()).logoutUrl("/sign-out").permitAll();
 
             http.cors().and().csrf().disable()
-                    .authorizeRequests().antMatchers("/error23").permitAll()
-                    .antMatchers("/admin/**").hasAuthority("ROLE_MANAGER")
+                    .authorizeRequests().antMatchers("/error23","/css/**","/js/**","/**","/resources/**","/auth/signin","/auth/signup","/auth/sign-out","/home","/error-401").permitAll()
+//                    .antMatchers("/admin/**","/admin-home").hasAuthority("ROLE_MANAGER")
                     .anyRequest().authenticated()
-                    .and().exceptionHandling().accessDeniedHandler(accessDeniedHandler()).accessDeniedPage("/error23").and().exceptionHandling().authenticationEntryPoint(unauthorizedHandler);
+                    .and().exceptionHandling().accessDeniedHandler(accessDeniedHandler());
             http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
 

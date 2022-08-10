@@ -27,8 +27,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    @Query(value = "select * from accounts join roles where role_name= :role", nativeQuery = true)
-    public List<Account> findAllByRoleName(String role) {
+
+    public List<Account> findAllByRoleName(String... role) {
         return accountRepository.findAllByRoleName(role);
     }
 

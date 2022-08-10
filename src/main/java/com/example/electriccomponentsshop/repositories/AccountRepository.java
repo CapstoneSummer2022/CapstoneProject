@@ -21,8 +21,8 @@ public interface AccountRepository extends JpaRepository<Account,Integer> {
      */
     Optional<Account> findByEmail(String email);
 
-    @Query(value = "select * from accounts join roles where role_name in :role",nativeQuery = true)
-    List<Account> findAllByRoleName(@Param("role")String... role);
+    @Query(value = "select * from accounts join account_roles on accounts.id = account_roles.account_id join roles on account_roles.role_id= roles.id where role_name in :role",nativeQuery = true)
+    List<Account> findAllByRoleName(@Param("role")String[] role);
 
     Optional<Account> findById(Integer id);
     /**

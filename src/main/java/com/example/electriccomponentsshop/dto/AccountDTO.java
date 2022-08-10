@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -18,6 +19,7 @@ public class AccountDTO {
     private String email;
     private String name;
     private String phone;
+    private Set<String> roles;
     @NotEmpty(message = "Không được để trống")
     private String password;
 

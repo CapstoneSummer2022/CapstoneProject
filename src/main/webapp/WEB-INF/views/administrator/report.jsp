@@ -1,13 +1,15 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <title>Báo cáo thống kê | Quản trị</title>
+    <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Main CSS-->
-    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link href="<c:url value="/css/main.css"/>" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
     <!-- or -->
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
@@ -22,71 +24,10 @@
 
 <body onload="time()" class="app sidebar-mini rtl">
     <!-- Navbar-->
-    <header class="app-header">
-        <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar"
-            aria-label="Hide Sidebar"></a>
-        <!-- Navbar Right Menu-->
-        <ul class="app-nav">
-
-
-            <!-- User Menu-->
-            <div class="app-nav__button">
-                <div class="app-nav__item"><i class='bx bx-cog'></i></div>
-                <div class="app-nav__item-content">
-                    <a href="personal-info.html">Thông tin cá nhân</a>
-                    <a href="#">Đăng xuất</a>
-                </div>
-            </div>
-        </ul>
-    </header>
+    <jsp:include page="header.jsp"/>
     <!-- Sidebar menu-->
     <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-    <aside class="app-sidebar">
-        <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="resources/images/avatar.jpg"
-                width="50px" alt="User Image">
-            <div>
-                <p class="app-sidebar__user-name"><b>Bùi Minh Hiệu</b></p>
-                <p class="app-sidebar__user-designation">Quản lý</p>
-            </div>
-        </div>
-        <hr>
-        <ul class="app-menu">
-            <li><a class="app-menu__item" href="home-page.html"><i class='app-menu__icon bx bx-cart-alt'></i>
-                    <span class="app-menu__label">Trang chủ</span></a></li>
-            <li><a class="app-menu__item" href="system-account-management.html"><i
-                        class='app-menu__icon bx bx-id-card'></i>
-                    <span class="app-menu__label">Quản lý tài khoản</span>
-                </a>
-            </li>
-            <li><a class="app-menu__item" href="category-management.html"><i
-                        class='app-menu__icon bx bx-category'></i><span class="app-menu__label">Quản lý danh
-                        mục</span></a></li>
-            <li><a class="app-menu__item" href="product-management.html"><i
-                        class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản
-                        phẩm</span></a>
-            </li>
-            <li><a class="app-menu__item" href="supplier-management.html"><i
-                        class='app-menu__icon bx bxs-user-account'></i><span class="app-menu__label">Quản lý nhà cung
-                        cấp
-                    </span></a></li>
-            <li><a class="app-menu__item" href="warehouse-management.html"><i
-                        class='app-menu__icon bx bx-building-house'></i><span class="app-menu__label">Quản lý kho
-                        hàng
-                    </span></a></li>
-            <li><a class="app-menu__item" href="order-management.html"><i class='app-menu__icon bx bx-task'></i><span
-                        class="app-menu__label">Quản lý đơn hàng</span></a></li>
-            <li><a class="app-menu__item" href="product-package-management.html"><i
-                        class='app-menu__icon bx bxs-package '></i><span class="app-menu__label">Quản lý lô sản
-                        phẩm</span></a>
-            </li>
-            <li><a class="app-menu__item" href="feedback-management.html"><i
-                        class='app-menu__icon bx bx-user-voice'></i><span class="app-menu__label">Feedback</span></a>
-            </li>
-            <li><a class="app-menu__item active" href="report.html"><i class='app-menu__icon bx bx-pie-chart-alt-2'></i><span
-                        class="app-menu__label">Báo cáo thống kê</span></a>
-            </li>
-        </ul>
-    </aside>
+    <jsp:include page="home-menu.jsp"/>
     <main class="app-content">
         <div class="row">
             <div class="col-md-12">
@@ -111,30 +52,28 @@
                 <div class="widget-small info coloured-icon"><i class='icon bx bxs-purchase-tag-alt fa-3x'></i>
                     <div class="info">
                         <h4>Tổng sản phẩm</h4>
-                        <p><b>8580 sản phẩm</b></p>
+                        <p><b>850 sản phẩm</b></p>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
-                <div class="widget-small warning coloured-icon"><i class='icon fa-3x bx bxs-shopping-bag-alt'></i>
+                <div class="widget-small primary coloured-icon"><i class='icon fa-3x bx bxs-shopping-bag-alt'></i>
                     <div class="info">
                         <h4>Tổng đơn hàng hoàn thành</h4>
-                        <p><b>457 đơn hàng</b></p>
+                        <p><b>157 đơn hàng</b></p>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
-                <div class="widget-small danger coloured-icon"><i class='icon fa-3x bx bxs-info-circle'></i>
+                <div class="widget-small danger coloured-icon"><i class='icon fa-3x bx bxs-tag-x'></i>
                     <div class="info">
-                        <h4>Đơn hàng đã hoàn thành</h4>
-                        <p><b>4 nhân viên</b></p>
+                        <h4>Hết hàng</h4>
+                        <p><b>5 sản phẩm</b></p>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
             <div class="col-md-6 col-lg-4">
-                <div class="widget-small primary coloured-icon"><i class='icon fa-3x bx bxs-chart'></i>
+                <div class="widget-small info coloured-icon"><i class='icon fa-3x bx bxs-chart'></i>
                     <div class="info">
                         <h4>Tổng doanh thu</h4>
                         <p><b>104.890.000 đ</b></p>
@@ -142,13 +81,15 @@
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
-                <div class="widget-small warning coloured-icon"><i class='icon fa-3x bx bxs-tag-x'></i>
+                <div class="widget-small primary coloured-icon"><i class='icon fa-3x bx bxs-info-circle'></i>
                     <div class="info">
-                        <h4>Hết hàng</h4>
-                        <p><b>1 sản phẩm</b></p>
+                        <h4>Tổng số nhà cung cấp</h4>
+                        <p><b>4 nhân viên</b></p>
                     </div>
                 </div>
             </div>
+
+
             <div class="col-md-6 col-lg-4">
                 <div class="widget-small danger coloured-icon"><i class='icon fa-3x bx bxs-receipt'></i>
                     <div class="info">
@@ -176,34 +117,34 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>71309005</td>
-                                    <td>Bàn ăn gỗ Theresa</td>
-                                    <td>5.600.000 đ</td>
+                                    <td>1-B-10-6</td>
+                                    <td>Biến trở 2KΩ 3/4W 2.36mm</td>
+                                    <td>5.600 đ</td>
+                                    <td>Biến trở</td>
+                                </tr>
+                                <tr>
+                                    <td>1-B-4-9</td>
+                                    <td>LED hồng bong bóng 5mm</td>
+                                    <td>33.235 đ</td>
                                     <td>Bàn ăn</td>
                                 </tr>
                                 <tr>
-                                    <td>62304003</td>
-                                    <td>Bàn ăn Vitali mặt đá</td>
-                                    <td>33.235.000 đ</td>
-                                    <td>Bàn ăn</td>
+                                    <td>1-B-6-10</td>
+                                    <td>LCD1602 chữ đen nền vàng xanh 100mA</td>
+                                    <td>3.800 đ</td>
+                                    <td>LCD</td>
                                 </tr>
                                 <tr>
-                                    <td>72109004</td>
-                                    <td>Ghế làm việc Zuno</td>
-                                    <td>3.800.000 đ</td>
-                                    <td>Ghế gỗ</td>
+                                    <td>1-C-1-1</td>
+                                    <td>LCD2004 chữ đen nền vàng xanh 50mA</td>
+                                    <td>2.450 đ</td>
+                                    <td>LCD</td>
                                 </tr>
                                 <tr>
-                                    <td>83826226</td>
-                                    <td>Tủ ly - tủ bát</td>
-                                    <td>2.450.000 đ</td>
-                                    <td>Tủ</td>
-                                </tr>
-                                <tr>
-                                    <td>71304041</td>
-                                    <td>Bàn ăn mở rộng Vegas</td>
-                                    <td>21.550.000 đ</td>
-                                    <td>Bàn thông minh</td>
+                                    <td>1-C-1-2</td>
+                                    <td>Dây jumper cái/cái 10cm (40 cái)</td>
+                                    <td>21.550 đ</td>
+                                    <td>Dây nối</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -215,77 +156,7 @@
             <div class="col-md-12">
                 <div class="tile">
                     <div>
-                        <h3 class="tile-title">TỔNG ĐƠN HÀNG</h3>
-                    </div>
-                    <div class="tile-body">
-                        <table class="table table-hover table-bordered" id="sampleTable">
-                            <thead>
-                                <tr>
-                                    <th>ID đơn hàng</th>
-                                    <th>Khách hàng</th>
-                                    <th>Đơn hàng</th>
-                                    <th>Số lượng</th>
-                                    <th>Tổng tiền</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>MD0837</td>
-                                    <td>Triệu Thanh Phú</td>
-                                    <td>Ghế làm việc Zuno, Bàn ăn gỗ Theresa</td>
-                                    <td>2 sản phẩm</td>
-                                    <td>9.400.000 đ</td>
-                                </tr>
-                                <tr>
-                                    <td>MĐ8265</td>
-                                    <td>Nguyễn Thị Ngọc Cẩm</td>
-                                    <td>Ghế ăn gỗ Lucy màu trắng</td>
-                                    <td>1 sản phẩm</td>
-                                    <td>3.800.000 đ</td>
-                                </tr>
-                                <tr>
-                                    <td>MT9835</td>
-                                    <td>Đặng Hoàng Phúc</td>
-                                    <td>Giường ngủ Jimmy, Bàn ăn mở rộng cao cấp Dolas, Ghế làm việc Zuno</td>
-                                    <td>3 sản phẩm</td>
-                                    <td>40.650.000 đ</td>
-                                </tr>
-                                <tr>
-                                    <td>ER3835</td>
-                                    <td>Nguyễn Thị Mỹ Yến</td>
-                                    <td>Bàn ăn mở rộng Gepa</td>
-                                    <td>1 sản phẩm</td>
-                                    <td>16.770.000 đ</td>
-                                </tr>
-                                <tr>
-                                    <td>AL3947</td>
-                                    <td>Phạm Thị Ngọc</td>
-                                    <td>Bàn ăn Vitali mặt đá, Ghế ăn gỗ Lucy màu trắng</td>
-                                    <td>2 sản phẩm</td>
-                                    <td>19.770.000 đ</td>
-                                </tr>
-                                <tr>
-                                    <td>QY8723</td>
-                                    <td>Ngô Thái An</td>
-                                    <td>Giường ngủ Kara 1.6x2m</td>
-                                    <td>1 sản phẩm</td>
-                                    <td>14.500.000 đ</td>
-                                </tr>
-                                <tr>
-                                    <th colspan="4">Tổng cộng:</th>
-                                    <td>104.890.000 đ</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="tile">
-                    <div>
-                        <h3 class="tile-title">SẢN PHẨM ĐÃ HẾT</h3>
+                        <h3 class="tile-title">SẢN PHẨM ĐÃ HẾT HÀNG</h3>
                     </div>
                     <div class="tile-body">
                         <table class="table table-hover table-bordered" id="sampleTable">
@@ -294,21 +165,17 @@
                                     <th>Mã sản phẩm</th>
                                     <th>Tên sản phẩm</th>
                                     <th>Ảnh</th>
-                                    <th>Số lượng</th>
-                                    <th>Tình trạng</th>
                                     <th>Giá tiền</th>
                                     <th>Danh mục</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>83826226</td>
-                                    <td>Tủ ly - tủ bát</td>
+                                    <td>1-B-2-10</td>
+                                    <td>LED xanh lá 5mm</td>
                                     <td><img src="/img-sanpham/tu.jpg" alt="" width="100px;"></td>
-                                    <td>0</td>
-                                    <td><span class="badge bg-danger">Hết hàng</span></td>
-                                    <td>2.450.000 đ</td>
-                                    <td>Tủ</td>
+                                    <td>2.450 đ</td>
+                                    <td>LED</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -316,57 +183,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="tile">
-                    <div>
-                        <h3 class="tile-title">Sản phẩm tồn kho</h3>
-                    </div>
-                    <div class="tile-body">
-                        <table class="table table-hover table-bordered" id="sampleTable">
-                            <thead>
-                                <tr>
-                                    <th>Mã sản phẩm</th>
-                                    <th>Tên sản phẩm</th>
-                                    <th>Ảnh</th>
-                                    <th>Số lượng</th>
-                                    <th>Tình trạng</th>
-                                    <th>Giá tiền</th>
-                                    <th>Danh mục</th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>83826226</td>
-                                    <td>155-157 Trần Quốc Thảo, Quận 3, Hồ Chí Minh </td>
-                                    <td>12/02/1999</td>
-                                    <td>Nữ</td>
-                                    <td>0926737168</td>
-                                    <td>Bán hàng</td>
-                                </tr>
-                                <tr>
-                                    <td>Trần Khả Ái</td>
-                                    <td>6 Nguyễn Lương Bằng, Tân Phú, Quận 7, Hồ Chí Minh</td>
-                                    <td>22/12/1999</td>
-                                    <td>Nữ</td>
-                                    <td>0931342432</td>
-                                    <td>Bán hàng</td>
-                                </tr>
-                                <tr>
-                                    <td>Nguyễn Đặng Trọng Nhân</td>
-                                    <td>59C Nguyễn Đình Chiểu, Quận 3, Hồ Chí Minh </td>
-                                    <td>23/07/1996</td>
-                                    <td>Nam</td>
-                                    <td>0846881155</td>
-                                    <td>Dịch vụ</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
         <div class="row">
             <div class="col-md-12">
                 <div class="row element-button">

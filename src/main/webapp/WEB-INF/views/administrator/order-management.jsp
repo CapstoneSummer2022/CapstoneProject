@@ -1,13 +1,15 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <title>Quản lý đơn hàng | Quản trị</title>
+  <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Main CSS-->
-  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <link href="<c:url value="/css/main.css"/>" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
   <!-- or -->
   <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
@@ -23,68 +25,10 @@
 
 <body onload="time()" class="app sidebar-mini rtl">
   <!-- Navbar-->
-  <header class="app-header">
-    <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar"
-      aria-label="Hide Sidebar"></a>
-    <!-- Navbar Right Menu-->
-    <ul class="app-nav">
-
-
-      <!-- User Menu-->
-      <div class="app-nav__button">
-        <div class="app-nav__item"><i class='bx bx-cog'></i></div>
-        <div class="app-nav__item-content">
-          <a href="personal-info.html">Thông tin cá nhân</a>
-          <a href="#">Đăng xuất</a>
-        </div>
-      </div>
-    </ul>
-  </header>
+  <jsp:include page="header.jsp"/>
   <!-- Sidebar menu-->
   <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-  <aside class="app-sidebar">
-    <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="resources/images/avatar.jpg" width="50px"
-        alt="User Image">
-      <div>
-        <p class="app-sidebar__user-name"><b>Bùi Minh Hiệu</b></p>
-        <p class="app-sidebar__user-designation">Quản lý</p>
-      </div>
-    </div>
-    <hr>
-    <ul class="app-menu">
-      <li><a class="app-menu__item" href="home-page.html"><i class='app-menu__icon bx bx-cart-alt'></i>
-          <span class="app-menu__label">Trang chủ</span></a></li>
-      <li><a class="app-menu__item" href="system-account-management.html"><i class='app-menu__icon bx bx-id-card'></i>
-          <span class="app-menu__label">Quản lý tài khoản</span>
-        </a>
-      </li>
-      <li><a class="app-menu__item" href="category-management.html"><i class='app-menu__icon bx bx-category'></i><span
-            class="app-menu__label">Quản lý danh mục</span></a></li>
-      <li><a class="app-menu__item" href="product-management.html"><i
-            class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản
-            phẩm</span></a>
-      </li>
-      <li><a class="app-menu__item" href="supplier-management.html"><i
-            class='app-menu__icon bx bxs-user-account'></i><span class="app-menu__label">Quản lý nhà cung cấp
-          </span></a></li>
-      <li><a class="app-menu__item" href="warehouse-management.html"><i
-            class='app-menu__icon bx bx-building-house'></i><span class="app-menu__label">Quản lý kho
-            hàng
-          </span></a></li>
-      <li><a class="app-menu__item active" href="order-management.html"><i class='app-menu__icon bx bx-task'></i><span
-            class="app-menu__label">Quản lý đơn hàng</span></a></li>
-      <li><a class="app-menu__item" href="product-package-management.html"><i
-            class='app-menu__icon bx bxs-package '></i><span class="app-menu__label">Quản lý lô sản
-            phẩm</span></a>
-      </li>
-      <li><a class="app-menu__item" href="feedback-management.html"><i class='app-menu__icon bx bx-user-voice'></i><span
-            class="app-menu__label">Feedback</span></a>
-      </li>
-      <li><a class="app-menu__item" href="report.html"><i class='app-menu__icon bx bx-pie-chart-alt-2'></i><span
-            class="app-menu__label">Báo cáo thống kê</span></a>
-      </li>
-    </ul>
-  </aside>
+  <jsp:include page="home-menu.jsp"/>
   <main class="app-content">
     <div class="app-title">
       <ul class="app-breadcrumb breadcrumb side">
@@ -101,7 +45,13 @@
                 <button class="filter-btn active">Chờ xử lý</button>
                 <button class="filter-btn">Đang giao hàng</button>
                 <button class="filter-btn">Hoàn thành</button>
-                <button class="filter-btn">Đã huỷ</button> 
+                <button class="filter-btn">Đã huỷ</button>
+              </div>
+            </div>
+            <div class="row element-button">
+              <div class="col-sm-2">
+                <a class="btn btn-add btn-sm" href="#" title="Thêm"><i class="fas fa-plus"></i>
+                  Tạo đơn hàng mới</a>
               </div>
             </div>
             <div class="search-row">
@@ -115,90 +65,83 @@
             <table class="table table-hover table-bordered" id="sampleTable">
               <thead>
                 <tr>
-                  <th>Mã đơn hàng</th>
+                  <th width="100">Mã đơn hàng</th>
                   <th>Khách hàng</th>
-                  <th>Đơn hàng</th>
-                  <th>Số lượng</th>
+                  <th>Ngày đặt hàng</th>
                   <th>Tổng tiền</th>
                   <th>Tình trạng</th>
-                  <th>Tuỳ chọn</th>
+                  <th width="100">Tuỳ chọn</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>MD0837</td>
+                  <td>DH0837</td>
                   <td>Triệu Thanh Phú</td>
-                  <td>Ghế làm việc Zuno, Bàn ăn gỗ Theresa</td>
-                  <td>2</td>
-                  <td>9.400.000 đ</td>
+                  <td>21/7/2022</td>
+                  <td>94.000 đ</td>
                   <td><span class="badge bg-success">Hoàn thành</span></td>
                   <td>
-                    <button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng" data-toggle="modal"
-                      data-target="#adddanhmuc"><i class="fa fa-info"></i></button>
+                    <button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng"
+                      onclick="location.href='order-detail.html'"><i class="fa fa-info"></i></button>
                   </td>
                 </tr>
                 <tr>
-                  <td>MĐ8265</td>
+                  <td>DH8265</td>
                   <td>Nguyễn Thị Ngọc Cẩm</td>
-                  <td>Ghế ăn gỗ Lucy màu trắng</td>
-                  <td>1</td>
-                  <td>3.800.000 đ</td>
+                  <td>21/7/2022</td>
+                  <td>380.000 đ</td>
                   <td><span class="badge bg-success">Hoàn thành</span></td>
                   <td>
-                    <button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng" data-toggle="modal"
-                      data-target="#adddanhmuc"><i class="fa fa-info"></i></button>
+                    <button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng"
+                      onclick="location.href='order-detail.html'"><i class="fa fa-info"></i></button>
                   </td>
                 </tr>
                 <tr>
-                  <td>MT9835</td>
+                  <td>DH9835</td>
                   <td>Đặng Hoàng Phúc</td>
-                  <td>Giường ngủ Jimmy, Bàn ăn mở rộng cao cấp Dolas, Ghế làm việc Zuno</td>
-                  <td>3 </td>
-                  <td>40.650.000 đ</td>
+                  <td>21/7/2022</td>
+                  <td>406.500 đ</td>
                   <td><span class="badge bg-success">Hoàn thành</span></td>
                   <td>
-                    <button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng" data-toggle="modal"
-                      data-target="#adddanhmuc"><i class="fa fa-info"></i></button>
+                    <button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng"
+                      onclick="location.href='order-detail.html'"><i class="fa fa-info"></i></button>
                   </td>
                 </tr>
                 <tr>
-                  <td>ER3835</td>
+                  <td>DH3835</td>
                   <td>Nguyễn Thị Mỹ Yến</td>
-                  <td>Bàn ăn mở rộng Gepa</td>
-                  <td>1 </td>
-                  <td>16.770.000 đ</td>
+                  <td>21/7/2022</td>
+                  <td>167.700 đ</td>
                   <td><span class="badge bg-info">Chờ xử lý</span></td>
                   <td><button class="btn btn-primary btn-sm" type="button" title="Tuỳ chọn cho đơn hàng"
                       data-toggle="modal" data-target="#confirmOrder"><i class="fas fa-edit"></i>
                     </button>
-                    <button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng" data-toggle="modal"
-                      data-target="#adddanhmuc"><i class="fa fa-info"></i></button>
+                    <button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng"
+                      onclick="location.href='order-detail.html'"><i class="fa fa-info"></i></button>
                   </td>
                 </tr>
                 <tr>
-                  <td>AL3947</td>
+                  <td>DH3947</td>
                   <td>Phạm Thị Ngọc</td>
-                  <td>Bàn ăn Vitali mặt đá, Ghế ăn gỗ Lucy màu trắng</td>
-                  <td>2 </td>
-                  <td>19.770.000 đ</td>
+                  <td>16/7/2022</td>
+                  <td>197.700 đ</td>
                   <td><span class="badge bg-warning">Đang giao hàng</span></td>
                   <td><button class="btn btn-primary btn-sm" type="button" title="Tuỳ chọn cho đơn hàng"
                       data-toggle="modal" data-target="#confirmFinished"><i class=" fas fa-edit"></i>
                     </button>
-                    <button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng" data-toggle="modal"
-                      data-target="#adddanhmuc"><i class="fa fa-info"></i></button>
+                    <button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng"
+                      onclick="location.href='order-detail.html'"><i class="fa fa-info"></i></button>
                   </td>
                 </tr>
                 <tr>
-                  <td>QY8723</td>
+                  <td>DH8723</td>
                   <td>Ngô Thái An</td>
-                  <td>Giường ngủ Kara 1.6x2m</td>
-                  <td>1 </td>
-                  <td>14.500.000 đ</td>
+                  <td>11/7/2022</td>
+                  <td>145.000 đ</td>
                   <td><span class="badge bg-danger">Đã hủy</span></td>
                   <td>
                     <button class="btn btn-primary btn-sm edit" type="button" title="Chi tiết đơn hàng"
-                      data-toggle="modal" data-target="#adddanhmuc"><i class="fa fa-info"></i></button>
+                      onclick="location.href='order-detail.html'"><i class="fa fa-info"></i></button>
                   </td>
                 </tr>
               </tbody>

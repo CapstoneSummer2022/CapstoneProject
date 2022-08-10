@@ -22,11 +22,11 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @GetMapping("/view")
+    @GetMapping("")
     public String viewAll(ModelMap modelMap){
        ArrayList<OrderDTO> orders = (ArrayList<OrderDTO>) orderService.findAll();
        modelMap.addAttribute("listOrder",orders);
-       return "order-management";
+       return "administrator/order-management";
     }
     @GetMapping("/view/{id}")
     public String viewOrder(@PathVariable int id, ModelMap modelMap){
@@ -37,7 +37,7 @@ public class OrderController {
         }
         else
             modelMap.addAttribute("notFound","Đơn hàng không tồn tại");
-            return "order-management";
+            return "administrator/order-management";
 
     }
     @PostMapping("/view/{id}")
@@ -47,12 +47,12 @@ public class OrderController {
         }
         Optional<OrderDTO> orderDTOOptional = orderService.findById(id);
         orderDTOOptional.ifPresent(dto -> orderService.save(orderService.convertToEntity(dto)));
-        return "order-management";
+        return "administrator/order-detail";
     }
     @GetMapping("/view/{status}")
     public String viewOrderByStatus(@PathVariable String status, Model model){
         ArrayList<Order> orders = (ArrayList<Order>) orderService.findOrdersByStatus(status);
         model.addAttribute("orders", orders);
-        return "order-management";
+        return "administrator/order-detail";
     }
 }

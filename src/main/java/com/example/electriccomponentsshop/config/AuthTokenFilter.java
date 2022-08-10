@@ -64,27 +64,41 @@ private JwtUtils jwtUtils;
     private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
         try{
+
             String jwt = getJwtFromRequest(request);
+
             if(jwt!=null&&jwtUtils.isTokenCorrect(jwt)){
                 String email = jwtUtils.getEmailFromJwtToken(jwt);
                 UserDetails userDetails = accountDetailService.loadUserByUsername(email);
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
                 auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(auth);
+                System.out.println("có chuỗi");
             }
+            else if(jwt==null) {
+                SecurityContextHolder.getContext().setAuthentication(null);
+                SecurityContextHolder.clearContext();
+                request.setAttribute("Chưa đăng nhập", null);
+            }
+
         }
+
         catch(Exception e){
             logger.error("hoang dz");
         }
+        System.out.println("f8");
         filterChain.doFilter(request,response);
     }
     private String getJwtFromRequest(HttpServletRequest request){
+
         Cookie[] c = request.getCookies();
         String value ="";
         for (int i = 0; i< c.length;i++){
-            if(c[i].equals("accessToken")){
+            if(c[i].getName().equals("accessToken")){
                 value = c[i].getValue();
+
                 return value;
             }
         }

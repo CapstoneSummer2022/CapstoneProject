@@ -1,11 +1,13 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en-us">
 <head>
-    <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trang chủ</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link href="<c:url value="/css/style.css"/>" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Alef' rel='stylesheet'>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -14,7 +16,7 @@
 <!--Page Header-->
 <header>
     <div id="first_row">
-        <a href="home.jsp"><h1 id="store_name">Electroco</h1></a>
+        <a href="home.html"><h1 id="store_name">Electroco</h1></a>
         <div id="searchByCate">
             <form action="" id="store_search">
                 <select name="cate_search" id="cate_search">
@@ -59,9 +61,17 @@
             <div id="cart_icon">
                 <a href="cart.html"><i class="material-icons">shopping_cart</i><span id="no_of_prods">1</span> </a> <a href="cart.html">Giỏ hàng</a>
             </div>
-            <div id="avatar_icon">
-                <a href="signin.jsp"><i class="material-icons">person</i></a><a href="signin.jsp">Đăng nhập</a> / <a href="signup.jsp">Đăng ký</a>
-            </div>
+            <c:if test="${user!=null}">
+                <div id="avatar_icon">
+                    <c:out value="${user}"/>
+                </div>
+            </c:if>
+            <c:if test="${user == null}">
+                <div id="avatar_icon">
+                    <a href="signin.html"><i class="material-icons">person</i></a><a href="signin.html">Đăng nhập</a> / <a href="signup.html">Đăng ký</a>
+                </div>
+            </c:if>
+
         </div>
     </div>
     <div id="second_row">
@@ -104,320 +114,63 @@
 <!--Page Content-->
 <main>
     <div id="home_content">
-        <div id="big_cates">
-            <div class="one_big_cate"></div>
-            <div class="one_big_cate"></div>
-            <div class="one_big_cate"></div>
-            <div class="one_big_cate"></div>
-            <div class="one_big_cate"></div>
-            <div class="one_big_cate"></div>
-            <div class="one_big_cate"></div>
-        </div>
-        <div class="single_cate">
-            <div class="cate_header">
-                <h3>Linh kiện bán dẫn</h3>
-                <a href="/service-pages/parent-cgr.html">Xem tất cả &nbsp; <i class="material-icons">arrow_forward</i></a>
-            </div>
-            <div class="some_prods">
-                <div class="card">
-                    <a href="/service-pages/child-cgr.html"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="/service-pages/child-cgr.html" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">3000 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">2500 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">1000 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">2000 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">1500 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">2000 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
+        <div id="category_list">
+            <h4>Danh mục</h4>
+            <div>
+                <a href="parent-cgr.html">Linh kiện bán dẫn</a>
+                <a href="parent-cgr.html">Linh kiện thụ động</a>
+                <a href="parent-cgr.html">Cảm biến</a>
+                <a href="parent-cgr.html">LED/LCD</a>
+                <a href="parent-cgr.html">IC chức năng</a>
+                <a href="parent-cgr.html">Connector</a>
             </div>
         </div>
-        <div class="single_cate">
-            <div class="cate_header">
-                <h3>Linh kiện thụ động</h3>
-                <a href="#">Xem tất cả &nbsp; <i class="material-icons">arrow_forward</i></a>
-            </div>
-            <div class="some_prods">
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">3000 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">2500 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">1000 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">2000 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">1500 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">2000 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
+        <div id="supplier_list">
+            <h4>Nhà cung cấp</h4>
+            <div>
+                <a href="prod-by-supplier.html">ABECO</a>
+                <a href="prod-by-supplier.html">JAMECO</a>
+                <a href="prod-by-supplier.html">DAEWOO</a>
             </div>
         </div>
-        <div class="single_cate">
-            <div class="cate_header">
-                <h3>LED/LCD</h3>
-                <a href="#">Xem tất cả &nbsp; <i class="material-icons">arrow_forward</i></a>
-            </div>
-            <div class="some_prods">
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">3000 đ</a>
-                    <button>Thêm vào giỏ</button>
+        <div class="product_list">
+            <h5>Linh kiện bán dẫn<span><a href="parent-cgr.html">Xem thêm</a></span></h5>
+            <div>
+                <div class="product-card">
+                    <a href="product.html"><img src="../resources/images/0 Ohm 0.25W Precision Resistor.jpg" alt=""></a>
+                    <p class="product-name"><a href="product.html">Tụ điện 10V</a></p>
+                    <p>2500đ</p>
+                    <p class="supplier-name"><a href="prod-by-supplier.html">DAEWOO</a></p>
                 </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">2500 đ</a>
-                    <button>Thêm vào giỏ</button>
+                <div class="product-card">
+                    <a href="product.html"><img src="../resources/images/0 Ohm 0.25W Precision Resistor.jpg" alt=""></a>
+                    <p class="product-name"><a href="product.html">Tụ điện 10V</a></p>
+                    <p>2500đ</p>
+                    <p class="supplier-name"><a href="prod-by-supplier.html">DAEWOO</a></p>
                 </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">1000 đ</a>
-                    <button>Thêm vào giỏ</button>
+                <div class="product-card">
+                    <a href="product.html"><img src="../resources/images/0 Ohm 0.25W Precision Resistor.jpg" alt=""></a>
+                    <p class="product-name"><a href="product.html">Tụ điện 10V</a></p>
+                    <p>2500đ</p>
+                    <p class="supplier-name"><a href="prod-by-supplier.html">DAEWOO</a></p>
                 </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">2000 đ</a>
-                    <button>Thêm vào giỏ</button>
+                <div class="product-card">
+                    <a href="product.html"><img src="../resources/images/0 Ohm 0.25W Precision Resistor.jpg" alt=""></a>
+                    <p class="product-name"><a href="product.html">Tụ điện 10V</a></p>
+                    <p>2500đ</p>
+                    <p class="supplier-name"><a href="prod-by-supplier.html">DAEWOO</a></p>
                 </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">1500 đ</a>
-                    <button>Thêm vào giỏ</button>
+                <div class="product-card">
+                    <a href="product.html"><img src="../resources/images/0 Ohm 0.25W Precision Resistor.jpg" alt=""></a>
+                    <p class="product-name"><a href="product.html">Tụ điện 10V</a></p>
+                    <p>2500đ</p>
+                    <p class="supplier-name"><a href="prod-by-supplier.html">DAEWOO</a></p>
                 </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">2000 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-            </div>
-        </div>
-        <div class="single_cate">
-            <div class="cate_header">
-                <h3>Cảm biến</h3>
-                <a href="#">Xem tất cả &nbsp; <i class="material-icons">arrow_forward</i></a>
-            </div>
-            <div class="some_prods">
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">3000 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">2500 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">1000 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">2000 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">1500 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">2000 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-            </div>
-        </div>
-        <div class="single_cate">
-            <div class="cate_header">
-                <h3>IC chức năng</h3>
-                <a href="#">Xem tất cả &nbsp; <i class="material-icons">arrow_forward</i></a>
-            </div>
-            <div class="some_prods">
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">3000 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">2500 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">1000 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">2000 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">1500 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">2000 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-            </div>
-        </div>
-        <div class="single_cate">
-            <div class="cate_header">
-                <h3>Kit phát triển</h3>
-                <a href="#">Xem tất cả &nbsp; <i class="material-icons">arrow_forward</i></a>
-            </div>
-            <div class="some_prods">
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">3000 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">2500 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">1000 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">2000 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">1500 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">2000 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-            </div>
-        </div>
-        <div class="single_cate">
-            <div class="cate_header">
-                <h3>Connectors</h3>
-                <a href="#">Xem tất cả &nbsp; <i class="material-icons">arrow_forward</i></a>
-            </div>
-            <div class="some_prods">
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">3000 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">2500 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">1000 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">2000 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">1500 đ</a>
-                    <button>Thêm vào giỏ</button>
-                </div>
-                <div class="card">
-                    <a href="#"><img src="../img/pros/1N4148 SMD 1206.webp" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                    <a href="#" class="prod_name">Tụ điện 3V</a>
-                    <a href="#" class="price">2000 đ</a>
-                    <button>Thêm vào giỏ</button>
+                <div class="product-card">
+                    <a href="product.html"><img src="../resources/images/0 Ohm 0.25W Precision Resistor.jpg" alt=""></a>
+                    <p class="product-name"><a href="product.html">Tụ điện 10V</a></p>
+                    <p>2500đ</p>
+                    <p class="supplier-name"><a href="prod-by-supplier.html">DAEWOO</a></p>
                 </div>
             </div>
         </div>

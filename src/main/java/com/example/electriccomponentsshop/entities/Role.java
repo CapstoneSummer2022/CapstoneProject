@@ -20,5 +20,7 @@ public class Role {
     @Column(length = 20)
     private ERole roleName;
 
-
+    public ERole getRoleName() {
+        return roleName;
+    }
 }

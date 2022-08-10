@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
     @GetMapping("")
     public String viewHome(Model model){
-        return "administrator/home-page";
+        return "administrator/admin-home";
 
     }
 }

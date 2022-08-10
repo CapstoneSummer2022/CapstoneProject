@@ -10,8 +10,8 @@ import java.util.Optional;
 public interface AccountService {
     Optional<Account> findByEmail(String email);
 
-    @Query(value = "select * from accounts join roles where role_name= :role", nativeQuery = true)
-    List<Account> findAllByRoleName(String role);
+
+    List<Account> findAllByRoleName(String... role);
 
     Optional<Account> findById(Integer id);
 

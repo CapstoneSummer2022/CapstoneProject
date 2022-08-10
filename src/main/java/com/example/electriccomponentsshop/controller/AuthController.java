@@ -41,7 +41,7 @@ import javax.servlet.http.Cookie;
 
 @CrossOrigin
 @Controller
-@RequestMapping("/")
+@RequestMapping("/auth")
 public class AuthController {
 
     @Autowired
@@ -84,8 +84,8 @@ public class AuthController {
     }
     @PostMapping("/signin")
     public String authenticateUser(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response, @Valid @ModelAttribute("account") AccountDTO accountDTO, BindingResult bindingResult) throws Exception {
-
         if(bindingResult.hasErrors()){
+
             bindingResult.getFieldErrors().forEach(fieldError -> modelMap.addAttribute(fieldError.getField(),fieldError.getDefaultMessage()));
             return "signin";
         }
@@ -95,23 +95,27 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         AccountDetailImpl accountDetail = (AccountDetailImpl) authentication.getPrincipal();
         List<String> roles = accountDetail.getAuthorities().stream().map(item -> item.getAuthority()).collect(Collectors.toList());
-        Optional<RefreshToken> refreshToken=refreshTokenService.findByAccount_Email(accountDTO.getEmail());
-        if(!refreshToken.isPresent()||refreshTokenService.isExpiration(refreshToken.get())){
-             refreshTokenService.createRefreshToken(accountDetail.getEmail());
+        Optional<RefreshToken> refreshToken=refreshTokenService.findByAccount_Email(accountDetail.getEmail());
+
+        if(!refreshToken.isPresent()){
+            refreshTokenService.createRefreshToken(accountDetail.getEmail());
         }
+       else  if(refreshTokenService.isExpiration(refreshToken.get())){
+            refreshTokenService.delete(refreshToken.get());
+            refreshTokenService.createRefreshToken(accountDetail.getEmail());
+        }
+
         String jwt= jwtUtils.generateJwtToken(authentication);
         Cookie cookie = new Cookie("accessToken",jwt);
         cookie.setHttpOnly(true);
         cookie.setMaxAge(1200);
+        cookie.setPath("/");
         response.addCookie(cookie);
         if(roles.contains("ROLE_MANAGER")||roles.contains("ROLE_EMPLOYEE")){
             modelMap.addAttribute("roles", roles);
             return "redirect:/admin/home";
         }
-        return "home";
-
-
-
+        return "redirect:/home";
     }
 
     @PostMapping ("/signup")

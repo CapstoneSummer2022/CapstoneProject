@@ -24,11 +24,11 @@ public class WarehouseController {
         this.warehouseService = warehouseService;
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public String viewAll(Model model){
         ArrayList<Warehouse> warehouses =(ArrayList<Warehouse>) warehouseService.findAll();
         model.addAttribute("warehouses",warehouses);
-        return "warehouse";
+        return "administrator/warehouse-management";
 
     }
     @PostMapping("/view/{id}")
@@ -45,6 +45,11 @@ public class WarehouseController {
        }
        return "";
     }
+    @GetMapping("/add")
+    public String viewAddForm(Model model){
+        model.addAttribute("newWarehouse",new Warehouse());
+        return "administrator/add-warehouse";
+    }
     @PostMapping("/add")
     public String addWarehouse(Model model, @Valid @ModelAttribute("newWarehouse") WarehouseDTO warehouseDTO, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
@@ -54,6 +59,6 @@ public class WarehouseController {
             Warehouse warehouse = new Warehouse();
             warehouseService.save(warehouse);
         }
-        return "";
+        return "administrator/add-warehouse";
     }
 }

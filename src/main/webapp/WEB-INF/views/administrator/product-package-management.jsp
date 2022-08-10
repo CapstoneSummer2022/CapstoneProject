@@ -1,13 +1,15 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <title>Quản lý lô sản phẩm| Quản trị</title>
+    <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Main CSS-->
-    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link href="<c:url value="/css/main.css"/>" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
     <!-- or -->
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
@@ -23,68 +25,10 @@
 
 <body onload="time()" class="app sidebar-mini rtl">
     <!-- Navbar-->
-    <header class="app-header">
-        <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar"
-            aria-label="Hide Sidebar"></a>
-        <!-- Navbar Right Menu-->
-        <ul class="app-nav">
-
-
-            <!-- User Menu-->
-            <div class="app-nav__button">
-                <div class="app-nav__item"><i class='bx bx-cog'></i></div>
-                <div class="app-nav__item-content">
-                    <a href="personal-info.html">Thông tin cá nhân</a>
-                    <a href="#">Đăng xuất</a>
-                </div>
-            </div>
-        </ul>
-    </header>
+    <jsp:include page="header.jsp"/>
     <!-- Sidebar menu-->
     <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-    <aside class="app-sidebar">
-        <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="resources/images/avatar.jpg"
-                width="50px" alt="User Image">
-            <div>
-                <p class="app-sidebar__user-name"><b>Bùi Minh Hiệu</b></p>
-                <p class="app-sidebar__user-designation">Quản lý</p>
-            </div>
-        </div>
-        <hr>
-        <ul class="app-menu">
-            <li><a class="app-menu__item" href="home-page.html"><i class='app-menu__icon bx bx-cart-alt'></i>
-                <span class="app-menu__label">Trang chủ</span></a></li>
-            <li><a class="app-menu__item" href="system-account-management.html"><i class='app-menu__icon bx bx-id-card'></i>
-                <span class="app-menu__label">Quản lý tài khoản</span>
-              </a>
-            </li>
-            <li><a class="app-menu__item" href="category-management.html"><i class='app-menu__icon bx bx-category'></i><span
-                  class="app-menu__label">Quản lý danh mục</span></a></li>
-            <li><a class="app-menu__item" href="product-management.html"><i
-                  class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản
-                  phẩm</span></a>
-            </li>
-            <li><a class="app-menu__item" href="supplier-management.html"><i class='app-menu__icon bx bxs-user-account'></i><span
-                  class="app-menu__label">Quản lý nhà cung cấp
-                </span></a></li>
-            <li><a class="app-menu__item" href="warehouse-management.html"><i
-                  class='app-menu__icon bx bx-building-house'></i><span class="app-menu__label">Quản lý kho
-                  hàng
-                </span></a></li>
-            <li><a class="app-menu__item" href="order-management.html"><i class='app-menu__icon bx bx-task'></i><span
-                  class="app-menu__label">Quản lý đơn hàng</span></a></li>
-            <li><a class="app-menu__item active" href="product-package-management.html"><i
-                  class='app-menu__icon bx bxs-package '></i><span class="app-menu__label">Quản lý lô sản
-                  phẩm</span></a>
-            </li>
-            <li><a class="app-menu__item" href="feedback-management.html"><i
-                  class='app-menu__icon bx bx-user-voice'></i><span class="app-menu__label">Feedback</span></a>
-            </li>
-            <li><a class="app-menu__item" href="report.html"><i class='app-menu__icon bx bx-pie-chart-alt-2'></i><span
-                  class="app-menu__label">Báo cáo thống kê</span></a>
-            </li>
-          </ul>
-    </aside>
+    <jsp:include page="home-menu.jsp"/>
     <main class="app-content">
         <div class="app-title">
             <ul class="app-breadcrumb breadcrumb side">
@@ -114,7 +58,6 @@
                         <table class="table table-hover table-bordered" id="sampleTable">
                             <thead>
                                 <tr>
-                                    <th width="80">Trạng thái</th>
                                     <th>Mã lô hàng</th>
                                     <th>Tên nhà cung cấp</th>
                                     <th>Tên Sản phẩm</th>
@@ -122,116 +65,84 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><input class="status-checkbox" onclick="return false" type="checkbox"
-                                            data-toggle="modal" data-target="#confirmStatus" name="check1" value="1">
                                     <td>71309005</td>
-                                    <td>Bàn ăn gỗ Theresa</td>
-                                    <td><img src="/img-sanpham/theresa.jpg" alt="" width="100px;"></td>
+                                    <td>ABECO</td>
+                                    <td>LCD1602 chữ trắng nền xanh dương 3mA</td>
                                 </tr>
                                 <tr>
-                                    <td><input class="status-checkbox" onclick="return false" type="checkbox"
-                                            data-toggle="modal" data-target="#confirmStatus" name="check1" value="1">
                                     <td>61304005</td>
-                                    <td>Bàn ăn Reno mặt đá</td>
-                                    <td><img src="/img-sanpham/reno.jpg" alt="" width="100px;"></td>
+                                    <td>ABECO</td>
+                                    <td>LCD1602 chữ trắng nền xanh dương 2.2mA</td>
                                 </tr>
                                 <tr>
-                                    <td><input class="status-checkbox" onclick="return false" type="checkbox"
-                                            data-toggle="modal" data-target="#confirmStatus" name="check1" value="1">
                                     <td>62304003</td>
-                                    <td>Bàn ăn Vitali mặt đá</td>
-                                    <td><img src="/img-sanpham/matda.jpg" alt="" width="100px;"></td>
+                                    <td>ABECO</td>
+                                    <td>LCD1602 chữ trắng nền xanh dương 2.2mA</td>
                                 </tr>
                                 <tr>
-                                    <td><input class="status-checkbox" onclick="return false" type="checkbox"
-                                            data-toggle="modal" data-target="#confirmStatus" name="check1" value="1">
                                     <td>72638003</td>
-                                    <td>Ghế ăn gỗ Theresa</td>
-                                    <td><img src="/img-sanpham/ghethera.jpg" alt="" width="100px;"></td>
+                                    <td>ABECO</td>
+                                    <td>Biến trở 100KΩ 1/4W 1.78mm</td>
                                 </tr>
                                 <tr>
-                                    <td><input class="status-checkbox" onclick="return false" type="checkbox"
-                                            data-toggle="modal" data-target="#confirmStatus" name="check1" value="1">
                                     <td>72109004</td>
-                                    <td>Ghế làm việc Zuno</td>
-                                    <td><img src="/img-sanpham/zuno.jpg" alt="" width="100px;"></td>
+                                    <td>DAEWOO</td>
+                                    <td>Biến trở 100KΩ 1/4W 1.78mm</td>
                                 </tr>
                                 <tr>
-                                    <td><input class="status-checkbox" onclick="return false" type="checkbox"
-                                            data-toggle="modal" data-target="#confirmStatus" name="check1" value="1">
                                     <td>82716001</td>
-                                    <td>Ghế ăn Vitali</td>
-                                    <td><img src="/img-sanpham/vita.jpg" alt="" width="100px;"></td>
+                                    <td>DAEWOO</td>
+                                    <td>Biến trở 100KΩ 1/4W 1.78mm</td>
                                 </tr>
                                 <tr>
-                                    <td><input class="status-checkbox" onclick="return false" type="checkbox"
-                                            data-toggle="modal" data-target="#confirmStatus" name="check1" value="1">
                                     <td>72109001</td>
-                                    <td>Ghế ăn gỗ Lucy màu trắng</td>
-                                    <td><img src="/img-sanpham/lucy.jpg" alt="" width="100px;"></td>
+                                    <td>DAEWOO</td>
+                                    <td>Biến trở 100KΩ 1/2W 2.29mm</td>
                                 </tr>
                                 <tr>
-                                    <td><input class="status-checkbox" onclick="return false" type="checkbox"
-                                            data-toggle="modal" data-target="#confirmStatus" name="check1" value="1">
                                     <td>71304041</td>
-                                    <td>Bàn ăn mở rộng Vegas</td>
-                                    <td><img src="/img-sanpham/vegas.jpg" alt="" width="100px;"></td>
+                                    <td>DAEWOO</td>
+                                    <td>Biến trở 100KΩ 1/2W 2.29mm</td>
                                 </tr>
                                 <tr>
-                                    <td><input class="status-checkbox" onclick="return false" type="checkbox"
-                                            data-toggle="modal" data-target="#confirmStatus" name="check1" value="1">
                                     <td>71304037</td>
-                                    <td>Bàn ăn mở rộng Gepa</td>
-                                    <td><img src="/img-sanpham/banan.jpg" alt="" width="100px;"></td>
+                                    <td>DAEWOO</td>
+                                    <td>Biến trở 100KΩ 1/2W 2.29mm</td>
                                 </tr>
                                 <tr>
-                                    <td><input class="status-checkbox" onclick="return false" type="checkbox"
-                                            data-toggle="modal" data-target="#confirmStatus" name="check1" value="1">
                                     <td>71304032</td>
-                                    <td>Bàn ăn mặt gốm vân đá Cera</td>
-                                    <td><img src="/img-sanpham/cera.jpg" alt="" width="100px;"></td>
+                                    <td>DAEWOO</td>
+                                    <td>Biến trở 100KΩ 1/2W 2.29mm</td>
                                 </tr>
                                 <tr>
-                                    <td><input class="status-checkbox" onclick="return false" type="checkbox"
-                                            data-toggle="modal" data-target="#confirmStatus" name="check1" value="1">
                                     <td>71338008</td>
-                                    <td>Bàn ăn mở rộng cao cấp Dolas</td>
-                                    <td><img src="/img-sanpham/dolas.jpg" alt="" width="100px;"></td>
+                                    <td>DAEWOO</td>
+                                    <td>Biến trở 1KΩ 1/2W 2.29mm</td>
                                 </tr>
                                 <tr>
-                                    <td><input class="status-checkbox" onclick="return false" type="checkbox"
-                                            data-toggle="modal" data-target="#confirmStatus" name="check1" value="1">
                                     <td>83826226</td>
-                                    <td>Tủ ly - tủ bát</td>
-                                    <td><img src="/img-sanpham/tu.jpg" alt="" width="100px;"></td>
+                                    <td>Nguyên Phi</td>
+                                    <td>Biến trở 1KΩ 1/2W 2.29mm</td>
                                 </tr>
                                 <tr>
-                                    <td><input class="status-checkbox" onclick="return false" type="checkbox"
-                                            data-toggle="modal" data-target="#confirmStatus" name="check1" value="1">
                                     <td>83252001</td>
-                                    <td>Giường ngủ Thomas</td>
-                                    <td><img src="/img-sanpham/thomas.jpg" alt="" width="100px;"></td>
+                                    <td>DAEWOO</td>
+                                    <td>Biến trở 1KΩ 1/2W 2.29mm</td>
                                 </tr>
                                 <tr>
-                                    <td><input class="status-checkbox" onclick="return false" type="checkbox"
-                                            data-toggle="modal" data-target="#confirmStatus" name="check1" value="1">
                                     <td>83252002</td>
-                                    <td>Giường ngủ Jimmy</td>
-                                    <td><img src="/img-sanpham/jimmy.jpg" alt="" width="100px;"></td>
+                                    <td>Nguyên Phi</td>
+                                    <td>Biến trở 1KΩ 1/2W 2.29mm</td>
                                 </tr>
                                 <tr>
-                                    <td><input class="status-checkbox" onclick="return false" type="checkbox"
-                                            data-toggle="modal" data-target="#confirmStatus" name="check1" value="1">
                                     <td>83216008</td>
-                                    <td>Giường ngủ Tara chân gỗ</td>
-                                    <td><img src="/img-sanpham/tare.jpg" alt="" width="100px;"></td>
+                                    <td>Nguyên Phi</td>
+                                    <td>Biến trở 1KΩ 1/2W 2.29mm</td>
                                 </tr>
                                 <tr>
-                                    <td><input class="status-checkbox" onclick="return false" type="checkbox"
-                                            data-toggle="modal" data-target="#confirmStatus" name="check1" value="1">
                                     <td>83216006</td>
-                                    <td>Giường ngủ Kara 1.6x2m</td>
-                                    <td><img src="/img-sanpham/kara.jpg" alt="" width="100px;"></td>
+                                    <td>Nguyên Phi</td>
+                                    <td>Biến trở 5KΩ 1/4W 1.78mm</td>
                                 </tr>
                             </tbody>
                         </table>
