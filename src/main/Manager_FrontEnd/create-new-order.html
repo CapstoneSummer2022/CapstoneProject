@@ -63,7 +63,8 @@
                         phẩm</span></a>
             </li>
             <li><a class="app-menu__item" href="supplier-management.html"><i
-                        class='app-menu__icon bx bxs-user-account'></i><span class="app-menu__label">Quản lý đơn vị sản xuất
+                        class='app-menu__icon bx bxs-user-account'></i><span class="app-menu__label">Quản lý đơn vị sản
+                        xuất
                     </span></a></li>
             <li><a class="app-menu__item" href="warehouse-management.html"><i
                         class='app-menu__icon bx bx-building-house'></i><span class="app-menu__label">Quản lý kho
@@ -94,57 +95,67 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <form>
+        <form>
+            <div class="row">
                 <div class="col-md-12">
                     <div class="tile">
                         <h3 class="tile-title">Thông tin khách hàng</h3>
                         <div class="tile-body">
-                            <form>
-                                <div class="row">
-                                    <div class="form-group col-md-3">
-                                        <label class="control-label required-field">Họ và tên</label>
-                                        <input class="form-control" type="text" required>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label class="control-label required-field">Giới tính</label>
-                                        <div class="options">
-                                            <div class="option-item">
-                                                <label for="yes"> <input name="gender" type="radio" value="Nam" />
-                                                    Nam </label>
-                                            </div>
-                                            <div class="option-item">
-                                                <label for="no"> <input name="gender" type="radio" value="Nữ" />
-                                                    Nữ </label>
-                                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label required-field">Họ và tên</label>
+                                    <input class="form-control" type="text" required>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label required-field">Giới tính</label>
+                                    <div class="options">
+                                        <div class="option-item">
+                                            <label for="yes"> <input class="form-check-input" name="gender" type="radio"
+                                                    value="Nam" />
+                                                Nam </label>
+                                        </div>
+                                        <div class="option-item">
+                                            <label for="no"> <input class="form-check-input" name="gender" type="radio"
+                                                    value="Nữ" />
+                                                Nữ </label>
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-3">
-                                        <label class="control-label required-field">Địa chỉ email</label>
-                                        <input class="form-control" type="text" required>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label class="control-label required-field">Ngày sinh</label>
-                                        <input class="form-control" type="date">
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label class="control-label required-field">Tỉnh/Thành phố</label>
-                                        <input class="form-control" type="text" required>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label class="control-label required-field">Quận/huyện</label>
-                                        <input class="form-control" type="text" required>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label class="control-label required-field">Xã/Phường/Thị Trấn</label>
-                                        <input class="form-control" type="text" required>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label class="control-label required-field">Số điện thoại</label>
-                                        <input class="form-control" type="number" required>
-                                    </div>
                                 </div>
-                            </form>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label required-field">Ngày sinh</label>
+                                    <input class="form-control" type="date">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-3">
+                                    <label for="exampleSelect1" class="control-label">Tỉnh/Thành phố</label>
+                                    <select class="form-control" id="province">
+                                        <option value="-1">-- Chọn tỉnh thành --</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="exampleSelect1" class="control-label">Quận/Huyện</label>
+                                    <select class="form-control" id="district">
+                                        <option value="-1">-- Chọn quận/huyện --</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="exampleSelect1" class="control-label">Phường/Xã/Thị trấn</label>
+                                    <select class="form-control" id="town">
+                                        <option value="-1">-- Chọn phường/xã/thị trấn --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label required-field">Địa chỉ email</label>
+                                    <input class="form-control" type="text" required>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label required-field">Số điện thoại</label>
+                                    <input class="form-control" type="number" required>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -183,7 +194,7 @@
                                                 <button class="plus-btn" type="button" name="button">
                                                     <i class='bx bx-minus'></i>
                                                 </button>
-                                                <input type="text" name="name" value="1">
+                                                <input type="number" name="name" value="1">
                                                 <button class="minus-btn" type="button" name="button">
                                                     <i class='bx bx-plus'></i>
                                                 </button>
@@ -191,7 +202,8 @@
                                         </td>
                                         <td>5.600 đ</td>
                                         <td>
-                                            <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"><i
+                                            <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
+                                                data-toggle="modal" data-target="#deleteProduct"><i
                                                     class="fas fa-trash-alt"></i></button>
                                         </td>
                                     </tr>
@@ -205,8 +217,9 @@
                                                 <button class="plus-btn" type="button" name="button">
                                                     <i class='bx bx-minus'></i>
                                                 </button>
-                                                <input type="text" name="name" value="1">
-                                                <button class="minus-btn" type="button" name="button">
+                                                <input type="number" name="name" value="1">
+                                                <button class="minus-btn" type="button" name="button"
+                                                    data-toggle="modal" data-target="#deleteProduct">
                                                     <i class='bx bx-plus'></i>
                                                 </button>
                                             </div>
@@ -227,7 +240,7 @@
                                                 <button class="plus-btn" type="button" name="button">
                                                     <i class='bx bx-minus'></i>
                                                 </button>
-                                                <input type="text" name="name" value="1">
+                                                <input type="number" name="name" value="1">
                                                 <button class="minus-btn" type="button" name="button">
                                                     <i class='bx bx-plus'></i>
                                                 </button>
@@ -235,7 +248,8 @@
                                         </td>
                                         <td>16.770 đ</td>
                                         <td>
-                                            <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"><i
+                                            <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
+                                                data-toggle="modal" data-target="#deleteProduct"><i
                                                     class="fas fa-trash-alt"></i></button>
                                         </td>
                                     </tr>
@@ -250,7 +264,7 @@
                                                 <button class="plus-btn" type="button" name="button">
                                                     <i class='bx bx-minus'></i>
                                                 </button>
-                                                <input type="text" name="name" value="1">
+                                                <input type="number" name="name" value="1">
                                                 <button class="minus-btn" type="button" name="button">
                                                     <i class='bx bx-plus'></i>
                                                 </button>
@@ -258,7 +272,8 @@
                                         </td>
                                         <td>22.650 đ</td>
                                         <td>
-                                            <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"><i
+                                            <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
+                                                data-toggle="modal" data-target="#deleteProduct"><i
                                                     class="fas fa-trash-alt"></i></button>
                                         </td>
                                     </tr>
@@ -327,14 +342,15 @@
                         </div>
                     </div>
                 </div>
-            </form>
-        </div>
+
+            </div>
+        </form>
     </main>
     <!--
   PRODUCT MODAL
 -->
-    <div class="modal fade" id="productList" role="dialog" aria-labelledby="exampleModalCenterTitle"
-        data-mdb-backdrop="true" data-mdb-keyboard="true">
+    <div class="modal fade" id="productList" role="dialog" tabindex="-1" aria-labelledby="exampleModalCenterTitle"
+        data-backdrop="static">
         <div class="modal-dialog info-modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-body">
@@ -343,7 +359,7 @@
                             <div class="tile">
                                 <div class="tile-body">
                                     <div class="modal-search-row">
-                                        <button class="btn btn-save" data-dismiss="modal"><i class='fas fa-plus'></i>
+                                        <button class="btn btn-save"><i class='fas fa-plus'></i>
                                             Thêm vào giỏ hàng</button>
                                         <form action="">
                                             <div class="search-container">
@@ -375,9 +391,8 @@
                                                 <td><span class="badge bg-success">Còn hàng</span></td>
                                                 <td>5.600 đ</td>
                                                 <td>Đi-ốt</td>
-                                                <td><input class="status-checkbox"
-                                                        type="checkbox" data-toggle="modal" data-target="#confirmStatus"
-                                                        name="check1" value="1">
+                                                <td><input class="status-checkbox" type="checkbox" data-toggle="modal"
+                                                        data-target="#confirmStatus" name="check1" value="1">
                                                 </td>
                                             </tr>
                                             <tr>
@@ -388,9 +403,8 @@
                                                 <td><span class="badge bg-success">Còn hàng</span></td>
                                                 <td>24.200 đ</td>
                                                 <td>Đi-ốt</td>
-                                                <td><input class="status-checkbox"
-                                                        type="checkbox" data-toggle="modal" data-target="#confirmStatus"
-                                                        name="check1" value="1">
+                                                <td><input class="status-checkbox" type="checkbox" data-toggle="modal"
+                                                        data-target="#confirmStatus" name="check1" value="1">
                                                 </td>
                                             </tr>
                                             <tr>
@@ -401,9 +415,8 @@
                                                 <td><span class="badge bg-success">Còn hàng</span></td>
                                                 <td>33.235 đ</td>
                                                 <td>Đi-ốt</td>
-                                                <td><input class="status-checkbox"
-                                                        type="checkbox" data-toggle="modal" data-target="#confirmStatus"
-                                                        name="check1" value="1">
+                                                <td><input class="status-checkbox" type="checkbox" data-toggle="modal"
+                                                        data-target="#confirmStatus" name="check1" value="1">
                                                 </td>
                                             </tr>
                                             <tr>
@@ -414,9 +427,8 @@
                                                 <td><span class="badge bg-success">Còn hàng</span></td>
                                                 <td>9.500 đ</td>
                                                 <td>Tụ điện</td>
-                                                <td><input class="status-checkbox"
-                                                        type="checkbox" data-toggle="modal" data-target="#confirmStatus"
-                                                        name="check1" value="1">
+                                                <td><input class="status-checkbox" type="checkbox" data-toggle="modal"
+                                                        data-target="#confirmStatus" name="check1" value="1">
                                                 </td>
                                             </tr>
                                             <tr>
@@ -427,9 +439,8 @@
                                                 <td><span class="badge bg-success">Còn hàng</span></td>
                                                 <td>3.800 đ</td>
                                                 <td>Tụ điện</td>
-                                                <td><input class="status-checkbox"
-                                                        type="checkbox" data-toggle="modal" data-target="#confirmStatus"
-                                                        name="check1" value="1">
+                                                <td><input class="status-checkbox" type="checkbox" data-toggle="modal"
+                                                        data-target="#confirmStatus" name="check1" value="1">
                                                 </td>
                                             </tr>
                                             <tr>
@@ -440,9 +451,8 @@
                                                 <td><span class="badge bg-success">Còn hàng</span></td>
                                                 <td>4.600 đ</td>
                                                 <td>Cuộn cảm</td>
-                                                <td><input class="status-checkbox"
-                                                        type="checkbox" data-toggle="modal" data-target="#confirmStatus"
-                                                        name="check1" value="1">
+                                                <td><input class="status-checkbox" type="checkbox" data-toggle="modal"
+                                                        data-target="#confirmStatus" name="check1" value="1">
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -489,6 +499,38 @@
     <!--
 MODAL
 -->
+    <!--
+  MODAL DELETE PRODUCT
+-->
+    <div class="modal fade" id="deleteProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group  col-md-12">
+                            <span class="thong-tin-thanh-toan">
+                                <h5>Chú ý</h5>
+                            </span>
+                        </div>
+                        <div class="form-group col-md-12" style="text-align: center;">
+                            <label class="control-label">Bạn có chắc chắn xoá sản phẩm này khỏi danh sách</label>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: center; padding: 10px;">
+                        <a style="margin: 5px;" class="btn btn-save" data-dismiss="modal" href="#">Xác nhận</a>
+                        <a style="margin: 5px;" class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--
+MODAL
+-->
     <!-- The Modal -->
     <div id="myModal" class="modal">
 
@@ -506,69 +548,9 @@ MODAL
     <script src="js/main.js"></script>
     <!-- The javascript plugin to display page loading on top-->
     <script src="js/plugins/pace.min.js"></script>
-    <!-- Page specific javascripts-->
-    <script>
-        //Thời Gian
-        function time() {
-            var today = new Date();
-            var weekday = new Array(7);
-            weekday[0] = "Chủ Nhật";
-            weekday[1] = "Thứ Hai";
-            weekday[2] = "Thứ Ba";
-            weekday[3] = "Thứ Tư";
-            weekday[4] = "Thứ Năm";
-            weekday[5] = "Thứ Sáu";
-            weekday[6] = "Thứ Bảy";
-            var day = weekday[today.getDay()];
-            var dd = today.getDate();
-            var mm = today.getMonth() + 1;
-            var yyyy = today.getFullYear();
-            var h = today.getHours();
-            var m = today.getMinutes();
-            var s = today.getSeconds();
-            m = checkTime(m);
-            s = checkTime(s);
-            nowTime = h + " giờ " + m + " phút " + s + " giây";
-            if (dd < 10) {
-                dd = '0' + dd
-            }
-            if (mm < 10) {
-                mm = '0' + mm
-            }
-            today = day + ', ' + dd + '/' + mm + '/' + yyyy;
-            tmp = today + ' - ' + nowTime +
-                '</span>';
-            document.getElementById("clock").innerHTML = tmp;
-            clocktime = setTimeout("time()", "1000", "Javascript");
+    <script src="js/api-province.js"></script>
+    <script src="resources/data.json"></script>
 
-            function checkTime(i) {
-                if (i < 10) {
-                    i = "0" + i;
-                }
-                return i;
-            }
-        }
-    </script>
-    <script>
-        // Modal popup 
-        var modal = document.getElementById("myModal");
-        var btn = document.getElementById("myBtn");
-        var span = document.getElementsByClassName("close")[0];
-        btn.onclick = function () {
-            modal.style.display = "block";
-        }
-        span.onclick = function () {
-            modal.style.display = "none";
-        }
-        window.onclick = function (event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-    </script>
-    <script>
-
-    </script>
 </body>
 
 </html>

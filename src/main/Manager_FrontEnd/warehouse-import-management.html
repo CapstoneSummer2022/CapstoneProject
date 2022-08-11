@@ -103,10 +103,6 @@
                 <a class="btn btn-add btn-sm" href="add-warehouse-import.html" title="Thêm"><i class="fas fa-plus"></i>
                   Thêm giao dịch mới</a>
               </div>
-              <div class="col-sm-2">
-                <a class="btn btn-add btn-sm" href="add-warehouse-import.html" title="Thêm"><i class="fas fa-plus"></i>
-                  Thêm lô hàng mới</a>
-              </div>
             </div>
             <div class="search-row">
               <form action="">
@@ -120,10 +116,8 @@
               <thead>
                 <tr>
                   <th width="150">Mã giao dịch nhập kho</th>
-                  <th>Mã lô hàng</th>
                   <th>Vị Trí</th>
                   <th>Kho hàng</th>
-                  <th>Số lượng</th>
                   <th>Giá nhập</th>
                   <th>Ngày nhập</th>
                   <th width="100">Tuỳ chọn</th>
@@ -132,70 +126,62 @@
               <tbody>
                 <tr>
                   <td>1</td>
-                  <td>2</td>
                   <td>
                     Hàng 2 - Cột 3 - Kệ A
                   </td>
                   <td>XQCV+F65, P. Văn Quán, Hà Đông, Hà Nội</td>
-                  <td>1</td>
                   <td>120.000 đ</td>
                   <td>20/07/2022</td>
                   <td>
                     <a href="setting-warehouse-import.html" class="btn btn-primary btn-sm edit" type="button"
                       title="Sửa"><i class="fas fa-edit"></i></a>
                     <button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng"
-                      onclick="location.href='order-detail.html'"><i class="fa fa-info"></i></button>
+                      onclick="location.href='import-transaction-detail.html'"><i class="fa fa-info"></i></button>
                   </td>
                 </tr>
                 <tr>
                   <td>2</td>
-                  <td>2</td>
                   <td>
                     Hàng 2 - Cột 3 - Kệ A
                   </td>
                   <td>XQCV+F65, P. Văn Quán, Hà Đông, Hà Nội</td>
-                  <td>6</td>
                   <td>120.000 đ</td>
                   <td>20/07/2022</td>
                   <td>
                     <a href="setting-warehouse-import.html" class="btn btn-primary btn-sm edit" type="button"
                       title="Sửa"><i class="fas fa-edit"></i></a>
                     <button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng"
-                      onclick="location.href='order-detail.html'"><i class="fa fa-info"></i></button>
+                      onclick="location.href='import-transaction-detail.html'"><i class="fa fa-info"></i></button>
                   </td>
                 </tr>
                 <tr>
                   <td>3</td>
-                  <td>2</td>
                   <td>
                     Hàng 2 - Cột 3 - Kệ A
                   </td>
                   <td>XQCV+F65, P. Văn Quán, Hà Đông, Hà Nội</td>
-                  <td>10</td>
                   <td>120.000 đ</td>
                   <td>20/07/2022</td>
                   <td>
                     <a href="setting-warehouse-import.html" class="btn btn-primary btn-sm edit" type="button"
                       title="Sửa"><i class="fas fa-edit"></i></a>
                     <button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng"
-                      onclick="location.href='order-detail.html'"><i class="fa fa-info"></i></button>
+                      onclick="location.href='import-transaction-detail.html'"><i class="fa fa-info"></i></button>
                   </td>
                 </tr>
                 <tr>
                   <td>4</td>
-                  <td>2</td>
                   <td>
                     Hàng 2 - Cột 3 - Kệ A
                   </td>
                   <td>XQCV+F65, P. Văn Quán, Hà Đông, Hà Nội</td>
-                  <td>4</td>
                   <td>120.000 đ</td>
                   <td>20/07/2022</td>
                   <td>
                     <a href="setting-warehouse-import.html" class="btn btn-primary btn-sm edit" type="button"
                       title="Sửa"><i class="fas fa-edit"></i></a>
                     <button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng"
-                      onclick="location.href='order-detail.html'"><i class="fa fa-info"></i></button>
+                      onclick="location.href='import-transaction-detail.html'"><i class="fa fa-info"></i></button>
                   </td>
                 </tr>
               </tbody>
@@ -233,119 +219,6 @@
   <script src="js/plugins/pace.min.js"></script>
   <!-- Page specific javascripts-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
-  <script>
-    function deleteRow(r) {
-      var i = r.parentNode.parentNode.rowIndex;
-      document.getElementById("myTable").deleteRow(i);
-    }
-    jQuery(function () {
-      jQuery(".trash").click(function () {
-        swal({
-          title: "Cảnh báo",
-
-          text: "Bạn có chắc chắn là muốn xóa?",
-          buttons: ["Hủy bỏ", "Đồng ý"],
-        })
-          .then((willDelete) => {
-            if (willDelete) {
-              swal("Đã xóa thành công.!", {
-
-              });
-            }
-          });
-      });
-    });
-    oTable = $('#sampleTable').dataTable();
-    $('#all').click(function (e) {
-      $('#sampleTable tbody :checkbox').prop('checked', $(this).is(':checked'));
-      e.stopImmediatePropagation();
-    });
-
-    //EXCEL
-    // $(document).ready(function () {
-    //   $('#').DataTable({
-
-    //     dom: 'Bfrtip',
-    //     "buttons": [
-    //       'excel'
-    //     ]
-    //   });
-    // });
-
-
-    //Thời Gian
-    function time() {
-      var today = new Date();
-      var weekday = new Array(7);
-      weekday[0] = "Chủ Nhật";
-      weekday[1] = "Thứ Hai";
-      weekday[2] = "Thứ Ba";
-      weekday[3] = "Thứ Tư";
-      weekday[4] = "Thứ Năm";
-      weekday[5] = "Thứ Sáu";
-      weekday[6] = "Thứ Bảy";
-      var day = weekday[today.getDay()];
-      var dd = today.getDate();
-      var mm = today.getMonth() + 1;
-      var yyyy = today.getFullYear();
-      var h = today.getHours();
-      var m = today.getMinutes();
-      var s = today.getSeconds();
-      m = checkTime(m);
-      s = checkTime(s);
-      nowTime = h + " giờ " + m + " phút " + s + " giây";
-      if (dd < 10) {
-        dd = '0' + dd
-      }
-      if (mm < 10) {
-        mm = '0' + mm
-      }
-      today = day + ', ' + dd + '/' + mm + '/' + yyyy;
-      tmp = '<span class="date"> ' + today + ' - ' + nowTime +
-        '</span>';
-      document.getElementById("clock").innerHTML = tmp;
-      clocktime = setTimeout("time()", "1000", "Javascript");
-
-      function checkTime(i) {
-        if (i < 10) {
-          i = "0" + i;
-        }
-        return i;
-      }
-    }
-    //In dữ liệu
-    var myApp = new function () {
-      this.printTable = function () {
-        var tab = document.getElementById('sampleTable');
-        var win = window.open('', '', 'height=700,width=700');
-        win.document.write(tab.outerHTML);
-        win.document.close();
-        win.print();
-      }
-    }
-    //     //Sao chép dữ liệu
-    //     var copyTextareaBtn = document.querySelector('.js-textareacopybtn');
-
-    // copyTextareaBtn.addEventListener('click', function(event) {
-    //   var copyTextarea = document.querySelector('.js-copytextarea');
-    //   copyTextarea.focus();
-    //   copyTextarea.select();
-
-    //   try {
-    //     var successful = document.execCommand('copy');
-    //     var msg = successful ? 'successful' : 'unsuccessful';
-    //     console.log('Copying text command was ' + msg);
-    //   } catch (err) {
-    //     console.log('Oops, unable to copy');
-    //   }
-    // });
-
-
-    //Modal
-    $("#show-emp").on("click", function () {
-      $("#ModalUP").modal({ backdrop: false, keyboard: false })
-    });
-  </script>
 </body>
 
 </html>

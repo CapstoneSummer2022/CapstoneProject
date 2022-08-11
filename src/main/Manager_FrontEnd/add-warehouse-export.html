@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Thêm xuất kho | Quản trị</title>
+    <title>Thêm gia dịch xuất kho | Quản trị</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -63,7 +63,8 @@
                         phẩm</span></a>
             </li>
             <li><a class="app-menu__item" href="supplier-management.html"><i
-                        class='app-menu__icon bx bxs-user-account'></i><span class="app-menu__label">Quản lý đơn vị sản xuất
+                        class='app-menu__icon bx bxs-user-account'></i><span class="app-menu__label">Quản lý đơn vị sản
+                        xuất
                     </span></a></li>
             <li><a class="app-menu__item active" href="warehouse-management.html"><i
                         class='app-menu__icon bx bx-building-house'></i><span class="app-menu__label">Quản lý kho
@@ -115,19 +116,26 @@
                                     <input class="form-control" type="text">
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label class="control-label required-field">Giá bán buôn</label>
-                                    <input class="form-control" type="text">
+                                    <label class="control-label required-field">Số lượng</label>
+                                    <input class="form-control" type="number">
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label class="control-label required-field">Giá bán lẻ</label>
-                                    <input class="form-control" type="text">
+                                    <label for="exampleSelect1" class="control-label required-field">Kho xuất</label>
+                                    <select class="form-control" id="exampleSelect1">
+                                        <option selected disabled hidden>-- Chọn kho hàng --</option>
+                                        <option>XQCV+F65, P. Văn Quán, Hà Đông, Hà Nội</option>
+                                        <option>68 P. Nguyễn Văn Giáp, Mễ Trì, Nam Từ Liêm, Hà Nội</option>
+                                        <option>Đinh Tú, Cấn Hữu, Quốc Oai, Hà Nội</option>
+                                        <option>4F9R+78G, Đường khu TĐC, Tông, Sơn Tây, Hà Nội</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="confirm-button">
                                     <div class="button">
                                         <button type="submit" class="btn btn-save" type="button">Lưu lại</button>
-                                        <button type="button" class="btn btn-cancel" onclick="location.href='warehouse-export-management.html'">Hủy bỏ</button>
+                                        <button type="button" class="btn btn-cancel"
+                                            onclick="location.href='warehouse-export-management.html'">Hủy bỏ</button>
                                     </div>
                                 </div>
                             </div>

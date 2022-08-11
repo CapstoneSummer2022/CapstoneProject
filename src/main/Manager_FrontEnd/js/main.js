@@ -69,8 +69,20 @@ document.querySelector(".status-checkbox").addEventListener("click", function (e
 }, false);
 
 function removeSelectedFile() {
-	document.getElementById("fileInput").value=null; 
+	document.getElementById("fileInput").value = null;
 }
+//Validate email begin
+function validateEmail(email) {
+	var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	return re.test(email);
+}
+
+function continueornot() {
+	if (validateEmail(document.getElementById('emailfield').value)) {
+		// ok
+	} else { alert("email not valid"); return false; }
+}
+//validate email end	
 
 function plusQuantity(event) {
 	var buttonClicked = event.target
