@@ -21,7 +21,7 @@
 
 </head>
 
-<body class="app sidebar-mini rtl">
+<body onload="time()" class="app sidebar-mini rtl">
     <!-- Navbar-->
     <header class="app-header">
         <!-- Navbar Right Menu-->
@@ -113,8 +113,6 @@
                                     <th class="order-item-number" width="100">Đơn giá</th>
                                     <th class="order-item-number" width="10">Số lượng</th>
                                     <th class="order-item-number">Thành tiền</th>
-                                    <th width="100" class="order-item-number text-center"
-                                        style="text-align: center; vertical-align: middle;"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -124,10 +122,6 @@
                                     <td>5.600 đ</td>
                                     <td>1</td>
                                     <td>5.600 đ</td>
-                                    <td>
-                                        <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"><i
-                                                class="fas fa-trash-alt"></i></button>
-                                    </td>
                                 </tr>
                                 <tr>
                                     <td>1-A-5-2</td>
@@ -135,10 +129,6 @@
                                     <td>33.235 đ</td>
                                     <td>1</td>
                                     <td>33.235 đ</td>
-                                    <td>
-                                        <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"><i
-                                                class="fas fa-trash-alt"></i></button>
-                                    </td>
                                 </tr>
                                 <tr>
                                     <td>1-A-8-2</td>
@@ -146,10 +136,6 @@
                                     <td>33.235 đ</td>
                                     <td>1</td>
                                     <td>16.770 đ</td>
-                                    <td>
-                                        <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"><i
-                                                class="fas fa-trash-alt"></i></button>
-                                    </td>
                                 </tr>
                                 <tr>
 
@@ -158,10 +144,6 @@
                                     <td>33.235 đ</td>
                                     <td>1</td>
                                     <td>22.650 đ</td>
-                                    <td>
-                                        <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"><i
-                                                class="fas fa-trash-alt"></i></button>
-                                    </td>
                                 </tr>
                                 <tr>
                             </tbody>
@@ -174,7 +156,11 @@
                     <h3 class="tile-title">Thông tin nhập hàng</h3>
                     <div class="tile-body">
                         <div class="form-group col-md-12">
-                            <label for="exampleSelect1" class="control-label">nhà cung cấp</label>
+                            <label for="exampleSelect1" class="control-label">Ngày nhập</label>
+                            <p>20/7/2022</p>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="exampleSelect1" class="control-label">Nhà cung cấp</label>
                             <p>DAEWOO</p>
                         </div>
                         <div class="form-group col-md-12">
@@ -195,6 +181,15 @@
                                 <p>A</p>
                             </div>
                         </div>
+                        <div class="form-group col-md-12">
+                            <label class="control-label">Tổng tiền: </label>
+                            <p class="control-all-money-total">= 450.000 đ</p>
+                        </div>
+                    </div>
+                    <div class="middle-button">
+                        <a type="submit" class="btn btn-primary create-order-button" type="button"
+                            href="setting-warehouse-import.html">Cập
+                            nhật</a>
                     </div>
                 </div>
             </div>
