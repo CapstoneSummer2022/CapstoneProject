@@ -19,49 +19,9 @@
     href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
   <script src="http://code.jquery.com/jquery.min.js" type="text/javascript"></script>
-  <script>
-
-    function readURL(input, thumbimage) {
-      if (input.files && input.files[0]) { //Sử dụng  cho Firefox - chrome
-        var reader = new FileReader();
-        reader.onload = function (e) {
-          $("#thumbimage").attr('src', e.target.result);
-        }
-        reader.readAsDataURL(input.files[0]);
-      }
-      else { // Sử dụng cho IE
-        $("#thumbimage").attr('src', input.value);
-
-      }
-      $("#thumbimage").show();
-      $('.filename').text($("#uploadfile").val());
-      $('.Choicefile').css('background', '#14142B');
-      $('.Choicefile').css('cursor', 'default');
-      $(".removeimg").show();
-      $(".Choicefile").unbind('click');
-
-    }
-    $(document).ready(function () {
-      $(".Choicefile").bind('click', function () {
-        $("#uploadfile").click();
-
-      });
-      $(".removeimg").click(function () {
-        $("#thumbimage").attr('src', '').hide();
-        $("#myfileupload").html('<input type="file" id="uploadfile"  onchange="readURL(this);" />');
-        $(".removeimg").hide();
-        $(".Choicefile").bind('click', function () {
-          $("#uploadfile").click();
-        });
-        $('.Choicefile').css('background', '#14142B');
-        $('.Choicefile').css('cursor', 'pointer');
-        $(".filename").text("");
-      });
-    })
-  </script>
 </head>
 
-<body class="app sidebar-mini rtl">
+<body onload="time()" class="app sidebar-mini rtl">
   <!-- Navbar-->
   <header class="app-header">
     <!-- Navbar Right Menu-->
@@ -101,7 +61,7 @@
             phẩm</span></a>
       </li>
       <li><a class="app-menu__item" href="supplier-management.html"><i
-            class='app-menu__icon bx bxs-user-account'></i><span class="app-menu__label">Quản lý đơn vị sản xuất
+            class='app-menu__icon bx bxs-user-account'></i><span class="app-menu__label">Quản lý nhà cung cấp
           </span></a></li>
       <li><a class="app-menu__item active" href="warehouse-management.html"><i
             class='app-menu__icon bx bx-building-house'></i><span class="app-menu__label">Quản lý kho
