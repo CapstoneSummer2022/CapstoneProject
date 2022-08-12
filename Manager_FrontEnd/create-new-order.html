@@ -164,8 +164,8 @@
                         <h3 class="tile-title">Giỏ hàng</h3>
                         <div class="row element-button">
                             <div class="col-sm-2">
-                                <button class="btn btn-add btn-sm" href="add-product.html" title="Thêm"
-                                    data-toggle="modal" data-target="#productList"><i class="fas fa-plus"></i>
+                                <button class="btn btn-add btn-sm" title="Thêm" data-toggle="modal"
+                                    data-target="#productList"><i class="fas fa-plus"></i>
                                     Thêm sản phẩm bán</button>
                             </div>
                         </div>
@@ -218,15 +218,15 @@
                                                     <i class='bx bx-minus'></i>
                                                 </button>
                                                 <input type="number" name="name" value="1">
-                                                <button class="minus-btn" type="button" name="button"
-                                                    data-toggle="modal" data-target="#deleteProduct">
+                                                <button class="minus-btn" type="button" name="button">
                                                     <i class='bx bx-plus'></i>
                                                 </button>
                                             </div>
                                         </td>
                                         <td>33.235 đ</td>
                                         <td>
-                                            <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"><i
+                                            <button class="btn btn-primary btn-sm trash" type="button"
+                                                data-toggle="modal" data-target="#deleteProduct" title="Xóa"><i
                                                     class="fas fa-trash-alt"></i></button>
                                         </td>
                                     </tr>
@@ -346,127 +346,136 @@
                         <div class="col-md-12">
                             <div class="tile">
                                 <div class="tile-body">
-                                    <div class="modal-search-row">
-                                        <button class="btn btn-save"><i class='fas fa-plus'></i>
-                                            Thêm vào giỏ hàng</button>
-                                        <form action="">
-                                            <div class="search-container">
-                                                <input class="form-control" type="text" placeholder="Tìm kiếm"
-                                                    name="search">
-                                                <button type="submit"><i class="fa fa-search"></i></button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <table class="table table-hover table-bordered" id="sampleTable">
-                                        <thead>
-                                            <tr>
-                                                <th>Mã sản phẩm</th>
-                                                <th>Tên sản phẩm</th>
-                                                <th>Ảnh sản phẩm</th>
-                                                <th>Số lượng tồn kho</th>
-                                                <th>Tình trạng</th>
-                                                <th>Giá tiền</th>
-                                                <th>Danh mục</th>
-                                                <th>Chọn</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1-A-2-2</td>
-                                                <td>Diode Xung Đôi SBL3040 TO-247 600V 30A</td>
-                                                <td><img src="/img-sanpham/theresa.jpg" alt="" width="100px;"></td>
-                                                <td>40</td>
-                                                <td><span class="badge bg-success">Còn hàng</span></td>
-                                                <td>5.600 đ</td>
-                                                <td>Đi-ốt</td>
-                                                <td><input class="status-checkbox" type="checkbox" data-toggle="modal"
-                                                        data-target="#confirmStatus" name="check1" value="1">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>1-A-10-1</td>
-                                                <td>Diode Chỉnh Lưu FR307 3A 1000V</td>
-                                                <td><img src="/img-sanpham/reno.jpg" alt="" width="100px;"></td>
-                                                <td>70</td>
-                                                <td><span class="badge bg-success">Còn hàng</span></td>
-                                                <td>24.200 đ</td>
-                                                <td>Đi-ốt</td>
-                                                <td><input class="status-checkbox" type="checkbox" data-toggle="modal"
-                                                        data-target="#confirmStatus" name="check1" value="1">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>1-A-6-2</td>
-                                                <td>Diode Cầu 25A Dẹt 1000V KBJ2510</td>
-                                                <td><img src="/img-sanpham/matda.jpg" alt="" width="100px;"></td>
-                                                <td>40</td>
-                                                <td><span class="badge bg-success">Còn hàng</span></td>
-                                                <td>33.235 đ</td>
-                                                <td>Đi-ốt</td>
-                                                <td><input class="status-checkbox" type="checkbox" data-toggle="modal"
-                                                        data-target="#confirmStatus" name="check1" value="1">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>1-A-10-2</td>
-                                                <td>Tụ Hóa 6.3V</td>
-                                                <td><img src="/img-sanpham/ghethera.jpg" alt="" width="100px;"></td>
-                                                <td>50</td>
-                                                <td><span class="badge bg-success">Còn hàng</span></td>
-                                                <td>9.500 đ</td>
-                                                <td>Tụ điện</td>
-                                                <td><input class="status-checkbox" type="checkbox" data-toggle="modal"
-                                                        data-target="#confirmStatus" name="check1" value="1">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>1-A-6-5</td>
-                                                <td>Tụ Phân Tần Loa Trebel CBB 335J 250V</td>
-                                                <td><img src="/img-sanpham/zuno.jpg" alt="" width="100px;"></td>
-                                                <td>50</td>
-                                                <td><span class="badge bg-success">Còn hàng</span></td>
-                                                <td>3.800 đ</td>
-                                                <td>Tụ điện</td>
-                                                <td><input class="status-checkbox" type="checkbox" data-toggle="modal"
-                                                        data-target="#confirmStatus" name="check1" value="1">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>1-A-10-6</td>
-                                                <td>Cuộn cảm HCI1005LF-10NJ-MS8</td>
-                                                <td><img src="/img-sanpham/vita.jpg" alt="" width="100px;"></td>
-                                                <td>55</td>
-                                                <td><span class="badge bg-success">Còn hàng</span></td>
-                                                <td>4.600 đ</td>
-                                                <td>Cuộn cảm</td>
-                                                <td><input class="status-checkbox" type="checkbox" data-toggle="modal"
-                                                        data-target="#confirmStatus" name="check1" value="1">
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <div class="pagination-row">
-                                        <div class="pagination-container">
-                                            <div class="dataTables_paginate paging_simple_numbers"
-                                                id="sampleTable_paginate">
-                                                <ul class="pagination">
-                                                    <li class="paginate_button page-item previous disabled"
-                                                        id="sampleTable_previous"><a href="#"
-                                                            aria-controls="sampleTable" data-dt-idx="0" tabindex="0"
-                                                            class="page-link">Lùi</a></li>
-                                                    <li class="paginate_button page-item active"><a href="#"
-                                                            aria-controls="sampleTable" data-dt-idx="1" tabindex="0"
-                                                            class="page-link">1</a></li>
-                                                    <li class="paginate_button page-item "><a href="#"
-                                                            aria-controls="sampleTable" data-dt-idx="2" tabindex="0"
-                                                            class="page-link">2</a></li>
-                                                    <li class="paginate_button page-item next" id="sampleTable_next"><a
-                                                            href="#" aria-controls="sampleTable" data-dt-idx="3"
-                                                            tabindex="0" class="page-link">Tiếp</a></li>
-                                                </ul>
+                                    <form>
+                                        <div class="modal-search-row">
+                                            <button class="btn btn-save" type="submit"><i class='fas fa-plus'></i>
+                                                Thêm vào giỏ hàng</button>
+                                            <form action="">
+                                                <div class="search-container">
+                                                    <input class="form-control" type="text" placeholder="Tìm kiếm"
+                                                        name="search">
+                                                    <button type="submit"><i class="fa fa-search"></i></button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <table class="table table-hover table-bordered" id="sampleTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Mã sản phẩm</th>
+                                                    <th>Tên sản phẩm</th>
+                                                    <th>Ảnh sản phẩm</th>
+                                                    <th>Số lượng tồn kho</th>
+                                                    <th>Tình trạng</th>
+                                                    <th>Giá tiền</th>
+                                                    <th>Danh mục</th>
+                                                    <th>Chọn</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1-A-2-2</td>
+                                                    <td>Diode Xung Đôi SBL3040 TO-247 600V 30A</td>
+                                                    <td><img src="/img-sanpham/theresa.jpg" alt="" width="100px;"></td>
+                                                    <td>40</td>
+                                                    <td><span class="badge bg-success">Còn hàng</span></td>
+                                                    <td>5.600 đ</td>
+                                                    <td>Đi-ốt</td>
+                                                    <td><input class="status-checkbox" type="checkbox"
+                                                            data-toggle="modal" data-target="#confirmStatus"
+                                                            name="check1" value="1">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>1-A-10-1</td>
+                                                    <td>Diode Chỉnh Lưu FR307 3A 1000V</td>
+                                                    <td><img src="/img-sanpham/reno.jpg" alt="" width="100px;"></td>
+                                                    <td>70</td>
+                                                    <td><span class="badge bg-success">Còn hàng</span></td>
+                                                    <td>24.200 đ</td>
+                                                    <td>Đi-ốt</td>
+                                                    <td><input class="status-checkbox" type="checkbox"
+                                                            data-toggle="modal" data-target="#confirmStatus"
+                                                            name="check1" value="1">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>1-A-6-2</td>
+                                                    <td>Diode Cầu 25A Dẹt 1000V KBJ2510</td>
+                                                    <td><img src="/img-sanpham/matda.jpg" alt="" width="100px;"></td>
+                                                    <td>40</td>
+                                                    <td><span class="badge bg-success">Còn hàng</span></td>
+                                                    <td>33.235 đ</td>
+                                                    <td>Đi-ốt</td>
+                                                    <td><input class="status-checkbox" type="checkbox"
+                                                            data-toggle="modal" data-target="#confirmStatus"
+                                                            name="check1" value="1">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>1-A-10-2</td>
+                                                    <td>Tụ Hóa 6.3V</td>
+                                                    <td><img src="/img-sanpham/ghethera.jpg" alt="" width="100px;"></td>
+                                                    <td>50</td>
+                                                    <td><span class="badge bg-success">Còn hàng</span></td>
+                                                    <td>9.500 đ</td>
+                                                    <td>Tụ điện</td>
+                                                    <td><input class="status-checkbox" type="checkbox"
+                                                            data-toggle="modal" data-target="#confirmStatus"
+                                                            name="check1" value="1">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>1-A-6-5</td>
+                                                    <td>Tụ Phân Tần Loa Trebel CBB 335J 250V</td>
+                                                    <td><img src="/img-sanpham/zuno.jpg" alt="" width="100px;"></td>
+                                                    <td>50</td>
+                                                    <td><span class="badge bg-success">Còn hàng</span></td>
+                                                    <td>3.800 đ</td>
+                                                    <td>Tụ điện</td>
+                                                    <td><input class="status-checkbox" type="checkbox"
+                                                            data-toggle="modal" data-target="#confirmStatus"
+                                                            name="check1" value="1">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>1-A-10-6</td>
+                                                    <td>Cuộn cảm HCI1005LF-10NJ-MS8</td>
+                                                    <td><img src="/img-sanpham/vita.jpg" alt="" width="100px;"></td>
+                                                    <td>55</td>
+                                                    <td><span class="badge bg-success">Còn hàng</span></td>
+                                                    <td>4.600 đ</td>
+                                                    <td>Cuộn cảm</td>
+                                                    <td><input class="status-checkbox" type="checkbox"
+                                                            data-toggle="modal" data-target="#confirmStatus"
+                                                            name="check1" value="1">
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="pagination-row">
+                                            <div class="pagination-container">
+                                                <div class="dataTables_paginate paging_simple_numbers"
+                                                    id="sampleTable_paginate">
+                                                    <ul class="pagination">
+                                                        <li class="paginate_button page-item previous disabled"
+                                                            id="sampleTable_previous"><a href="#"
+                                                                aria-controls="sampleTable" data-dt-idx="0" tabindex="0"
+                                                                class="page-link">Lùi</a></li>
+                                                        <li class="paginate_button page-item active"><a href="#"
+                                                                aria-controls="sampleTable" data-dt-idx="1" tabindex="0"
+                                                                class="page-link">1</a></li>
+                                                        <li class="paginate_button page-item "><a href="#"
+                                                                aria-controls="sampleTable" data-dt-idx="2" tabindex="0"
+                                                                class="page-link">2</a></li>
+                                                        <li class="paginate_button page-item next"
+                                                            id="sampleTable_next"><a href="#"
+                                                                aria-controls="sampleTable" data-dt-idx="3" tabindex="0"
+                                                                class="page-link">Tiếp</a></li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>

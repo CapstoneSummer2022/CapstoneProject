@@ -14775,7 +14775,8 @@ input:checked + .slider:before {
   border: 1px solid transparent;
 }
 
-.sub-app-menu_item:hover, .sub-app-menu_item:focus,
+.sub-app-menu_item:hover,
+.sub-app-menu_item:focus,
 .sub-item-active {
   background: #00b1f7;
   text-decoration: none;
@@ -16697,3 +16698,8 @@ td > input[type="number"] {
   justify-content: center;
 }
 
+.side-button {
+  height: 40px;
+  margin-top: 30px;
+  
+}

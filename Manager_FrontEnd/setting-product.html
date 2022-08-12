@@ -131,63 +131,135 @@
         <div class="tile">
           <h3 class="tile-title">Tuỳ chỉnh sản phẩm</h3>
           <div class="tile-body">
-            <form class="row">
-              <div class="form-group col-md-3">
-                <label class="control-label">Mã sản phẩm</label>
-                <input class="form-control" type="text" value="1-A-2-2">
+            <div class="row element-button">
+              <div class="col-sm-2">
+                <a class="btn btn-add btn-sm" href="add-product-specification.html" title="Thêm"><i
+                    class="fas fa-plus"></i>
+                  Thêm thông số kỹ thuật</a>
               </div>
-              <div class="form-group col-md-3">
-                <label class="control-label">Tên sản phẩm</label>
-                <input class="form-control" type="text" value="Diode Xung Đôi SBL3040 TO-247 600V 30A">
-              </div>
-              <div class="form-group col-md-3">
-                <label for="exampleSelect1" class="control-label">Danh mục</label>
-                <select class="form-control" id="exampleSelect1">
-                  <option disabled hidden>-- Chọn danh mục --</option>
-                  <option>Cầu chì</option>
-                  <option>Biến trở</option>
-                  <option>Cảm biến nhiệt độ</option>
-                  <option>IC cảm ứng</option>
-                  <option>Cảm biến màu</option>
-                  <option>Cảm biến chuyển động</option>
-                  <option>Cảm biến nước</option>
-                  <option>Cảm biến âm thanh</option>
-                  <option>IC cảm ứng</option>
-                  <option selected>Đi-ốt</option>
-                </select>
-              </div>
-              <div class="form-group col-md-12">
-                <label class="control-label">Ảnh sản phẩm</label>
-                <div id="myfileupload">
-                  <input type="file" id="uploadfile" name="ImageUpload" onchange="readURL(this);" />
+            </div>
+            <form>
+              <div class="row">
+                <div class="form-group col-md-3">
+                  <label class="control-label">Tên sản phẩm</label>
+                  <input class="form-control" type="text">
                 </div>
-                <div id="thumbbox">
-                  <img height="450" width="400" alt="Thumb image" id="thumbimage" src="resources/images/diode.jpg" />
-                  <a class="removeimg" href="javascript:"></a>
-                </div>
-                <div id="boxchoice">
-                  <a href="javascript:" class="Choicefile"><i class="fas fa-cloud-upload-alt"></i> Chọn ảnh</a>
-                  <p style="clear:both"></p>
+                <div class="form-group col-md-3">
+                  <label for="exampleSelect1" class="control-label">Danh mục</label>
+                  <select class="form-control" id="exampleSelect1">
+                    <option selected hidden disabled>-- Chọn danh mục --</option>
+                    <option>Cầu chì</option>
+                    <option>Biến trở</option>
+                    <option>Cảm biến nhiệt độ</option>
+                    <option>IC cảm ứng</option>
+                    <option>Cảm biến màu</option>
+                    <option>Cảm biến chuyển động</option>
+                    <option>Cảm biến nước</option>
+                    <option>Cảm biến âm thanh</option>
+                    <option>IC cảm ứng</option>
+                  </select>
                 </div>
               </div>
-              <div class="form-group col-md-12">
-                <label class="control-label">Mô tả sản phẩm</label>
-                <textarea class="form-control" name="mota" id="mota">
-        - Dùng để chỉnh lưu dòng điện xoay chiều thành dòng điện một chiều.
-        - Dùng làm các công tắc điện tử.
-        - Đóng ngắt bằng điều khiển mức điện áp.
-        - Ứng dụng trong nhiều mạch bán dẫn.
-        - Ứng dụng rộng rãi trong kỹ thuật điện và điện tử.
-        - Diode xung RF107 thường được dùng trong các bộ nguồn xung thì ở đầu ra của biến áp xung ta phải dùng diode xung để chỉnh lưu. Diode xung RF107 là diode làm việc ở tần số cao khoảng vài chục KHz.
-        - Diode xung RF107 có thể làm việc với điện áp lên đến 1000V, diode nắn điện thông thường không thể thay thế vào vị trí diode xung được, nhưng ngược lại diode xung có thể thay thế vào vị trí của diode thường.
-                </textarea>
-                <script>CKEDITOR.replace('mota');</script>
+
+              <div class="row">
+                <div class="form-group col-md-3">
+                  <label for="exampleSelect1" class="control-label">Thông số kỹ thuật</label>
+                  <select id="specOption" class="form-control" id="exampleSelect1">
+                    <option selected hidden disabled>-- Chọn thông số kỹ thuật --</option>
+                    <option>Cường độ dòng điện</option>
+                    <option>Model</option>
+                    <option>Kiểu chân </option>
+                    <option>Điện áp</option>
+                    <option>Nhiệt độ hoạt động</option>
+                    <option>Dòng điện giới hạn</option>
+                    <option>Chiều dài trục</option>
+                    <option>Dòng thuận cực đại</option>
+                    <option>Điện áp ngược cực đại</option>
+                    <option>Điện áp rơi thuận</option>
+                    <option>Dòng ngược</option>
+                    <option>Điện áp cực đại Vcbo</option>
+                    <option>Điện áp cực đại Vceo</option>
+                    <option>Điện áp cực đại Vebo</option>
+                    <option>Dòng điện cực đại (Ic)</option>
+                    <option>Điện áp CE hở max</option>
+                    <option>Công suất</option>
+                    <option>Hệ số khuếch đại (hfe)</option>
+                    <option>Tần số cắt (Ft)</option>
+                    <option>Công suất cực đại (Pc)</option>
+                    <option>Dòng điện duy trì</option>
+                    <option>Mức độ phát sáng</option>
+                    <option>Đường kính đèn</option>
+                    <option>Màu sắc </option>
+                    <option>Tiêu tán công suất (Pd)</option>
+                    <option>Điện dung thu (Cc)</option>
+                    <option>Điện áp tối đa</option>
+                    <option>Tần số</option>
+                    <option>Điện dung</option>
+                    <option>Sai số</option>
+                    <option>Hệ số tự cảm (L)</option>
+                    <option>Trở kháng lớn nhất (DCR)</option>
+                    <option>Tần số tự cộng hưởng nhỏ nhất (SRF)</option>
+                    <option>Giá trị điện trở</option>
+                    <option>Số kí tự x Số dòng</option>
+                    <option>Kí tự / Màu nền</option>
+                    <option>Độ dài dây</option>
+                    <option>Kiểu dây</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-3">
+                  <button class="side-button btn btn-add" type="button" title="Thêm vào danh sách"
+                    onclick="addToSpecTable()">Thêm
+                    vào
+                    danh sách</button>
+                  <button id="deleteButton" type="button" class="side-button btn btn-cancel" title="Xoá"
+                    onclick="deleteFromTable()">Xoá</button>
+                </div>
               </div>
-              <div class="confirm-button">
-                <div class="button">
-                  <button type="submit" class="btn btn-save" type="button">Lưu lại</button>
-                  <button type="button" class="btn btn-cancel" onclick="location.href='product-management.html'">Hủy
-                    bỏ</button>
+              <div class="row">
+                <div class="form-group col-md-7">
+                  <label for="exampleSelect1" class="control-label">Bảng thông số kỹ thuật</label>
+                  <table id="specTable" class="table table-hover table-bordered js-copytextarea" cellpadding="0"
+                    cellspacing="0" id="sampleTable">
+                    <thead>
+                      <tr>
+                        <th width="300">Thông số kỹ thuật</th>
+                        <th>Giá trị</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-12">
+                  <label class="control-label">Ảnh sản phẩm</label>
+                  <div id="myfileupload">
+                    <input type="file" id="uploadfile" name="ImageUpload" onchange="readURL(this);" />
+                  </div>
+                  <div id="thumbbox">
+                    <img height="450" width="400" alt="Thumb image" id="thumbimage" src="resources/images/diode.jpg" />
+                    <a class="removeimg" href="javascript:"></a>
+                  </div>
+                  <div id="boxchoice">
+                    <a href="javascript:" class="Choicefile"><i class="fas fa-cloud-upload-alt"></i> Chọn ảnh</a>
+                    <p style="clear:both"></p>
+                  </div>
+                </div>
+                <div class="form-group col-md-12">
+                  <label class="control-label">Mô tả sản phẩm</label>
+                  <textarea class="form-control" name="mota"
+                    id="mota">Diode 1N4148 hữu ích trong việc chuyển đổi các ứng dụng lên đến khoảng 100 MHz với một thời gian ngược lại phục hồi không quá 4 ns....</textarea>
+                  <script>CKEDITOR.replace('mota');</script>
+                </div>
+              </div>
+              <div class="row">
+                <div class="confirm-button">
+                  <div class="button">
+                    <button type="submit" class="btn btn-save" type="button">Lưu lại</button>
+                    <button type="button" class="btn btn-cancel" onclick="location.href='product-management.html'">Hủy
+                      bỏ</button>
+                  </div>
                 </div>
               </div>
             </form>

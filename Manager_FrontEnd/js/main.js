@@ -84,6 +84,61 @@ function continueornot() {
 }
 //validate email end	
 
+//add to specification talbe
+function invalidOption(option) {
+	var table = document.getElementById("specTable");
+	for (var i = 1, row; row = table.rows[i]; i++) {
+		if (row.cells[0].innerHTML === option) {
+			return true;
+		}
+	}
+	return false;
+}
+
+function addToSpecTable() {
+	var table = document.getElementById("specTable");
+	var selection = document.getElementById("specOption");
+	var optionText = selection.options[selection.selectedIndex].text;
+	var optionValue = selection.options[selection.selectedIndex].value;
+	if (selection.selectedIndex != 0 && !invalidOption(optionText)) {
+		var row = table.insertRow(1);
+		var cell1 = row.insertCell(0);
+		var cell2 = row.insertCell(1);
+		var cell3 = row.insertCell(2);
+
+		var fromValue = document.createElement("input");
+		fromValue.setAttribute("type", "number");
+		fromValue.setAttribute("name", optionValue.concat("fromValue"));
+		fromValue.setAttribute("placeholder", "Giá trị nhỏ nhất");
+
+		var toValue = document.createElement("input");
+		toValue.setAttribute("type", "number");
+		toValue.setAttribute("name", optionValue.concat("toValue"));
+		toValue.setAttribute("placeholder", "Giá trị lớn nhất");
+
+		var checkbox = document.createElement("input");
+		checkbox.setAttribute("type", "checkbox");
+
+		cell1.innerHTML = optionText;
+		cell2.appendChild(fromValue.cloneNode());
+		cell2.innerHTML += ' - '
+		cell2.appendChild(toValue.cloneNode());
+		cell3.appendChild(checkbox.cloneNode());
+	}
+	return;
+}
+
+
+function deleteFromTable() {
+	var table = document.getElementById("specTable");
+	for (var i = 1, row; row = table.rows[i]; i++) {
+		if(row.cells[2].getElementsByTagName('input')[0].checked) {
+			table.deleteRow(i);
+			i = 0;
+		}
+	}
+}
+
 function plusQuantity(event) {
 	var buttonClicked = event.target
 	var currentValue = buttonClicked.closest('input').querySelector.value
