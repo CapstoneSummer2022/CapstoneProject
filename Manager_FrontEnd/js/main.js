@@ -141,6 +141,16 @@ function deleteFromTable() {
 	}
 }
 
+//has big category or not
+function showBigCategoryInput(checkbox) {
+	var bigCategory = document.getElementById("bigCategory");
+	if(checkbox.checked) {
+		bigCategory.style.display = "block";
+	}else {
+		bigCategory.style.display = "none";
+	}
+}
+
 function plusQuantity(event) {
 	var buttonClicked = event.target
 	var currentValue = buttonClicked.closest('input').querySelector.value

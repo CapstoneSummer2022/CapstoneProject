@@ -11590,6 +11590,7 @@ body.stop-scrolling {
 }
 
 .options {
+  margin-top: 15px;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
