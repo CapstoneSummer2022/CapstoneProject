@@ -102,9 +102,10 @@ function addToSpecTable() {
 	var optionValue = selection.options[selection.selectedIndex].value;
 	if (selection.selectedIndex != 0 && !invalidOption(optionText)) {
 		var row = table.insertRow(1);
-		var cell1 = row.insertCell(0);
-		var cell2 = row.insertCell(1);
-		var cell3 = row.insertCell(2);
+		var cell0 = row.insertCell(0);
+		var cell1 = row.insertCell(1);
+		var cell2 = row.insertCell(2);
+		var cell3 = row.insertCell(3);
 
 		var fromValue = document.createElement("input");
 		fromValue.setAttribute("type", "number");
@@ -119,6 +120,7 @@ function addToSpecTable() {
 		var checkbox = document.createElement("input");
 		checkbox.setAttribute("type", "checkbox");
 
+		cell0.innerHTML = optionValue;
 		cell1.innerHTML = optionText;
 		cell2.appendChild(fromValue.cloneNode());
 		cell2.innerHTML += ' - '
@@ -132,7 +134,7 @@ function addToSpecTable() {
 function deleteFromTable() {
 	var table = document.getElementById("specTable");
 	for (var i = 1, row; row = table.rows[i]; i++) {
-		if(row.cells[2].getElementsByTagName('input')[0].checked) {
+		if(row.cells[3].getElementsByTagName('input')[0].checked) {
 			table.deleteRow(i);
 			i = 0;
 		}
