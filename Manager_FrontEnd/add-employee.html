@@ -93,6 +93,7 @@
         <li class="breadcrumb-item"><a href="#"></a>Tài khoản hệ thống</li>
         <li class="breadcrumb-item active">Tạo tài khoản nhân viên</li>
       </ul>
+      <div id="clock"></div>
     </div>
     <div class="row">
       <div class="col-md-12">
@@ -174,26 +175,55 @@
     </div>
   </main>
   <!--
-  MODAL INVALID INPUT 
+  MODAL SUCCESSFUL
 -->
-  <div class="modal fade" id="invalidInput" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  <div class="modal fade" id="successful" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
-
         <div class="modal-body">
           <div class="row">
             <div class="form-group  col-md-12">
               <span class="thong-tin-thanh-toan">
-                <h5>Chú ý</h5>
+                <h5>Thông báo</h5>
               </span>
             </div>
             <div class="form-group col-md-12" style="text-align: center;">
-              <label class="control-label">Email không hợp lệ</label>
+              <p class="modal-notify-successful">Thêm nhân viên thành công</p>
             </div>
           </div>
           <div style="display: flex; justify-content: center; padding: 10px;">
-            <a style="margin: 5px;" class="btn btn-save" data-dismiss="modal" href="#">Xác nhận</a>
+            <button style="margin: 5px;" class="btn btn-save" data-dismiss="modal">Quay lại</button>
+          </div>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--
+MODAL
+-->
+  <!--
+MODAL UNSUCCESSFUL 
+-->
+  <div class="modal fade" id="unsuccessful" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="row">
+            <div class="form-group  col-md-12">
+              <span class="thong-tin-thanh-toan">
+                <h5>Thông báo</h5>
+              </span>
+            </div>
+            <div class="form-group col-md-12" style="text-align: center;">
+              <p class="modal-notify-unsuccessful">Thêm nhân viên không thành công</p>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: center; padding: 10px;">
+            <button style="margin: 5px;" class="btn btn-save" data-dismiss="modal">Quay lại</button>
           </div>
         </div>
         <div class="modal-footer">

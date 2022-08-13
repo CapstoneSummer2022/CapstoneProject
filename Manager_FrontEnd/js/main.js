@@ -151,6 +151,8 @@ function showBigCategoryInput(checkbox) {
 	}
 }
 
+
+
 function plusQuantity(event) {
 	var buttonClicked = event.target
 	var currentValue = buttonClicked.closest('input').querySelector.value

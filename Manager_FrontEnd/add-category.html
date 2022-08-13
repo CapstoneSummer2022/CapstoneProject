@@ -97,17 +97,14 @@
                         <form>
                             <div class="row">
                                 <div class="form-group col-md-3">
-                                    <label class="control-label required-field">Mã danh mục</label>
-                                    <input class="form-control" type="text" required>
-                                </div>
-                                <div class="form-group col-md-3">
                                     <label class="control-label required-field">Tên danh mục</label>
                                     <input class="form-control" type="text" required>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label class="control-label required-field">Danh mục lớn trực thuộc</label>
                                     <div class="options">
-                                        <input type="checkbox" id="#hasBigCategory" onclick="showBigCategoryInput(this)"/>
+                                        <input type="checkbox" id="hasBigCategory"
+                                            onclick="showBigCategoryInput(this)" />
                                     </div>
                                 </div>
                                 <div id="bigCategory" class="form-group col-md-3" style="display: none;">
@@ -138,7 +135,68 @@
                 </div>
             </div>
         </div>
+        <button data-toggle="modal" data-target="#unsuccessful"></button>
     </main>
+    <!--
+  MODAL SUCCESSFUL
+-->
+    <div class="modal fade" id="successful" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group  col-md-12">
+                            <span class="thong-tin-thanh-toan">
+                                <h5>Thông báo</h5>
+                            </span>
+                        </div>
+                        <div class="form-group col-md-12" style="text-align: center;">
+                            <p class="modal-notify-successful">Thêm danh mục thành công</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: center; padding: 10px;">
+                        <button style="margin: 5px;" class="btn btn-save" data-dismiss="modal">Quay lại</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--
+MODAL
+-->
+    <!--
+  MODAL UNSUCCESSFUL 
+-->
+    <div class="modal fade" id="unsuccessful" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group  col-md-12">
+                            <span class="thong-tin-thanh-toan">
+                                <h5>Thông báo</h5>
+                            </span>
+                        </div>
+                        <div class="form-group col-md-12" style="text-align: center;">
+                            <p class="modal-notify-unsuccessful">Thêm danh mục không thành công</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: center; padding: 10px;">
+                        <button style="margin: 5px;" class="btn btn-save" data-dismiss="modal">Quay lại</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--
+MODAL
+-->
     <!-- Essential javascripts for application to work-->
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/popper.min.js"></script>

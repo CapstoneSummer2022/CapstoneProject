@@ -86,11 +86,12 @@
         <li class="breadcrumb-item"><a href="supplier-management.html">Quản lý nhà cung cấp</a></li>
         <li class="breadcrumb-item active">Thêm nhà cung cấp</li>
       </ul>
+      <div id="clock"></div>
     </div>
     <div class="row">
       <div class="col-md-12">
         <div class="tile">
-          <h3 class="tile-title">Thêm nhà cung cấpt</h3>
+          <h3 class="tile-title">Thêm nhà cung cấp</h3>
           <div class="tile-body">
             <form>
               <div class="row">
@@ -118,6 +119,66 @@
       </div>
     </div>
   </main>
+  <!--
+  MODAL SUCCESSFUL
+-->
+  <div class="modal fade" id="successful" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="row">
+            <div class="form-group  col-md-12">
+              <span class="thong-tin-thanh-toan">
+                <h5>Thông báo</h5>
+              </span>
+            </div>
+            <div class="form-group col-md-12" style="text-align: center;">
+              <p class="modal-notify-successful">Thay đổi thông tin nhà cung cấp thành công</p>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: center; padding: 10px;">
+            <button style="margin: 5px;" class="btn btn-save" data-dismiss="modal">Quay lại</button>
+          </div>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--
+MODAL
+-->
+  <!--
+MODAL UNSUCCESSFUL 
+-->
+  <div class="modal fade" id="unsuccessful" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="row">
+            <div class="form-group  col-md-12">
+              <span class="thong-tin-thanh-toan">
+                <h5>Thông báo</h5>
+              </span>
+            </div>
+            <div class="form-group col-md-12" style="text-align: center;">
+              <p class="modal-notify-unsuccessful">Thay đổi thông tin nhà cung cấp không thành công</p>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: center; padding: 10px;">
+            <button style="margin: 5px;" class="btn btn-save" data-dismiss="modal">Quay lại</button>
+          </div>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--
+MODAL
+-->
   <script src="js/jquery-3.2.1.min.js"></script>
   <script src="js/popper.min.js"></script>
   <script src="js/bootstrap.min.js"></script>

@@ -16704,3 +16704,12 @@ td > input[type="number"] {
   margin-top: 30px;
   
 }
+
+.modal-notify-successful, .modal-notify-unsuccessful {
+  font-size: large;
+  font-weight: bold;
+}
+
+.modal-notify-unsuccessful {
+  color: red;
+}

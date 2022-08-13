@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Thêm kho hàng | Quản trị Admin</title>
+    <title>Thêm thông số kỹ thuật | Quản trị Admin</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -119,6 +119,66 @@
             </div>
         </div>
     </main>
+      <!--
+  MODAL SUCCESSFUL
+-->
+  <div class="modal fade" id="successful" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row">
+          <div class="form-group  col-md-12">
+            <span class="thong-tin-thanh-toan">
+              <h5>Thông báo</h5>
+            </span>
+          </div>
+          <div class="form-group col-md-12" style="text-align: center;">
+            <p class="modal-notify-successful">Thêm thông số kỹ thuật thành công</p>
+          </div>
+        </div>
+        <div style="display: flex; justify-content: center; padding: 10px;">
+          <button style="margin: 5px;" class="btn btn-save" data-dismiss="modal">Quay lại</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+<!--
+MODAL
+-->
+<!--
+MODAL UNSUCCESSFUL 
+-->
+<div class="modal fade" id="unsuccessful" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row">
+          <div class="form-group  col-md-12">
+            <span class="thong-tin-thanh-toan">
+              <h5>Thông báo</h5>
+            </span>
+          </div>
+          <div class="form-group col-md-12" style="text-align: center;">
+            <p class="modal-notify-unsuccessful">Thêm thông số kỹ thuật không thành công</p>
+          </div>
+        </div>
+        <div style="display: flex; justify-content: center; padding: 10px;">
+          <button style="margin: 5px;" class="btn btn-save" data-dismiss="modal">Quay lại</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+<!--
+MODAL
+-->
 
 
     <script src="js/jquery-3.2.1.min.js"></script>
