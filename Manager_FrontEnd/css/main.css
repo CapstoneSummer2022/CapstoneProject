@@ -16713,3 +16713,7 @@ td > input[type="number"] {
 .modal-notify-unsuccessful {
   color: red;
 }
+
+.detail-text {
+  font-size: large;
+}
