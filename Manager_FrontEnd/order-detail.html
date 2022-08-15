@@ -96,21 +96,42 @@
                     <h3 class="tile-title">Thông tin nhận hàng</h3>
                     <div class="tile-body">
                         <div class="row">
-                            <div class="form-group col-md-12">
-                                <label class="control-label ">Họ và tên</label>
+                            <div class="form-group col-md-2">
+                                <label class="control-label ">Họ và tên người nhận</label>
                                 <p class="detail-text">Nguyễn Thanh Tú</p>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-12">
-                                <label for="exampleSelect1" class="control-label">Địa chỉ</label>
-                                <p class="detail-text">Xã Thuỵ Hoà, huyện Yên Phong, tỉnh Bắc Ninh</p>
+                            <div class="form-group col-md-4">
+                                <label for="exampleSelect1" class="control-label">Địa chỉ giao hàng</label>
+                                <p class="detail-text">Thôn Lạc Nhuế, Xã Thuỵ Hoà, huyện Yên Phong, tỉnh Bắc Ninh</p>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label class="control-label">Số điện thoại</label>
+                                <p class="detail-text">0984572465</p>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="control-label">Số tiền khách hàng cần thanh toán</label>
+                                <p class="detail-text">543.600 đ</p>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="form-group col-md-12">
-                                <label class="control-label">Số điện thoại</label>
-                                <p class="detail-text">0984572465</p>
+                            <div class="form-group col-md-4">
+                                <label class="control-label">Tình trạng đơn hàng</label>
+                                <p class="detail-text"><span class="badge bg-warning">Đang giao hàng</span></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label class="control-label">Nhân viên bán hàng</label>
+                                <p class="detail-text">Đỗ Hoài Nam</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="modal-confirm-button">
+                                <div>
+                                    <button class="btn btn-primary" data-toggle="modal"
+                                        data-target="#confirmFinished">Cập nhật trạng thái đơn
+                                        hàng</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -119,6 +140,7 @@
             <div class="col-md-12">
                 <div class="tile">
                     <div class="tile-body">
+                        <h3 class="tile-title">Thông tin giỏ hàng</h3>
                         <table class="table table-hover table-bordered" id="sampleTable">
                             <thead>
                                 <tr>
@@ -170,11 +192,7 @@
                                 </tr>
                                 <tr>
                                     <td colspan="6" style="font-weight: bold;">Tổng tiền: </td>
-                                    <td>543600 đ</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="6" style="font-weight: bold;">Tình trạng: </td>
-                                    <td><span class="badge bg-warning">Đang giao hàng</span></td>
+                                    <td>543.600 đ</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -183,6 +201,71 @@
             </div>
         </div>
     </main>
+    <!--
+  MODAL CONFIRM FINISHED
+-->
+    <div class="modal fade" id="confirmFinished" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group  col-md-12">
+                            <span class="thong-tin-thanh-toan">
+                                <h5>Chú ý</h5>
+                            </span>
+                        </div>
+                        <div class="form-group col-md-12" style="text-align: center;">
+                            <label class="control-label">Xác nhận đơn hàng đã được giao và thanh toán</label>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: center; padding: 10px;">
+                        <a style="margin: 5px;" class="btn btn-save" data-dismiss="modal" href="#">Xác nhận</a>
+                        <a style="margin: 5px;" class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--
+MODAL
+-->
+
+    <!--
+MODAL CONFIRM ORDER
+-->
+    <div class="modal fade" id="confirmOrder" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group  col-md-12">
+                            <span class="thong-tin-thanh-toan">
+                                <h5>Chú ý</h5>
+                            </span>
+                        </div>
+                        <div class="form-group col-md-12" style="text-align: center;">
+                            <label class="control-label">Bạn có muốn chấp nhận đơn hàng này</label>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: center; padding: 10px;">
+                        <a style="margin: 5px;" class="btn btn-save" data-dismiss="modal" href="#">Xác nhận</a>
+                        <a style="margin: 5px;" class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--
+MODAL
+-->
     <!-- Essential javascripts for application to work-->
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/popper.min.js"></script>
