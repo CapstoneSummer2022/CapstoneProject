@@ -74,10 +74,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             http.logout().invalidateHttpSession(true).addLogoutHandler(logoutHandler()).logoutUrl("/sign-out").permitAll();
 
             http.cors().and().csrf().disable()
-                    .authorizeRequests().antMatchers("/error23","/css/**","/js/**","/**","/resources/**","/auth/signin","/auth/signup","/auth/sign-out","/home","/error-401").permitAll()
-//                    .antMatchers("/admin/**","/admin-home").hasAuthority("ROLE_MANAGER")
+                    .authorizeRequests().antMatchers("/error23","/css/**","/js/**","/resources/**","/auth/signin","/auth/signup","/auth/sign-out","/home","/error-401").permitAll()
+                    .antMatchers("/admin/**","/admin-home").hasAnyAuthority("ROLE_EMPLOYEE", "ROLE_MANAGER")
                     .anyRequest().authenticated()
-                    .and().exceptionHandling().accessDeniedHandler(accessDeniedHandler());
+                    .and().exceptionHandling().accessDeniedHandler(accessDeniedHandler()).and().exceptionHandling().authenticationEntryPoint(unauthorizedHandler);
             http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
 

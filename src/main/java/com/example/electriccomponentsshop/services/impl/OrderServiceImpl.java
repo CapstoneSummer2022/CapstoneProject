@@ -7,6 +7,8 @@ import com.example.electriccomponentsshop.entities.Category;
 import com.example.electriccomponentsshop.entities.Order;
 import com.example.electriccomponentsshop.repositories.OrderRepository;
 import com.example.electriccomponentsshop.services.OrderService;
+import lombok.AllArgsConstructor;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -21,24 +23,19 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.Function;
 @Service
+@AllArgsConstructor
 public class OrderServiceImpl implements OrderService {
-    OrderRepository orderRepository;
-
+    final OrderRepository orderRepository;
+    final ModelMap modelMap;
     @Override
     public List<Order> findOrdersByStatus(String status) {
         return orderRepository.findOrdersByStatus(status);
     }
-
-    private final ModelMap modelMap ;
     public Order convertToEntity(OrderDTO orderDTO){
         return modelMap.modelMapper().map(orderDTO,Order.class);
     }
     public OrderDTO convertToDTO(Order order){
         return modelMap.modelMapper().map(order,OrderDTO.class);
-    }
-    public OrderServiceImpl(OrderRepository orderRepository, ModelMap modelMap) {
-        this.orderRepository = orderRepository;
-        this.modelMap = modelMap;
     }
 
     @Override
@@ -51,7 +48,27 @@ public class OrderServiceImpl implements OrderService {
         }
         return orderDTOList;
     }
-
+    public boolean updateStatus(Integer id){
+        Optional<Order> orderOptional = orderRepository.findById(id);
+        if(orderOptional.isPresent()){
+            Order order = orderOptional.get();
+            String status = order.getStatus();
+            if(status.equalsIgnoreCase("Chờ xử lý")){
+                order.setStatus("Đang giao hàng");
+            }
+            else if(status.equals("Đang giao hàng")){
+                order.setStatus("Hoàn thành");
+            }
+            else{
+                throw new RuntimeException("Thao tác không được thực hiện");
+            }
+            orderRepository.save(order);
+            return true;
+        }
+        else {
+            throw  new NoSuchElementException("");
+        }
+    }
 
 
     @Override
@@ -143,8 +160,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Optional<OrderDTO> findById(Integer integer) {
-         return orderRepository.findById(integer).map(this::convertToDTO);
+    public OrderDTO findById(Integer integer) {
+        Optional<Order> orderOptional = orderRepository.findById(integer);
+        if(orderOptional.isEmpty()){
+            throw  new NoSuchElementException("Không tìm thấy đơn hàng với id này");
+        }
+         return convertToDTO(orderOptional.get());
     }
 
     @Override

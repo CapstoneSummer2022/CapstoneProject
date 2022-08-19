@@ -15,7 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 
-@Table(name = "Accounts", uniqueConstraints = {@UniqueConstraint(columnNames = "Email")})
+@Table(name = "Accounts", uniqueConstraints = {@UniqueConstraint(columnNames = {"Email","Phone"})})
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,13 +31,11 @@ public class Account {
     private String gender;
     private Date birthDate;
     private Boolean status;
-    public Set<Role> getRoles() {
-        return roles;
-    }
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "account_roles", joinColumns = @JoinColumn(name = "account_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    private List<Role> roles =new ArrayList<>();
+
     @OneToOne(mappedBy = "account")
     @PrimaryKeyJoinColumn
     private RefreshToken refreshToken;
@@ -56,14 +54,23 @@ public class Account {
         this.email = email;
         this.password = password;
     }
-    public Account(String email, String password,Set<Role> roles) {
+    public Account(String email, String password,List<Role> roles) {
         this.email = email;
         this.password = password;
         this.roles = roles;
     }
     public String getDob(){
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        return formatter.format(this.birthDate);
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            return formatter.format(this.birthDate);
+        }
+        catch (NullPointerException exception){
+            return "";
+        }
+
+    }
+    public String getRole(){
+        return roles.stream().findFirst().get().getRoleName().name();
     }
 
 

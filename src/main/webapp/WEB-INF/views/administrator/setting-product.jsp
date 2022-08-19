@@ -63,77 +63,7 @@
   </script>
 </head>
 
-<body class="app sidebar-mini rtl">
-  <style>
-    .Choicefile {
-      display: block;
-      background: #14142B;
-      border: 1px solid #fff;
-      color: #fff;
-      width: 150px;
-      text-align: center;
-      text-decoration: none;
-      cursor: pointer;
-      padding: 5px 0px;
-      border-radius: 5px;
-      font-weight: 500;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .Choicefile:hover {
-      text-decoration: none;
-      color: white;
-    }
-
-    #uploadfile,
-    .removeimg {
-      display: none;
-    }
-
-    #thumbbox {
-      position: relative;
-      width: 100%;
-      margin-bottom: 20px;
-    }
-
-    .removeimg {
-      height: 25px;
-      position: absolute;
-      background-repeat: no-repeat;
-      top: 5px;
-      left: 5px;
-      background-size: 25px;
-      width: 25px;
-      /* border: 3px solid red; */
-      border-radius: 50%;
-
-    }
-
-    .removeimg::before {
-      -webkit-box-sizing: border-box;
-      box-sizing: border-box;
-      content: '';
-      border: 1px solid red;
-      background: red;
-      text-align: center;
-      display: block;
-      margin-top: 11px;
-      transform: rotate(45deg);
-    }
-
-    .removeimg::after {
-      /* color: #FFF; */
-      /* background-color: #DC403B; */
-      content: '';
-      background: red;
-      border: 1px solid red;
-      text-align: center;
-      display: block;
-      transform: rotate(-45deg);
-      margin-top: -2px;
-    }
-  </style>
+<body onload="time()" class="app sidebar-mini rtl">
   <!-- Navbar-->
   <jsp:include page="header.jsp"/>
   <!-- Sidebar menu-->
@@ -154,16 +84,20 @@
             <form class="row">
               <div class="form-group col-md-3">
                 <label class="control-label">Tên sản phẩm</label>
-                <input class="form-control" type="text">
+                <input class="form-control" type="text" value="1-A-2-2">
+              </div>
+              <div class="form-group col-md-3">
+                <label class="control-label">Tên sản phẩm</label>
+                <input class="form-control" type="text" value="Diode Xung Đôi SBL3040 TO-247 600V 30A">
               </div>
               <div class="form-group  col-md-3">
-                <label class="control-label">Số lượng</label>
-                <input class="form-control" type="number">
+                <label class="control-label">Số lượng tồn kho</label>
+                <input class="form-control" type="number" value="40">
               </div>
               <div class="form-group col-md-3">
                 <label for="exampleSelect1" class="control-label">Danh mục</label>
                 <select class="form-control" id="exampleSelect1">
-                  <option>-- Chọn danh mục --</option>
+                  <option disabled hidden>-- Chọn danh mục --</option>
                   <option>Cầu chì</option>
                   <option>Biến trở</option>
                   <option>Cảm biến nhiệt độ</option>
@@ -173,15 +107,7 @@
                   <option>Cảm biến nước</option>
                   <option>Cảm biến âm thanh</option>
                   <option>IC cảm ứng</option>
-                </select>
-              </div>
-              <div class="form-group col-md-3 ">
-                <label for="exampleSelect1" class="control-label">Nhà cung cấp</label>
-                <select class="form-control" id="exampleSelect1">
-                  <option>-- Chọn nhà cung cấp --</option>
-                  <option>DAEWOO</option>
-                  <option>ABECO</option>
-                  <option>Nguyên Phi</option>
+                  <option selected>Đi-ốt</option>
                 </select>
               </div>
               <div class="form-group col-md-12">
@@ -190,118 +116,38 @@
                   <input type="file" id="uploadfile" name="ImageUpload" onchange="readURL(this);" />
                 </div>
                 <div id="thumbbox">
-                  <img height="450" width="400" alt="Thumb image" id="thumbimage" style="display: none" />
+                  <img height="450" width="400" alt="Thumb image" id="thumbimage" src="resources/images/diode.jpg" />
                   <a class="removeimg" href="javascript:"></a>
                 </div>
                 <div id="boxchoice">
                   <a href="javascript:" class="Choicefile"><i class="fas fa-cloud-upload-alt"></i> Chọn ảnh</a>
                   <p style="clear:both"></p>
                 </div>
-
               </div>
               <div class="form-group col-md-12">
                 <label class="control-label">Mô tả sản phẩm</label>
-                <textarea class="form-control" name="mota" id="mota"></textarea>
+                <textarea class="form-control" name="mota" id="mota">
+        - Dùng để chỉnh lưu dòng điện xoay chiều thành dòng điện một chiều.
+        - Dùng làm các công tắc điện tử.
+        - Đóng ngắt bằng điều khiển mức điện áp.
+        - Ứng dụng trong nhiều mạch bán dẫn.
+        - Ứng dụng rộng rãi trong kỹ thuật điện và điện tử.
+        - Diode xung RF107 thường được dùng trong các bộ nguồn xung thì ở đầu ra của biến áp xung ta phải dùng diode xung để chỉnh lưu. Diode xung RF107 là diode làm việc ở tần số cao khoảng vài chục KHz.
+        - Diode xung RF107 có thể làm việc với điện áp lên đến 1000V, diode nắn điện thông thường không thể thay thế vào vị trí diode xung được, nhưng ngược lại diode xung có thể thay thế vào vị trí của diode thường.
+                </textarea>
                 <script>CKEDITOR.replace('mota');</script>
               </div>
               <div class="confirm-button">
                 <div class="button">
                   <button type="submit" class="btn btn-save" type="button">Lưu lại</button>
-                  <button class="btn btn-cancel" href="/doc/table-data-table.html">Hủy bỏ</button>
+                  <button type="button" class="btn btn-cancel" onclick="location.href='product-management.html'">Hủy
+                    bỏ</button>
                 </div>
               </div>
             </form>
           </div>
         </div>
   </main>
-
-  <!--
-  MODAL DANH MỤC
--->
-  <div class="modal fade" id="adddanhmuc" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-    data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-
-        <div class="modal-body">
-          <div class="row">
-            <div class="form-group  col-md-12">
-              <span class="thong-tin-thanh-toan">
-                <h5>Thêm mới danh mục </h5>
-              </span>
-            </div>
-            <div class="form-group col-md-12">
-              <label class="control-label">Nhập tên danh mục mới</label>
-              <input class="form-control" type="text" required>
-            </div>
-            <div class="form-group col-md-12">
-              <label class="control-label">Danh mục sản phẩm hiện đang có</label>
-              <ul style="padding-left: 20px;">
-                <li>Bàn ăn</li>
-                <li>Bàn thông minh</li>
-                <li>Tủ</li>
-                <li>Ghế gỗ</li>
-                <li>Ghế sắt</li>
-                <li>Giường người lớn</li>
-                <li>Giường trẻ em</li>
-                <li>Bàn trang điểm</li>
-                <li>Giá đỡ</li>
-              </ul>
-            </div>
-          </div>
-          <BR>
-          <button class="btn btn-save" type="button">Lưu lại</button>
-          <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
-          <BR>
-        </div>
-        <div class="modal-footer">
-        </div>
-      </div>
-    </div>
-  </div>
-  <!--
-MODAL
--->
-
-
-
-
-  <!--
-  MODAL TÌNH TRẠNG
--->
-  <div class="modal fade" id="addtinhtrang" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-    data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-
-        <div class="modal-body">
-          <div class="row">
-            <div class="form-group  col-md-12">
-              <span class="thong-tin-thanh-toan">
-                <h5>Thêm mới tình trạng</h5>
-              </span>
-            </div>
-            <div class="form-group col-md-12">
-              <label class="control-label">Nhập tình trạng mới</label>
-              <input class="form-control" type="text" required>
-            </div>
-          </div>
-          <BR>
-          <button class="btn btn-save" type="button">Lưu lại</button>
-          <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
-          <BR>
-        </div>
-        <div class="modal-footer">
-        </div>
-      </div>
-    </div>
-  </div>
-  <!--
-MODAL
--->
-
-
-
   <script src="js/jquery-3.2.1.min.js"></script>
   <script src="js/popper.min.js"></script>
   <script src="js/bootstrap.min.js"></script>

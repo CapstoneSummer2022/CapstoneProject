@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
     @GetMapping("")
     public String viewHome(Model model){
+
         return "administrator/admin-home";
 
     }

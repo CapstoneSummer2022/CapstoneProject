@@ -5,6 +5,7 @@ import com.example.electriccomponentsshop.common.ERole;
 import com.example.electriccomponentsshop.common.JwtUtils;
 import com.example.electriccomponentsshop.dto.AccountDTO;
 import com.example.electriccomponentsshop.dto.MessageResponse;
+import com.example.electriccomponentsshop.dto.SigninRequest;
 import com.example.electriccomponentsshop.dto.SignupRequest;
 import com.example.electriccomponentsshop.entities.Account;
 import com.example.electriccomponentsshop.entities.RefreshToken;
@@ -30,6 +31,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -79,18 +81,31 @@ public class AuthController {
     }
     @GetMapping("/signin")
     public String login(Model model){
-        model.addAttribute("account", new AccountDTO());
-        return "signin";
+        model.addAttribute("signinRequest", new SigninRequest());
+        return "customer/html/signin";
     }
     @PostMapping("/signin")
-    public String authenticateUser(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response, @Valid @ModelAttribute("account") AccountDTO accountDTO, BindingResult bindingResult) throws Exception {
+    public String authenticateUser(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response, @Valid @ModelAttribute("signinRequest") SigninRequest signinRequest, BindingResult bindingResult) {
+        System.out.println("true");
         if(bindingResult.hasErrors()){
-
+            System.out.println("gg");
             bindingResult.getFieldErrors().forEach(fieldError -> modelMap.addAttribute(fieldError.getField(),fieldError.getDefaultMessage()));
-            return "signin";
+            return "customer/html/signin";
+        }
+        String email = signinRequest.getEmail();
+        String password = signinRequest.getPassword();
+        Optional<Account> accountOptional = accountRepository.findByEmail(email);
+        if(accountOptional.isEmpty()){
+            modelMap.addAttribute("wrongEmail","Không có tài khoản chứa email này");
+
+            return "customer/html/signin";
+        }else if(!passwordEncoder.matches(password,accountOptional.get().getPassword())) {
+            System.out.println("gcccc");
+            modelMap.addAttribute("wrongPassword","Sai mật khẩu");
+            return "customer/html/signin";
         }
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(accountDTO.getEmail(), accountDTO.getPassword())
+                new UsernamePasswordAuthenticationToken(signinRequest.getEmail(), signinRequest.getPassword())
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
         AccountDetailImpl accountDetail = (AccountDetailImpl) authentication.getPrincipal();
@@ -112,8 +127,9 @@ public class AuthController {
         cookie.setPath("/");
         response.addCookie(cookie);
         if(roles.contains("ROLE_MANAGER")||roles.contains("ROLE_EMPLOYEE")){
-            modelMap.addAttribute("roles", roles);
+            modelMap.addAttribute("roles", roles.get(0));
             return "redirect:/admin/home";
+
         }
         return "redirect:/home";
     }
@@ -126,7 +142,7 @@ public class AuthController {
         } else {
             Account account = new Account(signupRequest.getEmail(), passwordEncoder.encode(signupRequest.getPassword()));
             Set<String> strRoles = signupRequest.getRoles();
-            Set<Role> roles = new HashSet<>();
+            List<Role> roles = new ArrayList<>();
             if (strRoles == null) {
                 Role accountRole = roleRepository.findByRoleName(ERole.ROLE_CUSTOMER).orElseThrow(() -> new RuntimeException("Role not found"));
                 roles.add(accountRole);

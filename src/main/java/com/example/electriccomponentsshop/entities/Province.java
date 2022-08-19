@@ -17,13 +17,15 @@ import java.util.List;
 @Table(name = "Province")
 public class Province {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer pCode;
+    private String pCode;
     private String name;
     private String type;
+    private String slug;
     @OneToMany(mappedBy = "province",fetch = FetchType.LAZY)
     List<District> districtList =new ArrayList<>();
     @OneToMany(mappedBy = "provinceAccount",fetch = FetchType.LAZY)
     List<Account> accounts =new ArrayList<>();
+    @OneToMany(mappedBy = "provinceOrder",fetch = FetchType.LAZY)
+    List<Order> orders =new ArrayList<>();
 
 }

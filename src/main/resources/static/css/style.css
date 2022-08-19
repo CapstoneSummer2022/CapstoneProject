@@ -581,7 +581,9 @@ footer h5 {
     font-weight: bold; 
     margin: 0 0 10px;
 }
-
+.error{
+    color:red;
+}
 footer p {margin: 0;}
 
 footer img {width: 20px;}

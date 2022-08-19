@@ -61,9 +61,10 @@
             <div id="cart_icon">
                 <a href="cart.html"><i class="material-icons">shopping_cart</i><span id="no_of_prods">1</span> </a> <a href="cart.html">Giỏ hàng</a>
             </div>
+
             <c:if test="${user!=null}">
                 <div id="avatar_icon">
-                    <c:out value="${user}"/>
+                        ${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.name}
                 </div>
             </c:if>
             <c:if test="${user == null}">

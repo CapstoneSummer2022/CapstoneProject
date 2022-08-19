@@ -96,8 +96,15 @@
     <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="../../resources/images/avatar.jpg" width="50px"
                                         alt="User Image">
         <div>
-            <p class="app-sidebar__user-name"><b>Bùi Minh Hiệu</b></p>
-            <p class="app-sidebar__user-designation">Quản lý</p>
+            <p class="app-sidebar__user-name"><b>${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.name}</b></p>
+            <p class="app-sidebar__user-designation">
+                <sec:authorize access="hasRole('ROLE_MANAGER')">
+                    Quản lí
+                </sec:authorize>
+                <sec:authorize access="hasRole('ROLE_EMPLOYEE')">
+                    Nhân viên
+                </sec:authorize>
+            </p>
         </div>
     </div>
     <hr>
@@ -111,15 +118,15 @@
         <li><a class="app-menu__item" href="${pageContext.request.contextPath}/admin/orders"><i class='app-menu__icon bx bx-task'></i><span
                 class="app-menu__label">Quản lý đơn hàng</span></a></li>
         <sec:authorize access="hasRole('ROLE_MANAGER')">
-        <li><a class="app-menu__item" href="${pageContext.request.contextPath}/admin/accounts"><i class='app-menu__icon bx bx-id-card'></i>
-            <span class="app-menu__label">Quản lý tài khoản</span>
-        </a>
-        </li>
-        <li><a class="app-menu__item" href="${pageContext.request.contextPath}/admin/categories"><i class='app-menu__icon bx bx-category'></i><span
-                class="app-menu__label">Quản lý danh mục</span></a></li>
+            <li><a class="app-menu__item" href="${pageContext.request.contextPath}/admin/accounts/system-account"><i class='app-menu__icon bx bx-id-card'></i>
+                <span class="app-menu__label">Quản lý tài khoản</span>
+            </a>
+            </li>
+            <li><a class="app-menu__item" href="${pageContext.request.contextPath}/admin/categories"><i class='app-menu__icon bx bx-category'></i><span
+                    class="app-menu__label">Quản lý danh mục</span></a></li>
 
-        <li><a class="app-menu__item" href="${pageContext.request.contextPath}/admin/suppliers"><i
-                class='app-menu__icon bx bxs-user-account'></i><span class="app-menu__label">Quản lý nhà cung cấp
+            <li><a class="app-menu__item" href="${pageContext.request.contextPath}/admin/suppliers"><i
+                    class='app-menu__icon bx bxs-user-account'></i><span class="app-menu__label">Quản lý nhà cung cấp
           </span></a></li>
             <li><a class="app-menu__item" href="${pageContext.request.contextPath}/admin/warehouses"><i
                     class='app-menu__icon bx bx-building-house'></i><span class="app-menu__label">Quản lý kho

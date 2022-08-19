@@ -11,29 +11,18 @@ import java.util.Optional;
 
 public interface CategoryService {
 
-    List<Category> findCategoriesByParentCategoryIdIsNull();
+    List<CategoryDTO> findCategoriesByParentCategoryIdIsNull();
 
     <S extends Category> S save(S entity);
 
-    List<Category> findAll();
-
-    List<Category> findAllById(Iterable<Integer> integers);
-
-    <S extends Category> List<S> saveAll(Iterable<S> entities);
-
-    @Deprecated
-    Category getOne(Integer integer);
-
-    @Deprecated
-    Category getById(Integer integer);
-
-    Category getReferenceById(Integer integer);
+    List<CategoryDTO> findAll();
 
     Page<Category> findAll(Pageable pageable);
-
-    Category findById(Integer integer);
-
+    boolean addCategory(CategoryDTO categoryDTO);
+    boolean updateCategory(CategoryDTO categoryDTO,String strId);
+    CategoryDTO findById(Integer id);
     boolean existsById(Integer integer);
-
+    boolean removeChildCategory(Category child);
+    boolean addChildCategory(Category child,Category parent);
     long count();
 }

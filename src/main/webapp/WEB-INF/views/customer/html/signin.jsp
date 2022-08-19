@@ -1,11 +1,15 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
+      <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Đăng nhập</title>
-        <link rel="stylesheet" href="../../../../../resources/static/css/style.css">
+      <link href="<c:url value="/css/style.css"/>" rel="stylesheet" type="text/css">
+      <script href="<c:url value="/js/validate.js"/>"></script>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link href='https://fonts.googleapis.com/css?family=Alef' rel='stylesheet'>
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -60,7 +64,7 @@
                 <a href="cart.html"><i class="material-icons">shopping_cart</i><span id="no_of_prods">1</span> </a> <a href="cart.html">Giỏ hàng</a>
               </div>
               <div id="avatar_icon"> 
-                <a href="signin.html"><i class="material-icons">person</i></a><a href="signin.html">Đăng nhập</a> / <a href="signup.html">Đăng ký</a>
+                <a href="signin.jsp"><i class="material-icons">person</i></a><a href="signin.jsp">Đăng nhập</a> / <a href="signup.html">Đăng ký</a>
               </div>
             </div>
           </div>
@@ -109,28 +113,25 @@
           </ul>
           <div class="sign_form">
             <div id="signin_content"> 
-              <h3>Đăng nhập</h3>                        
-              <form action="/">
-
-
-                <input type="checkbox" id="remember" value="remember"><label for="remember">&nbsp Nhớ mật khẩu</label>
-                <input type="submit" value="Đăng nhập"/>
-              </form>
-              <form:form action="/auth/signin" method="POST" modelAttribute="account" style="width: 100%;">
-
+              <h3>Đăng nhập</h3>
+              <%--@elvariable id="signinRequest" type="com.example.electriccomponentsshop.dto.SigninRequest"--%>
+              <form:form action="${pageContext.request.contextPath}/auth/signin" method="POST" modelAttribute="signinRequest" style="width: 100%;"  >
                   <label for="email">Email</label>
-                  <form:input type="email" id="email" name="email" required/>
-                  <form:errors path="email" element="span" />
-
-                <label for="password">Mật khẩu</label>
-                <form:input type="password" id="pwd" name="pwd" required/>
-                <form:errors path="password" />
-
+                  <form:input type="email" id="email" name="email" path="email" />
+                  <form:errors path="email" element="div" cssClass="error" />
+                  <c:if test="${wrongEmail!=null}">
+                   <p class="error"> <c:out value="${wrongEmail}"/></p>
+                  </c:if>
+                <label for="pwd">Mật khẩu</label>
+                <form:input type="password" id="pwd" name="pwd" path="password" />
+                <form:errors path="password" cssClass="error" element="div"/>
+                <c:if test="${wrongPassword!=null}">
+                 <p class="error"> <c:out value="${wrongPassword}"/></p>
+                </c:if>
                 <div class="form-elements">
-                  <input type="checkbox" id="remember" value="Nhớ mật khẩu"><label for="remember">Nhớ mật khẩu</label>
                   <a href="" id="change-pwd" style="float: right;">Quên mật khẩu</a><br>
                 </div>
-                <div class="form-elements">
+                <div class="form-elements" >
                   <input type="submit" value="Đăng nhập"/>
                 </div>
                 <hr style="color: grey;">
@@ -138,9 +139,7 @@
                   Bạn chưa có tài khoản?<a href="/signup.html" id="signup">Đăng ký</a>
                 </div>
               </form:form>
-              <div class="switch_sign">
-                Bạn chưa có tài khoản? <a href="./signup.html" id="signup">Đăng ký</a>
-            </div>
+
             </div>  
           </div>
         </main>

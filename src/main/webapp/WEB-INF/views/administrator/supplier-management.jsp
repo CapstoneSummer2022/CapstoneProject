@@ -47,52 +47,83 @@
               </div>
             </div>
             <div class="search-row">
-              <div class="search-container">
-                <form action="/action_page.php">
-                  <input type="text" placeholder="Tìm kiếm" name="search">
+              <form action="">
+                <div class="search-container">
+                  <input class="form-control" type="text" placeholder="Tìm kiếm" name="search">
                   <button type="submit"><i class="fa fa-search"></i></button>
-                </form>
-              </div>
+                </div>
+              </form>
             </div>
             <table class="table table-hover table-bordered" id="sampleTable">
               <thead>
                 <tr>
-                  <th width="80">Trạng thái</th>
-                  <th width="100">Mã Nhà cung cấp</th>
+                  <th width="100">Mã nhà cung cấp</th>
                   <th>Tên nhà cung cấp</th>
                   <th>Trang web </th>
+                  <th width="80">Trạng thái</th>
                   <th width="100">Tuỳ chọn</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td><input class="status-checkbox" onclick="return false" type="checkbox" data-toggle="modal"
-                      data-target="#confirmStatus" name="check1" checked value="1">
-                  <td>SP-1</td>
+                  <td>1</td>
                   <td>DAEWOO</td>
                   <td><a href="https://trangvangvietnam.com/" target=”_blank”>https://trangvangvietnam.com/</a></td>
                   <td>
-                    <a href="setting-supplier.html" class="btn btn-primary btn-sm edit" type="button" title="Sửa"><i
-                        class="fas fa-edit"></i></a>
+                    <label class="switch">
+                      <input class="status-checkbox" onclick="return false" type="checkbox" data-toggle="modal"
+                        data-target="#disableStatus" name="check" checked>
+                      <span class="slider round"></span>
+                    </label>
                   </td>
-                </tr>
-                <tr>
-                  <td><input class="status-checkbox" onclick="return false" type="checkbox" data-toggle="modal"
-                      data-target="#confirmStatus" name="check1" checked value="1">
-                  <td>SP-2</td>
-                  <td>ABECO</td>
-                  <td><a href="http://abecovietnam.com/" target=”_blank”>http://abecovietnam.com/</a></td>
                   <td>
                     <a href="setting-supplier.html" class="btn btn-primary btn-sm edit" type="button" title="Sửa"><i
                         class="fas fa-edit"></i></a>
                   </td>
                 </tr>
                 <tr>
-                  <td><input class="status-checkbox" onclick="return false" type="checkbox" data-toggle="modal"
-                      data-target="#confirmStatus" name="check1" checked value="1">
-                  <td>SP-2</td>
+                  <td>2</td>
+                  <td>ABECO</td>
+                  <td><a href="http://abecovietnam.com/" target=”_blank”>http://abecovietnam.com/</a></td>
+                  <td>
+                    <label class="switch">
+                      <input class="status-checkbox" onclick="return false" type="checkbox" data-toggle="modal"
+                        data-target="#disableStatus" name="check" checked>
+                      <span class="slider round"></span>
+                    </label>
+                  </td>
+                  <td>
+                    <a href="setting-supplier.html" class="btn btn-primary btn-sm edit" type="button" title="Sửa"><i
+                        class="fas fa-edit"></i></a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>3</td>
                   <td>Nguyên Phi</td>
                   <td><a href="https://trangvangvietnam.com/" target=”_blank”>http://trangvangtructuyen.vn/</a></td>
+                  <td>
+                    <label class="switch">
+                      <input class="status-checkbox" onclick="return false" type="checkbox" data-toggle="modal"
+                        data-target="#disableStatus" name="check" checked>
+                      <span class="slider round"></span>
+                    </label>
+                  </td>
+                  <td>
+                    <a href="setting-supplier.html" class="btn btn-primary btn-sm edit" type="button" title="Sửa"><i
+                        class="fas fa-edit"></i></a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>Banlinhkien</td>
+                  <td><a href="https://trangvangvietnam.com/" target=”_blank”>https://banlinhkien.com/</a></td>
+                  <td>
+                    <label class="switch">
+                      <input class="status-checkbox" onclick="return false" type="checkbox" data-toggle="modal"
+                        data-target="#enableStatus" name="check">
+                      <span class="slider round"></span>
+                    </label>
+                  </td>
                   <td>
                     <a href="setting-supplier.html" class="btn btn-primary btn-sm edit" type="button" title="Sửa"><i
                         class="fas fa-edit"></i></a>
@@ -124,7 +155,7 @@
   <!--
   MODAL CONFIRM STATUS 
 -->
-  <div class="modal fade" id="confirmStatus" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  <div class="modal fade" id="disableStatus" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
@@ -153,6 +184,38 @@
   <!--
 MODAL
 -->
+  <!--
+  MODAL ENABLE STATUS 
+-->
+  <div class="modal fade" id="enableStatus" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+
+        <div class="modal-body">
+          <div class="row">
+            <div class="form-group  col-md-12">
+              <span class="thong-tin-thanh-toan">
+                <h5>Chú ý</h5>
+              </span>
+            </div>
+            <div class="form-group col-md-12" style="text-align: center;">
+              <label class="control-label">Bạn có chắc chắn kích hoạt sản phẩm này</label>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: center; padding: 10px;">
+            <a style="margin: 5px;" class="btn btn-save" data-dismiss="modal" href="#">Xác nhận</a>
+            <a style="margin: 5px;" class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
+          </div>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--
+MODAL
+-->
   <!-- Essential javascripts for application to work-->
   <script src="js/jquery-3.2.1.min.js"></script>
   <script src="js/popper.min.js"></script>
@@ -164,119 +227,6 @@ MODAL
   <script src="js/plugins/pace.min.js"></script>
   <!-- Page specific javascripts-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
-  <script>
-    function deleteRow(r) {
-      var i = r.parentNode.parentNode.rowIndex;
-      document.getElementById("myTable").deleteRow(i);
-    }
-    jQuery(function () {
-      jQuery(".trash").click(function () {
-        swal({
-          title: "Cảnh báo",
-
-          text: "Bạn có chắc chắn là muốn xóa?",
-          buttons: ["Hủy bỏ", "Đồng ý"],
-        })
-          .then((willDelete) => {
-            if (willDelete) {
-              swal("Đã xóa thành công.!", {
-
-              });
-            }
-          });
-      });
-    });
-    oTable = $('#sampleTable').dataTable();
-    $('#all').click(function (e) {
-      $('#sampleTable tbody :checkbox').prop('checked', $(this).is(':checked'));
-      e.stopImmediatePropagation();
-    });
-
-    //EXCEL
-    // $(document).ready(function () {
-    //   $('#').DataTable({
-
-    //     dom: 'Bfrtip',
-    //     "buttons": [
-    //       'excel'
-    //     ]
-    //   });
-    // });
-
-
-    //Thời Gian
-    function time() {
-      var today = new Date();
-      var weekday = new Array(7);
-      weekday[0] = "Chủ Nhật";
-      weekday[1] = "Thứ Hai";
-      weekday[2] = "Thứ Ba";
-      weekday[3] = "Thứ Tư";
-      weekday[4] = "Thứ Năm";
-      weekday[5] = "Thứ Sáu";
-      weekday[6] = "Thứ Bảy";
-      var day = weekday[today.getDay()];
-      var dd = today.getDate();
-      var mm = today.getMonth() + 1;
-      var yyyy = today.getFullYear();
-      var h = today.getHours();
-      var m = today.getMinutes();
-      var s = today.getSeconds();
-      m = checkTime(m);
-      s = checkTime(s);
-      nowTime = h + " giờ " + m + " phút " + s + " giây";
-      if (dd < 10) {
-        dd = '0' + dd
-      }
-      if (mm < 10) {
-        mm = '0' + mm
-      }
-      today = day + ', ' + dd + '/' + mm + '/' + yyyy;
-      tmp = '<span class="date"> ' + today + ' - ' + nowTime +
-        '</span>';
-      document.getElementById("clock").innerHTML = tmp;
-      clocktime = setTimeout("time()", "1000", "Javascript");
-
-      function checkTime(i) {
-        if (i < 10) {
-          i = "0" + i;
-        }
-        return i;
-      }
-    }
-    //In dữ liệu
-    var myApp = new function () {
-      this.printTable = function () {
-        var tab = document.getElementById('sampleTable');
-        var win = window.open('', '', 'height=700,width=700');
-        win.document.write(tab.outerHTML);
-        win.document.close();
-        win.print();
-      }
-    }
-    //     //Sao chép dữ liệu
-    //     var copyTextareaBtn = document.querySelector('.js-textareacopybtn');
-
-    // copyTextareaBtn.addEventListener('click', function(event) {
-    //   var copyTextarea = document.querySelector('.js-copytextarea');
-    //   copyTextarea.focus();
-    //   copyTextarea.select();
-
-    //   try {
-    //     var successful = document.execCommand('copy');
-    //     var msg = successful ? 'successful' : 'unsuccessful';
-    //     console.log('Copying text command was ' + msg);
-    //   } catch (err) {
-    //     console.log('Oops, unable to copy');
-    //   }
-    // });
-
-
-    //Modal
-    $("#show-emp").on("click", function () {
-      $("#ModalUP").modal({ backdrop: false, keyboard: false })
-    });
-  </script>
 </body>
 
 </html>

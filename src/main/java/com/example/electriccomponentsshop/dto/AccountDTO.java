@@ -1,9 +1,7 @@
 package com.example.electriccomponentsshop.dto;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -14,14 +12,28 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AccountDTO {
-
+    private String id;
     @Email(message = "Email không hợp lệ",regexp = "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$")
     private String email;
+    @NotEmpty(message = "Không được để trống")
     private String name;
+    @NotEmpty(message = "Không được để trống")
     private String phone;
-    private Set<String> roles;
+    @NotEmpty(message = "Không được để trống")
+    private String role;
     @NotEmpty(message = "Không được để trống")
     private String password;
+    @NotEmpty(message = "Không được để trống")
+    private String provinceName;
+    @NotEmpty(message = "Không được để trống")
+    private String districtName;
+    @NotEmpty(message = "Không được để trống")
+    private String wardName;
+    @NotEmpty(message = "Không được để trống")
+    private String gender;
+    @NotEmpty(message = "Không được để trống")
+    private String dob;
+
 
 
 }

@@ -14,12 +14,19 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 public class OrderDTO {
-        private Integer id;
+        private String id;
         private List<AccountEmail> accounts;
+        private List<OrderItemDto> orderItemDtos;
         private String status;
         private Double paidMoney;
         private Double totalPayment;
-
+        private String orderedDate;
+        private String receivedPerson;
+        private String receivedPhone;
+        private String provinceName;
+        private String districtName;
+        private String wardName;
+        private String detailLocation;
 
         @NoArgsConstructor
         @Getter

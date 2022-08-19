@@ -5,6 +5,7 @@ import com.example.electriccomponentsshop.dto.CategoryDTO;
 import com.example.electriccomponentsshop.entities.Category;
 import com.example.electriccomponentsshop.services.CategoryService;
 import com.example.electriccomponentsshop.services.RefreshTokenService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,79 +20,77 @@ import java.util.*;
 @CrossOrigin
 @Controller
 @RequestMapping("/admin/categories")
+@AllArgsConstructor
 public class CategoryController  {
     final
     CategoryService categoryService;
-
     final
     ModelMap modelMap;
-
-    public CategoryController(CategoryService categoryService, ModelMap modelMap) {
-        this.categoryService = categoryService;
-        this.modelMap = modelMap;
-    }
-
     @GetMapping("")
-    public String list(Model model,CategoryDTO categoryDTO){
-        ArrayList<Category> categories = (ArrayList<Category>)categoryService.findAll();
-        System.out.println(categories.isEmpty());
+    public String list(Model model){
+        ArrayList<CategoryDTO> categories = (ArrayList<CategoryDTO>)categoryService.findAll();
         model.addAttribute("categories", categories);
+        for (CategoryDTO ca: categories
+             ) {
+            System.out.println(ca.getName() + " đây này");
+        }
+        System.out.println(categories.size()+"sizfff");
         return "administrator/category-management";
 
     }
     @PostMapping("/add")
-    public String addCategory(@Valid @ModelAttribute("categoryDTO") CategoryDTO categoryDTO,BindingResult bindingResult,Model model){
+    public String addCategory(@Valid @ModelAttribute("categoryDto") CategoryDTO categoryDTO,BindingResult bindingResult,Model model){
         if(bindingResult.hasErrors()){
-            System.out.println("ff");
+            bindingResult.getFieldErrors().forEach(fieldError -> model.addAttribute(fieldError.getField(),fieldError.getDefaultMessage()));
+            return "administrator/add-category";
         }
-        Category category = new Category(categoryDTO.getName());
-        if(categoryDTO.getParentId()==null){
-            categoryService.save(category);
-        }
-        else if(categoryDTO.getParentId()!=null) {
-            try {
-                Category c  = categoryService.findById(categoryDTO.getParentId());
-                category.setParentCategory(c);
-                Set<Category> childCategories = c.getChildCategories();
-                childCategories.add(category);
-                c.setChildCategories(childCategories);
-                categoryService.save(category);
-            }catch (NoSuchElementException e){
-                return "Not found parent category";
-            }
-        }
+        categoryService.addCategory(categoryDTO);
         return "redirect:/list";
 
     }
-    @PostMapping("category/update/{id}")
-    public ModelAndView editCategory(@PathVariable int id, @Valid @ModelAttribute("category1") CategoryDTO categoryDTO, BindingResult bindingResult){
-      try{
-
-          Category category = categoryService.findById(id);
-          if(category.getParentCategory()==null){
-              category.setName(categoryDTO.getName());
-              categoryService.save(category);
-          }
-          else if(category.getParentCategory()!=null){
-              Category parent = categoryService.findById(categoryDTO.getParentId());
-              category.setParentCategory(parent);
-              Set<Category> childCategories = parent.getChildCategories();
-              childCategories.add(category);
-              categoryService.save(category);
-          }
-      }
-      catch(NoSuchElementException e){
-            return new ModelAndView("Không tìm thấy category");
-
-      }
-        return new ModelAndView("category");
+    @PostMapping("update/{id}")
+    public String editCategory(@PathVariable String id,Model model, @Valid @ModelAttribute("categoryDto") CategoryDTO categoryDTO, BindingResult bindingResult){
+//      try{
+//
+//          Category category = categoryService.findById(id);
+//          if(category.getParentCategory()==null){
+//              category.setName(categoryDTO.getName());
+//              categoryService.save(category);
+//          }
+//          else if(category.getParentCategory()!=null){
+//              Category parent = categoryService.findById(categoryDTO.getParentId());
+//              category.setParentCategory(parent);
+//              Set<Category> childCategories = parent.getChildCategories();
+//              childCategories.add(category);
+//              categoryService.save(category);
+//          }
+//      }
+//      catch(NoSuchElementException e){
+//            return new ModelAndView("Không tìm thấy category");
+//
+//      }
+        if(bindingResult.hasErrors()){
+            bindingResult.getFieldErrors().forEach(fieldError -> model.addAttribute(fieldError.getField(),fieldError.getDefaultMessage()));
+        }
+        categoryService.updateCategory(categoryDTO,id);
+        return "administrator/setting-category";
     }
-    public Category convertToEntity(CategoryDTO categoryDTO){
-        Category category = modelMap.modelMapper().map(categoryDTO,Category.class);
-        return category;
-    }
-    public CategoryDTO convertToDTO(Category category){
-        CategoryDTO categoryDTO = modelMap.modelMapper().map(category,CategoryDTO.class);
-        return categoryDTO;
+    @GetMapping("edit/{id}")
+    public String viewFormEdit(@PathVariable Integer id,Model model){
+
+        try {
+            CategoryDTO categoryDTO = categoryService.findById(id);
+            List<CategoryDTO> categoryDTOS = categoryService.findAll();
+            categoryDTOS.remove(categoryDTO);
+            CategoryDTO parent = categoryService.findById(Integer.parseInt(categoryDTO.getParentId()));
+            categoryDTOS.remove(parent);
+            model.addAttribute("categories",categoryDTOS);
+            model.addAttribute("categoryDto",categoryDTO);
+        }
+        catch (NoSuchElementException e){
+            model.addAttribute("error",e.getMessage());
+        }
+        return "administrator/setting-category";
+
     }
 }

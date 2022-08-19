@@ -107,8 +107,8 @@
             <h2 style="margin: 0; padding: 0;">ECOM</h2>
         </div>
 
-        <%--@elvariable id="account" type="com.example.electriccomponentsshop.dto.AccountDTO"--%>
-        <form:form action="/auth/signin" method="POST" modelAttribute="account" style="width: 100%;">
+        <%--@elvariable id="signinRequest" type="com.example.electriccomponentsshop.dto.SigninRequest"--%>
+        <form:form action="/auth/signin" method="POST" modelAttribute="signinRequest" style="width: 100%;">
             <div class="form-elements">
                 <form:input type="email" id="email" name ="email" placeholder="Email" path="email"/>
                 <form:errors path="email" element="span" />

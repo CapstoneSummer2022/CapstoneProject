@@ -36,7 +36,7 @@ public interface OrderService {
     void deleteAllByIdInBatch(Iterable<Integer> integers);
 
     void deleteAllInBatch();
-
+    boolean updateStatus(Integer id);
     @Deprecated
     Order getOne(Integer integer);
 
@@ -53,7 +53,7 @@ public interface OrderService {
 
     <S extends Order> S save(S entity);
 
-    Optional<OrderDTO> findById(Integer integer);
+    OrderDTO findById(Integer integer);
 
     boolean existsById(Integer integer);
 

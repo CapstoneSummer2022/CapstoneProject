@@ -68,28 +68,22 @@ private JwtUtils jwtUtils;
         try{
 
             String jwt = getJwtFromRequest(request);
-
+            System.out.println("hoan"+ request.getMethod()+"  " +request.getRequestURI());
             if(jwt!=null&&jwtUtils.isTokenCorrect(jwt)){
+                System.out.println("dcccb");
                 String email = jwtUtils.getEmailFromJwtToken(jwt);
                 UserDetails userDetails = accountDetailService.loadUserByUsername(email);
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
                 auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(auth);
-                System.out.println("có chuỗi");
-            }
-            else if(jwt==null) {
-                SecurityContextHolder.getContext().setAuthentication(null);
-                SecurityContextHolder.clearContext();
-                request.setAttribute("Chưa đăng nhập", null);
-            }
 
+            }
         }
-
         catch(Exception e){
             logger.error("hoang dz");
         }
-        System.out.println("f8");
         filterChain.doFilter(request,response);
+
     }
     private String getJwtFromRequest(HttpServletRequest request){
 

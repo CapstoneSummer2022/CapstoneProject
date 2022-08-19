@@ -11,7 +11,9 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CategoryDTO {
-    private Integer parentId;
+    private String id;
+    private String parentId;
+    private String parentName;
     private String name;
 
 }

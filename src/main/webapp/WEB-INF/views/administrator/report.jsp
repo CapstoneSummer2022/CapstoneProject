@@ -84,7 +84,7 @@
                 <div class="widget-small primary coloured-icon"><i class='icon fa-3x bx bxs-info-circle'></i>
                     <div class="info">
                         <h4>Tổng số nhà cung cấp</h4>
-                        <p><b>4 nhân viên</b></p>
+                        <p><b>4 nhà cung cấp</b></p>
                     </div>
                 </div>
             </div>
@@ -183,7 +183,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="row">
             <div class="col-md-12">
                 <div class="row element-button">

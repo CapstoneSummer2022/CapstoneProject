@@ -1,40 +1,167 @@
 package com.example.electriccomponentsshop.services.impl;
 
-import com.example.electriccomponentsshop.entities.Account;
-import com.example.electriccomponentsshop.repositories.AccountRepository;
-import com.example.electriccomponentsshop.services.AccountService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.electriccomponentsshop.common.ERole;
+import com.example.electriccomponentsshop.dto.AccountDTO;
+import com.example.electriccomponentsshop.entities.*;
+import com.example.electriccomponentsshop.repositories.*;
+import com.example.electriccomponentsshop.services.*;
+import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.FluentQuery;
+import org.springframework.security.core.parameters.P;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class AccountServiceImpl implements AccountService {
-    @Autowired
+    final
     AccountRepository accountRepository;
+    final
+    ModelMapper modelMap;
+    final
+    PasswordEncoder passwordEncoder;
+    final
+    ProvinceRepository provinceRepository;
+    final
+    DistrictRepository districtRepository;
+    final
+    WardRepository wardRepository;
+    final
+    RoleRepository roleRepository;
 
     @Override
-    public Optional<Account> findByEmail(String email) {
-        return accountRepository.findByEmail(email);
+    public AccountDTO findByEmail(String email) {
+        Optional<Account> accountOptional = accountRepository.findByEmail(email);
+        if(accountOptional.isEmpty()){
+            throw new NoSuchElementException("Không tìm thấy tài khoản với email này");
+        }
+        return convertToDto(accountOptional.get());
+    }
+
+    @Override
+    public AccountDTO convertToDto(Account account){
+        return modelMap.map(account,AccountDTO.class);
+    }
+    @Override
+   public boolean addAccount(AccountDTO accountDTO){
+        Account account = new Account();
+        List<Role> roles = new ArrayList<>();
+        Optional<Role> roleOptional = roleRepository.findByRoleName(ERole.ROLE_EMPLOYEE);
+        if(roleOptional.isEmpty()){
+            throw new NoSuchElementException("Không tìm thấy chức vụ này");
+        }
+        Role role = roleOptional.get();
+        roles.add(role);
+        account.setName(accountDTO.getName());
+        account.setPhone(accountDTO.getPhone());
+        account.setEmail(accountDTO.getEmail());
+        account.setGender(accountDTO.getGender());
+        account.setPassword(passwordEncoder.encode(accountDTO.getPassword()));
+        setAddress(accountDTO,account);
+        return accountRepository.save(account) != null;
+    }
+    @Override
+    public boolean updateAccount(AccountDTO accountDTO,Integer id) {
+       Optional<Account> optionalAccount = accountRepository.findById(id);
+
+       if(optionalAccount.isPresent()){
+           Account account = optionalAccount.get();
+           account.setName(accountDTO.getName());
+           account.setPhone(accountDTO.getPhone());
+           account.setEmail(accountDTO.getEmail());
+           account.setGender(accountDTO.getGender());
+           if(!accountDTO.getPassword().equals(optionalAccount.get().getPassword())){
+               account.setPassword(passwordEncoder.encode(accountDTO.getPassword()));
+           }
+           account.setBirthDate(Date.valueOf(accountDTO.getDob()));
+//           List<Role> roles = new ArrayList<>();
+//           Optional<Role> roleOptional = roleService.findByRoleName(ERole.valueOf(accountDTO.getRole()));
+//           if(roleOptional.isEmpty()){
+//               throw new NoSuchElementException("Không tìm thấy chức vụ này");
+//           }
+//           else {
+//               roles.add(roleOptional.get());
+//           }
+ //         account.setRoles(roles);
+            setAddress(accountDTO, account);
+           return accountRepository.save(account) != null;
+       }
+       else {
+           throw new NoSuchElementException("Không tìm thấy tài khoản này");
+       }
+
+    }
+
+    private boolean setAddress(AccountDTO accountDTO, Account account) {
+        Optional<Province> provinceOptional = provinceRepository.findByName(accountDTO.getProvinceName());
+
+        if(provinceOptional.isEmpty()){
+            throw new NoSuchElementException("Không tìm thấy tỉnh/thành phố này");
+        }
+        else {
+            Province province = provinceOptional.get();
+            List<District> districtList = province.getDistrictList();
+            Optional<District> districtOptional = districtRepository.findByName(accountDTO.getDistrictName());
+            if(districtOptional.isEmpty()){
+                throw new NoSuchElementException("Không tìm thấy Quận/Huyện này");
+            }
+            else {
+                District district = districtOptional.get();
+                if(!districtList.contains(district)){
+                    throw new NoSuchElementException("Tỉnh/Thành phố này không có Quận/Huyện này");
+                }
+                else {
+                    Optional<Ward> wardOptional = wardRepository.findByName(accountDTO.getWardName());
+                    List<Ward> wardList = district.getWardList();
+                    if(wardOptional.isEmpty()){
+                        throw new NoSuchElementException("Không có Xã/Phường/Thị trấn này");
+                    }
+                    else {
+                        Ward ward = wardOptional.get();
+                        if(!wardList.contains(ward)){
+                            throw new NoSuchElementException("Quận/Huyện này không có Xã/Phường/Thị trấn này");
+                        }
+                        else {
+                            account.setProvinceAccount(province);
+                            account.setDistrictAccount(district);
+                            account.setWardAccount(ward);
+                        }
+
+                    }
+                }
+
+            }
+        }
+        return true;
     }
 
     @Override
 
-    public List<Account> findAllByRoleName(String... role) {
-        return accountRepository.findAllByRoleName(role);
+    public List<AccountDTO> findAllByRoleName(String... role){
+        List<Account> accounts = accountRepository.findAllByRoleName(role);
+
+        return accounts.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     @Override
-    public Optional<Account> findById(Integer id) {
-        return accountRepository.findById(id);
+    public AccountDTO findById(Integer id) {
+        Optional<Account> accountOptional = accountRepository.findById(id);
+        if(accountOptional.isEmpty()){
+            throw new NoSuchElementException("Không tìm thấy tài khoản có id như trên");
+        }
+            return convertToDto(accountOptional.get());
     }
 
     @Override
@@ -48,8 +175,9 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<Account> findAll() {
-        return accountRepository.findAll();
+    public List<AccountDTO> findAll() {
+        List<Account> accounts = accountRepository.findAll();
+        return accounts.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     @Override

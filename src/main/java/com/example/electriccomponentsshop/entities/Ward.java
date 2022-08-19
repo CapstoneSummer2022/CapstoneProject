@@ -17,8 +17,7 @@ import java.util.List;
 @Table(name = "Ward")
 public class Ward {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer wCode;
+    private String wCode;
     private String name;
     private String type;
     @ManyToOne(fetch = FetchType.EAGER)
@@ -26,4 +25,6 @@ public class Ward {
     private District district;
     @OneToMany(mappedBy = "wardAccount",fetch = FetchType.LAZY)
     List<Account> accounts =new ArrayList<>();
+    @OneToMany(mappedBy = "wardOrder",fetch = FetchType.LAZY)
+    List<Order> orders =new ArrayList<>();
 }

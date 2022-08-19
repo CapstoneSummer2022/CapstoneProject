@@ -102,7 +102,7 @@ public static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
     @Value("${bezkoder.app.jwtExpirationMs}")
     private long jwtExpirationMs;
 
-    public String generateJwtToken(Authentication authentication) throws Exception {
+    public String generateJwtToken(Authentication authentication)  {
         AccountDetailImpl accountPrincipal = (AccountDetailImpl) authentication.getPrincipal();
 
         return Jwts.builder()

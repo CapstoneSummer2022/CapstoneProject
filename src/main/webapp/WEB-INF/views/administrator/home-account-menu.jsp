@@ -96,8 +96,15 @@
     <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="../../resources/images/avatar.jpg" width="50px"
                                         alt="User Image">
         <div>
-            <p class="app-sidebar__user-name"><b>Bùi Minh Hiệu</b></p>
-            <p class="app-sidebar__user-designation">Quản lý</p>
+            <p class="app-sidebar__user-name"><b>${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.name}</b></p>
+            <p class="app-sidebar__user-designation">
+                <sec:authorize access="hasRole('ROLE_MANAGER')">
+                    Quản lí
+                </sec:authorize>
+                <sec:authorize access="hasRole('ROLE_EMPLOYEE')">
+                    Nhân viên
+                </sec:authorize>
+            </p>
         </div>
     </div>
     <hr>
@@ -111,7 +118,7 @@
         <li><a class="app-menu__item" href="${pageContext.request.contextPath}/admin/orders"><i class='app-menu__icon bx bx-task'></i><span
                 class="app-menu__label">Quản lý đơn hàng</span></a></li>
         <sec:authorize access="hasRole('ROLE_MANAGER')">
-            <li><a class="app-menu__item" href="${pageContext.request.contextPath}/admin/accounts"><i class='app-menu__icon bx bx-id-card'></i>
+            <li><a class="app-menu__item" href="${pageContext.request.contextPath}/admin/accounts/system-account"><i class='app-menu__icon bx bx-id-card'></i>
                 <span class="app-menu__label">Quản lý tài khoản</span>
             </a>
                 <ul class="sub-app-menu" >
