@@ -127,14 +127,13 @@ function addToSpecTable() {
 		cell2.appendChild(toValue.cloneNode());
 		cell3.appendChild(checkbox.cloneNode());
 	}
-	return;
 }
 
 
 function deleteFromTable() {
 	var table = document.getElementById("specTable");
 	for (var i = 1, row; row = table.rows[i]; i++) {
-		if(row.cells[3].getElementsByTagName('input')[0].checked) {
+		if (row.cells[3].getElementsByTagName('input')[0].checked) {
 			table.deleteRow(i);
 			i = 0;
 		}
@@ -144,20 +143,125 @@ function deleteFromTable() {
 //has big category or not
 function showBigCategoryInput(checkbox) {
 	var bigCategory = document.getElementById("bigCategory");
-	if(checkbox.checked) {
+	if (checkbox.checked) {
 		bigCategory.style.display = "block";
-	}else {
+	} else {
 		bigCategory.style.display = "none";
 	}
 }
 
+//Add to product list admin
+
+//Quantity
+const quantity = document.createElement("div");
+quantity.className = "quantity";
+
+const minusButton = document.createElement("button");
+minusButton.className = "plus-btn";
+minusButton.type = "button";
+const minusIcon = document.createElement("i");
+minusIcon.classList.add("bx");
+minusIcon.classList.add("bx-minus");
+minusButton.appendChild(minusIcon);
+
+const plusButton = document.createElement("button");
+plusButton.className = "plus-btn";
+plusButton.type = "button";
+const plusIcon = document.createElement("i");
+plusIcon.classList.add("bx");
+plusIcon.classList.add("bx-plus");
+plusButton.appendChild(plusIcon);
+
+const quantityInput = document.createElement("input");
+quantityInput.type = "number";
+quantityInput.value = 1;
+
+quantity.appendChild(minusButton);
+quantity.appendChild(quantityInput);
+quantity.appendChild(plusButton);
+//Delete button
+const deleteButton = document.createElement("button");
+deleteButton.classList.add("btn");
+deleteButton.classList.add("btn-primary");
+deleteButton.classList.add("btn-sm");
+deleteButton.classList.add("trash");
+deleteButton.setAttribute("data-toggle", "modal");
+deleteButton.setAttribute("data-target", "#deleteProduct");
+deleteButton.type = "button";
+deleteButton.title = "Xoá";
+const deleteIcon = document.createElement("i");
+deleteIcon.classList.add("fas");
+deleteIcon.classList.add("fa-trash-alt");
+deleteButton.appendChild(deleteIcon);
 
 
-function plusQuantity(event) {
-	var buttonClicked = event.target
-	var currentValue = buttonClicked.closest('input').querySelector.value
-	buttonClicked.closest('input').querySelector.value = currentValue + 1
+
+function addToProductTable() {
+	var orderProductTable = document.getElementById("orderProductList");
+	var productTable = document.getElementById("products");
+	for (var i = 1, row; row = productTable.rows[i]; i++) {
+		if (row.cells[7].getElementsByTagName('input')[0].checked && !duplicateProduct(row.cells[0].innerHTML)) {
+			var newRow = orderProductTable.insertRow(1);
+			var cell0 = newRow.insertCell(0);
+			var cell1 = newRow.insertCell(1);
+			var cell2 = newRow.insertCell(2);
+			var cell3 = newRow.insertCell(3);
+			var cell4 = newRow.insertCell(4);
+			var cell5 = newRow.insertCell(5);
+			var cell6 = newRow.insertCell(6);
+
+			cell0.innerHTML = row.cells[0].innerHTML;
+			cell1.innerHTML = row.cells[1].innerHTML;
+			cell2.innerHTML = row.cells[2].innerHTML;
+			cell3.innerHTML = row.cells[5].innerHTML;
+			cell4.appendChild(quantity.cloneNode(true));
+			cell5.innerHTML = row.cells[5].innerHTML
+			cell6.appendChild(deleteButton.cloneNode(true));
+		}
+	}
+	setSum();
+}
+
+function duplicateProduct(id) {
+	var isDuplicate = false;
+	var table = document.getElementById("orderProductList");
+	for (var i = 1, row; row = table.rows[i]; i++) {
+		if (row.cells[0].innerHTML === id) {
+			alert("Sản phẩm đã có trong đơn hàng.")
+			isDuplicate = true;
+			return isDuplicate;
+		}
+
+	}
+	return isDuplicate;
+}
+
+function outOfStock() {
+
+}
 
 
+function setSum() {
+	var sum = document.getElementById("sum");
+	var sumNumber = 0;
+	var table = document.getElementById("orderProductList");
+	for (var i = 1, row; row = table.rows[i]; i++) {
+		console.log(row.cells[5].innerHTML);
+		sumNumber = sumNumber + parseFloat(row.cells[5].innerHTML);
+	}
+	sum.innerHTML = sumNumber;
+}
+
+
+function plusQuantity(button) {
+	console.log(button.cellIndex);
+	var currentValue = parseInt(button.nextSibling.value);
+	button.nextSibling.value = currentValue + 1;
+}
+
+function minusQuantity(event) {
+	var buttonClicked = event.target;
+	var currentValue = buttonClicked.closest('input').querySelector.value;
+	buttonClicked.closest('input').querySelector.value = currentValue - 1;
 
 }
