@@ -1,4 +1,3 @@
-
 //Thời Gian
 function time() {
 	var today = new Date();
@@ -160,20 +159,20 @@ quantity.className = "quantity";
 const minusButton = document.createElement("button");
 minusButton.className = "minus-btn";
 minusButton.type = "button";
-const minusIcon = document.createElement("i");
-minusIcon.classList.add("bx");
-minusIcon.classList.add("bx-minus");
-minusButton.appendChild(minusIcon);
-minusButton.addEventListener("click", setMinusValueFunction);
+minusButton.innerHTML = "-";
+// const minusIcon = document.createElement("i");
+// minusIcon.classList.add("bx");
+// minusIcon.classList.add("bx-minus");
+// minusButton.appendChild(minusIcon);
 
 const plusButton = document.createElement("button");
 plusButton.className = "plus-btn";
 plusButton.type = "button";
-const plusIcon = document.createElement("i");
-plusIcon.classList.add("bx");
-plusIcon.classList.add("bx-plus");
-plusButton.appendChild(plusIcon);
-plusButton.addEventListener("click", setPlusValueFunction);
+plusButton.innerHTML = "+";
+// const plusIcon = document.createElement("i");
+// plusIcon.classList.add("bx");
+// plusIcon.classList.add("bx-plus");
+// plusButton.appendChild(plusIcon);
 
 const quantityInput = document.createElement("input");
 quantityInput.type = "number";
@@ -200,8 +199,10 @@ deleteButton.appendChild(deleteIcon);
 //input number
 const price = document.createElement("input");
 price.type = "number";
+price.value = 0;
+price.classList.add("import-price");
 
-function addToImportTalbe() {
+function addToImportTable() {
 	var orderProductTable = document.getElementById("importProductList");
 	var productTable = document.getElementById("products");
 	for (var i = 1, row; row = productTable.rows[i]; i++) {
@@ -224,11 +225,14 @@ function addToImportTalbe() {
 			cell6.appendChild(deleteButton.cloneNode(true));
 		}
 	}
-	setWholeValue();
+	setEventImportPrice();
 	setSumImport();
+	setMinusValueFunction();
+	setPlusValueFunction();
+	setWholeValue();
 }
 
-function addToExportTalbe() {
+function addToExportTable() {
 	var orderProductTable = document.getElementById("exportProductList");
 	var productTable = document.getElementById("products");
 	for (var i = 1, row; row = productTable.rows[i]; i++) {
@@ -249,6 +253,9 @@ function addToExportTalbe() {
 			cell5.appendChild(deleteButton.cloneNode(true));
 		}
 	}
+	setMinusValueFunction();
+	setPlusValueFunction();
+	setWholeValue();
 }
 
 function addToProductTable() {
@@ -275,9 +282,10 @@ function addToProductTable() {
 
 		}
 	}
-	setWholeValue();
-
 	setSumOrder();
+	setMinusValueFunction();
+	setPlusValueFunction();
+	setWholeValue();
 }
 
 function duplicateOrderProduct(id) {
@@ -366,18 +374,54 @@ function greaterThanZero() {
 function setMinusValueFunction() {
 	var minusButton = document.getElementsByClassName("minus-btn");
 	for (var i = 0; i < minusButton.length; i++) {
-		minusButton[i].addEventListener("click", function (e) {
-			console.log(e.target.nextElementSibling);
-		})
+		if (typeof minusButton[i].onclick !== "function") {
+			minusButton[i].addEventListener("click", function (e) {
+				var input = e.target.parentNode.parentNode.getElementsByTagName("input")[0];
+				input.value--;
+				if (input.value < 1) {
+					$("#deleteProduct").modal('show');
+					input.value = 1;
+				}
+				if (e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id !== "exportProductList") {
+					var unit = e.target.parentNode.parentNode.previousElementSibling;
+					var ammount = e.target.parentNode.parentNode.nextElementSibling;
+					if (e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id == "importProductList") {
+						ammount.innerHTML = input.value * parseInt(unit.getElementsByTagName("input")[0].value);
+					} else {
+						ammount.innerHTML = input.value * parseInt(unit.innerHTML);
+					}
+					setSumImport();
+					setSumOrder();
+				}
+			});
+		}
 	}
 }
 
 function setPlusValueFunction() {
 	var plusButton = document.getElementsByClassName("plus-btn");
 	for (var i = 0; i < plusButton.length; i++) {
-		plusButton[i].addEventListener("click", function (e) {
-			console.log(e.target.previousElementSibling);
-		})
+		if (typeof plusButton[i].onclick !== "function") {
+			plusButton[i].addEventListener("click", function (e) {
+				var input = e.target.parentNode.parentNode.getElementsByTagName("input")[0];
+				input.value++;
+
+				if (e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id !== "exportProductList") {
+					var unit = e.target.parentNode.parentNode.previousElementSibling;
+					var ammount = e.target.parentNode.parentNode.nextElementSibling;
+					if (e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id == "importProductList") {
+						ammount.innerHTML = input.value * parseInt(unit.getElementsByTagName("input")[0].value);
+					} else {
+						ammount.innerHTML = input.value * parseInt(unit.innerHTML);
+					}
+
+					setSumImport();
+					setSumOrder();
+				}
+
+			});
+		}
+
 	}
 }
 
@@ -386,20 +430,46 @@ function setWholeValue() {
 	if (inputNumber != null) {
 		for (var i = 0; i < inputNumber.length; i++) {
 			if (typeof inputNumber[i].oninput !== "function") {
-				console.log(inputNumber[i].oninput);
-				inputNumber[i].addEventListener("input", function (e) {
-					if (e.target.value == "") {
+				inputNumber[i].oninput = function (e) {
+					if (e.target.value == "" || e.target.value < 1) {
+						e.target.value = 1;
+					}
+					e.target.value = parseInt(e.target.value);
+					if (e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id !== "exportProductList") {
+						var unit = e.target.parentNode.parentNode.previousElementSibling;
+						var ammount = e.target.parentNode.parentNode.nextElementSibling;
+						if (e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id == "importProductList") {
+							ammount.innerHTML = parseInt(unit.getElementsByTagName("input")[0].value) * parseInt(e.target.value);
+							setSumImport();
+						}else {
+							ammount.innerHTML = parseInt(unit.innerHTML) * parseInt(e.target.value);
+							setSumOrder();
+						}
+					}
+
+				};
+			}
+
+		}
+	}
+}
+
+function setEventImportPrice() {
+	var importPrice = document.getElementsByClassName("import-price");
+	if (importPrice != null) {
+		for (var i = 0; i < importPrice.length; i++) {
+			if (typeof importPrice[i].oninput !== "function") {
+				importPrice[i].oninput = function (e) {
+					if (e.target.value == "" || e.target.value < 0) {
 						e.target.value = 0;
 					}
 					e.target.value = parseInt(e.target.value);
-					var unit = e.target.parentNode.parentNode.previousElementSibling;
-					var ammout = e.target.parentNode.parentNode.nextElementSibling;
-					ammout.innerHTML = parseInt(unit.innerHTML) * parseInt(e.target.value);
+					var number = e.target.parentNode.nextElementSibling.getElementsByTagName("input")[0];
+					var ammout = e.target.parentNode.nextElementSibling.nextElementSibling;
+					ammout.innerHTML = parseInt(number.value) * parseInt(e.target.value);
 					setSumImport();
-					setSumOrder();
-				})
+				}
 			}
-
 		}
 	}
 }
@@ -409,6 +479,7 @@ function convertMoney(num) {
 	return num.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
 }
 
+window.onload = setEventImportPrice();
 window.onload = setSumOrder();
 window.onload = setSumImport();
 window.onload = greaterThanZero();
@@ -416,15 +487,6 @@ window.onload = setPlusValueFunction();
 window.onload = setMinusValueFunction();
 window.onload = setWholeValue();
 
-function plusQuantity(button) {
-	var currentValue = parseInt(button.nextSibling.value);
-	button.nextSibling.value = currentValue + 1;
-}
-
-function minusQuantity(button) {
-	var currentValue = buttonClicked.closest('input').querySelector.value;
-	button.nextSibling.value = currentValue + 1;
-}
 
 
 
@@ -438,19 +500,36 @@ $(document).ready(function () {
 
 	$('.modal .btn-confirm').click(function () {
 		if (document.getElementById("orderProductList") != null) {
-			var index = opener.parentNode.parentNode.rowIndex;
+			console.log(opener.className);
+			var index;
+			if (opener.className == "minus-btn") {
+				index = opener.parentNode.parentNode.parentNode.rowIndex;
+			} else {
+				index = opener.parentNode.parentNode.rowIndex;
+			}
+
 			var tableOrder = document.getElementById("orderProductList");
 			tableOrder.deleteRow(index);
 			setSumOrder();
 		}
 		if (document.getElementById("importProductList") != null) {
-			var index = opener.parentNode.parentNode.rowIndex;
+			var index;
+			if (opener.className == "minus-btn") {
+				index = opener.parentNode.parentNode.parentNode.rowIndex;
+			} else {
+				index = opener.parentNode.parentNode.rowIndex;
+			}
 			var tableImport = document.getElementById("importProductList");
 			tableImport.deleteRow(index);
 			setSumImport();
 		}
 		if (document.getElementById("exportProductList") != null) {
-			var index = opener.parentNode.parentNode.rowIndex;
+			var index;
+			if (opener.className == "minus-btn") {
+				index = opener.parentNode.parentNode.parentNode.rowIndex;
+			} else {
+				index = opener.parentNode.parentNode.rowIndex;
+			}
 			var tableExport = document.getElementById("exportProductList");
 			tableExport.deleteRow(index);
 		}
