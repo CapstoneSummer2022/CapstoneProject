@@ -103,14 +103,13 @@
                                 <div class="form-group col-md-3">
                                     <label class="control-label">Danh mục lớn trực thuộc</label>
                                     <div class="options">
-                                        <input type="checkbox" id="hasBigCategory"
-                                            onclick="showBigCategoryInput(this)" />
+                                        <input type="checkbox" id="hasBigCategory" onclick="showBigCategoryInput(this)"/>
                                     </div>
                                 </div>
-                                <div id="bigCategory" class="form-group col-md-3" style="display: none;">
-                                    <label class="control-label">Chọn danh mục lớn</label>
-                                    <select class="form-control required-field" id="exampleSelect2" required>
-                                        <option selected disabled hidden>-- Chọn danh mục lớn --</option>
+                                <div id="bigCategory" class="form-group col-md-3">
+                                    <label class="control-label required-field">Chọn danh mục lớn</label>
+                                    <select class="form-control" id="bigCategoryList">
+                                        <option value="" selected disabled hidden>-- Chọn danh mục lớn --</option>
                                         <option>Linh kiện thụ động</option>
                                         <option>Linh kiện bán dẫn</option>
                                         <option>Connector</option>

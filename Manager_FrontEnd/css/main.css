@@ -16717,3 +16717,7 @@ td > input[type="number"] {
 .detail-text {
   font-size: large;
 }
+
+#bigCategory {
+  display: none;
+}

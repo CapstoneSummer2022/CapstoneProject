@@ -141,13 +141,19 @@ function deleteFromTable() {
 }
 
 //has big category or not
-function showBigCategoryInput(checkbox) {
+function showBigCategoryInput(e) {
 	var bigCategory = document.getElementById("bigCategory");
-	if (checkbox.checked) {
-		bigCategory.style.display = "block";
-	} else {
-		bigCategory.style.display = "none";
+	var bigCategoryList = document.getElementById("bigCategoryList");
+	if (bigCategory != null) {
+		if (e.checked) {
+			bigCategoryList.required = true;
+			bigCategory.style.display = "block";
+		} else {
+			bigCategoryList.required = false;
+			bigCategory.style.display = "none";
+		}
 	}
+
 }
 
 //Add to product list admin
@@ -441,7 +447,7 @@ function setWholeValue() {
 						if (e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id == "importProductList") {
 							ammount.innerHTML = parseInt(unit.getElementsByTagName("input")[0].value) * parseInt(e.target.value);
 							setSumImport();
-						}else {
+						} else {
 							ammount.innerHTML = parseInt(unit.innerHTML) * parseInt(e.target.value);
 							setSumOrder();
 						}
@@ -477,6 +483,10 @@ function setEventImportPrice() {
 
 function convertMoney(num) {
 	return num.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
+}
+
+function emptyAlert() {
+
 }
 
 window.onload = setEventImportPrice();
@@ -536,5 +546,13 @@ $(document).ready(function () {
 
 	});
 
-});
+	$('.create-order-button').click(function () {
+		var formProduct = document.getElementsByClassName("form-product")[0];
+		if (formProduct.rows.length < 2) {
+			$("#productEmpty").modal('show');
+			return 0;
+		}
+	});
 
+
+});

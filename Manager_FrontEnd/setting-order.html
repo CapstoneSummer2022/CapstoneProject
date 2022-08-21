@@ -111,20 +111,20 @@
                                 <div class="form-group col-md-3">
                                     <label for="exampleSelect1" class="control-label required-field">Tỉnh/Thành
                                         phố</label>
-                                    <select class="form-control" id="province">
+                                    <select class="form-control" id="province" required>
                                         <option value="-1">-- Chọn tỉnh thành --</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="exampleSelect1" class="control-label required-field">Quận/Huyện</label>
-                                    <select class="form-control" id="district">
+                                    <select class="form-control" id="district" required>
                                         <option value="-1">-- Chọn quận/huyện --</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="exampleSelect1" class="control-label required-field">Phường/Xã/Thị
                                         trấn</label>
-                                    <select class="form-control" id="town">
+                                    <select class="form-control" id="town" required>
                                         <option value="-1">-- Chọn phường/xã/thị trấn --</option>
                                     </select>
                                 </div>
@@ -155,7 +155,7 @@
                             </div>
                         </div>
                         <div class="du--lieu-san-pham">
-                            <table id="orderProductList" class="table table-hover table-bordered">
+                            <table id="orderProductList" class="table table-hover table-bordered form-product">
                                 <thead>
                                     <tr>
                                         <th class="order-item-number">Mã sản phẩm</th>
@@ -275,7 +275,8 @@
                                 <p class="control-all-money-total"><span id="sum">0</span></p>
                             </div>
                             <div class="tile-footer col-md-12">
-                                <button type="submit" class="btn btn-primary create-order-button" type="button">Cập nhật đơn
+                                <button type="submit" class="btn btn-primary create-order-button" type="button">Cập nhật
+                                    đơn
                                     hàng</button>
                                 <a class="btn btn-primary cancel-order-button" href="order-management.html"
                                     type="button">Huỷ và quay về</a>
@@ -471,7 +472,8 @@ MODAL
                         </div>
                     </div>
                     <div style="display: flex; justify-content: center; padding: 10px;">
-                        <a style="margin: 5px;" class="btn btn-save btn-confirm" data-dismiss="modal" href="#">Xác nhận</a>
+                        <a style="margin: 5px;" class="btn btn-save btn-confirm" data-dismiss="modal" href="#">Xác
+                            nhận</a>
                         <a style="margin: 5px;" class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
                     </div>
                 </div>
@@ -485,9 +487,9 @@ MODAL
 -->
 
     <!--
-  MODAL SUCCESSFUL
+MODAL PRODUCT EMPTY 
 -->
-    <div class="modal fade" id="successful" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    <div class="modal fade" id="productEmpty" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
         data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -499,7 +501,7 @@ MODAL
                             </span>
                         </div>
                         <div class="form-group col-md-12" style="text-align: center;">
-                            <p class="modal-notify-successful">Tạo đơn hàng thành công</p>
+                            <p class="modal-notify-unsuccessful">Chưa có sản phẩm trong danh sách</p>
                         </div>
                     </div>
                     <div style="display: flex; justify-content: center; padding: 10px;">

@@ -120,7 +120,7 @@
                                 </div>
                             </div>
                             <div class="du--lieu-san-pham">
-                                <table id="importProductList" class="table table-hover table-bordered">
+                                <table id="importProductList" class="table table-hover table-bordered form-product">
                                     <thead>
                                         <tr>
                                             <th class="order-item-number">Mã sản phẩm</th>
@@ -237,18 +237,20 @@
                             <h3 class="tile-title">Thông tin nhập hàng</h3>
                             <div class="tile-body">
                                 <div class="form-group col-md-12">
-                                    <label for="exampleSelect1" class="control-label">Nhà cung cấp</label>
-                                    <select class="form-control" id="exampleSelect1">
-                                        <option selected disabled hidden>-- Nhà cung cấp --</option>
+                                    <label for="exampleSelect1" class="control-label required-field">Nhà cung
+                                        cấp</label>
+                                    <select class="form-control" required>
+                                        <option value="" selected disabled hidden>-- Nhà cung cấp --</option>
                                         <option>DAEWOO</option>
                                         <option>ABECO</option>
                                         <option>Nguyên phi</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-12">
-                                    <label for="exampleSelect1" class="control-label">Vị trí lưu kho</label>
-                                    <select class="form-control" id="exampleSelect1">
-                                        <option selected disabled hidden>-- Chọn kho hàng --</option>
+                                    <label for="exampleSelect1" class="control-label required-field">Vị trí lưu
+                                        kho</label>
+                                    <select class="form-control" required>
+                                        <option value="" selected disabled hidden>-- Chọn kho hàng --</option>
                                         <option>XQCV+F65, P. Văn Quán, Hà Đông, Hà Nội</option>
                                         <option>68 P. Nguyễn Văn Giáp, Mễ Trì, Nam Từ Liêm, Hà Nội</option>
                                         <option>Đinh Tú, Cấn Hữu, Quốc Oai, Hà Nội</option>
@@ -517,9 +519,9 @@ MODAL
 MODAL
 -->
     <!--
-MODAL UNSUCCESSFUL 
+MODAL PRODUCT EMPTY 
 -->
-    <div class="modal fade" id="unsuccessful" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    <div class="modal fade" id="productEmpty" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
         data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -531,7 +533,7 @@ MODAL UNSUCCESSFUL
                             </span>
                         </div>
                         <div class="form-group col-md-12" style="text-align: center;">
-                            <p class="modal-notify-unsuccessful">Tạo đơn hàng không thành công</p>
+                            <p class="modal-notify-unsuccessful">Chưa có sản phẩm trong danh sách</p>
                         </div>
                     </div>
                     <div style="display: flex; justify-content: center; padding: 10px;">
