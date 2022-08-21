@@ -1,3 +1,4 @@
+
 //Thời Gian
 function time() {
 	var today = new Date();
@@ -61,7 +62,7 @@ function time() {
 	// Set initial active toggle
 	$("[data-toggle='treeview.'].is-expanded").parent().toggleClass('is-expanded');
 	//Activate bootstrip tooltips
-	$("[data-toggle='tooltip']").tooltip();
+	//$("[data-toggle='tooltip']").tooltip();
 })();
 
 document.querySelector(".status-checkbox").addEventListener("click", function (event) {
@@ -157,12 +158,13 @@ const quantity = document.createElement("div");
 quantity.className = "quantity";
 
 const minusButton = document.createElement("button");
-minusButton.className = "plus-btn";
+minusButton.className = "minus-btn";
 minusButton.type = "button";
 const minusIcon = document.createElement("i");
 minusIcon.classList.add("bx");
 minusIcon.classList.add("bx-minus");
 minusButton.appendChild(minusIcon);
+minusButton.addEventListener("click", setMinusValueFunction);
 
 const plusButton = document.createElement("button");
 plusButton.className = "plus-btn";
@@ -171,9 +173,11 @@ const plusIcon = document.createElement("i");
 plusIcon.classList.add("bx");
 plusIcon.classList.add("bx-plus");
 plusButton.appendChild(plusIcon);
+plusButton.addEventListener("click", setPlusValueFunction);
 
 const quantityInput = document.createElement("input");
 quantityInput.type = "number";
+quantityInput.classList.add("input-number");
 quantityInput.value = 1;
 
 quantity.appendChild(minusButton);
@@ -193,14 +197,65 @@ const deleteIcon = document.createElement("i");
 deleteIcon.classList.add("fas");
 deleteIcon.classList.add("fa-trash-alt");
 deleteButton.appendChild(deleteIcon);
+//input number
+const price = document.createElement("input");
+price.type = "number";
 
+function addToImportTalbe() {
+	var orderProductTable = document.getElementById("importProductList");
+	var productTable = document.getElementById("products");
+	for (var i = 1, row; row = productTable.rows[i]; i++) {
+		if (row.cells[7].getElementsByTagName('input')[0].checked && !duplicateimportProduct(row.cells[0].innerHTML)) {
+			var newRow = orderProductTable.insertRow(1);
+			var cell0 = newRow.insertCell(0);
+			var cell1 = newRow.insertCell(1);
+			var cell2 = newRow.insertCell(2);
+			var cell3 = newRow.insertCell(3);
+			var cell4 = newRow.insertCell(4);
+			var cell5 = newRow.insertCell(5);
+			var cell6 = newRow.insertCell(6);
 
+			cell0.innerHTML = row.cells[0].innerHTML;
+			cell1.innerHTML = row.cells[1].innerHTML;
+			cell2.innerHTML = row.cells[2].innerHTML;
+			cell3.appendChild(price.cloneNode(true));
+			cell4.appendChild(quantity.cloneNode(true));
+			cell5.innerHTML = 0;
+			cell6.appendChild(deleteButton.cloneNode(true));
+		}
+	}
+	setWholeValue();
+	setSumImport();
+}
+
+function addToExportTalbe() {
+	var orderProductTable = document.getElementById("exportProductList");
+	var productTable = document.getElementById("products");
+	for (var i = 1, row; row = productTable.rows[i]; i++) {
+		if (row.cells[7].getElementsByTagName('input')[0].checked && !duplicateExportProduct(row.cells[0].innerHTML)) {
+			var newRow = orderProductTable.insertRow(1);
+			var cell0 = newRow.insertCell(0);
+			var cell1 = newRow.insertCell(1);
+			var cell2 = newRow.insertCell(2);
+			var cell3 = newRow.insertCell(3);
+			var cell4 = newRow.insertCell(4);
+			var cell5 = newRow.insertCell(5);
+
+			cell0.innerHTML = row.cells[0].innerHTML;
+			cell1.innerHTML = row.cells[1].innerHTML;
+			cell2.innerHTML = row.cells[2].innerHTML;
+			cell3.innerHTML = row.cells[6].innerHTML;
+			cell4.appendChild(quantity.cloneNode(true));
+			cell5.appendChild(deleteButton.cloneNode(true));
+		}
+	}
+}
 
 function addToProductTable() {
 	var orderProductTable = document.getElementById("orderProductList");
 	var productTable = document.getElementById("products");
 	for (var i = 1, row; row = productTable.rows[i]; i++) {
-		if (row.cells[7].getElementsByTagName('input')[0].checked && !duplicateProduct(row.cells[0].innerHTML)) {
+		if (row.cells[7].getElementsByTagName('input')[0].checked && !duplicateOrderProduct(row.cells[0].innerHTML)) {
 			var newRow = orderProductTable.insertRow(1);
 			var cell0 = newRow.insertCell(0);
 			var cell1 = newRow.insertCell(1);
@@ -215,19 +270,22 @@ function addToProductTable() {
 			cell2.innerHTML = row.cells[2].innerHTML;
 			cell3.innerHTML = row.cells[5].innerHTML;
 			cell4.appendChild(quantity.cloneNode(true));
-			cell5.innerHTML = row.cells[5].innerHTML
+			cell5.innerHTML = row.cells[5].innerHTML;
 			cell6.appendChild(deleteButton.cloneNode(true));
+
 		}
 	}
-	setSum();
+	setWholeValue();
+
+	setSumOrder();
 }
 
-function duplicateProduct(id) {
+function duplicateOrderProduct(id) {
 	var isDuplicate = false;
 	var table = document.getElementById("orderProductList");
 	for (var i = 1, row; row = table.rows[i]; i++) {
 		if (row.cells[0].innerHTML === id) {
-			alert("Sản phẩm đã có trong đơn hàng.")
+			alert("Sản phẩm " + id + " đã có trong đơn hàng.")
 			isDuplicate = true;
 			return isDuplicate;
 		}
@@ -236,32 +294,168 @@ function duplicateProduct(id) {
 	return isDuplicate;
 }
 
-function outOfStock() {
-
-}
-
-
-function setSum() {
-	var sum = document.getElementById("sum");
-	var sumNumber = 0;
-	var table = document.getElementById("orderProductList");
+function duplicateimportProduct(id) {
+	var isDuplicate = false;
+	var table = document.getElementById("importProductList");
 	for (var i = 1, row; row = table.rows[i]; i++) {
-		console.log(row.cells[5].innerHTML);
-		sumNumber = sumNumber + parseFloat(row.cells[5].innerHTML);
+		if (row.cells[0].innerHTML === id) {
+			alert("Sản phẩm " + id + " đã có trong danh sách.")
+			isDuplicate = true;
+			return isDuplicate;
+		}
 	}
-	sum.innerHTML = sumNumber;
+	return isDuplicate;
 }
 
+function duplicateExportProduct(id) {
+	var isDuplicate = false;
+	var table = document.getElementById("exportProductList");
+	for (var i = 1, row; row = table.rows[i]; i++) {
+		if (row.cells[0].innerHTML === id) {
+			alert("Sản phẩm " + id + " đã có trong danh sách.")
+			isDuplicate = true;
+			return isDuplicate;
+		}
+	}
+	return isDuplicate;
+}
+
+
+
+function setSumOrder() {
+	if (document.getElementById("orderProductList") != null) {
+		var table = document.getElementById("orderProductList");
+		var sum = document.getElementById("sum");
+		var sumNumber = 0;
+		for (var i = 1, row; row = table.rows[i]; i++) {
+			sumNumber = sumNumber + parseFloat(row.cells[5].innerHTML);
+		}
+		sum.innerHTML = convertMoney(sumNumber);
+	}
+}
+
+function setSumImport() {
+	if (document.getElementById("importProductList") != null) {
+		var sum = document.getElementById("sum");
+		var sumNumber = 0;
+		var table = document.getElementById("importProductList");
+		for (var i = 1, row; row = table.rows[i]; i++) {
+			sumNumber = sumNumber + parseFloat(row.cells[5].innerHTML);
+		}
+		sum.innerHTML = convertMoney(sumNumber);
+	}
+}
+
+function greaterThanZero() {
+	var inputs = document.getElementsByTagName("input");
+
+	for (var i = 0; i < inputs.length; i++) {
+		if (inputs[i].type.toLowerCase() == "number") {
+			inputs[i].addEventListener("input", function (e) {
+				if (e.target.value < 0) {
+					e.target.setCustomValidity('Giá trị số không được nhỏ hơn 0');
+				} else {
+					// input is fine -- reset the error message
+					e.target.setCustomValidity('');
+				}
+			});
+		}
+	}
+}
+
+function setMinusValueFunction() {
+	var minusButton = document.getElementsByClassName("minus-btn");
+	for (var i = 0; i < minusButton.length; i++) {
+		minusButton[i].addEventListener("click", function (e) {
+			console.log(e.target.nextElementSibling);
+		})
+	}
+}
+
+function setPlusValueFunction() {
+	var plusButton = document.getElementsByClassName("plus-btn");
+	for (var i = 0; i < plusButton.length; i++) {
+		plusButton[i].addEventListener("click", function (e) {
+			console.log(e.target.previousElementSibling);
+		})
+	}
+}
+
+function setWholeValue() {
+	var inputNumber = document.getElementsByClassName("input-number");
+	if (inputNumber != null) {
+		for (var i = 0; i < inputNumber.length; i++) {
+			if (typeof inputNumber[i].oninput !== "function") {
+				console.log(inputNumber[i].oninput);
+				inputNumber[i].addEventListener("input", function (e) {
+					if (e.target.value == "") {
+						e.target.value = 0;
+					}
+					e.target.value = parseInt(e.target.value);
+					var unit = e.target.parentNode.parentNode.previousElementSibling;
+					var ammout = e.target.parentNode.parentNode.nextElementSibling;
+					ammout.innerHTML = parseInt(unit.innerHTML) * parseInt(e.target.value);
+					setSumImport();
+					setSumOrder();
+				})
+			}
+
+		}
+	}
+}
+
+
+function convertMoney(num) {
+	return num.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
+}
+
+window.onload = setSumOrder();
+window.onload = setSumImport();
+window.onload = greaterThanZero();
+window.onload = setPlusValueFunction();
+window.onload = setMinusValueFunction();
+window.onload = setWholeValue();
 
 function plusQuantity(button) {
-	console.log(button.cellIndex);
 	var currentValue = parseInt(button.nextSibling.value);
 	button.nextSibling.value = currentValue + 1;
 }
 
-function minusQuantity(event) {
-	var buttonClicked = event.target;
+function minusQuantity(button) {
 	var currentValue = buttonClicked.closest('input').querySelector.value;
-	buttonClicked.closest('input').querySelector.value = currentValue - 1;
-
+	button.nextSibling.value = currentValue + 1;
 }
+
+
+
+//Get the opener and Delete the product
+$(document).ready(function () {
+	var opener;
+
+	$('.modal').on('show.bs.modal', function (e) {
+		opener = document.activeElement;
+	});
+
+	$('.modal .btn-confirm').click(function () {
+		if (document.getElementById("orderProductList") != null) {
+			var index = opener.parentNode.parentNode.rowIndex;
+			var tableOrder = document.getElementById("orderProductList");
+			tableOrder.deleteRow(index);
+			setSumOrder();
+		}
+		if (document.getElementById("importProductList") != null) {
+			var index = opener.parentNode.parentNode.rowIndex;
+			var tableImport = document.getElementById("importProductList");
+			tableImport.deleteRow(index);
+			setSumImport();
+		}
+		if (document.getElementById("exportProductList") != null) {
+			var index = opener.parentNode.parentNode.rowIndex;
+			var tableExport = document.getElementById("exportProductList");
+			tableExport.deleteRow(index);
+		}
+
+	});
+
+});
+

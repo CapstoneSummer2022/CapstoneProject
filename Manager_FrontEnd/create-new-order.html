@@ -146,7 +146,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="tile">
-                        <h3 class="tile-title">Giỏ hàng</h3>
+                        <h3 class="tile-title">Danh sách sản phẩm mua</h3>
                         <div class="row element-button">
                             <div class="col-sm-2">
                                 <button class="btn btn-add btn-sm" title="Thêm" data-toggle="modal"
@@ -176,11 +176,11 @@
                                         <td>5600</td>
                                         <td>
                                             <div class="quantity">
-                                                <button class="plus-btn" type="button" name="button" onclick="plusQuantity(this)">
+                                                <button class="minus-btn" type="button" name="button">
                                                     <i class='bx bx-minus'></i>
                                                 </button>
-                                                <input type="number" name="name" value="1">
-                                                <button class="minus-btn" type="button" name="button">
+                                                <input class="input-number" type="number" name="name" value="1">
+                                                <button class="plus-btn" type="button" name="button">
                                                     <i class='bx bx-plus'></i>
                                                 </button>
                                             </div>
@@ -199,11 +199,11 @@
                                         <td>5600</td>
                                         <td>
                                             <div class="quantity">
-                                                <button class="plus-btn" type="button" name="button">
+                                                <button class="minus-btn" type="button" name="button">
                                                     <i class='bx bx-minus'></i>
                                                 </button>
-                                                <input type="number" name="name" value="1">
-                                                <button class="minus-btn" type="button" name="button">
+                                                <input class="input-number" type="number" name="name" value="1">
+                                                <button class="plus-btn" type="button" name="button">
                                                     <i class='bx bx-plus'></i>
                                                 </button>
                                             </div>
@@ -222,11 +222,11 @@
                                         <td>5600</td>
                                         <td>
                                             <div class="quantity">
-                                                <button class="plus-btn" type="button" name="button">
+                                                <button class="minus-btn" type="button" name="button">
                                                     <i class='bx bx-minus'></i>
                                                 </button>
-                                                <input type="number" name="name" value="1">
-                                                <button class="minus-btn" type="button" name="button">
+                                                <input class="input-number" type="number" name="name" value="1">
+                                                <button class="plus-btn" type="button" name="button">
                                                     <i class='bx bx-plus'></i>
                                                 </button>
                                             </div>
@@ -239,18 +239,17 @@
                                         </td>
                                     </tr>
                                     <tr>
-
                                         <td>1-A-7-5</td>
                                         <td>Tụ Cao Áp 102K 2kV</td>
                                         <td><img src="/img-sanpham/zuno.jpg" alt="" width="50px;"></td>
                                         <td>5600</td>
                                         <td>
                                             <div class="quantity">
-                                                <button class="plus-btn" type="button" name="button">
+                                                <button class="minus-btn" type="button" name="button">
                                                     <i class='bx bx-minus'></i>
                                                 </button>
-                                                <input type="number" name="name" value="1">
-                                                <button class="minus-btn" type="button" name="button">
+                                                <input class="input-number" type="number" name="name" value="1">
+                                                <button class="plus-btn" type="button" name="button">
                                                     <i class='bx bx-plus'></i>
                                                 </button>
                                             </div>
@@ -273,7 +272,7 @@
                         <div class="row">
                             <div class="form-group  col-md-6">
                                 <label class="control-label">Tổng cộng thanh toán: </label>
-                                <p class="control-all-money-total"><span id="sum">12332</span> đ</p>
+                                <p class="control-all-money-total"><span id="sum">0</span></p>
                             </div>
                             <div class="tile-footer col-md-12">
                                 <button type="submit" class="btn btn-primary create-order-button" type="button">Tạo đơn
@@ -458,7 +457,6 @@ MODAL
         data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-
                 <div class="modal-body">
                     <div class="row">
                         <div class="form-group  col-md-12">
@@ -471,7 +469,7 @@ MODAL
                         </div>
                     </div>
                     <div style="display: flex; justify-content: center; padding: 10px;">
-                        <a style="margin: 5px;" class="btn btn-save" data-dismiss="modal" href="#">Xác nhận</a>
+                        <a style="margin: 5px;" class="btn btn-save btn-confirm" data-dismiss="modal" href="#">Xác nhận</a>
                         <a style="margin: 5px;" class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
                     </div>
                 </div>
