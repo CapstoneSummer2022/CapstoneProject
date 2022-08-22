@@ -16721,3 +16721,8 @@ td > input[type="number"] {
 #bigCategory {
   display: none;
 }
+
+#passwordCheck {
+  margin-left: 20px;
+  margin-right: 12px;
+}

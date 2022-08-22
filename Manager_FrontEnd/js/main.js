@@ -485,9 +485,19 @@ function convertMoney(num) {
 	return num.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
 }
 
-function emptyAlert() {
+function showPassword(checkbox) {
+	var password = document.getElementsByClassName("password");
+	for (var i = 0; i < password.length; i++) {
+		if (checkbox.checked) {
+			password[i].type = "text";
+		} else {
+			password[i].type = "password";
+		}
 
+	}
 }
+
+
 
 window.onload = setEventImportPrice();
 window.onload = setSumOrder();
