@@ -497,6 +497,40 @@ function showPassword(checkbox) {
 	}
 }
 
+function checkRePassword() {
+	var password = document.getElementById("pw");
+	var rePassword = document.getElementById("rePw");
+	if (password.value == "") {
+		password.setCustomValidity("Mật khẩu không được trống");
+		return false;
+	}
+	if (password.value !== rePassword) {
+		rePassword.setCustomValidity("Xác nhận lại mật khẩu không chính xác");
+		return false;
+	}
+	return true;
+}
+
+function checkPassword() {
+	// /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+	var passwordRegex = /^(?=.{8,}$)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?\W).*$/;
+	var password = document.getElementById("pw");
+	var rePassword = document.getElementById("rePw");
+	if (!password.value.match(passwordRegex)) {
+		password.setCustomValidity("Mật khẩu phải có ít nhất 8 ký tự, chữ in hoa, in thường, chữ số và ký tự đặc biệt");
+		return false;
+	} else {
+		password.setCustomValidity("");
+	}
+	if (password.value != rePassword.value) {
+		rePassword.setCustomValidity("Xác nhận lại mật khẩu không chính xác");
+		return false;
+	} else {
+		password.setCustomValidity("");
+	}
+	return true;
+}
+
 
 
 window.onload = setEventImportPrice();

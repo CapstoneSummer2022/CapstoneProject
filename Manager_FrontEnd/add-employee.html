@@ -154,15 +154,27 @@
                   <label class="control-label required-field">Số điện thoại</label>
                   <input class="form-control" type="number" required>
                 </div>
+
+              </div>
+              <div class="row">
                 <div class="form-group col-md-4">
                   <label class="control-label required-field">Mật khẩu</label>
-                  <input class="form-control" type="text" required>
+                  <input id="pw" class="form-control password" type="password" value="" required>
                 </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-4">
+                  <label class="control-label required-field">Xác nhận lại khẩu</label>
+                  <input id="rePw" class="form-control password" type="" value="" required>
+                </div>
+              </div>
+              <div class="row">
+                <input id="passwordCheck" type="checkbox" onclick="showPassword(this)">Hiển thị mật khẩu
               </div>
               <div class="row">
                 <div class="confirm-button">
                   <div class="button">
-                    <button type="submit" class="btn btn-save" type="button" >Lưu lại</button>
+                    <button type="submit" class="btn btn-save" type="button" onclick="checkPassword()">Lưu lại</button>
                     <button class="btn btn-cancel" onclick="location.href='system-account-management.html'">Hủy
                       bỏ</button>
                   </div>
@@ -204,6 +216,7 @@
   <!--
 MODAL
 -->
+
   <!--
 MODAL UNSUCCESSFUL 
 -->
