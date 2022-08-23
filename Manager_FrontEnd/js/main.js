@@ -141,11 +141,13 @@ function deleteFromTable() {
 }
 
 //has big category or not
-function showBigCategoryInput(e) {
+function showBigCategoryInput() {
+	console.log("active");
+	var hasBigCategory = document.getElementById("hasBigCategory");
 	var bigCategory = document.getElementById("bigCategory");
 	var bigCategoryList = document.getElementById("bigCategoryList");
 	if (bigCategory != null) {
-		if (e.checked) {
+		if (hasBigCategory.checked) {
 			bigCategoryList.required = true;
 			bigCategory.style.display = "block";
 		} else {
@@ -354,11 +356,16 @@ function setSumImport() {
 		var sumNumber = 0;
 		var table = document.getElementById("importProductList");
 		for (var i = 1, row; row = table.rows[i]; i++) {
+			var currentUnit = row.cells[3].getElementsByTagName("input")[0].value;
+			console.log(currentUnit);
+			row.cells[5].innerHTML = currentUnit * row.cells[4].getElementsByTagName("input")[0].value;
 			sumNumber = sumNumber + parseFloat(row.cells[5].innerHTML);
 		}
 		sum.innerHTML = convertMoney(sumNumber);
 	}
 }
+
+
 
 function greaterThanZero() {
 	var inputs = document.getElementsByTagName("input");
@@ -416,6 +423,7 @@ function setPlusValueFunction() {
 					var unit = e.target.parentNode.parentNode.previousElementSibling;
 					var ammount = e.target.parentNode.parentNode.nextElementSibling;
 					if (e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id == "importProductList") {
+						console.log(unit.getElementsByTagName("input")[0].value);
 						ammount.innerHTML = input.value * parseInt(unit.getElementsByTagName("input")[0].value);
 					} else {
 						ammount.innerHTML = input.value * parseInt(unit.innerHTML);
@@ -540,6 +548,7 @@ window.onload = greaterThanZero();
 window.onload = setPlusValueFunction();
 window.onload = setMinusValueFunction();
 window.onload = setWholeValue();
+
 
 
 
