@@ -120,7 +120,7 @@
                 </div>
                 <div class="form-group col-md-4">
                   <label class="control-label required-field">Ngày sinh</label>
-                  <input class="form-control" type="date" value="2000-02-09" required>
+                  <input id="inputDate" class="form-control" type="date" value="2000-02-09" required>
                 </div>
               </div>
               <div class="row">
@@ -156,7 +156,7 @@
               <div class="row">
                 <div class="confirm-button">
                   <div class="button">
-                    <button type="submit" class="btn btn-save" type="button">Lưu lại</button>
+                    <button type="submit" class="btn btn-save" type="button" onclick="checkDateOfBirth()">Lưu lại</button>
                     <button type="button" class="btn btn-cancel" onclick="location.href='home-page.html'">Hủy
                       bỏ</button>
                   </div>

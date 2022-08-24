@@ -527,20 +527,25 @@ function checkPassword() {
 }
 
 function checkDateOfBirth() {
-	var date = document.getElementById("inputDate").value;
-	var varDate = new Date(date); //dd-mm-YYYY
+	var date = document.getElementById("inputDate");
+	console.log(date.value);
+	var varDate = new Date(date.value); //dd-mm-YYYY
 	var today = new Date();
-
+	today.setHours(0,0,0,0);
+	console.log(today);
 	if (varDate >= today) {
-		rePassword.setCustomValidity("Xác nhận lại mật khẩu không chính xác");
+		date.setCustomValidity("Giá trị ngày nhập vượt quá thời điểm hiện tại");
 		return false;
 	}else {
-		password.setCustomValidity("");
+		date.setCustomValidity("");
 	}
+	return true;
 }
 
 function checkValidField() {
-	return checkPassword();
+	var validPassword = checkPassword();
+	var validDateOfBirth = checkDateOfBirth();
+	return validPassword && validDateOfBirth;
 }
 
 
