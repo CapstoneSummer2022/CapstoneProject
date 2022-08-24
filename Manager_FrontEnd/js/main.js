@@ -531,12 +531,12 @@ function checkDateOfBirth() {
 	console.log(date.value);
 	var varDate = new Date(date.value); //dd-mm-YYYY
 	var today = new Date();
-	today.setHours(0,0,0,0);
+	today.setHours(0, 0, 0, 0);
 	console.log(today);
 	if (varDate >= today) {
 		date.setCustomValidity("Giá trị ngày nhập vượt quá thời điểm hiện tại");
 		return false;
-	}else {
+	} else {
 		date.setCustomValidity("");
 	}
 	return true;
@@ -546,6 +546,21 @@ function checkValidField() {
 	var validPassword = checkPassword();
 	var validDateOfBirth = checkDateOfBirth();
 	return validPassword && validDateOfBirth;
+}
+
+function setThumbImage() {
+	console.log("trigger");
+	var image = document.getElementById("thumbimage");
+	var file = document.getElementById("uploadfile").files[0];
+	var reader = new FileReader();
+	reader.addEventListener("load", () => {
+		// convert image file to base64 string
+		image.src = reader.result;
+		image.style.display = ''
+	}, false);
+	if (file) {
+		reader.readAsDataURL(file);
+	}
 }
 
 
@@ -617,4 +632,7 @@ $(document).ready(function () {
 	});
 
 
+
 });
+
+
