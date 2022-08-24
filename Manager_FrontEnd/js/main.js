@@ -505,19 +505,6 @@ function showPassword(checkbox) {
 	}
 }
 
-function checkRePassword() {
-	var password = document.getElementById("pw");
-	var rePassword = document.getElementById("rePw");
-	if (password.value == "") {
-		password.setCustomValidity("Mật khẩu không được trống");
-		return false;
-	}
-	if (password.value !== rePassword) {
-		rePassword.setCustomValidity("Xác nhận lại mật khẩu không chính xác");
-		return false;
-	}
-	return true;
-}
 
 function checkPassword() {
 	// /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
@@ -537,6 +524,14 @@ function checkPassword() {
 		password.setCustomValidity("");
 	}
 	return true;
+}
+
+function checkDateOfBirth() {
+	
+}
+
+function checkValidField() {
+	return checkPassword();
 }
 
 
