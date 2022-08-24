@@ -527,7 +527,16 @@ function checkPassword() {
 }
 
 function checkDateOfBirth() {
-	
+	var date = document.getElementById("inputDate").value;
+	var varDate = new Date(date); //dd-mm-YYYY
+	var today = new Date();
+
+	if (varDate >= today) {
+		rePassword.setCustomValidity("Xác nhận lại mật khẩu không chính xác");
+		return false;
+	}else {
+		password.setCustomValidity("");
+	}
 }
 
 function checkValidField() {
