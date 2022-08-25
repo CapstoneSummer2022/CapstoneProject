@@ -418,7 +418,9 @@ function setPlusValueFunction() {
 			plusButton[i].addEventListener("click", function (e) {
 				var input = e.target.parentNode.parentNode.getElementsByTagName("input")[0];
 				input.value++;
-
+				if (input.value > 100) {
+					input.value = 100;
+				}
 				if (e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id !== "exportProductList") {
 					var unit = e.target.parentNode.parentNode.previousElementSibling;
 					var ammount = e.target.parentNode.parentNode.nextElementSibling;
@@ -447,6 +449,9 @@ function setWholeValue() {
 				inputNumber[i].oninput = function (e) {
 					if (e.target.value == "" || e.target.value < 1) {
 						e.target.value = 1;
+					}
+					if (e.target.value > 100) {
+						e.target.value = 100;
 					}
 					e.target.value = parseInt(e.target.value);
 					if (e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id !== "exportProductList") {
