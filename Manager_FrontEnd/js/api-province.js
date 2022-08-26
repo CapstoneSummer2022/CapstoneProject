@@ -6,8 +6,8 @@ $(function () {
             $('#province').append(`<option value="${element.code}">${element.name}</option>`)
         });
         $('#province').change(function () {
-            $('#district').html('<option value="-1">Chọn quận/huyện</option>')
-            $('#town').html('<option value = "-1"> Chọn phường/xã </option>')
+            $('#district').html('<option value="">Chọn quận/huyện</option>')
+            $('#town').html('<option value = ""> Chọn phường/xã </option>')
             let value = $(this).val();
             $.each(prodvince,function(index,element){
                 if (element.code == value) {
@@ -20,7 +20,7 @@ $(function () {
             })         
         });    
         $('#district').change(function () {
-            $('#town').html('<option value = "-1"> Chọn phường/xã </option>')
+            $('#town').html('<option value = ""> Chọn phường/xã </option>')
             let value = $(this).val();
             $.each(district,function(index,element){
                 if (element.code == value) {
