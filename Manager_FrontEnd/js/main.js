@@ -418,8 +418,8 @@ function setPlusValueFunction() {
 			plusButton[i].addEventListener("click", function (e) {
 				var input = e.target.parentNode.parentNode.getElementsByTagName("input")[0];
 				input.value++;
-				if (input.value > 100) {
-					input.value = 100;
+				if (input.value > 999) {
+					input.value = 999;
 				}
 				if (e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id !== "exportProductList") {
 					var unit = e.target.parentNode.parentNode.previousElementSibling;
@@ -450,8 +450,8 @@ function setWholeValue() {
 					if (e.target.value == "" || e.target.value < 1) {
 						e.target.value = 1;
 					}
-					if (e.target.value > 100) {
-						e.target.value = 100;
+					if (e.target.value > 999) {
+						e.target.value = 999;
 					}
 					e.target.value = parseInt(e.target.value);
 					if (e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id !== "exportProductList") {
@@ -554,7 +554,6 @@ function checkValidField() {
 }
 
 function setThumbImage() {
-	console.log("trigger");
 	var image = document.getElementById("thumbimage");
 	var file = document.getElementById("uploadfile").files[0];
 	var reader = new FileReader();
@@ -566,6 +565,15 @@ function setThumbImage() {
 	if (file) {
 		reader.readAsDataURL(file);
 	}
+}
+
+function validateImage() {
+	var image = document.getElementById("thumbimage");
+	var inputImage = document.getElementById("uploadfile");
+	if(image.src == "") {
+		inputImage.required = true;
+	}
+	
 }
 
 

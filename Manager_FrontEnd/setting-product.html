@@ -108,8 +108,8 @@
                 <div class="form-group col-md-3">
                   <label for="exampleSelect1" class="control-label required-field">Danh mục</label>
                   <select class="form-control" id="exampleSelect1" required>
-                    <option selected hidden disabled value="">-- Chọn danh mục --</option>
-                    <option>Cầu chì</option>
+                    <option hidden disabled value="">-- Chọn danh mục --</option>
+                    <option selected>Cầu chì</option>
                     <option>Biến trở</option>
                     <option>Cảm biến nhiệt độ</option>
                     <option>IC cảm ứng</option>
@@ -199,19 +199,12 @@
               </div>
               <div class="row">
                 <div class="form-group col-md-12">
-                  <label class="control-label">Ảnh sản phẩm</label>
+                  <label class="control-label required-field">Ảnh sản phẩm</label>
                   <div id="myfileupload">
-                    <input type="file" id="uploadfile" name="ImageUpload" onchange="setThumbImage();" />
+                    <input type="file" id="uploadfile" name="ImageUpload" onchange="setThumbImage();" accept="image/*"/>
                   </div>
                   <div id="thumbbox">
-                    <img height="450" width="400" alt="Thumb image" id="thumbimage" style="display: none" />
-                    <a class="removeimg" href="javascript:"></a>
-                  </div>
-                  <div id="boxchoice">
-                    <button type="button" class="Choicefile" id="imageInputButton"
-                      onclick="document.getElementById('uploadfile').click();"><i class="fas fa-cloud-upload-alt"></i>
-                      Chọn ảnh</button>
-                    <p style="clear:both"></p>
+                    <img height="450" width="400" alt="Thumb image" id="thumbimage" src="resources/images/diode.jpg" />
                   </div>
                 </div>
                 <div class="form-group col-md-12">
@@ -222,7 +215,7 @@
               <div class="row">
                 <div class="confirm-button">
                   <div class="button">
-                    <button type="submit" class="btn btn-save" type="button">Lưu lại</button>
+                    <button type="submit" class="btn btn-save" type="button" onclick="validateImage()">Lưu lại</button>
                     <button type="button" class="btn btn-cancel" onclick="location.href='product-management.html'">Hủy
                       bỏ</button>
                   </div>

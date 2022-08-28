@@ -126,7 +126,7 @@
                   </select>
                 </div>
                 <div class="form-group col-md-3">
-                  <label class="control-label">Giá bán</label>
+                  <label class="control-label required-field">Giá bán</label>
                   <input class="form-control" type="number">
                 </div>
               </div>
@@ -204,17 +204,12 @@
               </div>
               <div class="row">
                 <div class="form-group col-md-12">
-                  <label class="control-label">Ảnh sản phẩm</label>
+                  <label class="control-label required-field">Ảnh sản phẩm</label>
                   <div id="myfileupload">
-                    <input type="file" id="uploadfile" name="ImageUpload" onchange="setThumbImage();"/>
+                    <input type="file" id="uploadfile" name="ImageUpload" onchange="setThumbImage();" accept="image/*" required/>
                   </div>
                   <div id="thumbbox">
-                    <img height="450" width="400" alt="Thumb image" id="thumbimage" style="display: none" />
-                    <a class="removeimg" href="javascript:"></a>
-                  </div>
-                  <div id="boxchoice">
-                    <button type="button" class="Choicefile" id="imageInputButton" onclick="document.getElementById('uploadfile').click();"><i class="fas fa-cloud-upload-alt"></i> Chọn ảnh</button>
-                    <p style="clear:both"></p>
+                    <img height="450" width="400" alt="Thumb image" id="thumbimage" style="display: none"/>
                   </div>
                 </div>
                 <div class="form-group col-md-12">

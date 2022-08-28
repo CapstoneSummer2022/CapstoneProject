@@ -16577,11 +16577,13 @@ th {
   text-decoration: none;
   color: white;
 }
-
+/*
 #uploadfile,
 .removeimg {
   display: none;
 }
+
+*/
 
 #thumbbox {
   position: relative;
