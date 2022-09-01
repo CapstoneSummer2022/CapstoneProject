@@ -3,6 +3,7 @@ package com.example.electriccomponentsshop.controller.admin;
 import com.example.electriccomponentsshop.config.ModelMap;
 import com.example.electriccomponentsshop.dto.CategoryDTO;
 import com.example.electriccomponentsshop.entities.Category;
+import com.example.electriccomponentsshop.repositories.CategoryRepository;
 import com.example.electriccomponentsshop.services.CategoryService;
 import com.example.electriccomponentsshop.services.RefreshTokenService;
 import lombok.AllArgsConstructor;
@@ -45,10 +46,10 @@ public class CategoryController  {
             return "administrator/add-category";
         }
         categoryService.addCategory(categoryDTO);
-        return "redirect:/list";
+        return "redirect:/admin/categories";
 
     }
-    @PostMapping("update/{id}")
+    @PostMapping("edit/{id}")
     public String editCategory(@PathVariable String id,Model model, @Valid @ModelAttribute("categoryDto") CategoryDTO categoryDTO, BindingResult bindingResult){
 //      try{
 //
@@ -75,16 +76,22 @@ public class CategoryController  {
         categoryService.updateCategory(categoryDTO,id);
         return "administrator/setting-category";
     }
+    @Autowired
+    CategoryRepository categoryRepository;
     @GetMapping("edit/{id}")
-    public String viewFormEdit(@PathVariable Integer id,Model model){
+    public String viewFormEdit(@PathVariable String id,Model model){
 
         try {
-            CategoryDTO categoryDTO = categoryService.findById(id);
+            CategoryDTO categoryDTO = categoryService.findById(Integer.parseInt(id));
             List<CategoryDTO> categoryDTOS = categoryService.findAll();
             categoryDTOS.remove(categoryDTO);
-            CategoryDTO parent = categoryService.findById(Integer.parseInt(categoryDTO.getParentId()));
-            categoryDTOS.remove(parent);
-            model.addAttribute("categories",categoryDTOS);
+            if(categoryDTO.getParentId()!=null){
+                CategoryDTO parent = categoryService.findById(Integer.parseInt(categoryDTO.getParentId()));
+                categoryDTOS.remove(parent);
+            }
+            System.out.println(categoryRepository.findAllSubCategories(4));
+            System.out.println(categoryDTOS.size()+ "kai");
+            model.addAttribute( "categories",categoryDTOS);
             model.addAttribute("categoryDto",categoryDTO);
         }
         catch (NoSuchElementException e){

@@ -17,7 +17,6 @@
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css"
         href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
 
@@ -45,7 +44,7 @@
             </div>
         </div>
         <%--@elvariable id="orderDto" type="com.example.electriccomponentsshop.dto.OrderDTO"--%>
-        <form:form  method="POST" action="${pageContext.request.contextPath}/admin/orders/add" modelAttribute="orderDto">
+        <form>
             <div class="row">
                 <div class="col-md-12">
                     <div class="tile">
@@ -120,7 +119,7 @@
                             </div>
                         </div>
                         <div class="du--lieu-san-pham">
-                            <table class="table table-hover table-bordered">
+                            <table class="table table-hover table-bordered" id="table-orderItem">
                                 <thead>
                                     <tr>
                                         <th class="order-item-number">Mã sản phẩm</th>
@@ -133,14 +132,8 @@
                                             style="text-align: center; vertical-align: middle;">Tuỳ chọn</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                <c:forEach items="${orderDto.orderItemDtos}" var="orderItemDto" varStatus="status">
-                                    Hoàng
-                                    <form:input path="orderItemDtos[${status.index}].productId" type="text" value="${orderItemDto.productId}"/>
-                                    <form:input path="orderItemDtos[${status.index}].quantity" type="text" value="${orderItemDto.quantity}"/>
-                                </c:forEach>
-
-                                    <tr>
+                                <tbody >
+                                    <tr class="order-item">
                                         <td>1-A-9-1</td>
                                         <td>Diode Xung Đôi SBL3040 TO-247 600V 30A</td>
                                         <td><img src="/img-sanpham/reno.jpg" alt="" width="50px;"></td>
@@ -163,7 +156,7 @@
                                                     class="fas fa-trash-alt"></i></button>
                                         </td>
                                     </tr>
-                                    <tr>
+                                    <tr class="order-item">
                                         <td>1-A-5-2</td>
                                         <td>Diode SS34 SMD</td>
                                         <td><img src="/img-sanpham/matda.jpg" alt="" width="50px;"></td>
@@ -186,30 +179,7 @@
                                                     class="fas fa-trash-alt"></i></button>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>1-A-8-2</td>
-                                        <td>Diode Cầu 25A Dẹt 1000V KBJ2510</td>
-                                        <td><img src="/img-sanpham/ghethera.jpg" alt="" width="50px;"></td>
-                                        <td>5.600 đ</td>
-                                        <td>
-                                            <div class="quantity">
-                                                <button class="plus-btn" type="button" name="button">
-                                                    <i class='bx bx-minus'></i>
-                                                </button>
-                                                <input type="number" name="name" value="1">
-                                                <button class="minus-btn" type="button" name="button">
-                                                    <i class='bx bx-plus'></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                        <td>16.770 đ</td>
-                                        <td>
-                                            <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                                data-toggle="modal" data-target="#deleteProduct"><i
-                                                    class="fas fa-trash-alt"></i></button>
-                                        </td>
-                                    </tr>
-                                    <tr>
+                                    <tr class="order-item">
 
                                         <td>1-A-7-5</td>
                                         <td>Tụ Cao Áp 102K 2kV</td>
@@ -238,7 +208,6 @@
                                         <td>450.000 đ</td>
                                         <td></td>
                                     </tr>
-                                    <tr>
                                 </tbody>
                             </table>
                         </div>
@@ -278,7 +247,7 @@
                                 <p class="control-all-money-total">= 450.000 đ</p>
                             </div>
                             <div class="tile-footer col-md-12">
-                                <button type="submit" class="btn btn-primary create-order-button" type="button">Tạo đơn
+                                <button id="create" type="button" class="btn btn-primary create-order-button" type="button">Tạo đơn
                                     hàng</button>
                                 <a class="btn btn-primary cancel-order-button" href="order-management.html"
                                     type="button">Huỷ và quay về</a>
@@ -288,7 +257,7 @@
                 </div>
 
             </div>
-        </form:form>
+        </form>
     </main>
     <!--
   PRODUCT MODAL
@@ -486,15 +455,54 @@ MODAL
         </div>
     </div>
     <!-- Essential javascripts for application to work-->
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/main.js"></script>
-    <!-- The javascript plugin to display page loading on top-->
-    <script src="js/plugins/pace.min.js"></script>
-    <script src="js/api-province.js"></script>
-    <script src="resources/data.json"></script>
 
+    <!-- The javascript plugin to display page loading on top-->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    <script src="js/api-province.js"></script>
+    <script src="<c:url value="/js/jquery-3.2.1.min.js"/>"></script>
+    <script src="<c:url value="/js/popper.min.js"/>"></script>
+    <script src="<c:url value="/js/bootstrap.min.js"/>"></script>
+    <script src="<c:url value="/js/main.js"/>"></script>
+    <script src="<c:url value="/js/plugins/pace.min.js"/>"></script>
+    <script src="<c:url value="/resources/data.json"/>"></script>
+    <script>
+        var element = document.getElementById("create");
+
+
+        element.addEventListener('click',()=>{
+
+            var orderItems= new Array();
+
+            $(".order-item").each(function (){
+                var row = $(this);
+                var orderItem = new Object();
+                orderItem.productId = row.find("TD").eq(0).html();
+                orderItem.quantity = row.find("INPUT").val();
+
+                orderItems.push(orderItem);
+            });
+            var data1={
+                name:"hoang",
+                orderItemDtos: orderItems
+            }
+            $.ajax({
+                type: "POST",
+                contentType:"application/json; charset=utf-8",
+                url: "/admin/orders/add",
+                data:
+                JSON.stringify(data1)
+                ,
+                dataType:"text",
+                success: function (response){
+                    alert(response);
+                },
+                error: function (){
+                    alert("sai rồi");
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

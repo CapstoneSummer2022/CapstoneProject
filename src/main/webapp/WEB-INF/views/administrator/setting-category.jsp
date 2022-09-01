@@ -83,7 +83,7 @@
                     <h3 class="tile-title">Tuỳ chỉnh danh mục</h3>
                     <div class="tile-body">
                         <%--@elvariable id="categoryDto" type="com.example.electriccomponentsshop.dto.CategoryDTO"--%>
-                        <form:form modelAttribute="categoryDto" method="POST" action="${pageContext.request.contextPath}/admin/categories/edit/${category.id}">
+                        <form:form modelAttribute="categoryDto" method="POST" action="${pageContext.request.contextPath}/admin/categories/edit/${categoryDto.id}">
                             <div class="row">
                                 <div class="form-group col-md-3">
                                     <label class="control-label required-field">Tên danh mục</label>

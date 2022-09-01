@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -29,13 +30,13 @@ public class AccountController {
     final DistrictService districtService;
     final WardService wardService;
     @GetMapping("/add")
-    public String viewAddForm(Model model){
+    public String viewAddForm(ModelMap model){
         model.addAttribute("accountDto", new AccountDTO());
         getAddress(model);
         return "administrator/add-employee";
     }
 
-    private Model getAddress(Model model) {
+    private ModelMap getAddress(ModelMap model) {
 
         List<ProvinceDTO> provinceDTOS = provinceService.findAll();
         model.addAttribute("listProvince", provinceDTOS);
@@ -47,16 +48,24 @@ public class AccountController {
     }
 
     @PostMapping("/add")
-    public String addAccount(Model model, @ModelAttribute("accountDto") AccountDTO accountDTO,BindingResult bindingResult){
+    public String addAccount(ModelMap model, @Valid @ModelAttribute("accountDto") AccountDTO accountDTO, BindingResult bindingResult){
         System.out.println("gg48");
        // Set<String> strRoles = accountDTO.getRoles();
         if(bindingResult.hasErrors()){
+            System.out.println("dây cơ mà");
             bindingResult.getFieldErrors().forEach(fieldError -> model.addAttribute(fieldError.getField(),fieldError.getDefaultMessage()));
-
+            model.addAttribute("accountDto",accountDTO);
+            List<ProvinceDTO> provinceDTOS = provinceService.findAll();
+            model.addAttribute("listProvince", provinceDTOS);
+            List<DistrictDTO> districtDTOS = districtService.findByProvinceName(accountDTO.getProvinceName());
+            model.addAttribute("listDistrict", districtDTOS);
+            List<WardDTO> wardDTOS = wardService.findByDistrictName(accountDTO.getDistrictName());
+            model.addAttribute("listWard", wardDTOS);
+            return "administrator/add-employee";
         }
 
        accountService.addAccount(accountDTO);
-        return "administrator/system-account-management";
+        return "administrator/add-employee";
     }
     @GetMapping("/system-account")
     public String viewAllSystemAccount(Model model,@ModelAttribute("error") String mess){
@@ -75,7 +84,7 @@ public class AccountController {
         return "administrator/customer-account-management";
     }
     @PostMapping("/edit/{id}")
-        public String editInformation(Model model, @PathVariable @Valid Integer id, @ModelAttribute("accountDto")AccountDTO accountDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+        public String editInformation(Model model, @PathVariable @Valid Integer id,@Valid @ModelAttribute("accountDto")AccountDTO accountDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes){
         if(bindingResult.hasErrors()){
             bindingResult.getFieldErrors().forEach(fieldError -> model.addAttribute(fieldError.getField(),fieldError.getDefaultMessage()));
         }

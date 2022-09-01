@@ -24,7 +24,6 @@
 </head>
 
 <body onload="time()" class="app sidebar-mini rtl">
-  </style>
   <!-- Navbar-->
   <jsp:include page="header.jsp"/>
   <!-- Sidebar menu-->
@@ -44,11 +43,12 @@
           <div class="tile-body">
             ${error}
             <%--@elvariable id="accountDto" type="com.example.electriccomponentsshop.dto.AccountDTO"--%>
-            <form:form class="row" method="POST" action="${pageContext.request.contextPath}/admin/accounts/add}" modelAttribute="accountDto">
+            <form:form class="row" method="POST" action="${pageContext.request.contextPath}/admin/accounts/add" modelAttribute="accountDto">
             <div class="row">
               <div class="form-group col-md-3">
                 <label class="control-label">Họ và tên</label>
                 <form:input class="form-control" type="text" path="name"  />
+                <form:errors path="name" element="span" />
               </div>
               <div class="form-group col-md-3">
                 <label class="control-label required-field">Giới tính</label>
@@ -65,51 +65,71 @@
                       Nữ
                     </form:label>
                   </div>
+                  <form:errors path="gender" element="span" />
                 </div>
                 </div>
                 <div class="form-group col-md-3">
                   <label class="control-label required-field">Ngày sinh</label>
                   <form:input class="form-control" type="date" path="dob"/>
+                  <form:errors path="dob" element="span" />
                 </div>
               </div>
               <div class="row">
                 <div class="form-group col-md-3">
                   <label for="province" class="control-label">Tỉnh/Thành phố</label>
                   <form:select class="form-control" id="province" path="provinceName">
-                    <c:forEach items ="${listProvince}" var="province">
-                      <option value="${province.name}">${province.name}-</option>
+                    <c:forEach  var="province" items="${listProvince}" >
+                      <option value="${province.name}" <c:if test="${accountDto.provinceName == province.name}">
+                        selected
+                      </c:if>>
+                          ${province.name}
+                      </option>
                     </c:forEach>
                   </form:select>
+                  <form:errors path="provinceName" element="span" />
                 </div>
                 <div class="form-group col-md-3">
                   <label for="district" class="control-label">Quận/Huyện</label>
                   <form:select class="form-control" id="district" path="districtName">
-                    <c:forEach items ="${listDistrict}" var="district">
-                      <option value="${district.name}">${district.name}-</option>
+                    <c:forEach  var="district" items="${listDistrict}" >
+                      <option value="${district.name}" <c:if test="${accountDto.districtName == district.name}">
+                        selected
+                      </c:if>>
+                          ${district.name}
+                      </option>
                     </c:forEach>
                   </form:select>
+                  <form:errors path="districtName" element="span" />
                 </div>
                 <div class="form-group col-md-3">
                   <label for="ward" class="control-label">Phường/Xã/Thị trấn</label>
                   <form:select class="form-control" id="ward" path="wardName">
-                    <c:forEach items ="${listWard}" var="ward">
-                      <option value="${ward.name}">${ward.name}-</option>
+                    <c:forEach  var="ward" items="${listWard}" >
+                      <option value="${ward.name}" <c:if test="${accountDto.wardName == ward.name}">
+                        selected
+                      </c:if>>
+                          ${ward.name}
+                      </option>
                     </c:forEach>
                   </form:select>
+                  <form:errors path="wardName" element="span" />
                 </div>
               </div>
               <div class="row">
                 <div class="form-group col-md-3">
                   <label class="control-label">Địa chỉ email</label>
                   <form:input class="form-control" type="text" path="email"  />
+                  <form:errors path="email" element="span" />
                 </div>
                 <div class="form-group col-md-3">
                   <label class="control-label">Số điện thoại</label>
                   <form:input class="form-control" type="number" path="phone" />
+                  <form:errors path="phone" element="span" />
                 </div>
                 <div class="form-group col-md-3">
                   <label class="control-label">Mật Khẩu</label>
                   <form:input class="form-control" type="password" path="password"  />
+                  <form:errors path="password" element="span" />
                 </div>
               </div>
               <div class="row">
@@ -159,13 +179,57 @@
 MODAL
 -->
   <!-- Essential javascripts for application to work-->
-  <script src="<c:url value="/js/jquery-3.2.1.min.js"/>></script>
-  <script src="<c:url value="/js/popper.min.js"/>></script>
-  <script src="<c:url value="/js/bootstrap.min.js"/>></script>
-  <script src="<c:url value="/js/main.js"/>></script>
-  <script src="<c:url value="/js/js/api-province.js"/>></script>
-  <script src="<c:url value="/js/plugins/pace.min.js"/>></script>
-  <script src="<c:url value="/resources/data.json"/>></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+  <script src="<c:url value="/js/jquery-3.2.1.min.js"/>"></script>
+  <script src="<c:url value="/js/popper.min.js"/>"></script>
+  <script src="<c:url value="/js/bootstrap.min.js"/>"></script>
+  <script src="<c:url value="/js/main.js"/>"></script>
+  <script src="<c:url value="/js/api-province.js"/>"></script>
+  <script src="<c:url value="/js/plugins/pace.min.js"/>"></script>
+  <script src="<c:url value="/resources/data.json"/>"></script>
+  <script>
+    $(document).ready(function (){
+      function showWard(){
+
+      }
+      $('#province').change(function(event){
+        var pro = $('#province').val();
+
+        $.ajax({
+          type:"GET",
+          url: "/address/district?province="+pro,
+          success: function (response){
+            var  $dis= $('#district');
+            var $ward = $('#ward')
+            $dis.find('option').remove();
+            $ward.find('option').remove();
+            response[0].forEach(d=>{
+              $('<option>').val(d.name).text(d.name).appendTo($dis);
+            });
+            response[1].forEach(w=>{
+              $('<option>').val(w.name).text(w.name).appendTo($ward);
+            })
+          }
+        });
+      });
+      $('#district').change(function (){
+        var district = $('#district').val();
+        $.ajax({
+          type: "GET",
+          url: "/address/ward?district="+district,
+          success: function (response){
+            var $ward = $('#ward');
+            $ward.find('option').remove();
+            $.each(response, function(key,value){
+              $('<option>').val(value.name).text(value.name).appendTo($ward);
+            });
+          }
+        });
+      });
+    });
+  </script>
+
 
 </body>
 

@@ -10,6 +10,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class WardDTO {
-    private Integer id;
+    private String wCode;
     private String name;
 }

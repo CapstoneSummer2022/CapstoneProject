@@ -1,12 +1,15 @@
 package com.example.electriccomponentsshop.services.impl;
 
 import com.example.electriccomponentsshop.config.ModelMap;
+import com.example.electriccomponentsshop.dto.AccountDTO;
 import com.example.electriccomponentsshop.dto.CategoryDTO;
 import com.example.electriccomponentsshop.dto.OrderDTO;
-import com.example.electriccomponentsshop.entities.Category;
-import com.example.electriccomponentsshop.entities.Order;
-import com.example.electriccomponentsshop.repositories.OrderRepository;
+import com.example.electriccomponentsshop.dto.OrderItemDto;
+import com.example.electriccomponentsshop.entities.*;
+import com.example.electriccomponentsshop.repositories.*;
+import com.example.electriccomponentsshop.services.AccountDetailImpl;
 import com.example.electriccomponentsshop.services.OrderService;
+import com.example.electriccomponentsshop.services.ProvinceService;
 import lombok.AllArgsConstructor;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,7 +30,12 @@ import java.util.function.Function;
 @AllArgsConstructor
 public class OrderServiceImpl implements OrderService {
     final OrderRepository orderRepository;
+    final AccountRepository accountRepository;
     final ModelMap modelMap;
+    final ProductRepository productRepository;
+    final ProvinceRepository provinceRepository;
+    final DistrictRepository districtRepository;
+    final WardRepository wardRepository;
     @Override
     public List<Order> findOrdersByStatus(String status) {
         return orderRepository.findOrdersByStatus(status);
@@ -47,6 +56,77 @@ public class OrderServiceImpl implements OrderService {
             orderDTOList.add(convertToDTO(o));
         }
         return orderDTOList;
+    }
+    private boolean setAddress(OrderDTO orderDTO, Order order) {
+        Optional<Province> provinceOptional = provinceRepository.findByName(orderDTO.getProvinceName());
+
+        if(provinceOptional.isEmpty()){
+            throw new NoSuchElementException("Không tìm thấy tỉnh/thành phố này");
+        }
+        else {
+            Province province = provinceOptional.get();
+            List<District> districtList = province.getDistrictList();
+            Optional<District> districtOptional = districtRepository.findByName(orderDTO.getDistrictName());
+            if(districtOptional.isEmpty()){
+                throw new NoSuchElementException("Không tìm thấy Quận/Huyện này");
+            }
+            else {
+                District district = districtOptional.get();
+                if(!districtList.contains(district)){
+                    throw new NoSuchElementException("Tỉnh/Thành phố này không có Quận/Huyện này");
+                }
+                else {
+                    Optional<Ward> wardOptional = wardRepository.findByName(orderDTO.getWardName());
+                    List<Ward> wardList = district.getWardList();
+                    if(wardOptional.isEmpty()){
+                        throw new NoSuchElementException("Không có Xã/Phường/Thị trấn này");
+                    }
+                    else {
+                        Ward ward = wardOptional.get();
+                        if(!wardList.contains(ward)){
+                            throw new NoSuchElementException("Quận/Huyện này không có Xã/Phường/Thị trấn này");
+                        }
+                        else {
+                            order.setProvinceOrder(province);
+                            order.setDistrictOrder(district);
+                            order.setWardOrder(ward);
+                        }
+
+                    }
+                }
+
+            }
+        }
+        return true;
+    }
+    @Override
+    public boolean addOrder(OrderDTO orderDTO){
+        Order order = new Order();
+        order.setStatus("Chờ xử lý");
+        List<OrderItemDto> dtos= orderDTO.getOrderItemDtos();
+        Double totalPayment = 0.0;
+        setAddress(orderDTO,order);
+        order.setDetailLocation("");
+        order.setReceivedPerson(orderDTO.getReceivedPerson());
+        order.setReceivedPhone(orderDTO.getReceivedPhone());
+        for (OrderItemDto o : dtos
+             ) {
+            Integer quantity = Integer.parseInt(o.getQuantity());
+            Product p = productRepository.findById(Integer.parseInt(o.getProductId())).get();
+            totalPayment+= quantity*p.getExportPrice().getRetailPrice();
+        }
+        order.setTotalPayment(totalPayment);
+        setAddress(orderDTO,order);
+        List<Account> li = new ArrayList<>();
+        AccountDetailImpl accountDetail = (AccountDetailImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Optional<Account> accountOptional = accountRepository.findByEmail(accountDetail.getEmail());
+        if(accountOptional.isEmpty()){
+            throw  new NoSuchElementException("Không tìm thấy nhân viên này");
+        }
+        else li.add(accountOptional.get());
+        order.setAccounts(li);
+        return orderRepository.save(order)!=null;
+
     }
     public boolean updateStatus(Integer id){
         Optional<Order> orderOptional = orderRepository.findById(id);

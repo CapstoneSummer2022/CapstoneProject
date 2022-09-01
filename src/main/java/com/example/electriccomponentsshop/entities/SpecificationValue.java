@@ -20,11 +20,11 @@ public class SpecificationValue {
     private String valueFrom;
     private String valueTo;
     @ManyToOne(fetch = FetchType.EAGER)
-    @MapsId("id")
+    @MapsId("productId")
     @JoinColumn(name="product_id")
     private Product product;
     @ManyToOne(fetch = FetchType.EAGER)
-    @MapsId("id")
+    @MapsId("specificationId")
     @JoinColumn(name="specification_id")
     private Specification specification;
 

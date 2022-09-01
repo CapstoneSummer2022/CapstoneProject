@@ -68,8 +68,8 @@ private JwtUtils jwtUtils;
         try{
 
             String jwt = getJwtFromRequest(request);
-            System.out.println("hoan"+ request.getMethod()+"  " +request.getRequestURI());
-            if(jwt!=null&&jwtUtils.isTokenCorrect(jwt)){
+            System.out.println("hoan"+ request.getMethod()+"  " +request.getRequestURI()+ " " + request.getPathInfo());
+            if(jwt!=null&&jwtUtils.isTokenCorrect(jwt,response)){
                 System.out.println("dcccb");
                 String email = jwtUtils.getEmailFromJwtToken(jwt);
                 UserDetails userDetails = accountDetailService.loadUserByUsername(email);

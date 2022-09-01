@@ -19,7 +19,7 @@ public interface OrderService {
     Order convertToEntity(OrderDTO orderDTO);
     OrderDTO convertToDTO(Order order);
     List<Order> findAllById(Iterable<Integer> integers);
-
+    boolean addOrder(OrderDTO orderDTO);
     <S extends Order> List<S> saveAll(Iterable<S> entities);
 
     void flush();

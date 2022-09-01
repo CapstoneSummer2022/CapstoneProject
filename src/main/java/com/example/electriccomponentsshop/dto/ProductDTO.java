@@ -12,8 +12,6 @@ import javax.persistence.Column;
 @Setter
 public class ProductDTO {
     private String name;
-    @Column
     private String image;
-    @Column
     private String description;
 }

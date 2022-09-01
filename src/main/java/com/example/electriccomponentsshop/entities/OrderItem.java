@@ -13,13 +13,17 @@ import javax.persistence.*;
 @Getter
 @Setter
 public class OrderItem {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer code;
+    @EmbeddedId
+    private OrderItemId orderItemId;
+    private Double unitPrice;
+    private Integer quantity;
+    private Double subTotal;
     @ManyToOne(fetch = FetchType.EAGER)
+    @MapsId("orderId")
     @JoinColumn(name="order_id")
     private Order order;
-    @OneToOne(mappedBy = "orderItem")
-    @PrimaryKeyJoinColumn
+    @ManyToOne(fetch = FetchType.EAGER)
+    @MapsId("productId")
+    @JoinColumn(name="product_id")
     private Product product;
 }

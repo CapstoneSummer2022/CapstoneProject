@@ -27,4 +27,8 @@ public class OrderItemServiceImpl implements OrderItemService {
     public List<OrderItemDto> findByOrderId(Integer id) {
         return orderItemRepository.findByOrderId(id).stream().map(this::convertToDto).collect(Collectors.toList());
     }
+    @Override
+    public <S extends OrderItem> S save(S entity) {
+        return orderItemRepository.save(entity);
+    }
 }

@@ -37,14 +37,14 @@ public class Product {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="cart_id")
     private Cart cart;
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "product")
-    private List<ExportPrice> exportPrices = new ArrayList<>();
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "exportPrice_id")
+    private ExportPrice exportPrice;
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "product")
     private List<Feedback> feedbackList = new ArrayList<>();
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "product")
     private List<SpecificationValue> specificationValues = new ArrayList<>();
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "orderItem_id")
-    private OrderItem orderItem;
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "product")
+    private List<OrderItem> orderItems = new ArrayList<>();
 }

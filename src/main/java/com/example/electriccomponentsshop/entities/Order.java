@@ -1,6 +1,7 @@
 package com.example.electriccomponentsshop.entities;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -22,6 +23,8 @@ public class Order {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "orders_account", joinColumns = @JoinColumn(name = "orders_id"), inverseJoinColumns = @JoinColumn(name = "account_id"))
     private List<Account> accounts = new ArrayList<>();
+    @CreationTimestamp
+    @Column(updatable = false)
     private Date orderedDate;
     private String receivedPerson;
     private String receivedPhone;

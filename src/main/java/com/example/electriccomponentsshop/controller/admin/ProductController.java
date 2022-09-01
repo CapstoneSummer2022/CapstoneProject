@@ -42,6 +42,16 @@ public class ProductController {
         }
         return "administrator/product-management";
     }
+    @GetMapping("/add")
+        public String viewProduct(ModelMap modelMap){
+         modelMap.addAttribute("products",new ProductDTO() );
+            return "administrator/add-product";
+        }
+    @PostMapping("/add")
+    @ResponseBody
+    public String addNewProduct(@Valid @RequestBody ProductDTO productDTO){
+        return "";
+    }
     @PostMapping("/view/{id}")
     public String update(@PathVariable Integer id, @ModelAttribute("product") @Valid ProductDTO productDTO, BindingResult bindingResult){
         Optional<Product> product = productService.findById(id);

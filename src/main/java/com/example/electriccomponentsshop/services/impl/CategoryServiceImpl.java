@@ -80,6 +80,7 @@ public class CategoryServiceImpl implements CategoryService {
         Integer id = Integer.parseInt(strId);
         Category updatedCategory = getCategoryById(id);
         updatedCategory.setName(categoryDTO.getName());
+        if(categoryDTO.getParentId()!=null){
         Integer parentId = Integer.parseInt(categoryDTO.getParentId());
         Category parent = getCategoryById(parentId);
         if(isChildCategory(updatedCategory,parent)){
@@ -90,7 +91,9 @@ public class CategoryServiceImpl implements CategoryService {
                 updatedCategory.setParentCategory(null);
             }
         }
-        parent.setParentCategory(updatedCategory);
+
+        updatedCategory.setParentCategory(parent);
+        }
         return categoryRepository.save(updatedCategory)!=null;
     }
     public boolean isChildCategory(Category category, Category parent) {

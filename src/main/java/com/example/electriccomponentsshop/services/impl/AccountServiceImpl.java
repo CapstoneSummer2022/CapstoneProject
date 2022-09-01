@@ -94,7 +94,7 @@ public class AccountServiceImpl implements AccountService {
 //           else {
 //               roles.add(roleOptional.get());
 //           }
- //         account.setRoles(roles);
+//         account.setRoles(roles);
             setAddress(accountDTO, account);
            return accountRepository.save(account) != null;
        }

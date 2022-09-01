@@ -109,6 +109,7 @@
             <artifactId>hibernate-validator-annotation-processor</artifactId>
             <version>6.2.3.Final</version>
         </dependency>
+
     </dependencies>
 
     <build>
