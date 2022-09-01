@@ -10000,7 +10000,7 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination {
 }
 .element-button {
   position: relative;
-  border-bottom: 1px solid #ddd;
+  /*border-bottom: 1px solid #ddd;*/
   padding-bottom: 10px;
   margin-bottom: 10px;
 }
@@ -14699,16 +14699,20 @@ input:checked + .slider:before {
 /*search bar end*/
 
 /*filter begin */
-#myBtnContainer {
+#container {
+  margin-top: 10px;
+  margin-left: 20px;
   display: flex;
   width: 100%;
   justify-content: center;
 }
 
-#myBtnContainer p {
+#container p {
+  font-size: large;
   font-weight: bold;
   text-align: center;
 }
+
 
 .filter-btn {
   border: none;
