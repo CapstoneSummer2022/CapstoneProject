@@ -139,7 +139,46 @@ function deleteFromTable() {
 		}
 	}
 }
+// Category list
+function invalidOption(option) {
+	var table = document.getElementById("categoryTable");
+	for (var i = 1, row; row = table.rows[i]; i++) {
+		if (row.cells[0].innerHTML === option) {
+			return true;
+		}
+	}
+	return false;
+}
 
+function addToCategoryTable() {
+	var table = document.getElementById("categoryTable");
+	var selection = document.getElementById("categoryOption");
+	var optionText = selection.options[selection.selectedIndex].text;
+	var optionValue = selection.options[selection.selectedIndex].value;
+	if (selection.selectedIndex != 0 && !invalidOption(optionText)) {
+		var row = table.insertRow(1);
+		var cell0 = row.insertCell(0);
+		var cell1 = row.insertCell(1);
+		var cell2 = row.insertCell(2);
+
+		var checkbox = document.createElement("input");
+		checkbox.setAttribute("type", "checkbox");
+
+		cell0.innerHTML = optionValue;
+		cell1.innerHTML = optionText;
+		cell2.appendChild(checkbox.cloneNode());
+	}
+}
+
+function deleteFromCategoryTable() {
+	var table = document.getElementById("categoryTable");
+	for (var i = 1, row; row = table.rows[i]; i++) {
+		if (row.cells[2].getElementsByTagName('input')[0].checked) {
+			table.deleteRow(i);
+			i = 0;
+		}
+	}
+}
 //has big category or not
 function showBigCategoryInput() {
 	console.log("active");
