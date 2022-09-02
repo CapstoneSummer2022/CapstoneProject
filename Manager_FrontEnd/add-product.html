@@ -243,7 +243,7 @@
               <div class="row">
                 <div class="confirm-button">
                   <div class="button">
-                    <button type="submit" class="btn btn-save" type="button">Lưu lại</button>
+                    <button type="submit" class="btn btn-save" type="button" onclick="validateTable()">Lưu lại</button>
                     <button type="button" class="btn btn-cancel" onclick="location.href='product-management.html'">Hủy
                       bỏ</button>
                   </div>
@@ -271,6 +271,36 @@
             </div>
             <div class="form-group col-md-12" style="text-align: center;">
               <p class="modal-notify-successful">Thêm sản phẩm thành công</p>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: center; padding: 10px;">
+            <button style="margin: 5px;" class="btn btn-save" data-dismiss="modal">Quay lại</button>
+          </div>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--
+MODAL
+-->
+  <!--
+MODAL CATEGORY EMPTY 
+-->
+  <div class="modal fade" id="categoryEmpty" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="row">
+            <div class="form-group  col-md-12">
+              <span class="thong-tin-thanh-toan">
+                <h5>Thông báo</h5>
+              </span>
+            </div>
+            <div class="form-group col-md-12" style="text-align: center;">
+              <p class="modal-notify-unsuccessful">Chưa có danh mục nào được chọn</p>
             </div>
           </div>
           <div style="display: flex; justify-content: center; padding: 10px;">
@@ -321,26 +351,6 @@ MODAL
   <script src="js/bootstrap.min.js"></script>
   <script src="js/main.js"></script>
   <script src="js/plugins/pace.min.js"></script>
-  <script>
-    const inpFile = document.getElementById("inpFile");
-    const loadFile = document.getElementById("loadFile");
-    const previewContainer = document.getElementById("imagePreview");
-    const previewImage = previewContainer.querySelector(".image-preview__image");
-    const previewDefaultText = previewContainer.querySelector(".image-preview__default-text");
-    inpFile.addEventListener("change", function () {
-      const file = this.files[0];
-      if (file) {
-        const reader = new FileReader();
-        previewDefaultText.style.display = "none";
-        previewImage.style.display = "block";
-        reader.addEventListener("load", function () {
-          previewImage.setAttribute("src", this.result);
-        });
-        reader.readAsDataURL(file);
-      }
-    });
-
-  </script>
 </body>
 
 </html>

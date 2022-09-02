@@ -70,11 +70,13 @@ function addToSpecTable() {
 		fromValue.setAttribute("type", "number");
 		fromValue.setAttribute("name", optionValue.concat("fromValue"));
 		fromValue.setAttribute("placeholder", "Giá trị nhỏ nhất");
+		fromValue.classList.add("fromValue");
 
 		var toValue = document.createElement("input");
 		toValue.setAttribute("type", "number");
 		toValue.setAttribute("name", optionValue.concat("toValue"));
 		toValue.setAttribute("placeholder", "Giá trị lớn nhất");
+		toValue.classList.add("toValue");
 
 		var checkbox = document.createElement("input");
 		checkbox.setAttribute("type", "checkbox");
@@ -85,7 +87,30 @@ function addToSpecTable() {
 		cell2.innerHTML += ' - '
 		cell2.appendChild(toValue.cloneNode());
 		cell3.appendChild(checkbox.cloneNode());
+		validateMinMax();
+
 	}
+}
+
+function validateMinMax() {
+	var fromValues = document.getElementsByClassName("fromValue");
+	var toValues = document.getElementsByClassName("toValue");
+
+	for (var i = 0; i < toValues.length; i++) {
+		if (typeof toValues[i].oninput !== "function") {
+			toValues[i].addEventListener("input", function (e) {
+				if (e.target.previousElementSibling.value > e.target.value) {
+					console.log(e.target.value);
+					console.log(e.target.previousElementSibling.value);
+					e.target.setCustomValidity('Giá trị lớn nhất phải lớn hơn hoặc bằng giá trị nhỏ nhất');
+				} else {
+					// input is fine -- reset the error message
+					e.target.setCustomValidity('');
+				}
+			});
+		}
+	}
+
 }
 
 
@@ -138,6 +163,14 @@ function deleteFromCategoryTable() {
 		}
 	}
 }
+
+function checkRequiredTable() {
+	var categoryTable = document.getElementById("categoryTable");
+	if (categoryTable.rows.length < 2) {
+
+	}
+}
+
 //has big category or not
 function showBigCategoryInput() {
 	console.log("active");
@@ -380,6 +413,7 @@ function greaterThanZero() {
 			});
 		}
 	}
+	validateMinMax();
 }
 
 function setMinusValueFunction() {
@@ -565,14 +599,15 @@ function setThumbImage() {
 	}
 }
 
-function validateImage() {
-	var image = document.getElementById("thumbimage");
-	var inputImage = document.getElementById("uploadfile");
-	if(image.src == "") {
-		inputImage.required = true;
+function validateTable() {
+	console.log("clicked")
+	var formProduct = document.getElementById("categoryTable");
+	if (formProduct.rows.length < 2) {
+		$("#categoryEmpty").modal('show');
+		return false;
 	}
-	
 }
+
 
 
 
@@ -638,10 +673,9 @@ $(document).ready(function () {
 		var formProduct = document.getElementsByClassName("form-product")[0];
 		if (formProduct.rows.length < 2) {
 			$("#productEmpty").modal('show');
-			return 0;
+			return false;
 		}
 	});
-
 
 
 });
