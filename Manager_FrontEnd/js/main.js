@@ -263,8 +263,21 @@ function resetImportTable() {
 		i = 0
 	}
 }
+
+const warehouse = document.getElementById("warehouse");
+warehouse.addEventListener("change", addSkudCode);
+const row = document.getElementById("row");
+row.addEventListener("change", addSkudCode);
+const column = document.getElementById("column");
+column.addEventListener("change", addSkudCode);
+const shelf = document.getElementById("shelf");
+shelf.addEventListener("change", addSkudCode);
+const importDate = document.getElementById("importDate");
+importDate.addEventListener("change", addSkudCode);
+
 //1-a-2-3-P1-2022-02-03
 function addSkudCode() {
+	console.log("Change");
 	var warehouse = document.getElementById("warehouse").value;
 	var row = document.getElementById("row").value;
 	var column = document.getElementById("column").value;
@@ -272,7 +285,7 @@ function addSkudCode() {
 	var importDate = document.getElementById("importDate").value;
 	var date = new Date(importDate);
 	var dd = String(date.getDate()).padStart(2, '0');
-	var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+	var mm = String(date.getMonth() + 1).padStart(2, '0');
 	var yyyy = date.getFullYear();
 	date = yyyy + '-' + mm + '-' + dd;
 
@@ -285,6 +298,8 @@ function addSkudCode() {
 		}
 	}
 }
+
+
 
 function addToImportTable() {
 	var importProductTable = document.getElementById("importProductList");
@@ -657,13 +672,13 @@ function validateTable() {
 
 
 
-window.onload = setEventImportPrice();
-window.onload = setSumOrder();
-window.onload = setSumImport();
-window.onload = greaterThanZero();
-window.onload = setPlusValueFunction();
-window.onload = setMinusValueFunction();
-window.onload = setWholeValue();
+setEventImportPrice();
+setSumOrder();
+setSumImport();
+greaterThanZero();
+setPlusValueFunction();
+setMinusValueFunction();
+setWholeValue();
 
 
 
