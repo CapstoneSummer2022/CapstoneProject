@@ -323,6 +323,7 @@ function addToImportTable() {
 	setMinusValueFunction();
 	setPlusValueFunction();
 	setWholeValue();
+	addSkudCode();
 }
 
 function addToExportTable() {
@@ -669,9 +670,6 @@ greaterThanZero();
 setPlusValueFunction();
 setMinusValueFunction();
 setWholeValue();
-
-
-
 
 
 //Get the opener and Delete the product
