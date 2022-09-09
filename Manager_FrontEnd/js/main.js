@@ -235,6 +235,21 @@ const deleteIcon = document.createElement("i");
 deleteIcon.classList.add("fas");
 deleteIcon.classList.add("fa-trash-alt");
 deleteButton.appendChild(deleteIcon);
+//Detail button  
+//<button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng"
+//onclick="location.href='order-detail.html'"><i class="fa fa-info"></i></button>
+const detailButton = document.createElement("a");
+detailButton.classList.add("btn");
+detailButton.classList.add("btn-primary");
+deleteButton.title = "Chi tiết đơn hàng";
+detailButton.type = "button";
+detailButton.href = "order-detail.html";
+const detailIcon = document.createElement("i");
+detailIcon.classList.add("fa");
+detailIcon.classList.add("fa-info");
+detailButton.appendChild(detailIcon);
+
+
 //input number
 const price = document.createElement("input");
 price.type = "number";
@@ -262,6 +277,7 @@ function addToImportTable() {
 			cell4.appendChild(quantity.cloneNode(true));
 			cell5.innerHTML = 0;
 			cell6.appendChild(deleteButton.cloneNode(true));
+			
 		}
 	}
 	setEventImportPrice();
@@ -275,21 +291,20 @@ function addToExportTable() {
 	var orderProductTable = document.getElementById("exportProductList");
 	var productTable = document.getElementById("products");
 	for (var i = 1, row; row = productTable.rows[i]; i++) {
-		if (row.cells[7].getElementsByTagName('input')[0].checked && !duplicateExportProduct(row.cells[0].innerHTML)) {
+		if (row.cells[5].getElementsByTagName('input')[0].checked && !duplicateExportProduct(row.cells[0].innerHTML)) {
 			var newRow = orderProductTable.insertRow(1);
 			var cell0 = newRow.insertCell(0);
 			var cell1 = newRow.insertCell(1);
 			var cell2 = newRow.insertCell(2);
 			var cell3 = newRow.insertCell(3);
 			var cell4 = newRow.insertCell(4);
-			var cell5 = newRow.insertCell(5);
 
 			cell0.innerHTML = row.cells[0].innerHTML;
 			cell1.innerHTML = row.cells[1].innerHTML;
 			cell2.innerHTML = row.cells[2].innerHTML;
-			cell3.innerHTML = row.cells[6].innerHTML;
-			cell4.appendChild(quantity.cloneNode(true));
-			cell5.appendChild(deleteButton.cloneNode(true));
+			cell3.innerHTML = row.cells[3].innerHTML;
+			cell4.appendChild(deleteButton.cloneNode(true));
+			cell4.appendChild(detailButton.cloneNode(true));
 		}
 	}
 	setMinusValueFunction();
@@ -359,7 +374,7 @@ function duplicateExportProduct(id) {
 	var table = document.getElementById("exportProductList");
 	for (var i = 1, row; row = table.rows[i]; i++) {
 		if (row.cells[0].innerHTML === id) {
-			alert("Sản phẩm " + id + " đã có trong danh sách.")
+			alert("Đơn hàng " + id + " đã có trong danh sách.")
 			isDuplicate = true;
 			return isDuplicate;
 		}
@@ -462,7 +477,6 @@ function setPlusValueFunction() {
 					} else {
 						ammount.innerHTML = input.value * parseInt(unit.innerHTML);
 					}
-
 					setSumImport();
 					setSumOrder();
 				}
@@ -679,5 +693,7 @@ $(document).ready(function () {
 
 
 });
+
+//1-a-2-3-P1-2022-02-03
 
 

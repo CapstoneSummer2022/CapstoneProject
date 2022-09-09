@@ -99,6 +99,21 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="tile">
+                        <h3 class="tile-title">Thông tin người mua</h3>
+                        <div class="tile-body">
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label required-field">Họ và tên người mua</label>
+                                    <input class="form-control" type="text" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label required-field">Số điện thoại</label>
+                                    <input class="form-control" type="number" required>
+                                </div>
+                            </div>
+                        </div>
                         <h3 class="tile-title">Thông tin nhận hàng</h3>
                         <div class="tile-body">
                             <div class="row">
@@ -158,7 +173,7 @@
                             <table id="orderProductList" class="table table-hover table-bordered form-product">
                                 <thead>
                                     <tr>
-                                        <th class="order-item-number">Mã sản phẩm</th>
+                                        <th class="order-item-number">Mã SKUD</th>
                                         <th class="order-item-number">Tên sản phẩm</th>
                                         <th class="order-item-number">Hình ảnh</th>
                                         <th class="order-item-number">Đơn giá</th>
@@ -270,7 +285,15 @@
                     <div class="tile">
                         <h3 class="tile-title">Thông tin thanh toán</h3>
                         <div class="row">
-                            <div class="form-group  col-md-6">
+                            <div class="form-group col-md-12">
+                                <label for="exampleSelect1" class="control-label required-field">Loại đơn hàng</label>
+                                <select class="form-control" required>
+                                    <option value="" disabled selected hidden>-- Chọn loại đơn --</option>
+                                    <option value="1">Đơn hàng</option>
+                                    <option value="2">Đơn hàng</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-12">
                                 <label class="control-label">Tổng cộng thanh toán: </label>
                                 <p class="control-all-money-total"><span id="sum">0</span></p>
                             </div>
@@ -316,7 +339,7 @@
                                         <table id="products" class="table table-hover table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th>Mã sản phẩm</th>
+                                                    <th>Mã SKUD</th>
                                                     <th>Tên sản phẩm</th>
                                                     <th>Ảnh sản phẩm</th>
                                                     <th>Số lượng tồn kho</th>
