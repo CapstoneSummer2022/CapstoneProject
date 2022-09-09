@@ -269,14 +269,15 @@ function addSkudCode() {
 	var row = document.getElementById("row").value;
 	var column = document.getElementById("column").value;
 	var shelf = document.getElementById("shelf").value;
-	var date = new Date(document.getElementById("importDate").value);
+	var importDate = document.getElementById("importDate").value;
+	var date = new Date(importDate);
 	var dd = String(date.getDate()).padStart(2, '0');
 	var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
 	var yyyy = date.getFullYear();
 	date = yyyy + '-' + mm + '-' + dd;
 
 	var importProductTable = document.getElementById("importProductList");
-	if (warehouse != "" && row != "" && column != "" && shelf != "" && date != "") {
+	if (warehouse != "" && row != "" && column != "" && shelf != "" && importDate != "") {
 		for (var i = 1, rowTable; rowTable = importProductTable.rows[i]; i++) {
 			var id = rowTable.cells[0].innerHTML;
 			rowTable.cells[1].style = "";
