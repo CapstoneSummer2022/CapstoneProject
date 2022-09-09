@@ -256,12 +256,41 @@ price.type = "number";
 price.value = 0;
 price.classList.add("import-price");
 
+function resetImportTable() {
+	var importProductTable = document.getElementById("importProductList");
+	for (var i = 1, row; row = importProductTable.rows[i]; i++) {
+		importProductTable.deleteRow(i);
+		i = 0
+	}
+}
+//1-a-2-3-P1-2022-02-03
+function addSkudCode() {
+	var warehouse = document.getElementById("warehouse").value;
+	var row = document.getElementById("row").value;
+	var column = document.getElementById("column").value;
+	var shelf = document.getElementById("shelf").value;
+	var date = new Date(document.getElementById("importDate").value);
+	var dd = String(date.getDate()).padStart(2, '0');
+	var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+	var yyyy = date.getFullYear();
+	date = yyyy + '-' + mm + '-' + dd;
+
+	var importProductTable = document.getElementById("importProductList");
+	if (warehouse != "" && row != "" && column != "" && shelf != "" && date != "") {
+		for (var i = 1, rowTable; rowTable = importProductTable.rows[i]; i++) {
+			var id = rowTable.cells[0].innerHTML;
+			rowTable.cells[1].style = "";
+			rowTable.cells[1].innerHTML = warehouse + "-" + shelf + "-" + row + "-" + column + "-P" + id + "-" + date;
+		}
+	}
+}
+
 function addToImportTable() {
-	var orderProductTable = document.getElementById("importProductList");
+	var importProductTable = document.getElementById("importProductList");
 	var productTable = document.getElementById("products");
 	for (var i = 1, row; row = productTable.rows[i]; i++) {
 		if (row.cells[7].getElementsByTagName('input')[0].checked && !duplicateimportProduct(row.cells[0].innerHTML)) {
-			var newRow = orderProductTable.insertRow(1);
+			var newRow = importProductTable.insertRow(1);
 			var cell0 = newRow.insertCell(0);
 			var cell1 = newRow.insertCell(1);
 			var cell2 = newRow.insertCell(2);
@@ -269,15 +298,18 @@ function addToImportTable() {
 			var cell4 = newRow.insertCell(4);
 			var cell5 = newRow.insertCell(5);
 			var cell6 = newRow.insertCell(6);
+			var cell7 = newRow.insertCell(7);
 
 			cell0.innerHTML = row.cells[0].innerHTML;
-			cell1.innerHTML = row.cells[1].innerHTML;
-			cell2.innerHTML = row.cells[2].innerHTML;
-			cell3.appendChild(price.cloneNode(true));
-			cell4.appendChild(quantity.cloneNode(true));
-			cell5.innerHTML = 0;
-			cell6.appendChild(deleteButton.cloneNode(true));
-			
+			cell1.innerHTML = "Chưa tạo";
+			cell1.style.color = "red";
+			cell2.innerHTML = row.cells[1].innerHTML;
+			cell3.innerHTML = row.cells[2].innerHTML;
+			cell4.appendChild(price.cloneNode(true));
+			cell5.appendChild(quantity.cloneNode(true));
+			cell6.innerHTML = 0;
+			cell7.appendChild(deleteButton.cloneNode(true));
+
 		}
 	}
 	setEventImportPrice();
@@ -402,10 +434,9 @@ function setSumImport() {
 		var sumNumber = 0;
 		var table = document.getElementById("importProductList");
 		for (var i = 1, row; row = table.rows[i]; i++) {
-			var currentUnit = row.cells[3].getElementsByTagName("input")[0].value;
-			console.log(currentUnit);
-			row.cells[5].innerHTML = currentUnit * row.cells[4].getElementsByTagName("input")[0].value;
-			sumNumber = sumNumber + parseFloat(row.cells[5].innerHTML);
+			var currentUnit = row.cells[4].getElementsByTagName("input")[0].value;
+			row.cells[6].innerHTML = currentUnit * row.cells[5].getElementsByTagName("input")[0].value;
+			sumNumber = sumNumber + parseFloat(row.cells[6].innerHTML);
 		}
 		sum.innerHTML = convertMoney(sumNumber);
 	}
@@ -694,6 +725,6 @@ $(document).ready(function () {
 
 });
 
-//1-a-2-3-P1-2022-02-03
+
 
 

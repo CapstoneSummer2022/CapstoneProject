@@ -113,10 +113,13 @@
                         <div class="tile">
                             <h3 class="tile-title">Thông tin sản phẩm</h3>
                             <div class="row element-button">
-                                <div class="col-sm-2">
-                                    <button class="btn btn-add btn-sm" title="Thêm" type="button" data-toggle="modal"
-                                        data-target="#productList"><i class="fas fa-plus"></i>
+                                <div class="col-sm-12">
+                                    <button class="btn btn-add btn-sm" title="Thêm" data-toggle="modal"
+                                        data-target="#productList" type="button"><i class="fas fa-plus"></i>
                                         Thêm sản phẩm</button>
+                                    <button class="btn btn-add btn-sm" title="Thêm mã SKUD" type="button"
+                                        onclick="addSkudCode()"><i class="fas fa-plus"></i>
+                                        Tạo mã SKUD</button>
                                 </div>
                             </div>
                             <div class="du--lieu-san-pham">
@@ -124,6 +127,7 @@
                                     <thead>
                                         <tr>
                                             <th class="order-item-number">Mã sản phẩm</th>
+                                            <th class="order-item-number">Mã SKUD</th>
                                             <th class="order-item-number" width="200">Tên sản phẩm</th>
                                             <th class="order-item-number">Hình ảnh</th>
                                             <th class="order-item-number" width="100">Đơn giá</th>
@@ -135,6 +139,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
+                                            <td>1</td>
                                             <td>1-A-9-1</td>
                                             <td>Diode Xung Đôi SBL3040 TO-247 600V 30A</td>
                                             <td><img src="resources/images/diode.jpg" alt="" width="50px;"></td>
@@ -156,6 +161,7 @@
                                             </td>
                                         </tr>
                                         <tr>
+                                            <td>4</td>
                                             <td>1-A-5-2</td>
                                             <td>Diode SS34 SMD</td>
                                             <td><img src="resources/images/diode.jpg" alt="" width="50px;"></td>
@@ -177,6 +183,7 @@
                                             </td>
                                         </tr>
                                         <tr>
+                                            <td>5</td>
                                             <td>1-A-8-2</td>
                                             <td>Diode Cầu 25A Dẹt 1000V KBJ2510</td>
                                             <td><img src="resources/images/diode.jpg" alt="" width="50px;"></td>
@@ -197,28 +204,6 @@
                                                         class="fas fa-trash-alt"></i></button>
                                             </td>
                                         </tr>
-                                        <tr>
-
-                                            <td>1-A-7-5</td>
-                                            <td>Tụ Cao Áp 102K 2kV</td>
-                                            <td><img src="resources/images/diode.jpg" alt="" width="50px;"></td>
-                                            <td><input class="import-price" type="number" value=22650></td>
-                                            <td>
-                                                <div class="quantity">
-                                                    <button class="minus-btn" type="button" name="button">-
-                                                    </button>
-                                                    <input class="input-number" type="number" name="name" value="1">
-                                                    <button class="plus-btn" type="button" name="button">+
-                                                    </button>
-                                                </div>
-                                            </td>
-                                            <td>22650</td>
-                                            <td>
-                                                <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                                    data-toggle="modal" data-target="#deleteProduct"><i
-                                                        class="fas fa-trash-alt"></i></button>
-                                            </td>
-                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -229,38 +214,61 @@
                             <h3 class="tile-title">Thông tin nhập hàng</h3>
                             <div class="tile-body">
                                 <div class="form-group col-md-12">
-                                    <label for="exampleSelect1" class="control-label required-field">Nhà cung
+                                    <label for="importDate" class="control-label required-field">Ngày nhập</label>
+                                    <input class="form-control" type="date" name="birthmonth" id="importDate">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="supplierSelect" class="control-label required-field">Nhà cung
                                         cấp</label>
-                                    <select class="form-control" required>
-                                        <option value="" selected disabled hidden>-- Nhà cung cấp --</option>
-                                        <option selected>DAEWOO</option>
-                                        <option>ABECO</option>
-                                        <option>Nguyên phi</option>
+                                    <select class="form-control" id="supplierSelect" required
+                                        onchange="resetImportTable()">
+                                        <option value="" disabled hidden>-- Nhà cung cấp --</option>
+                                        <option selected value="1">DAEWOO</option>
+                                        <option value="2">ABECO</option>
+                                        <option value="3">Nguyên phi</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-12">
-                                    <label for="exampleSelect1" class="control-label required-field">Vị trí lưu
+                                    <label for="warehouse" class="control-label required-field">Vị trí lưu
                                         kho</label>
-                                    <select class="form-control" id="exampleSelect1" required>
-                                        <option selected disabled hidden value="">-- Chọn kho hàng --</option>
-                                        <option>XQCV+F65, P. Văn Quán, Hà Đông, Hà Nội</option>
-                                        <option>68 P. Nguyễn Văn Giáp, Mễ Trì, Nam Từ Liêm, Hà Nội</option>
-                                        <option>Đinh Tú, Cấn Hữu, Quốc Oai, Hà Nội</option>
-                                        <option>4F9R+78G, Đường khu TĐC, Tông, Sơn Tây, Hà Nội</option>
+                                    <select class="form-control" id="warehouse" required>
+                                        <option disabled hidden value="">-- Chọn kho hàng --</option>
+                                        <option selected value="1">XQCV+F65, P. Văn Quán, Hà Đông, Hà Nội</option>
+                                        <option value="2">68 P. Nguyễn Văn Giáp, Mễ Trì, Nam Từ Liêm, Hà Nội</option>
+                                        <option value="3">Đinh Tú, Cấn Hữu, Quốc Oai, Hà Nội</option>
+                                        <option value="4">4F9R+78G, Đường khu TĐC, Tông, Sơn Tây, Hà Nội</option>
                                     </select>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-4">
                                         <label class="control-label required-field">Số hàng</label>
-                                        <input class="form-control" type="number" required>
+                                        <select class="form-control" id="row" required>
+                                            <option disabled hidden value="">Hàng</option>
+                                            <option selected value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                        </select>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label class="control-label required-field">Số cột</label>
-                                        <input class="form-control" type="number" required>
+                                        <select class="form-control" id="column" required>
+                                            <option disabled hidden value="">Cột</option>
+                                            <option selected value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                        </select>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label class="control-label required-field">Mã kệ hàng</label>
-                                        <input class="form-control" type="text" required>
+                                        <select class="form-control" id="shelf" required>
+                                            <option disabled hidden value="">Kệ</option>
+                                            <option selected value="1">A</option>
+                                            <option value="2">B</option>
+                                            <option value="3">C</option>
+                                            <option value="4">D</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12">

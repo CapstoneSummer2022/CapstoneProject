@@ -113,16 +113,20 @@
                         <div class="tile">
                             <h3 class="tile-title">Thông tin sản phẩm</h3>
                             <div class="row element-button">
-                                <div class="col-sm-2">
+                                <div class="col-sm-12">
                                     <button class="btn btn-add btn-sm" title="Thêm" data-toggle="modal"
-                                        data-target="#productList"><i class="fas fa-plus"></i>
+                                        data-target="#productList" type="button"><i class="fas fa-plus"></i>
                                         Thêm sản phẩm</button>
+                                    <button class="btn btn-add btn-sm" title="Thêm mã SKUD" type="button"
+                                        onclick="addSkudCode()"><i class="fas fa-plus"></i>
+                                        Tạo mã SKUD</button>
                                 </div>
                             </div>
                             <div class="du--lieu-san-pham">
                                 <table id="importProductList" class="table table-hover table-bordered form-product">
                                     <thead>
                                         <tr>
+                                            <th>Mã sản phẩm</th>
                                             <th class="order-item-number">Mã SKUD</th>
                                             <th class="order-item-number" width="200">Tên sản phẩm</th>
                                             <th class="order-item-number">Hình ảnh</th>
@@ -146,9 +150,14 @@
                             <h3 class="tile-title">Thông tin nhập hàng</h3>
                             <div class="tile-body">
                                 <div class="form-group col-md-12">
-                                    <label for="exampleSelect1" class="control-label required-field">Nhà cung
+                                    <label for="importDate" class="control-label required-field">Ngày nhập</label>
+                                    <input class="form-control" type="date" name="birthmonth" id="importDate">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="supplierSelect" class="control-label required-field">Nhà cung
                                         cấp</label>
-                                    <select class="form-control" id="exampleSelect1" required>
+                                    <select class="form-control" id="supplierSelect" onchange="resetImportTable()"
+                                        required>
                                         <option selected disabled hidden value="">-- Nhà cung cấp --</option>
                                         <option>DAEWOO</option>
                                         <option>ABECO</option>
@@ -156,28 +165,46 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-md-12">
-                                    <label for="exampleSelect1" class="control-label required-field">Vị trí lưu
+                                    <label for="warehouse" class="control-label required-field">Vị trí lưu
                                         kho</label>
-                                    <select class="form-control" id="exampleSelect1" required>
+                                    <select class="form-control" id="warehouse" required>
                                         <option selected disabled hidden value="">-- Chọn kho hàng --</option>
-                                        <option>XQCV+F65, P. Văn Quán, Hà Đông, Hà Nội</option>
-                                        <option>68 P. Nguyễn Văn Giáp, Mễ Trì, Nam Từ Liêm, Hà Nội</option>
-                                        <option>Đinh Tú, Cấn Hữu, Quốc Oai, Hà Nội</option>
-                                        <option>4F9R+78G, Đường khu TĐC, Tông, Sơn Tây, Hà Nội</option>
+                                        <option value="1">XQCV+F65, P. Văn Quán, Hà Đông, Hà Nội</option>
+                                        <option value="2">68 P. Nguyễn Văn Giáp, Mễ Trì, Nam Từ Liêm, Hà Nội</option>
+                                        <option value="3">Đinh Tú, Cấn Hữu, Quốc Oai, Hà Nội</option>
+                                        <option value="4">4F9R+78G, Đường khu TĐC, Tông, Sơn Tây, Hà Nội</option>
                                     </select>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-4">
                                         <label class="control-label required-field">Số hàng</label>
-                                        <input class="form-control" type="number" required>
+                                        <select class="form-control" id="row" required>
+                                            <option selected disabled hidden value="">Hàng</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                        </select>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label class="control-label required-field">Số cột</label>
-                                        <input class="form-control" type="number" required>
+                                        <select class="form-control" id="column" required>
+                                            <option selected disabled hidden value="">Cột</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                        </select>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label class="control-label required-field">Mã kệ hàng</label>
-                                        <input class="form-control" type="text" required>
+                                        <select class="form-control" id="shelf" required>
+                                            <option selected disabled hidden value="">Kệ</option>
+                                            <option value="1">A</option>
+                                            <option value="2">B</option>
+                                            <option value="3">C</option>
+                                            <option value="4">D</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12">
