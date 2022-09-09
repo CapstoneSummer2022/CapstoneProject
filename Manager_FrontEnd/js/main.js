@@ -241,7 +241,7 @@ deleteButton.appendChild(deleteIcon);
 const detailButton = document.createElement("a");
 detailButton.classList.add("btn");
 detailButton.classList.add("btn-primary");
-deleteButton.title = "Chi tiết đơn hàng";
+detailButton.title = "Chi tiết đơn hàng";
 detailButton.type = "button";
 detailButton.href = "order-detail.html";
 const detailIcon = document.createElement("i");
@@ -262,22 +262,12 @@ function resetImportTable() {
 		importProductTable.deleteRow(i);
 		i = 0
 	}
+	addSkudCode();
 }
 
-const warehouse = document.getElementById("warehouse");
-warehouse.addEventListener("change", addSkudCode);
-const row = document.getElementById("row");
-row.addEventListener("change", addSkudCode);
-const column = document.getElementById("column");
-column.addEventListener("change", addSkudCode);
-const shelf = document.getElementById("shelf");
-shelf.addEventListener("change", addSkudCode);
-const importDate = document.getElementById("importDate");
-importDate.addEventListener("change", addSkudCode);
 
 //1-a-2-3-P1-2022-02-03
 function addSkudCode() {
-	console.log("Change");
 	var warehouse = document.getElementById("warehouse").value;
 	var row = document.getElementById("row").value;
 	var column = document.getElementById("column").value;
