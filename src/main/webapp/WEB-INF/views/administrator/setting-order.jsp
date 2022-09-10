@@ -53,7 +53,8 @@
                         <div class="row">
                             <div class="form-group col-md-4">
                                 <label class="control-label required-field">Họ và tên</label>
-                                <input id="name" class="form-control" type="text" required>
+                                <input id="orderId" type="hidden" value="${orderDto.id}">
+                                <input id="name" class="form-control" type="text" value="${orderDto.receivedPerson}" required>
                                 <form:errors path="receivedPerson" element="span"/>
                             </div>
                         </div>
@@ -61,26 +62,38 @@
                             <div class="form-group col-md-3">
                                 <label for="exampleSelect1" class="control-label required-field">Tỉnh/Thành
                                     phố</label>
-                                <select class="form-control" id="province" required>
-                                    <c:forEach var="province" items="${listProvince}">
-                                        <option value="${province.name}">${province.name}</option>
+                                    <select class="form-control" id="province">
+                                    <c:forEach  var="province" items="${listProvince}" >
+                                        <option value="${province.name}" <c:if test="${orderDto.provinceName == province.name}">
+                                            selected
+                                        </c:if>>
+                                                ${province.name}
+                                        </option>
                                     </c:forEach>
                                 </select>
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="exampleSelect1" class="control-label required-field">Quận/Huyện</label>
-                                <select class="form-control" id="district" required>
-                                    <c:forEach items="${listDistrict}" var="district">
-                                        <option value="${district.name}">${district.name}</option>
+                                <select class="form-control" id="district" >
+                                    <c:forEach  var="district" items="${listDistrict}" >
+                                        <option value="${district.name}" <c:if test="${orderDto.districtName == district.name}">
+                                            selected
+                                        </c:if>>
+                                                ${district.name}
+                                        </option>
                                     </c:forEach>
                                 </select>
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="exampleSelect1" class="control-label required-field">Phường/Xã/Thị
                                     trấn</label>
-                                <select class="form-control" id="ward" required>
-                                    <c:forEach items="${listWard}" var="ward">
-                                        <option value="${ward.name}">${ward.name}</option>
+                                <select class="form-control" id="ward" >
+                                    <c:forEach  var="ward" items="${listWard}" >
+                                        <option value="${ward.name}" <c:if test="${orderDto.wardName == ward.name}">
+                                            selected
+                                        </c:if>>
+                                                ${ward.name}
+                                        </option>
                                     </c:forEach>
                                 </select>
                             </div>
@@ -88,13 +101,13 @@
                         <div class="row">
                             <div class="form-group col-md-4">
                                 <label class="control-label required-field">Địa chỉ</label>
-                                <input id ="detail-location" class="form-control" type="text" required>
+                                <input id ="detail-location" class="form-control" value="${orderDto.detailLocation}" type="text" required>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-md-4">
                                 <label class="control-label required-field">Số điện thoại</label>
-                                <input id="phone" class="form-control" type="number" required>
+                                <input id="phone" class="form-control" type="number" value="${orderDto.receivedPhone}" required>
                             </div>
                         </div>
                     </div>
@@ -105,9 +118,8 @@
                     <h3 class="tile-title">Danh sách sản phẩm mua</h3>
                     <div class="row element-button">
                         <div class="col-sm-2">
-                            <button class="btn btn-add btn-sm" title="Thêm" data-toggle="modal"
-                                    data-target="#productList"><i class="fas fa-plus"></i>
-                                Thêm sản phẩm</button>
+
+                                <button type="button" class="btn btn-add btn-sm"data-toggle="modal" data-target="#productList"><i class="fas fa-plus"></i>Thêm sản phẩm</button>
                         </div>
                     </div>
                     <div class="du--lieu-san-pham">
@@ -388,14 +400,13 @@ MODAL
     var element = document.getElementById("create");
     element.addEventListener('click',()=>{
         var orderItems= new Array();
+        var id = $("#orderId").val();
         $(".order-item").each(function (){
             var row = $(this);
             var orderItem = new Object();
-            alert(row.find("TD").eq(0));
             orderItem.productId = row.find("TD").eq(0).html();
             orderItem.quantity = row.find("INPUT").val();
             orderItems.push(orderItem);
-            alert(orderItem.productId + orderItem.quantity);
         });
         var data1={
             receivedPerson: $('#name').val(),
@@ -406,11 +417,11 @@ MODAL
             receivedPhone:$('#phone').val(),
             orderItems: orderItems
         };
-        alert(JSON.stringify(data1));
+        alert(data1.receivedPerson);
         $.ajax({
             type: "POST",
             contentType: "application/json",
-            url: "/admin/orders/add",
+            url: "/admin/orders/save/" + id,
             data:
                 JSON.stringify(data1)
             ,
@@ -424,6 +435,9 @@ MODAL
 </script>
 <script>
     $(document).ready(function (){
+        function showWard(){
+
+        }
         $('#province').change(function(event){
             var pro = $('#province').val();
 
@@ -432,7 +446,6 @@ MODAL
                 contentType:"application/x-www-form-urlencoded",
                 url: "/address/district?province="+pro,
                 success: function (response){
-                    alert(response);
                     var  $dis= $('#district');
                     var $ward = $('#ward')
                     $dis.find('option').remove();

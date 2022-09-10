@@ -81,7 +81,7 @@
                             <div class="row">
                                 <div class="confirm-button">
                                     <div class="button">
-                                        <button type="submit" class="btn btn-save" type="button">Lưu lại</button>
+                                        <button type="submit" id="saveProduct" class="btn btn-save" type="button">Lưu lại</button>
                                         <button class="btn btn-cancel"
                                             onclick="location.href='category-management.html'">Hủy bỏ</button>
                                     </div>

@@ -3,6 +3,8 @@ package com.example.electriccomponentsshop.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,10 +22,10 @@ public class Container {
     private Integer rowIn;
     @Column
     private Integer columnIn;
-    @Column
-    private String tray;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="warehouse_id")
     private Warehouse warehouse;
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "container")
+    List<ImportItem> importItems = new ArrayList<>();
 
 }

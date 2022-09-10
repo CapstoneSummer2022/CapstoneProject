@@ -47,7 +47,7 @@
             <div class="row">
               <div class="form-group col-md-3">
                 <label class="control-label">Họ và tên</label>
-                <form:input class="form-control" type="text" path="name"  />
+                <form:input class="form-control" type="text" path="name"  required="required" />
                 <form:errors path="name" element="span" />
               </div>
               <div class="form-group col-md-3">
@@ -70,14 +70,14 @@
                 </div>
                 <div class="form-group col-md-3">
                   <label class="control-label required-field">Ngày sinh</label>
-                  <form:input class="form-control" type="date" path="dob"/>
+                  <form:input class="form-control" type="date" path="dob" required="required" />
                   <form:errors path="dob" element="span" />
                 </div>
               </div>
               <div class="row">
                 <div class="form-group col-md-3">
                   <label for="province" class="control-label">Tỉnh/Thành phố</label>
-                  <form:select class="form-control" id="province" path="provinceName">
+                  <form:select class="form-control" id="province" path="provinceName" required="required" >
                     <c:forEach  var="province" items="${listProvince}" >
                       <option value="${province.name}" <c:if test="${accountDto.provinceName == province.name}">
                         selected
@@ -90,7 +90,7 @@
                 </div>
                 <div class="form-group col-md-3">
                   <label for="district" class="control-label">Quận/Huyện</label>
-                  <form:select class="form-control" id="district" path="districtName">
+                  <form:select class="form-control" id="district" path="districtName"  required="required" >
                     <c:forEach  var="district" items="${listDistrict}" >
                       <option value="${district.name}" <c:if test="${accountDto.districtName == district.name}">
                         selected
@@ -103,7 +103,7 @@
                 </div>
                 <div class="form-group col-md-3">
                   <label for="ward" class="control-label">Phường/Xã/Thị trấn</label>
-                  <form:select class="form-control" id="ward" path="wardName">
+                  <form:select class="form-control" id="ward" path="wardName" required="required" >
                     <c:forEach  var="ward" items="${listWard}" >
                       <option value="${ward.name}" <c:if test="${accountDto.wardName == ward.name}">
                         selected
@@ -118,17 +118,17 @@
               <div class="row">
                 <div class="form-group col-md-3">
                   <label class="control-label">Địa chỉ email</label>
-                  <form:input class="form-control" type="text" path="email"  />
+                  <form:input class="form-control" type="text" path="email" required="required"  />
                   <form:errors path="email" element="span" />
                 </div>
                 <div class="form-group col-md-3">
                   <label class="control-label">Số điện thoại</label>
-                  <form:input class="form-control" type="number" path="phone" />
+                  <form:input class="form-control" type="number" path="phone" required="required"  />
                   <form:errors path="phone" element="span" />
                 </div>
                 <div class="form-group col-md-3">
                   <label class="control-label">Mật Khẩu</label>
-                  <form:input class="form-control" type="password" path="password"  />
+                  <form:input class="form-control" type="password" path="password" required="required"   />
                   <form:errors path="password" element="span" />
                 </div>
               </div>
@@ -198,6 +198,7 @@ MODAL
 
         $.ajax({
           type:"GET",
+          contentType:"application/x-www-form-urlencoded",
           url: "/address/district?province="+pro,
           success: function (response){
             var  $dis= $('#district');

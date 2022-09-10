@@ -41,6 +41,10 @@ public class Account {
     private RefreshToken refreshToken;
     @OneToMany(mappedBy = "account",fetch = FetchType.LAZY)
     List<Feedback> feedbackList =new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "accountEmployee")
+    List<Order> ordersOfEmployee = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "accountCustomer")
+    List<Order> ordersOfCustomer = new ArrayList<>();
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="pCode")
     private Province provinceAccount;

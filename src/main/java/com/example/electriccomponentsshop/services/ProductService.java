@@ -1,5 +1,6 @@
 package com.example.electriccomponentsshop.services;
 
+import com.example.electriccomponentsshop.dto.ProductDTO;
 import com.example.electriccomponentsshop.entities.Product;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -12,7 +13,13 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public interface ProductService {
-    List<Product> findAll();
+    ProductDTO convertToDto(Product product);
+
+    ProductDTO getProductDtoById(String id);
+
+    Product getById(String id);
+
+    List<ProductDTO> findAll();
 
     Page<Product> findAll(Pageable pageable);
 

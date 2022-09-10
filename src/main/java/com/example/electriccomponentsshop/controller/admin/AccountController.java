@@ -52,7 +52,6 @@ public class AccountController {
         System.out.println("gg48");
        // Set<String> strRoles = accountDTO.getRoles();
         if(bindingResult.hasErrors()){
-            System.out.println("dây cơ mà");
             bindingResult.getFieldErrors().forEach(fieldError -> model.addAttribute(fieldError.getField(),fieldError.getDefaultMessage()));
             model.addAttribute("accountDto",accountDTO);
             List<ProvinceDTO> provinceDTOS = provinceService.findAll();

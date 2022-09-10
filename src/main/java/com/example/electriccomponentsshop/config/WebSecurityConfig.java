@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.support.AllEncompassingFormHttpMessageConverter;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -22,11 +25,14 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.List;
 
 @Configuration
 @Primary
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
 
     @Autowired
@@ -68,11 +74,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     AuthenticationFailureHandler authenticationFailureHandler(){
         return new CustomFailureHandler();
     }
+
     @Override
     protected void configure(HttpSecurity http) throws  Exception {
 
             http.logout().invalidateHttpSession(true).addLogoutHandler(logoutHandler()).logoutUrl("/sign-out").permitAll();
-
+         //   http.formLogin().loginPage("/signin.jsp").loginProcessingUrl("/auth/signin");
             http.cors().and().csrf().disable()
                     .authorizeRequests().antMatchers("/error23","/css/**","/js/**","/resources/**","/auth/signin","/auth/signup","/auth/sign-out","/home","/error-401","/address/**").permitAll()
                     .antMatchers("/admin/**","/admin-home").hasAnyAuthority("ROLE_EMPLOYEE", "ROLE_MANAGER")

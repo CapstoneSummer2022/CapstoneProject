@@ -67,7 +67,8 @@
               <thead>
                 <tr>
                   <th width="100">Mã đơn hàng</th>
-                  <th>Khách hàng</th>
+                  <th>Mã nhân viên</th>
+                  <th>Mã khách hàng</th>
                   <th>Ngày đặt hàng</th>
                   <th>Tổng tiền</th>
                   <th>Tình trạng</th>
@@ -75,76 +76,25 @@
                 </tr>
               </thead>
               <tbody>
+              <c:forEach var="orderDto" items="${listOrder}">
                 <tr>
-                  <td>DH0837</td>
-                  <td>Triệu Thanh Phú</td>
-                  <td>21/7/2022</td>
-                  <td>94.000 đ</td>
-                  <td><span class="badge bg-success">Hoàn thành</span></td>
+                  <td>${orderDto.id}</td>
+                  <td>${orderDto.accountEmployeeId}</td>
+                  <td>${orderDto.accountCustomerId}</td>
+                  <td>${orderDto.orderedDate}</td>
+                  <td>${orderDto.totalPayment}</td>
+                  <td><span class="badge bg-success">${orderDto.status}</span></td>
                   <td>
-                    <button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng"
-                      onclick="location.href='order-detail.html'"><i class="fa fa-info"></i></button>
+                  <c:if test="${orderDto.status != 'Hoàn thành'}">
+                    <a href="${pageContext.request.contextPath}/admin/orders/update/${orderDto.id}" class="btn btn-primary btn-sm edit"
+                           type="button" title="Sửa"><i class="fas fa-edit"></i></a>
+                  </c:if>
+                    <a class="btn btn-primary btn-sm edit"
+                       type="button" title="Xem" href="${pageContext.request.contextPath}/admin/orders/view/${orderDto.id}"><i class="fa fa-info"></i></a>
                   </td>
                 </tr>
-                <tr>
-                  <td>DH8265</td>
-                  <td>Nguyễn Thị Ngọc Cẩm</td>
-                  <td>21/7/2022</td>
-                  <td>380.000 đ</td>
-                  <td><span class="badge bg-success">Hoàn thành</span></td>
-                  <td>
-                    <button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng"
-                      onclick="location.href='order-detail.html'"><i class="fa fa-info"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>DH9835</td>
-                  <td>Đặng Hoàng Phúc</td>
-                  <td>21/7/2022</td>
-                  <td>406.500 đ</td>
-                  <td><span class="badge bg-success">Hoàn thành</span></td>
-                  <td>
-                    <button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng"
-                      onclick="location.href='order-detail.html'"><i class="fa fa-info"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>DH3835</td>
-                  <td>Nguyễn Thị Mỹ Yến</td>
-                  <td>21/7/2022</td>
-                  <td>167.700 đ</td>
-                  <td><span class="badge bg-info">Chờ xử lý</span></td>
-                  <td><button class="btn btn-primary btn-sm" type="button" title="Tuỳ chọn cho đơn hàng"
-                      data-toggle="modal" data-target="#confirmOrder"><i class="fas fa-edit"></i>
-                    </button>
-                    <button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng"
-                      onclick="location.href='order-detail.html'"><i class="fa fa-info"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>DH3947</td>
-                  <td>Phạm Thị Ngọc</td>
-                  <td>16/7/2022</td>
-                  <td>197.700 đ</td>
-                  <td><span class="badge bg-warning">Đang giao hàng</span></td>
-                  <td><button class="btn btn-primary btn-sm" type="button" title="Tuỳ chọn cho đơn hàng"
-                      data-toggle="modal" data-target="#confirmFinished"><i class=" fas fa-edit"></i>
-                    </button>
-                    <button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng"
-                      onclick="location.href='order-detail.html'"><i class="fa fa-info"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>DH8723</td>
-                  <td>Ngô Thái An</td>
-                  <td>11/7/2022</td>
-                  <td>145.000 đ</td>
-                  <td><span class="badge bg-danger">Đã hủy</span></td>
-                  <td>
-                    <button class="btn btn-primary btn-sm edit" type="button" title="Chi tiết đơn hàng"
-                      onclick="location.href='order-detail.html'"><i class="fa fa-info"></i></button>
-                  </td>
-                </tr>
+              </c:forEach>
+
               </tbody>
             </table>
             <div class="pagination-row">
@@ -271,16 +221,20 @@ MODAL
 MODAL
 -->
   <!-- Essential javascripts for application to work-->
-  <script src="js/jquery-3.2.1.min.js"></script>
-  <script src="js/popper.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script src="src/jquery.table2excel.js"></script>
-  <script src="js/main.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+  <script src="<c:url value="/js/jquery-3.2.1.min.js"/>"></script>
+  <script src="<c:url value="/js/popper.min.js"/>"></script>
+  <script src="<c:url value="/js/bootstrap.min.js"/>"></script>
+  <script src="<c:url value="/js/main.js"/>"></script>
+  <script src="<c:url value="/js/api-province.js"/>"></script>
+  <script src="<c:url value="/js/plugins/pace.min.js"/>"></script>
+  <script src="<c:url value="/resources/data.json"/>"></script>
+  <script src="<c:url value="src/jquery.table2excel.js"/>"></script>
+
   <!-- The javascript plugin to display page loading on top-->
-  <script src="js/plugins/pace.min.js"></script>
   <!-- Page specific javascripts-->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+
 </body>
 
 </html>

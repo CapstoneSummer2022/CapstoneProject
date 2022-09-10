@@ -99,12 +99,12 @@
                                 <div id="bigCategory" class="form-group col-md-3" style="display: none;"
                                      onload="showBigCategoryInput(this)">
                                     <label class="control-label">Chọn danh mục lớn</label>
-                                    <select class="form-control required-field" id="exampleSelect2" required>
+                                    <form:select class="form-control required-field" id="exampleSelect2" path="parentId">
                                         <option selected disabled hidden>-- Chọn danh mục lớn --</option>
                                         <c:forEach var="category" items="${categories}">
                                             <option value="${category.id}">${category.name}</option>
                                         </c:forEach>
-                                    </select>
+                                    </form:select>
                                 </div>
                             </div>
                             <div class="row">

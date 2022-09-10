@@ -18,9 +18,19 @@ public class Warehouse {
     private Integer id;
     @Column
     private Integer storeId;
-    private String status;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="pCode")
+    private Province provinceWarehouse;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="dCode")
+    private District districtWarehouse;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="wCode")
+    private Ward wardWarehouse;
     @Column
-    private String address;
+    private String detailLocation;
+    @Column
+    private Integer status;
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "warehouse")
     List<Container> containerList = new ArrayList<>();
 

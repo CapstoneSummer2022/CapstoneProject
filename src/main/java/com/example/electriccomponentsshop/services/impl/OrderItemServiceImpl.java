@@ -16,8 +16,14 @@ public class OrderItemServiceImpl implements OrderItemService {
     OrderItemRepository orderItemRepository;
     @Autowired
     ModelMap modelMap;
-    OrderItemDto convertToDto(OrderItem orderItem){
-        return modelMap.modelMapper().map(orderItem,OrderItemDto.class);
+    @Override
+    public OrderItemDto convertToDto(OrderItem orderItem){
+        System.out.println("gihi");
+        OrderItemDto orderItemDto =modelMap.modelMapper().map(orderItem,OrderItemDto.class);
+        System.out.println("ghi" + orderItem.getProduct().getName());
+        orderItemDto.setProductName(orderItem.getProduct().getName());
+
+        return orderItemDto;
     }
     @Override
     public List<OrderItemDto> findAll() {
@@ -27,6 +33,12 @@ public class OrderItemServiceImpl implements OrderItemService {
     public List<OrderItemDto> findByOrderId(Integer id) {
         return orderItemRepository.findByOrderId(id).stream().map(this::convertToDto).collect(Collectors.toList());
     }
+
+    @Override
+    public void deleteOrderItemsByOrderId(Integer orderId) {
+        orderItemRepository.deleteOrderItemsByOrderId(orderId);
+    }
+
     @Override
     public <S extends OrderItem> S save(S entity) {
         return orderItemRepository.save(entity);

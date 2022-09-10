@@ -11,12 +11,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.NoSuchElementException;
@@ -52,10 +55,27 @@ public class JwtUtils {
     }
 
     public String getEmailFromJwtToken(String token){
+
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
     }
-    public boolean isTokenCorrect(String token, HttpServletResponse response){
+    private String getJwtFromRequest(HttpServletRequest request){
+
+        Cookie[] c = request.getCookies();
+        String value ="";
+        for (int i = 0; i< c.length;i++){
+            if(c[i].getName().equals("accessToken")){
+                value = c[i].getValue();
+
+                return value;
+            }
+        }
+        return null;
+    }
+    public static String token = null;
+    public boolean isTokenCorrect(HttpServletRequest request, HttpServletResponse response){
         try{
+             token = getJwtFromRequest(request);
+            System.out.println(token + "deop");
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
             return true;
         }catch (SignatureException e) {
@@ -63,27 +83,29 @@ public class JwtUtils {
         } catch (MalformedJwtException e) {
             logger.error("Invalid JWT token: {}", e.getMessage());
         } catch (ExpiredJwtException e) {
-                String email = getEmailFromJwtToken(token);
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+            if(authentication == null||(authentication instanceof AnonymousAuthenticationToken) ){
+                return false;
+            }
+            else {
+                AccountDetailImpl accountDetail = (AccountDetailImpl) authentication.getPrincipal();
+                String email = accountDetail.getEmail();
+                System.out.println("gout");
                 Optional<RefreshToken> refreshToken = refreshTokenService.findByAccount_Email(email);
                 if(refreshToken.isPresent()){
                     RefreshToken rToken = refreshToken.get();
                     if(!refreshTokenService.isExpiration(rToken)){
-                        Optional<Account> accountOptional = accountRepository.findByEmail(email);
-                        if(accountOptional.isEmpty()){
-                            throw new NoSuchElementException("Không có email này");
-                        }
-                        Account account =accountOptional.get();
-                        Authentication authentication = authenticationManager.authenticate(
-                                new UsernamePasswordAuthenticationToken(account.getEmail(),account.getPassword())
-                        );
                         try {
-
-
-                            Cookie cookie = new Cookie("accessToken", generateJwtToken(authentication));
+                            token = generateJwtToken(authentication);
+                            System.out.println(token + "hoang");
+                            Cookie cookie = new Cookie("accessToken", token);
                             cookie.setHttpOnly(true);
+                            cookie.setPath("/");
                             cookie.setMaxAge(1200);
                             response.addCookie(cookie);
 
+                            System.out.println("new token");
                             return true;
                         }
                         catch(Exception ex){
@@ -92,6 +114,8 @@ public class JwtUtils {
                     }
                     else return false;
                 }
+
+            }
 
 
         } catch (UnsupportedJwtException e) {

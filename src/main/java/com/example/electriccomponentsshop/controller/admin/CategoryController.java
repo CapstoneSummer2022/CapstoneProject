@@ -2,6 +2,7 @@ package com.example.electriccomponentsshop.controller.admin;
 
 import com.example.electriccomponentsshop.config.ModelMap;
 import com.example.electriccomponentsshop.dto.CategoryDTO;
+import com.example.electriccomponentsshop.dto.ProductDTO;
 import com.example.electriccomponentsshop.entities.Category;
 import com.example.electriccomponentsshop.repositories.CategoryRepository;
 import com.example.electriccomponentsshop.services.CategoryService;
@@ -39,6 +40,20 @@ public class CategoryController  {
         return "administrator/category-management";
 
     }
+    @PostMapping("/getExcept")
+    @ResponseBody
+    public List<CategoryDTO> getExcept(@RequestBody ProductDTO productDTO){
+        try{
+            List<CategoryDTO> list = productDTO.getCategories();
+            List<CategoryDTO> categoryDTOS = categoryService.findCategoriesByIdNotIn(list);
+            return categoryDTOS;
+        }
+        catch (NoSuchElementException e){
+            return null;
+        }
+
+
+    }
     @PostMapping("/add")
     public String addCategory(@Valid @ModelAttribute("categoryDto") CategoryDTO categoryDTO,BindingResult bindingResult,Model model){
         if(bindingResult.hasErrors()){
@@ -48,6 +63,11 @@ public class CategoryController  {
         categoryService.addCategory(categoryDTO);
         return "redirect:/admin/categories";
 
+    }
+    @GetMapping("/add")
+    public String viewFormAdd(Model model){
+        model.addAttribute("categoryDto" , new CategoryDTO());
+        return "administrator/add-category";
     }
     @PostMapping("edit/{id}")
     public String editCategory(@PathVariable String id,Model model, @Valid @ModelAttribute("categoryDto") CategoryDTO categoryDTO, BindingResult bindingResult){
@@ -83,13 +103,9 @@ public class CategoryController  {
 
         try {
             CategoryDTO categoryDTO = categoryService.findById(Integer.parseInt(id));
-            List<CategoryDTO> categoryDTOS = categoryService.findAll();
-            categoryDTOS.remove(categoryDTO);
-            if(categoryDTO.getParentId()!=null){
-                CategoryDTO parent = categoryService.findById(Integer.parseInt(categoryDTO.getParentId()));
-                categoryDTOS.remove(parent);
-            }
-            System.out.println(categoryRepository.findAllSubCategories(4));
+            System.out.println(categoryRepository.findEx().size()+"dhic");
+            List<CategoryDTO> categoryDTOS = categoryService.findAllSubAndParCategories(37);
+            System.out.println(categoryDTOS.size());
             System.out.println(categoryDTOS.size()+ "kai");
             model.addAttribute( "categories",categoryDTOS);
             model.addAttribute("categoryDto",categoryDTO);

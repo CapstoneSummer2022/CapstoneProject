@@ -3,11 +3,11 @@ package com.example.electriccomponentsshop.controller;
 import com.example.electriccomponentsshop.config.ModelMap;
 import com.example.electriccomponentsshop.dto.SupplierDTO;
 import com.example.electriccomponentsshop.entities.Account;
+import com.example.electriccomponentsshop.entities.OrderItem;
+import com.example.electriccomponentsshop.entities.OrderItemId;
 import com.example.electriccomponentsshop.entities.Supplier;
-import com.example.electriccomponentsshop.repositories.AccountRepository;
-import com.example.electriccomponentsshop.repositories.CategoryRepository;
-import com.example.electriccomponentsshop.repositories.ProductRepository;
-import com.example.electriccomponentsshop.repositories.SupplierRepository;
+import com.example.electriccomponentsshop.repositories.*;
+import com.example.electriccomponentsshop.services.OrderItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,6 +33,10 @@ public class TestController {
     @Autowired
     private SupplierRepository supplierRepository;
 
+    @Autowired
+    OrderItemService orderItemRepository;
+    @Autowired
+    OrderItemRepository itemRepository;
 
     @PostMapping("/suppliers/add")
     public ResponseEntity<?> addNewSupplier(@Validated @RequestBody SupplierDTO supplierDTO)throws  Exception{

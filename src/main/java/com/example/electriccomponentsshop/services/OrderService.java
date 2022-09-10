@@ -20,6 +20,7 @@ public interface OrderService {
     OrderDTO convertToDTO(Order order);
     List<Order> findAllById(Iterable<Integer> integers);
     boolean addOrder(OrderDTO orderDTO);
+    boolean updateOrder(String id, OrderDTO orderDTO);
     <S extends Order> List<S> saveAll(Iterable<S> entities);
 
     void flush();
@@ -36,6 +37,9 @@ public interface OrderService {
     void deleteAllByIdInBatch(Iterable<Integer> integers);
 
     void deleteAllInBatch();
+
+
+
     boolean updateStatus(Integer id);
     @Deprecated
     Order getOne(Integer integer);

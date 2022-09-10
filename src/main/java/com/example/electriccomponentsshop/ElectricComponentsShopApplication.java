@@ -14,12 +14,4 @@ public class ElectricComponentsShopApplication implements WebMvcConfigurer {
     public static void main(String[] args) {
         SpringApplication.run(ElectricComponentsShopApplication.class, args);
     }
-//    @Override
-//    public void configureViewResolvers(ViewResolverRegistry registry) {
-//        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-//        resolver.setPrefix("/WEB-INF/views/");
-//        resolver.setSuffix(".jsp");
-//        resolver.setViewClass(JstlView.class);
-//        registry.viewResolver(resolver);
-//    }
 }

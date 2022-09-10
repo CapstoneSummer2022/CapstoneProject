@@ -3,10 +3,15 @@ package com.example.electriccomponentsshop.config;
 import com.example.electriccomponentsshop.common.JwtUtils;
 import com.example.electriccomponentsshop.services.AccountDetailServiceImpl;
 import com.example.electriccomponentsshop.services.CategoryService;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -67,36 +72,33 @@ private JwtUtils jwtUtils;
 
         try{
 
-            String jwt = getJwtFromRequest(request);
-            System.out.println("hoan"+ request.getMethod()+"  " +request.getRequestURI()+ " " + request.getPathInfo());
-            if(jwt!=null&&jwtUtils.isTokenCorrect(jwt,response)){
+            System.out.println("hoan"+ request.getMethod()+"  " +request.getRequestURI()+ " " + request.getPathInfo()+"    "+JwtUtils.token);
+
+            if(jwtUtils.isTokenCorrect(request,response)&&JwtUtils.token!=null){
+                System.out.println(JwtUtils.token);
                 System.out.println("dcccb");
-                String email = jwtUtils.getEmailFromJwtToken(jwt);
+                String email = jwtUtils.getEmailFromJwtToken(JwtUtils.token);
                 UserDetails userDetails = accountDetailService.loadUserByUsername(email);
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
                 auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(auth);
 
             }
+           else if(JwtUtils.token==null&& !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)){
+                SecurityContextHolder.getContext().setAuthentication(null);
+                SecurityContextHolder.clearContext();
+            }
         }
-        catch(Exception e){
-            logger.error("hoang dz");
+        catch (SignatureException | MalformedJwtException| UnsupportedJwtException| IllegalArgumentException e) {
+            SecurityContextHolder.getContext().setAuthentication(null);
+            SecurityContextHolder.clearContext();
+        }
+        catch (ExpiredJwtException e){
+
         }
         filterChain.doFilter(request,response);
 
     }
-    private String getJwtFromRequest(HttpServletRequest request){
 
-        Cookie[] c = request.getCookies();
-        String value ="";
-        for (int i = 0; i< c.length;i++){
-            if(c[i].getName().equals("accessToken")){
-                value = c[i].getValue();
-
-                return value;
-            }
-        }
-        return null;
-    }
 
 }

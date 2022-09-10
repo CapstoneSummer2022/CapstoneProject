@@ -17,22 +17,21 @@ import java.util.Set;
 @AllArgsConstructor
 public class OrderDTO {
         private String id;
-        private List<AccountEmail> accounts;
-    @JsonProperty("name")
-    private String name;
-    @JsonProperty("orderItemDtos")
-    @NotEmpty(message = "not null")
-private List<OrderItemDto> orderItemDtos;
+        private String accountEmployeeId;
+        private String accountCustomerId;
+        @NotEmpty(message = "not null")
+        private List<OrderItemDto> orderItems;
         private String status;
         private Double totalPayment;
         private String orderedDate;
+        @NotEmpty(message = "Không được để trống")
         private String receivedPerson;
         private String receivedPhone;
         private String provinceName;
         private String districtName;
         private String wardName;
         private String detailLocation;
-
+        private Double paidMoney;
         @NoArgsConstructor
         @Getter
         @Setter

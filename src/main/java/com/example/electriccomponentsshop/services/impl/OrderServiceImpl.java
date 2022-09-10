@@ -1,18 +1,13 @@
 package com.example.electriccomponentsshop.services.impl;
 
 import com.example.electriccomponentsshop.config.ModelMap;
-import com.example.electriccomponentsshop.dto.AccountDTO;
-import com.example.electriccomponentsshop.dto.CategoryDTO;
 import com.example.electriccomponentsshop.dto.OrderDTO;
 import com.example.electriccomponentsshop.dto.OrderItemDto;
 import com.example.electriccomponentsshop.entities.*;
 import com.example.electriccomponentsshop.repositories.*;
 import com.example.electriccomponentsshop.services.AccountDetailImpl;
 import com.example.electriccomponentsshop.services.OrderService;
-import com.example.electriccomponentsshop.services.ProvinceService;
 import lombok.AllArgsConstructor;
-import org.aspectj.weaver.ast.Or;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,7 +15,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -36,6 +33,8 @@ public class OrderServiceImpl implements OrderService {
     final ProvinceRepository provinceRepository;
     final DistrictRepository districtRepository;
     final WardRepository wardRepository;
+    final OrderItemRepository orderItemRepository;
+
     @Override
     public List<Order> findOrdersByStatus(String status) {
         return orderRepository.findOrdersByStatus(status);
@@ -76,6 +75,7 @@ public class OrderServiceImpl implements OrderService {
                     throw new NoSuchElementException("Tỉnh/Thành phố này không có Quận/Huyện này");
                 }
                 else {
+                    System.out.println(orderDTO.getProvinceName()+"tên xa");
                     Optional<Ward> wardOptional = wardRepository.findByName(orderDTO.getWardName());
                     List<Ward> wardList = district.getWardList();
                     if(wardOptional.isEmpty()){
@@ -103,29 +103,82 @@ public class OrderServiceImpl implements OrderService {
     public boolean addOrder(OrderDTO orderDTO){
         Order order = new Order();
         order.setStatus("Chờ xử lý");
-        List<OrderItemDto> dtos= orderDTO.getOrderItemDtos();
-        Double totalPayment = 0.0;
+        List<OrderItemDto> dtos= orderDTO.getOrderItems();
+        double totalPayment = 0.0;
         setAddress(orderDTO,order);
-        order.setDetailLocation("");
+        order.setDetailLocation(orderDTO.getDetailLocation());
         order.setReceivedPerson(orderDTO.getReceivedPerson());
         order.setReceivedPhone(orderDTO.getReceivedPhone());
-        for (OrderItemDto o : dtos
-             ) {
-            Integer quantity = Integer.parseInt(o.getQuantity());
-            Product p = productRepository.findById(Integer.parseInt(o.getProductId())).get();
-            totalPayment+= quantity*p.getExportPrice().getRetailPrice();
-        }
-        order.setTotalPayment(totalPayment);
-        setAddress(orderDTO,order);
-        List<Account> li = new ArrayList<>();
         AccountDetailImpl accountDetail = (AccountDetailImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Optional<Account> accountOptional = accountRepository.findByEmail(accountDetail.getEmail());
         if(accountOptional.isEmpty()){
             throw  new NoSuchElementException("Không tìm thấy nhân viên này");
         }
-        else li.add(accountOptional.get());
-        order.setAccounts(li);
+        order.setAccountEmployee(accountOptional.get());
+        order = orderRepository.save(order);
+        for (OrderItemDto o : dtos
+             ) {
+            Integer quantity = Integer.parseInt(o.getQuantity());
+            Product p = getProduct(o.getProductId());
+            double unitPrice = p.getExportPrice().getRetailPrice();
+            OrderItem orderItem= new OrderItem(new OrderItemId(order.getId(),p.getId()),unitPrice,quantity,unitPrice*quantity,order,p);
+            orderItemRepository.save(orderItem);
+            totalPayment+= quantity*p.getExportPrice().getRetailPrice();
+        }
+        order.setTotalPayment(totalPayment);
+        setAddress(orderDTO,order);
         return orderRepository.save(order)!=null;
+
+    }
+    public Order getOrderById( String id){
+        try{
+            Optional<Order> orderOptional = orderRepository.findById(Integer.parseInt(id));
+            if(orderOptional.isEmpty()){
+                throw new NoSuchElementException("Không tìm thấy đơn hàng này");
+            }
+            else return orderOptional.get();
+        }catch (NumberFormatException e){
+            throw new NoSuchElementException("Không tìm thấy đơn hàng này");
+        }
+    }
+    @Transactional
+    @Override
+    public boolean updateOrder(String id, OrderDTO orderDTO){
+        System.out.println("vào đây");
+        System.out.println(orderDTO.getProvinceName());
+        System.out.println(orderDTO.getDistrictName());
+        Order order = getOrderById(id);
+        List<OrderItemDto> dtos= orderDTO.getOrderItems();
+        double totalPayment = 0.0;
+        setAddress(orderDTO,order);
+        order.setDetailLocation(orderDTO.getDetailLocation());
+        order.setReceivedPerson(orderDTO.getReceivedPerson());
+        order.setReceivedPhone(orderDTO.getReceivedPhone());
+        orderItemRepository.deleteOrderItemsByOrderId(order.getId());
+        for (OrderItemDto o : dtos
+        ) {
+            Integer quantity = Integer.parseInt(o.getQuantity());
+            Product p = getProduct(o.getProductId());
+            double unitPrice = p.getExportPrice().getRetailPrice();
+            OrderItem orderItem= new OrderItem(new OrderItemId(order.getId(),p.getId()),unitPrice,quantity,unitPrice*quantity,order,p);
+            orderItemRepository.save(orderItem);
+            totalPayment+= quantity*p.getExportPrice().getRetailPrice();
+        }
+        order.setTotalPayment(totalPayment);
+        setAddress(orderDTO,order);
+        return orderRepository.save(order)!=null;
+
+    }
+    public Product getProduct(String id){
+        try{
+            Optional<Product> productOptional = productRepository.findById(Integer.parseInt(id));
+            if(productOptional.isEmpty()){
+                throw new NoSuchElementException("Không tìm thấy sản phẩm có id như vậy");
+            }
+            else return productOptional.get();
+        }catch (NumberFormatException e){
+            throw new NoSuchElementException("Không tìm thấy sản phẩm có id như vậy");
+        }
 
     }
     public boolean updateStatus(Integer id){
@@ -134,6 +187,9 @@ public class OrderServiceImpl implements OrderService {
             Order order = orderOptional.get();
             String status = order.getStatus();
             if(status.equalsIgnoreCase("Chờ xử lý")){
+                order.setStatus("Đã xác nhận");
+            }
+            else if(status.equals("Đã xác nhận")){
                 order.setStatus("Đang giao hàng");
             }
             else if(status.equals("Đang giao hàng")){

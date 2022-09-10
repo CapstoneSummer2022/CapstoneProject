@@ -1,11 +1,13 @@
 package com.example.electriccomponentsshop.controller.admin;
 
+import com.example.electriccomponentsshop.dto.ImportTransactionDto;
 import com.example.electriccomponentsshop.dto.WarehouseDTO;
 import com.example.electriccomponentsshop.entities.Warehouse;
 import com.example.electriccomponentsshop.services.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,8 +38,8 @@ public class WarehouseController {
        Optional<Warehouse>  warehouse = warehouseService.findById(id);
        if(warehouse.isPresent()){
            Warehouse warehouse1 = warehouse.get();
-           warehouse1.setAddress(warehouseDTO.getAddress());
-           warehouse1.setStatus(warehouseDTO.getStatus());
+//           warehouse1.setAddress(warehouseDTO.getAddress());
+//           warehouse1.setStatus(warehouseDTO.getStatus());
            warehouseService.save(warehouse1);
        }
        else {
@@ -61,4 +63,15 @@ public class WarehouseController {
         }
         return "administrator/add-warehouse";
     }
+    @GetMapping("/import/add")
+    public String viewFormAddImp(ModelMap modelMap){
+        modelMap.addAttribute("importTransaction", new ImportTransactionDto());
+        return "administrator/add-warehouse-import";
+    }
+    @PostMapping("/import/add")
+    @ResponseBody
+    public String addImportTransaction(@Valid @RequestBody ImportTransactionDto importTransactionDto ){
+
+    }
+
 }

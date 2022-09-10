@@ -27,4 +27,6 @@ public class Ward {
     List<Account> accounts =new ArrayList<>();
     @OneToMany(mappedBy = "wardOrder",fetch = FetchType.LAZY)
     List<Order> orders =new ArrayList<>();
+    @OneToMany(mappedBy = "wardWarehouse",fetch = FetchType.LAZY)
+    List<Warehouse> warehouses =new ArrayList<>();
 }

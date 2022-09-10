@@ -27,5 +27,7 @@ public class Province {
     List<Account> accounts =new ArrayList<>();
     @OneToMany(mappedBy = "provinceOrder",fetch = FetchType.LAZY)
     List<Order> orders =new ArrayList<>();
+    @OneToMany(mappedBy = "provinceWarehouse",fetch = FetchType.LAZY)
+    List<Warehouse> warehouses =new ArrayList<>();
 
 }

@@ -4,24 +4,24 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Date;
 
+@Entity
+@Table(name="Sku")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name="Specification")
-public class Specification implements Serializable {
+public class Sku {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String name;
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "specification")
-    List<SpecificationValue> specificationValues = new ArrayList<>();
-
+    @OneToOne(mappedBy = "sku")
+    private ImportItem importItem;
+    @CreationTimestamp
+    private Date createdDate;
+    private Integer quantity;
 }

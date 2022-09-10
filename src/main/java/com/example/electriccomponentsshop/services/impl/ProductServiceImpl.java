@@ -1,8 +1,19 @@
 package com.example.electriccomponentsshop.services.impl;
 
+import com.example.electriccomponentsshop.config.ModelMap;
+import com.example.electriccomponentsshop.dto.CategoryDTO;
+import com.example.electriccomponentsshop.dto.ProductDTO;
+import com.example.electriccomponentsshop.dto.SpecificationValueDto;
+import com.example.electriccomponentsshop.entities.Category;
+import com.example.electriccomponentsshop.entities.ExportPrice;
 import com.example.electriccomponentsshop.entities.Product;
+import com.example.electriccomponentsshop.repositories.CategoryRepository;
+import com.example.electriccomponentsshop.repositories.ExportPriceRepository;
 import com.example.electriccomponentsshop.repositories.ProductRepository;
+import com.example.electriccomponentsshop.services.CategoryService;
 import com.example.electriccomponentsshop.services.ProductService;
+import com.example.electriccomponentsshop.services.SpecificationValueService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,20 +21,84 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+
 @Service
 public class ProductServiceImpl implements ProductService {
+    @Autowired
     ProductRepository productRepository;
+    @Autowired
+    ModelMap modelMap;
+    @Autowired
+    CategoryService categoryService;
+    @Autowired
+    ExportPriceRepository exportPriceRepository;
+    @Autowired
+    SpecificationValueService specificationValueService;
 
     public ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
-
+   @Override
+   public  ProductDTO convertToDto(Product product){
+        return modelMap.modelMapper().map(product,ProductDTO.class);
+    }
     @Override
-    public List<Product> findAll() {
-        return productRepository.findAll();
+    public ProductDTO getProductDtoById(String id){
+        return convertToDto(getById(id));
+    }
+    @Override
+    public Product getById(String id){
+        try{
+            Integer pId = Integer.parseInt(id);
+            Optional<Product> productOptional = productRepository.findById(pId);
+            if(productOptional.isEmpty()){
+                throw new NoSuchElementException("Không tìm thấy sản phẩm có mã như vậy");
+            }
+            else return productOptional.get();
+        } catch (NumberFormatException e){
+            throw  new NoSuchElementException("Không có sản phẩm này");
+        }
+    }
+    public boolean updateProduct(ProductDTO productDTO, String id){
+       Product product = getById(id);
+       product.setName(productDTO.getName());
+       List<CategoryDTO> categoryDTOS = productDTO.getCategories();
+
+       List<Category> categories = new ArrayList<>();
+        for (CategoryDTO c: categoryDTOS
+             ) {
+
+            Category category = categoryService.getById(c.getId());
+            categories.add(category);
+        }
+        product.setCategories(categories);
+        Optional<ExportPrice> exportPriceOptional = exportPriceRepository.findByProductId(product.getId());
+        if(exportPriceOptional.isPresent()){
+            ExportPrice exportPrice = exportPriceOptional.get();
+            exportPriceRepository.save(exportPrice);
+        }
+        else {
+            ExportPrice newExportPrice = new ExportPrice();
+            newExportPrice.setProduct(product);
+            newExportPrice.setRetailPrice(productDTO.getPrice());
+            exportPriceRepository.save(newExportPrice);
+        }
+        List<SpecificationValueDto> specificationValueDtos = productDTO.getSpecificationValues();
+      return true;
+    }
+    @Override
+    public List<ProductDTO> findAll() {
+        List<Product> products = productRepository.findAll();
+        if(products.isEmpty()){
+            throw  new NoSuchElementException("Không có sản phẩm nào");
+        }
+        return products.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     @Override

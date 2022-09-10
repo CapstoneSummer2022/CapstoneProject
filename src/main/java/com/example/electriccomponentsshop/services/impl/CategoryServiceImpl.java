@@ -10,10 +10,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -28,6 +28,35 @@ public class CategoryServiceImpl implements CategoryService {
         List<Category> categories = categoryRepository.findCategoriesByParentCategoryIdIsNull();
         return categories.stream().map(this::convertToDto).collect(Collectors.toList());
     }
+
+    @Override
+    public List<CategoryDTO> findCategoriesByIdNotIn(List<CategoryDTO> cId) {
+        List<Integer> cIds = new ArrayList<>();
+        for (CategoryDTO c: cId
+             ) {
+            cIds.add(Integer.parseInt(c.getId()));
+        }
+        List<Category> categories = categoryRepository.findCategoriesByIdNotIn(cIds.toArray(new Integer[cIds.size()]));
+        if(categories.isEmpty()){
+            throw new NoSuchElementException("Không có danh mục nào");
+        }
+        else return categories.stream().map(this::convertToDto).collect(Collectors.toList());
+
+    }
+    @Override
+    public Category getById(String id){
+        try{
+            Integer cId = Integer.parseInt(id);
+            Optional<Category> category = categoryRepository.findById(cId);
+            if(category.isEmpty()){
+                throw new NoSuchElementException("Không tìm thấy danh mục này");
+            }else return category.get();
+        }catch (NumberFormatException e){
+            throw  new NoSuchElementException("Không có danh mục này");
+        }
+
+
+    }
     CategoryDTO convertToDto(Category category){
         return modelMap.modelMapper().map(category,CategoryDTO.class);
     }
@@ -35,6 +64,12 @@ public class CategoryServiceImpl implements CategoryService {
     public <S extends Category> S save(S entity) {
 
         return categoryRepository.save(entity);
+    }
+
+    @Override
+    public List<CategoryDTO> findAllSubAndParCategories(Integer cId) {
+        List<Category> categories = categoryRepository.findAllSubAndParCategories(cId);
+        return categories.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     @Override
@@ -80,16 +115,13 @@ public class CategoryServiceImpl implements CategoryService {
         Integer id = Integer.parseInt(strId);
         Category updatedCategory = getCategoryById(id);
         updatedCategory.setName(categoryDTO.getName());
+        System.out.println(categoryDTO.getParentId()+"aooo");
         if(categoryDTO.getParentId()!=null){
         Integer parentId = Integer.parseInt(categoryDTO.getParentId());
         Category parent = getCategoryById(parentId);
-        if(isChildCategory(updatedCategory,parent)){
-            if(parent.getParentCategory() != null){
-                updatedCategory.setParentCategory(parent.getParentCategory());
-            }
-            else {
-                updatedCategory.setParentCategory(null);
-            }
+        List<Category> categoriesSelect = categoryRepository.findAllSubAndParCategories(id);
+        if(!categoriesSelect.contains(parent)) {
+            throw new RuntimeException("Không thể chọn danh mục lớn này");
         }
 
         updatedCategory.setParentCategory(parent);

@@ -20,14 +20,19 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "orders_account", joinColumns = @JoinColumn(name = "orders_id"), inverseJoinColumns = @JoinColumn(name = "account_id"))
-    private List<Account> accounts = new ArrayList<>();
+    @ManyToOne(fetch =  FetchType.LAZY)
+    @JoinColumn(name= "employee_id")
+
+    private Account accountEmployee;
+    @ManyToOne(fetch =  FetchType.LAZY)
+    @JoinColumn(name="customer_id")
+    private Account accountCustomer;
     @CreationTimestamp
     @Column(updatable = false)
     private Date orderedDate;
     private String receivedPerson;
     private String receivedPhone;
+    private Double paidMoney;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="pCode")
     private Province provinceOrder;

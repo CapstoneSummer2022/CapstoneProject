@@ -29,5 +29,7 @@ public class District {
     List<Account> accounts =new ArrayList<>();
     @OneToMany(mappedBy = "districtOrder",fetch = FetchType.LAZY)
     List<Order> orders =new ArrayList<>();
+    @OneToMany(mappedBy = "districtWarehouse",fetch = FetchType.LAZY)
+    List<Warehouse> warehouses =new ArrayList<>();
 
 }

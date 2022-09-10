@@ -93,7 +93,7 @@
 </head>
 <body class="app sidebar-mini rtl">
 <aside class="app-sidebar">
-    <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="../../resources/images/avatar.jpg" width="50px"
+    <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="${pageContext.request.contextPath}/resources/images/avatar.jpg" width="50px"
                                         alt="User Image">
         <div>
             <p class="app-sidebar__user-name"><b>${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.name}</b></p>

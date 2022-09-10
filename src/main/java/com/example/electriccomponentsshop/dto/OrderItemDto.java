@@ -12,6 +12,8 @@ import lombok.Setter;
 public class OrderItemDto {
     private String orderId;
     private String productId;
+    private String productName;
+    private Double subTotal;
     private String quantity;
     private String unitPrice;
 }

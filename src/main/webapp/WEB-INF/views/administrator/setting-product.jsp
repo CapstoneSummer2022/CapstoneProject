@@ -1,15 +1,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <title>Tuỳ chỉnh sản phẩm | Quản trị Admin</title>
-  <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   <!-- Main CSS-->
-  <link href="<c:url value="/css/main.css"/>" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="<c:url value="/css/main.css"/>">
   <!-- Font-icon css-->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
   <!-- or -->
@@ -18,161 +17,287 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
   <link rel="stylesheet" type="text/css"
-    href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
-  <script src="http://code.jquery.com/jquery.min.js" type="text/javascript"></script>
-  <script>
-
-    function readURL(input, thumbimage) {
-      if (input.files && input.files[0]) { //Sử dụng  cho Firefox - chrome
-        var reader = new FileReader();
-        reader.onload = function (e) {
-          $("#thumbimage").attr('src', e.target.result);
-        }
-        reader.readAsDataURL(input.files[0]);
-      }
-      else { // Sử dụng cho IE
-        $("#thumbimage").attr('src', input.value);
-
-      }
-      $("#thumbimage").show();
-      $('.filename').text($("#uploadfile").val());
-      $('.Choicefile').css('background', '#14142B');
-      $('.Choicefile').css('cursor', 'default');
-      $(".removeimg").show();
-      $(".Choicefile").unbind('click');
-
-    }
-    $(document).ready(function () {
-      $(".Choicefile").bind('click', function () {
-        $("#uploadfile").click();
-
-      });
-      $(".removeimg").click(function () {
-        $("#thumbimage").attr('src', '').hide();
-        $("#myfileupload").html('<input type="file" id="uploadfile"  onchange="readURL(this);" />');
-        $(".removeimg").hide();
-        $(".Choicefile").bind('click', function () {
-          $("#uploadfile").click();
-        });
-        $('.Choicefile').css('background', '#14142B');
-        $('.Choicefile').css('cursor', 'pointer');
-        $(".filename").text("");
-      });
-    })
-  </script>
+        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-<body onload="time()" class="app sidebar-mini rtl">
-  <!-- Navbar-->
-  <jsp:include page="header.jsp"/>
-  <!-- Sidebar menu-->
-  <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-  <jsp:include page="home-menu.jsp"/>
-  <main class="app-content">
-    <div class="app-title">
-      <ul class="app-breadcrumb breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Quản lý sản phẩm</a></li>
-        <li class="breadcrumb-item active">Tuỳ chỉnh sản phẩm</li>
-      </ul>
+<body onload="greaterThanZero()" class="app sidebar-mini rtl">
+<!-- Navbar-->
+<header class="app-header">
+  <!-- Navbar Right Menu-->
+  <ul class="app-nav">
+
+
+    <!-- User Menu-->
+    <div class="app-nav__button">
+      <div class="app-nav__item"><i class='bx bx-cog'></i></div>
+      <div class="app-nav__item-content">
+        <a href="personal-info.html">Thông tin cá nhân</a>
+        <a href="#">Đăng xuất</a>
+      </div>
     </div>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="tile">
-          <h3 class="tile-title">Tuỳ chỉnh sản phẩm</h3>
-          <div class="tile-body">
-            <form class="row">
+  </ul>
+</header>
+<!-- Sidebar menu-->
+<div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+<jsp:include page="header.jsp"/>
+<jsp:include page="home-menu.jsp"/>
+<main class="app-content">
+  <div class="app-title">
+    <ul class="app-breadcrumb breadcrumb">
+      <li class="breadcrumb-item"><a href="#">Quản lý sản phẩm</a></li>
+      <li class="breadcrumb-item active">Tuỳ chỉnh sản phẩm</li>
+    </ul>
+    <div id="clock"></div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="tile">
+        <h3 class="tile-title">Tuỳ chỉnh sản phẩm</h3>
+        <div class="tile-body">
+          <div class="row element-button">
+            <div class="col-sm-2">
+              <a class="btn btn-add btn-sm" href="add-product-specification.html" title="Thêm"><i
+                      class="fas fa-plus"></i>
+                Thêm thông số kỹ thuật</a>
+            </div>
+          </div>
+          <form>
+            <div class="row">
               <div class="form-group col-md-3">
-                <label class="control-label">Tên sản phẩm</label>
-                <input class="form-control" type="text" value="1-A-2-2">
+                <label class="control-label required-field">Tên sản phẩm</label>
+                <input class="form-control" type="text" value="${productDto.name}" required>
               </div>
               <div class="form-group col-md-3">
-                <label class="control-label">Tên sản phẩm</label>
-                <input class="form-control" type="text" value="Diode Xung Đôi SBL3040 TO-247 600V 30A">
+                <label class="control-label required-field">Giá bán</label>
+                <input class="form-control" type="number" value="${productDto.price}" required>
               </div>
-              <div class="form-group  col-md-3">
-                <label class="control-label">Số lượng tồn kho</label>
-                <input class="form-control" type="number" value="40">
-              </div>
+            </div>
+            <div class="row">
               <div class="form-group col-md-3">
-                <label for="exampleSelect1" class="control-label">Danh mục</label>
-                <select class="form-control" id="exampleSelect1">
-                  <option disabled hidden>-- Chọn danh mục --</option>
-                  <option>Cầu chì</option>
-                  <option>Biến trở</option>
-                  <option>Cảm biến nhiệt độ</option>
-                  <option>IC cảm ứng</option>
-                  <option>Cảm biến màu</option>
-                  <option>Cảm biến chuyển động</option>
-                  <option>Cảm biến nước</option>
-                  <option>Cảm biến âm thanh</option>
-                  <option>IC cảm ứng</option>
-                  <option selected>Đi-ốt</option>
+                <label for="exampleSelect1" class="control-label required-field">Danh mục</label>
+                <select class="form-control" id="categoryOption" required>
+                  <option selected hidden disabled value="">-- Chọn danh mục --</option>
+                  <c:forEach var = "categoryDto" items="${listCategories}">
+                    <option value="${categoryDto.id}">${categoryDto.name}</option>
+                  </c:forEach>
                 </select>
               </div>
+              <div class="form-group col-md-3">
+                <button class="side-button btn btn-add" type="button" title="Thêm vào danh sách"
+                        onclick="addToCategoryTable()">Thêm
+                  vào
+                  danh sách</button>
+                <button id="deleteButtonCategory" type="button" class="side-button btn btn-cancel" title="Xoá"
+                        onclick="deleteFromCategoryTable()">Xoá</button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-5">
+                <label for="exampleSelect1" class="control-label">Bảng danh mục</label>
+                <table id="categoryTable" class="table table-hover table-bordered js-copytextarea" cellpadding="0"
+                       cellspacing="0">
+                  <thead>
+                  <tr>
+                    <th width="200">Mã danh mục</th>
+                    <th width="300">Tên danh mục</th>
+                  </tr>
+                  <c:forEach var="category" items="${productDto.categories}">
+                    <tr class="category-item">
+                      <td>${category.id}</td>
+                      <td>${category.name}</td>
+                      <td><input type="checkbox" ></td>
+                    </tr>
+                  </c:forEach>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-md-3">
+                <label for="exampleSelect1" class="control-label">Thông số kỹ thuật</label>
+                <select id="specOption" class="form-control" id="exampleSelect1">
+                 <c:forEach items="${specificationDtos}" var="spec">
+                   <option value="${spec.id}">${spec.name}</option>
+                 </c:forEach>
+                </select>
+              </div>
+              <div class="form-group col-md-3">
+                <button class="side-button btn btn-add" type="button" title="Thêm vào danh sách"
+                        onclick="addToSpecTable()">Thêm
+                  vào
+                  danh sách</button>
+                <button id="deleteButton" type="button" class="side-button btn btn-cancel" title="Xoá"
+                        onclick="deleteFromTable()">Xoá</button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-7">
+                <label for="exampleSelect1" class="control-label">Bảng thông số kỹ thuật</label>
+                <table id="specTable" class="table table-hover table-bordered js-copytextarea" cellpadding="0"
+                       cellspacing="0" >
+
+                  <tbody>
+                  <thead>
+                  <tr>
+                    <th width="200">Mã thông số kỹ thuật</th>
+                    <th width="200">Thông số kỹ thuật</th>
+                    <th width="400">Giá trị</th>
+                  </tr>
+                  <c:forEach var="specification" items="${listSpecificationValue}">
+                  <tr class="spec-item">
+                    <td>${specification.specificationId}</td>
+                    <td>${specification.specificationName}</td>
+                    <td><input type="text" style="width: 100px"  placeholder="Giá trị nhỏ nhất" class="fromValue" value="${specification.valueFrom}" >
+                      <span>-</span>
+                      <input type="text" style="width: 100px"  placeholder="Giá trị lớn nhất" class="toValue" value="${specification.valueTo}" ></td>
+                    <td>
+                      <input type="checkbox">
+                    </td>
+
+
+                  </tr>
+                  </c:forEach>
+                  </thead>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="row">
               <div class="form-group col-md-12">
-                <label class="control-label">Ảnh sản phẩm</label>
+                <label class="control-label required-field">Ảnh sản phẩm</label>
                 <div id="myfileupload">
-                  <input type="file" id="uploadfile" name="ImageUpload" onchange="readURL(this);" />
+                  <input type="file" id="uploadfile" name="ImageUpload" onchange="setThumbImage();"
+                         accept="image/*" />
                 </div>
                 <div id="thumbbox">
                   <img height="450" width="400" alt="Thumb image" id="thumbimage" src="resources/images/diode.jpg" />
-                  <a class="removeimg" href="javascript:"></a>
-                </div>
-                <div id="boxchoice">
-                  <a href="javascript:" class="Choicefile"><i class="fas fa-cloud-upload-alt"></i> Chọn ảnh</a>
-                  <p style="clear:both"></p>
                 </div>
               </div>
               <div class="form-group col-md-12">
                 <label class="control-label">Mô tả sản phẩm</label>
-                <textarea class="form-control" name="mota" id="mota">
-        - Dùng để chỉnh lưu dòng điện xoay chiều thành dòng điện một chiều.
-        - Dùng làm các công tắc điện tử.
-        - Đóng ngắt bằng điều khiển mức điện áp.
-        - Ứng dụng trong nhiều mạch bán dẫn.
-        - Ứng dụng rộng rãi trong kỹ thuật điện và điện tử.
-        - Diode xung RF107 thường được dùng trong các bộ nguồn xung thì ở đầu ra của biến áp xung ta phải dùng diode xung để chỉnh lưu. Diode xung RF107 là diode làm việc ở tần số cao khoảng vài chục KHz.
-        - Diode xung RF107 có thể làm việc với điện áp lên đến 1000V, diode nắn điện thông thường không thể thay thế vào vị trí diode xung được, nhưng ngược lại diode xung có thể thay thế vào vị trí của diode thường.
-                </textarea>
-                <script>CKEDITOR.replace('mota');</script>
+                <textarea class="form-control" name="mota" id="mota" value="${productDto.description}"></textarea>
               </div>
+            </div>
+            <div class="row">
               <div class="confirm-button">
                 <div class="button">
-                  <button type="submit" class="btn btn-save" type="button">Lưu lại</button>
-                  <button type="button" class="btn btn-cancel" onclick="location.href='product-management.html'">Hủy
-                    bỏ</button>
+                  <input type="button" class="btn btn-save" onclick="validateTable()" >Lưu lại</input>
+                  <input type="button" class="btn btn-cancel" onclick="location.href='product-management.html'">Hủy
+                    bỏ</input>
                 </div>
               </div>
-            </form>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<!--
+MODAL SUCCESSFUL
+-->
+<div class="modal fade" id="successful" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row">
+          <div class="form-group  col-md-12">
+              <span class="thong-tin-thanh-toan">
+                <h5>Thông báo</h5>
+              </span>
+          </div>
+          <div class="form-group col-md-12" style="text-align: center;">
+            <p class="modal-notify-successful">Thay đổi thông tin sản phẩm thành công</p>
           </div>
         </div>
-  </main>
-  <script src="js/jquery-3.2.1.min.js"></script>
-  <script src="js/popper.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/plugins/pace.min.js"></script>
-  <script>
-    const inpFile = document.getElementById("inpFile");
-    const loadFile = document.getElementById("loadFile");
-    const previewContainer = document.getElementById("imagePreview");
-    const previewImage = previewContainer.querySelector(".image-preview__image");
-    const previewDefaultText = previewContainer.querySelector(".image-preview__default-text");
-    inpFile.addEventListener("change", function () {
-      const file = this.files[0];
-      if (file) {
-        const reader = new FileReader();
-        previewDefaultText.style.display = "none";
-        previewImage.style.display = "block";
-        reader.addEventListener("load", function () {
-          previewImage.setAttribute("src", this.result);
-        });
-        reader.readAsDataURL(file);
-      }
-    });
+        <div style="display: flex; justify-content: center; padding: 10px;">
+          <button style="margin: 5px;" class="btn btn-save" data-dismiss="modal">Quay lại</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+<!--
+MODAL
+-->
+<!--
+MODAL CATEGORY EMPTY
+-->
+<div class="modal fade" id="categoryEmpty" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row">
+          <div class="form-group  col-md-12">
+              <span class="thong-tin-thanh-toan">
+                <h5>Thông báo</h5>
+              </span>
+          </div>
+          <div class="form-group col-md-12" style="text-align: center;">
+            <p class="modal-notify-unsuccessful">Chưa có danh mục nào được chọn</p>
+          </div>
+        </div>
+        <div style="display: flex; justify-content: center; padding: 10px;">
+          <button style="margin: 5px;" class="btn btn-save" data-dismiss="modal">Quay lại</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+<!--
+MODAL
+-->
+<!--
+MODAL UNSUCCESSFUL
+-->
+<div class="modal fade" id="unsuccessful" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row">
+          <div class="form-group  col-md-12">
+              <span class="thong-tin-thanh-toan">
+                <h5>Thông báo</h5>
+              </span>
+          </div>
+          <div class="form-group col-md-12" style="text-align: center;">
+            <p class="modal-notify-unsuccessful">Thay đổi thông tin sản phẩm không thành công</p>
+          </div>
+        </div>
+        <div style="display: flex; justify-content: center; padding: 10px;">
+          <button style="margin: 5px;" class="btn btn-save" data-dismiss="modal">Quay lại</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+<!--
+MODAL
+-->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+<script src="js/api-province.js"></script>
+<script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
+<script src="http://code.jquery.com/jquery.min.js" type="text/javascript"></script>
+<script src="<c:url value="/js/jquery-3.2.1.min.js"/>"></script>
+<script src="<c:url value="/js/popper.min.js"/>"></script>
+<script src="<c:url value="/js/bootstrap.min.js"/>"></script>
+<script src="<c:url value="/js/main.js"/>"></script>
+<script src="<c:url value="/js/plugins/pace.min.js"/>"></script>
+<script src="<c:url value="/resources/data.json"/>"></script>
 
-  </script>
 </body>
 
 </html>
