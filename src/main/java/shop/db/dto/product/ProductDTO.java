@@ -1,9 +1,11 @@
-package shop.db.dto;
+package shop.db.dto.product;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import shop.db.dto.category.CategoryDTO;
+import shop.db.dto.SpecificationValueDto;
 
 import java.util.List;
 

@@ -16,7 +16,7 @@ import java.util.List;
 @Table(name = "Product")
 public class Product {
     @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Integer id;
     @Column
@@ -36,18 +36,23 @@ public class Product {
     private int status;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name="Product_Category", joinColumns =@JoinColumn(name= "product_id"),inverseJoinColumns =@JoinColumn( name="category_id") )
+    @JoinTable(name = "Product_Category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categories = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="cart_id")
+    @JoinColumn(name = "cart_id")
     private Cart cart;
+
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private ExportPrice exportPrice;
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "product")
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     private List<Feedback> feedbackList = new ArrayList<>();
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "product")
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     private List<SpecificationValue> specificationValues = new ArrayList<>();
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "product")
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     private List<OrderItem> orderItems = new ArrayList<>();
 }

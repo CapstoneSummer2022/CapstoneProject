@@ -1,8 +1,8 @@
 package shop.rest.admin;
 
 import shop.config.ModelMap;
-import shop.db.dto.CategoryDTO;
-import shop.db.dto.ProductDTO;
+import shop.db.dto.category.CategoryDTO;
+import shop.db.dto.product.ProductDTO;
 import shop.db.repositories.CategoryRepository;
 import shop.services.CategoryService;
 import lombok.AllArgsConstructor;

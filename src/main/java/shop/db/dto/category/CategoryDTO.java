@@ -1,4 +1,4 @@
-package shop.db.dto;
+package shop.db.dto.category;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

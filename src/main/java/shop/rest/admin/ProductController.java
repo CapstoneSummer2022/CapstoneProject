@@ -1,7 +1,7 @@
 package shop.rest.admin;
 
-import shop.db.dto.CategoryDTO;
-import shop.db.dto.ProductDTO;
+import shop.db.dto.category.CategoryDTO;
+import shop.db.dto.product.ProductDTO;
 import shop.db.dto.SpecificationDto;
 import shop.db.dto.SpecificationValueDto;
 import shop.db.entities.Product;
