@@ -1,4 +1,4 @@
-<jsp:useBean id="orderDto" scope="request" type="com.example.electriccomponentsshop.dto.OrderDTO"/>
+<jsp:useBean id="orderDto" scope="request" type="shop.db.dto.OrderDTO"/>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
