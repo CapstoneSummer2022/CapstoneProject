@@ -42,7 +42,7 @@
           <h3 class="tile-title">Tạo tài khoản nhân viên</h3>
           <div class="tile-body">
             ${error}
-            <%--@elvariable id="accountDto" type="com.example.electriccomponentsshop.dto.AccountDTO"--%>
+              <%--@elvariable id="accountDto" type="shop.db.dto.AccountDTO"--%>
             <form:form class="row" method="POST" action="${pageContext.request.contextPath}/admin/accounts/add" modelAttribute="accountDto">
             <div class="row">
               <div class="form-group col-md-3">
