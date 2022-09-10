@@ -48,8 +48,9 @@
         </div>
         <hr>
         <ul class="app-menu">
-            <li><a class="app-menu__item" href="home-page.html"><i class='app-menu__icon bx bx-cart-alt'></i>
-                    <span class="app-menu__label">Trang chủ</span></a></li>
+            <li><a class="app-menu__item" href="report.html"><i class='app-menu__icon bx bx-pie-chart-alt-2'></i><span
+                        class="app-menu__label">Báo cáo thống kê</span></a>
+            </li>
             <li><a class="app-menu__item" href="system-account-management.html"><i
                         class='app-menu__icon bx bx-id-card'></i>
                     <span class="app-menu__label">Quản lý tài khoản</span>
@@ -86,9 +87,6 @@
             <li><a class="app-menu__item" href="feedback-management.html"><i
                         class='app-menu__icon bx bx-user-voice'></i><span class="app-menu__label">Feedback</span></a>
             </li>
-            <li><a class="app-menu__item" href="report.html"><i class='app-menu__icon bx bx-pie-chart-alt-2'></i><span
-                        class="app-menu__label">Báo cáo thống kê</span></a>
-            </li>
         </ul>
     </aside>
 
@@ -115,7 +113,8 @@
                             <div class="row element-button">
                                 <div class="col-sm-12">
                                     <button class="btn btn-add btn-sm" title="Thêm" data-toggle="modal"
-                                        data-target="#productList" type="button" onclick="importInfoSelect(this)"><i class="fas fa-plus"></i>
+                                        data-target="#productList" type="button" onclick="importInfoSelect(this)"><i
+                                            class="fas fa-plus"></i>
                                         Thêm sản phẩm</button>
                                 </div>
                             </div>
@@ -148,7 +147,8 @@
                             <div class="tile-body">
                                 <div class="form-group col-md-12">
                                     <label for="importDate" class="control-label required-field">Ngày nhập</label>
-                                    <input class="form-control" type="date" name="birthmonth" id="importDate" required onchange="addSkudCode()">
+                                    <input class="form-control" type="date" name="birthmonth" id="importDate" required
+                                        onchange="addSkudCode()">
                                 </div>
                                 <div class="form-group col-md-12">
                                     <label for="supplierSelect" class="control-label required-field">Nhà cung
@@ -490,31 +490,31 @@ MODAL
     <!--
 MODAL CHOOSE INFO BEFORE SELECTING PRODUCT
 -->
-<div class="modal fade" id="selectImportInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-data-backdrop="static" data-keyboard="false">
-<div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-        <div class="modal-body">
-            <div class="row">
-                <div class="form-group  col-md-12">
-                    <span class="thong-tin-thanh-toan">
-                        <h5>Thông báo</h5>
-                    </span>
+    <div class="modal fade" id="selectImportInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group  col-md-12">
+                            <span class="thong-tin-thanh-toan">
+                                <h5>Thông báo</h5>
+                            </span>
+                        </div>
+                        <div class="form-group col-md-12" style="text-align: center;">
+                            <p class="modal-notify-successful">Chọn đầy đủ thông tin trước khi chọn sản phẩm</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: center; padding: 10px;">
+                        <button style="margin: 5px;" class="btn btn-save" data-dismiss="modal">Quay lại</button>
+                    </div>
                 </div>
-                <div class="form-group col-md-12" style="text-align: center;">
-                    <p class="modal-notify-successful">Chọn đầy đủ thông tin trước khi chọn sản phẩm</p>
+                <div class="modal-footer">
                 </div>
             </div>
-            <div style="display: flex; justify-content: center; padding: 10px;">
-                <button style="margin: 5px;" class="btn btn-save" data-dismiss="modal">Quay lại</button>
-            </div>
-        </div>
-        <div class="modal-footer">
         </div>
     </div>
-</div>
-</div>
-<!--
+    <!--
 MODAL
 -->
     <!-- Essential javascripts for application to work-->
