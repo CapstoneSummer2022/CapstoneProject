@@ -1,6 +1,6 @@
-package shop.services;
+package shop.services.order;
 
-import shop.db.dto.OrderDTO;
+import shop.db.dto.order.OrderDTO;
 import shop.db.entities.Order;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -14,13 +14,21 @@ import java.util.function.Function;
 
 public interface OrderService {
     List<OrderDTO> findAll();
+
     List<Order> findOrdersByStatus(String status);
+
     List<Order> findAll(Sort sort);
+
     Order convertToEntity(OrderDTO orderDTO);
+
     OrderDTO convertToDTO(Order order);
+
     List<Order> findAllById(Iterable<Integer> integers);
-    boolean addOrder(OrderDTO orderDTO);
+
+    boolean createOrder(OrderDTO orderDTO);
+
     boolean updateOrder(String id, OrderDTO orderDTO);
+
     <S extends Order> List<S> saveAll(Iterable<S> entities);
 
     void flush();
@@ -39,8 +47,8 @@ public interface OrderService {
     void deleteAllInBatch();
 
 
-
     boolean updateStatus(Integer id);
+
     @Deprecated
     Order getOne(Integer integer);
 

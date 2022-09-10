@@ -15,7 +15,7 @@ import shop.db.repositories.CategoryRepository;
 import shop.db.repositories.RoleRepository;
 import shop.services.AccountDetailImpl;
 import shop.services.CategoryService;
-import shop.services.OrderService;
+import shop.services.order.OrderService;
 import shop.services.RefreshTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

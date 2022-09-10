@@ -4,7 +4,7 @@ import shop.config.ModelMap;
 import shop.db.dto.SupplierDTO;
 import shop.db.entities.Supplier;
 import shop.db.repositories.*;
-import shop.services.OrderItemService;
+import shop.services.order.OrderItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
