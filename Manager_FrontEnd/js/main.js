@@ -289,6 +289,20 @@ function addSkudCode() {
 	}
 }
 
+function importInfoSelect(e) {
+	var warehouse = document.getElementById("warehouse").value;
+	var row = document.getElementById("row").value;
+	var column = document.getElementById("column").value;
+	var shelf = document.getElementById("shelf").value;
+	var importDate = document.getElementById("importDate").value;
+	if(warehouse == "" || row == "" || column == "" || shelf == "" || importDate == "") {
+		e.removeAttribute("data-toggle");
+		$("#selectImportInfo").modal('show');
+	}else {
+		e.setAttribute("data-toggle", "modal");
+	}
+}
+
 
 
 function addToImportTable() {
