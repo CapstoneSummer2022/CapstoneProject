@@ -1,4 +1,4 @@
-<jsp:useBean id="orderDto" scope="request" type="shop.db.dto.OrderDTO"/>
+<jsp:useBean id="orderDto" scope="request" type="shop.db.dto.order.OrderDTO"/>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -112,15 +112,15 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach var = "orderItemDto" items = "${orderDto.orderItems}">
+                            <c:forEach var = "orderItemDTO" items = "${orderDto.orderItems}">
                                 <tr>
-                                    <td>${orderItemDto.productId}</td>
-                                    <td>${orderItemDto.productName}</td>
+                                    <td>${orderItemDTO.productId}</td>
+                                    <td>${orderItemDTO.productName}</td>
                                     <td><img src="resources/images/diode.jpg" alt="" width="100px;"></td>
                                     <td>Dây kết nối</td>
-                                    <td>${orderItemDto.unitPrice} đ</td>
-                                    <td>${orderItemDto.quantity}</td>
-                                    <td>${orderItemDto.subTotal} đ</td>
+                                    <td>${orderItemDTO.unitPrice} đ</td>
+                                    <td>${orderItemDTO.quantity}</td>
+                                    <td>${orderItemDTO.subTotal} đ</td>
                                 </tr>
                             </c:forEach>
                             <tr>
