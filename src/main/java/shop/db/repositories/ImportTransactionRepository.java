@@ -1,4 +1,7 @@
 package shop.db.repositories;
 
-public interface ImportTransactionRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import shop.db.entities.ImportTransaction;
+
+public interface ImportTransactionRepository extends JpaRepository<ImportTransaction,Integer> {
 }

@@ -1,7 +1,7 @@
-package com.example.electriccomponentsshop.services;
+package shop.services;
 
-import com.example.electriccomponentsshop.dto.SupplierDTO;
-import com.example.electriccomponentsshop.entities.Supplier;
+import shop.db.dto.SupplierDTO;
+import shop.db.entities.Supplier;
 
 import java.util.List;
 import java.util.Optional;

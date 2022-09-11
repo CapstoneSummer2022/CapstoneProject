@@ -1,12 +1,14 @@
-package com.example.electriccomponentsshop.services.impl;
+package shop.services.impl;
 
-import com.example.electriccomponentsshop.config.ModelMap;
-import com.example.electriccomponentsshop.dto.SupplierDTO;
-import com.example.electriccomponentsshop.entities.Supplier;
-import com.example.electriccomponentsshop.repositories.SupplierRepository;
-import com.example.electriccomponentsshop.services.SupplierService;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import shop.config.ModelMap;
+import shop.db.dto.SupplierDTO;
+import shop.db.entities.Supplier;
+import shop.db.repositories.SupplierRepository;
+import shop.services.SupplierService;
 
 import java.util.List;
 import java.util.NoSuchElementException;

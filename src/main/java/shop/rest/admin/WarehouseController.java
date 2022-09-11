@@ -1,18 +1,18 @@
-package com.example.electriccomponentsshop.controller.admin;
+package shop.rest.admin;
 
 import com.example.electriccomponentsshop.dto.ImportTransactionDto;
-import com.example.electriccomponentsshop.dto.WarehouseDTO;
-import com.example.electriccomponentsshop.entities.Warehouse;
-import com.example.electriccomponentsshop.services.ImportTransactionService;
-import com.example.electriccomponentsshop.services.WarehouseService;
+
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import shop.db.dto.WarehouseDTO;
+import shop.db.entities.Warehouse;
+import shop.services.ImportTransactionService;
+import shop.services.WarehouseService;
 
 import javax.validation.Valid;
 import java.util.*;
@@ -85,7 +85,7 @@ public class WarehouseController {
             importTransactionService.addImportTransaction(importTransactionDto);
         }catch (NoSuchElementException e){
             modelMap.addAttribute("error" , e.getMessage());
-            return "administrator/add-warehouse-import";
+            return e.getMessage();
         }
         return "redirect:/admin/warehouses/view/import";
     }

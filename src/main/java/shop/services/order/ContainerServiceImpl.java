@@ -1,12 +1,14 @@
-package com.example.electriccomponentsshop.services.impl;
+package  shop.services.order;
 
-import com.example.electriccomponentsshop.config.ModelMap;
-import com.example.electriccomponentsshop.dto.ContainerDTO;
-import com.example.electriccomponentsshop.entities.Container;
-import com.example.electriccomponentsshop.repositories.ContainerRepository;
-import com.example.electriccomponentsshop.services.ContainerService;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import shop.config.ModelMap;
+import shop.db.dto.ContainerDTO;
+import shop.db.entities.Container;
+import shop.db.repositories.ContainerRepository;
+import shop.services.ContainerService;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;

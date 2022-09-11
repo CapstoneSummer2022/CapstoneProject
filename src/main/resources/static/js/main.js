@@ -311,6 +311,7 @@ function addToImportTable() {
 	for (var i = 1, row; row = productTable.rows[i]; i++) {
 		if (row.cells[7].getElementsByTagName('input')[0].checked && !duplicateimportProduct(row.cells[0].innerHTML)) {
 			var newRow = importProductTable.insertRow(1);
+			newRow.setAttribute('class','import-items');
 			var cell0 = newRow.insertCell(0);
 			var cell1 = newRow.insertCell(1);
 			var cell2 = newRow.insertCell(2);

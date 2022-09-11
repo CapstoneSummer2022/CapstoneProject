@@ -1,7 +1,8 @@
-package com.example.electriccomponentsshop.repositories;
+package shop.db.repositories;
 
-import com.example.electriccomponentsshop.entities.Sku;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import shop.db.entities.Sku;
 
 public interface SkuRepository extends JpaRepository<Sku,Integer> {
 

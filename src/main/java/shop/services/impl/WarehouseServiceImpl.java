@@ -1,5 +1,7 @@
 package shop.services.impl;
 
+import shop.config.ModelMap;
+import shop.db.dto.WarehouseDTO;
 import shop.db.entities.Warehouse;
 import shop.db.repositories.WarehouseRepository;
 import shop.services.WarehouseService;
@@ -12,6 +14,7 @@ import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -19,6 +22,8 @@ import java.util.function.Function;
 public class WarehouseServiceImpl implements WarehouseService {
     @Autowired
     WarehouseRepository warehouseRepository;
+    @Autowired
+    ModelMap modelMap;
 
     @Override
     public List<Warehouse> findAll() {
@@ -29,7 +34,23 @@ public class WarehouseServiceImpl implements WarehouseService {
     public List<Warehouse> findAll(Sort sort) {
         return warehouseRepository.findAll(sort);
     }
+    @Override
+    public WarehouseDTO convertToDto(Warehouse warehouse){
+        return modelMap.modelMapper().map(warehouse,WarehouseDTO.class);
 
+    }
+    @Override
+    public Warehouse getWarehouse(String id){
+        try{
+            int wid = Integer.parseInt(id);
+            Optional<Warehouse> warehouseOptional = warehouseRepository.findById(wid);
+            if(warehouseOptional.isPresent()){
+                return warehouseOptional.get();
+            }else throw  new NoSuchElementException("Không có kho này");
+        }catch (NumberFormatException e){
+            throw new NoSuchElementException("Không có kho này");
+        }
+    }
     @Override
     public List<Warehouse> findAllById(Iterable<Integer> integers) {
         return warehouseRepository.findAllById(integers);
