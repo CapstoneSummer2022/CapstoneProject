@@ -1,11 +1,7 @@
 package shop.services;
 
-<<<<<<< HEAD:src/main/java/shop/services/SupplierService.java
+import shop.db.dto.SupplierDTO;
 import shop.db.entities.Supplier;
-=======
-import com.example.electriccomponentsshop.dto.SupplierDTO;
-import com.example.electriccomponentsshop.entities.Supplier;
->>>>>>> 9e7c550 (ImportTransaction):src/main/java/com/example/electriccomponentsshop/services/SupplierService.java
 
 import java.util.List;
 import java.util.Optional;

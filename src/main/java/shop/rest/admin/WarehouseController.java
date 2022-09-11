@@ -1,25 +1,18 @@
 package shop.rest.admin;
 
-<<<<<<< HEAD:src/main/java/shop/rest/admin/WarehouseController.java
-import shop.db.dto.ImportTransactionDto;
-import shop.db.dto.WarehouseDTO;
-import shop.db.entities.Warehouse;
-import shop.services.WarehouseService;
-=======
 import com.example.electriccomponentsshop.dto.ImportTransactionDto;
-import com.example.electriccomponentsshop.dto.WarehouseDTO;
-import com.example.electriccomponentsshop.entities.Warehouse;
-import com.example.electriccomponentsshop.services.ImportTransactionService;
-import com.example.electriccomponentsshop.services.WarehouseService;
+
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
->>>>>>> 9e7c550 (ImportTransaction):src/main/java/com/example/electriccomponentsshop/controller/admin/WarehouseController.java
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import shop.db.dto.WarehouseDTO;
+import shop.db.entities.Warehouse;
+import shop.services.ImportTransactionService;
+import shop.services.WarehouseService;
 
 import javax.validation.Valid;
 import java.util.*;
@@ -34,56 +27,47 @@ public class WarehouseController {
     final
     ImportTransactionService importTransactionService;
     @GetMapping("")
-    public String viewAll(Model model) {
-        ArrayList<Warehouse> warehouses = (ArrayList<Warehouse>) warehouseService.findAll();
-        model.addAttribute("warehouses", warehouses);
+    public String viewAll(Model model){
+        ArrayList<Warehouse> warehouses =(ArrayList<Warehouse>) warehouseService.findAll();
+        model.addAttribute("warehouses",warehouses);
         return "administrator/warehouse-management";
 
     }
-
     @PostMapping("/view/{id}")
-    public String update(@PathVariable Integer id, @Valid @ModelAttribute("warehouse") WarehouseDTO warehouseDTO, Model model) {
-        Optional<Warehouse> warehouse = warehouseService.findById(id);
-        if (warehouse.isPresent()) {
-            Warehouse warehouse1 = warehouse.get();
+    public String update(@PathVariable Integer id, @Valid @ModelAttribute("warehouse")WarehouseDTO warehouseDTO,Model model){
+       Optional<Warehouse>  warehouse = warehouseService.findById(id);
+       if(warehouse.isPresent()){
+           Warehouse warehouse1 = warehouse.get();
 //           warehouse1.setAddress(warehouseDTO.getAddress());
 //           warehouse1.setStatus(warehouseDTO.getStatus());
-            warehouseService.save(warehouse1);
-        } else {
-            model.addAttribute("error", "Không tìm thấy kho này");
-        }
-        return "";
+           warehouseService.save(warehouse1);
+       }
+       else {
+           model.addAttribute("error","Không tìm thấy kho này");
+       }
+       return "";
     }
-
     @GetMapping("/add")
-    public String viewAddForm(Model model) {
-        model.addAttribute("newWarehouse", new Warehouse());
+    public String viewAddForm(Model model){
+        model.addAttribute("newWarehouse",new Warehouse());
         return "administrator/add-warehouse";
     }
-
     @PostMapping("/add")
-    public String addWarehouse(Model model, @Valid @ModelAttribute("newWarehouse") WarehouseDTO warehouseDTO, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
+    public String addWarehouse(Model model, @Valid @ModelAttribute("newWarehouse") WarehouseDTO warehouseDTO, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
 
-        } else {
+        }
+        else {
             Warehouse warehouse = new Warehouse();
             warehouseService.save(warehouse);
         }
         return "administrator/add-warehouse";
     }
-
     @GetMapping("/import/add")
-    public String viewFormAddImp(ModelMap modelMap) {
+    public String viewFormAddImp(ModelMap modelMap){
         modelMap.addAttribute("importTransaction", new ImportTransactionDto());
         return "administrator/add-warehouse-import";
     }
-<<<<<<< HEAD:src/main/java/shop/rest/admin/WarehouseController.java
-
-    @PostMapping("/import/add")
-    @ResponseBody
-    public String addImportTransaction(@Valid @RequestBody ImportTransactionDto importTransactionDto) {
-        return null;
-=======
     @GetMapping("/view/import")
     public String viewListImport(ModelMap modelMap){
         try{
@@ -101,7 +85,7 @@ public class WarehouseController {
             importTransactionService.addImportTransaction(importTransactionDto);
         }catch (NoSuchElementException e){
             modelMap.addAttribute("error" , e.getMessage());
-            return "administrator/add-warehouse-import";
+            return e.getMessage();
         }
         return "redirect:/admin/warehouses/view/import";
     }
@@ -112,7 +96,6 @@ public class WarehouseController {
         m.getFieldErrors().forEach(e->map.put(e.getField(),e.getDefaultMessage()));
 
         return map;
->>>>>>> 9e7c550 (ImportTransaction):src/main/java/com/example/electriccomponentsshop/controller/admin/WarehouseController.java
     }
 
 }

@@ -1,18 +1,14 @@
 package shop.services.impl;
 
-<<<<<<< HEAD:src/main/java/shop/services/impl/SupplierServiceImpl.java
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import shop.config.ModelMap;
+import shop.db.dto.SupplierDTO;
 import shop.db.entities.Supplier;
 import shop.db.repositories.SupplierRepository;
 import shop.services.SupplierService;
-=======
-import com.example.electriccomponentsshop.config.ModelMap;
-import com.example.electriccomponentsshop.dto.SupplierDTO;
-import com.example.electriccomponentsshop.entities.Supplier;
-import com.example.electriccomponentsshop.repositories.SupplierRepository;
-import com.example.electriccomponentsshop.services.SupplierService;
->>>>>>> 9e7c550 (ImportTransaction):src/main/java/com/example/electriccomponentsshop/services/impl/SupplierServiceImpl.java
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;

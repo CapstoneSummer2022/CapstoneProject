@@ -26,7 +26,7 @@ public class ImportTransaction {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="warehouse_id")
     private Warehouse warehouseImport;
-
+    private Double totalPayment;
 
 
 }
