@@ -89,6 +89,13 @@ public class WarehouseController {
         }
         return "redirect:/admin/warehouses/view/import";
     }
+    @GetMapping("/view/export")
+    public String viewExportList(ModelMap modelMap){
+
+        modelMap.addAttribute("exportList",new ImportTransactionDto());
+        return "administrator/warehouse-export-management";
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public @ResponseBody Map<String,String> error(MethodArgumentNotValidException m){
         System.out.println("gg");
@@ -97,5 +104,6 @@ public class WarehouseController {
 
         return map;
     }
+
 
 }

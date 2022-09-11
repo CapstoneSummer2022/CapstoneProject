@@ -75,7 +75,6 @@ public class ImportTransactionServiceImpl implements ImportTransactionService {
                 sku.setCode(im.getSkuCode()+"-"+importTransaction.getId());
             sku.setQuantity(im.getQuantity());
                 sku = skuService.save(sku);
-
                 Integer quantity = im.getQuantity();
                 Integer importPrice = im.getImportPrice();
                 double subtotal = quantity*importPrice;
