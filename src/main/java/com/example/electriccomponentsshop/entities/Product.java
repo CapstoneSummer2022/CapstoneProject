@@ -53,4 +53,7 @@ public class Product {
     private List<SpecificationValue> specificationValues = new ArrayList<>();
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "product")
     private List<OrderItem> orderItems = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "supplier_id")
+    private Supplier productSupplier;
 }

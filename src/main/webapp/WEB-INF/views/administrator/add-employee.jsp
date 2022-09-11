@@ -46,7 +46,7 @@
             <form:form class="row" method="POST" action="${pageContext.request.contextPath}/admin/accounts/add" modelAttribute="accountDto">
             <div class="row">
               <div class="form-group col-md-3">
-                <label class="control-label">Họ và tên</label>
+                <label class="control-label required-field" >Họ và tên</label>
                 <form:input class="form-control" type="text" path="name"  required="required" />
                 <form:errors path="name" element="span" />
               </div>
@@ -54,13 +54,13 @@
                 <label class="control-label required-field">Giới tính</label>
                 <div class="options">
                   <div class="option-item">
-                    <form:label path="gender" >
+                    <form:label path="gender" for="gender1">
                       <form:radiobutton path="gender" value="Nam"/>
                       Nam
                     </form:label>
                   </div>
                   <div class="option-item">
-                    <form:label path="gender" >
+                    <form:label path="gender" for="gender2" >
                       <form:radiobutton path="gender" value="Nữ"/>
                       Nữ
                     </form:label>
@@ -120,6 +120,7 @@
                   <label class="control-label">Địa chỉ email</label>
                   <form:input class="form-control" type="text" path="email" required="required"  />
                   <form:errors path="email" element="span" />
+                  <span>${duplicate}</span>
                 </div>
                 <div class="form-group col-md-3">
                   <label class="control-label">Số điện thoại</label>
@@ -135,7 +136,7 @@
               <div class="row">
                 <div class="confirm-button">
                   <div class="button">
-                    <button type="submit" class="btn btn-save" type="button" onclick="continueornot()">Lưu lại</button>
+                    <button type="submit" class="btn btn-save" onclick="continueornot()">Lưu lại</button>
                     <button class="btn btn-cancel" onclick="location.href='system-account-management.html'">Hủy
                       bỏ</button>
                   </div>

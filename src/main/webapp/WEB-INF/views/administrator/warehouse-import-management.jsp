@@ -28,7 +28,7 @@
   <jsp:include page="header.jsp"/>
   <!-- Sidebar menu-->
   <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-  <jsp:include page="home-menu.jsp"/>
+  <jsp:include page="warehouse-home-menu.jsp"/>
   <main class="app-content">
     <div class="app-title">
       <ul class="app-breadcrumb breadcrumb side">
@@ -42,7 +42,7 @@
           <div class="tile-body">
             <div class="row element-button">
               <div class="col-sm-2">
-                <a class="btn btn-add btn-sm" href="add-warehouse-import.html" title="Thêm"><i class="fas fa-plus"></i>
+                <a class="btn btn-add btn-sm" href="${pageContext.request.contextPath}/admin/warehouses/import/add" title="Thêm"><i class="fas fa-plus"></i>
                   Thêm giao dịch mới</a>
               </div>
             </div>

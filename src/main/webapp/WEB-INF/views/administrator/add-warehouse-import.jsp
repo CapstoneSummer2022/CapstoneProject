@@ -1,13 +1,15 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <title>Thêm nhập kho | Quản trị</title>
+    <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Main CSS-->
-    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link href="<c:url value="/css/main.css"/>" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
     <!-- or -->
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
@@ -112,17 +114,18 @@
                         </div>
                     </div>
                     <div class="du--lieu-san-pham">
-                        <table class="table table-hover table-bordered">
+                        <table id="importProductList" class="table table-hover table-bordered">
                             <thead>
-                                <tr>
-                                    <th class="order-item-number">Mã sản phẩm</th>
-                                    <th class="order-item-number" width="200">Tên sản phẩm</th>
-                                    <th class="order-item-number" width="100">Đơn giá</th>
-                                    <th class="order-item-number" width="10">Số lượng</th>
-                                    <th class="order-item-number">Thành tiền</th>
-                                    <th width="100" class="order-item-number text-center"
-                                        style="text-align: center; vertical-align: middle;">Tuỳ chọn</th>
-                                </tr>
+                            <tr>
+                                <th>Mã sản phẩm</th>
+                                <th class="order-item-number">Mã SKUD</th>
+                                <th class="order-item-number" width="200">Tên sản phẩm</th>
+                                <th class="order-item-number">Hình ảnh</th>
+                                <th class="order-item-number" width="100">Đơn giá</th>
+                                <th class="order-item-number" width="10">Số lượng</th>
+                                <th class="order-item-number">Thành tiền</th>
+                                <th width="100" class="order-item-number text-center" style="text-align: center; vertical-align: middle;">Tuỳ chọn</th>
+                            </tr>
                             </thead>
                             <tbody>
                             </tbody>
@@ -136,7 +139,7 @@
                     <div class="tile-body">
                         <div class="form-group col-md-12">
                             <label for="exampleSelect1" class="control-label">Nhà cung cấp</label>
-                            <select class="form-control" id="exampleSelect1">
+                            <select class="form-control" id="supplier">
                                 <option selected disabled hidden>-- Nhà cung cấp --</option>
                                 <option>DAEWOO</option>
                                 <option>ABECO</option>
@@ -196,7 +199,7 @@
                                 <div class="tile-body">
                                     <div class="modal-search-row">
                                         <button class="btn btn-save" data-dismiss="modal" data-toggle="modal"
-                                            data-target="#productList"><i class='fas fa-plus'></i>
+                                            data-target="#productList" onclick="addToImportTable()"><i class='fas fa-plus'></i>
                                             Thêm vào danh sách</button>
                                         <form action="">
                                             <div class="search-container">
@@ -206,64 +209,104 @@
                                             </div>
                                         </form>
                                     </div>
-                                    <table class="table table-hover table-bordered" id="sampleTable">
+                                    <table id="products" class="table table-hover table-bordered">
                                         <thead>
-                                            <tr>
-                                                <th>Mã sản phẩm</th>
-                                                <th>Tên sản phẩm</th>
-                                                <th>Danh mục</th>
-                                                <th>Chọn</th>
-                                            </tr>
+                                        <tr>
+                                            <th>Mã sản phẩm</th>
+                                            <th class="order-item-number">Mã SKU</th>
+                                            <th class="order-item-number" width="200">Tên sản phẩm</th>
+                                            <th class="order-item-number">Hình ảnh</th>
+                                            <th class="order-item-number" width="100">Đơn giá</th>
+                                            <th class="order-item-number" width="10">Số lượng</th>
+                                            <th class="order-item-number">Thành tiền</th>
+                                            <th width="100" class="order-item-number text-center" style="text-align: center; vertical-align: middle;">Tuỳ chọn</th>
+                                        </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1-A-2-2</td>
-                                                <td>Diode Xung Đôi SBL3040 TO-247 600V 30A</td>
-                                                <td>Đi-ốt</td>
-                                                <td><input class="status-checkbox" type="checkbox" data-toggle="modal"
-                                                        data-target="#confirmStatus" name="check1" value="1">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>1-A-10-1</td>
-                                                <td>Diode Chỉnh Lưu FR307 3A 1000V</td>
-                                                <td>Đi-ốt</td>
-                                                <td><input class="status-checkbox" type="checkbox" data-toggle="modal"
-                                                        data-target="#confirmStatus" name="check1" value="1">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>1-A-6-2</td>
-                                                <td>Diode Cầu 25A Dẹt 1000V KBJ2510</td>
-                                                <td>Đi-ốt</td>
-                                                <td><input class="status-checkbox" type="checkbox" data-toggle="modal"
-                                                        data-target="#confirmStatus" name="check1" value="1">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>1-A-10-2</td>
-                                                <td>Tụ Hóa 6.3V</td>
-                                                <td>Tụ điện</td>
-                                                <td><input class="status-checkbox" type="checkbox" data-toggle="modal"
-                                                        data-target="#confirmStatus" name="check1" value="1">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>1-A-6-5</td>
-                                                <td>Tụ Phân Tần Loa Trebel CBB 335J 250V</td>
-                                                <td>Tụ điện</td>
-                                                <td><input class="status-checkbox" type="checkbox" data-toggle="modal"
-                                                        data-target="#confirmStatus" name="check1" value="1">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>1-A-10-6</td>
-                                                <td>Cuộn cảm HCI1005LF-10NJ-MS8</td>
-                                                <td>Cuộn cảm</td>
-                                                <td><input class="status-checkbox" type="checkbox" data-toggle="modal"
-                                                        data-target="#confirmStatus" name="check1" value="1">
-                                                </td>
-                                            </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Diode Xung Đôi SBL3040 TO-247 600V 30A</td>
+                                            <td><img src="resources/images/diode.jpg" alt="" width="100px;">
+                                            </td>
+                                            <td>40</td>
+                                            <td><span class="badge bg-success">Còn hàng</span></td>
+                                            <td>5600</td>
+                                            <td>Đi-ốt</td>
+                                            <td><input class="status-checkbox" type="checkbox"
+                                                       data-toggle="modal" data-target="#confirmStatus"
+                                                       name="check1" value="1">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Diode Chỉnh Lưu FR307 3A 1000V</td>
+                                            <td><img src="resources/images/diode.jpg" alt="" width="100px;">
+                                            </td>
+                                            <td>70</td>
+                                            <td><span class="badge bg-success">Còn hàng</span></td>
+                                            <td>24200</td>
+                                            <td>Đi-ốt</td>
+                                            <td><input class="status-checkbox" type="checkbox"
+                                                       data-toggle="modal" data-target="#confirmStatus"
+                                                       name="check1" value="1">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>Diode Cầu 25A Dẹt 1000V KBJ2510</td>
+                                            <td><img src="resources/images/diode.jpg" alt="" width="100px;">
+                                            </td>
+                                            <td>40</td>
+                                            <td><span class="badge bg-success">Còn hàng</span></td>
+                                            <td>33235</td>
+                                            <td>Đi-ốt</td>
+                                            <td><input class="status-checkbox" type="checkbox"
+                                                       data-toggle="modal" data-target="#confirmStatus"
+                                                       name="check1" value="1">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td>Tụ Hóa 6.3V</td>
+                                            <td><img src="resources/images/diode.jpg" alt="" width="100px;">
+                                            </td>
+                                            <td>50</td>
+                                            <td><span class="badge bg-success">Còn hàng</span></td>
+                                            <td>9500</td>
+                                            <td>Tụ điện</td>
+                                            <td><input class="status-checkbox" type="checkbox"
+                                                       data-toggle="modal" data-target="#confirmStatus"
+                                                       name="check1" value="1">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>5</td>
+                                            <td>Tụ Phân Tần Loa Trebel CBB 335J 250V</td>
+                                            <td><img src="resources/images/diode.jpg" alt="" width="100px;">
+                                            </td>
+                                            <td>50</td>
+                                            <td><span class="badge bg-success">Còn hàng</span></td>
+                                            <td>3800</td>
+                                            <td>Tụ điện</td>
+                                            <td><input class="status-checkbox" type="checkbox"
+                                                       data-toggle="modal" data-target="#confirmStatus"
+                                                       name="check1" value="1">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>6</td>
+                                            <td>Cuộn cảm HCI1005LF-10NJ-MS8</td>
+                                            <td><img src="resources/images/diode.jpg" alt="" width="100px;">
+                                            </td>
+                                            <td>55</td>
+                                            <td><span class="badge bg-success">Còn hàng</span></td>
+                                            <td>4600</td>
+                                            <td>Cuộn cảm</td>
+                                            <td><input class="status-checkbox" type="checkbox"
+                                                       data-toggle="modal" data-target="#confirmStatus"
+                                                       name="check1" value="1">
+                                            </td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                     <div class="pagination-row">
@@ -341,14 +384,17 @@ MODAL
 MODAL
 -->
     <!-- Essential javascripts for application to work-->
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="src/jquery.table2excel.js"></script>
-    <script src="js/main.js"></script>
-    <!-- The javascript plugin to display page loading on top-->
-    <script src="js/plugins/pace.min.js"></script>
+
+    <script src="<c:url value="/js/jquery-3.2.1.min.js"/>"></script>
+    <script src="<c:url value="/js/popper.min.js"/>"></script>
+    <script src="<c:url value="/js/bootstrap.min.js"/>"></script>
+    <script src="<c:url value="/js/main.js"/>"></script>
+    <script src="<c:url value="/js/api-province.js"/>"></script>
+    <script src="<c:url value="/js/plugins/pace.min.js"/>"></script>
+    <script src="<c:url value="/resources/data.json"/>"></script>
     <!-- Page specific javascripts-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 </body>

@@ -41,7 +41,7 @@ function continueornot() {
 		// ok
 	} else { alert("email not valid"); return false; }
 }
-//validate email end	
+//validate email end
 
 //add to specification talbe
 function invalidOption(option) {
@@ -141,7 +141,6 @@ function addToCategoryTable() {
 	var optionValue = selection.options[selection.selectedIndex].value;
 	if (selection.selectedIndex != 0 && !invalidOption(optionText)) {
 		var row = table.insertRow(1);
-		row.setAttribute("class", "category-item");
 		var cell0 = row.insertCell(0);
 		var cell1 = row.insertCell(1);
 		var cell2 = row.insertCell(2);
@@ -152,39 +151,9 @@ function addToCategoryTable() {
 		cell0.innerHTML = optionValue;
 		cell1.innerHTML = optionText;
 		cell2.appendChild(checkbox.cloneNode());
-		tableChange();
 	}
-	else alert("Hãy chọn danh mục");
+}
 
-}
- function tableChange(){
-	 var listCategory = new Array();
-	 $('.category-item').each(function (){
-		 var row =$(this);
-		 var category = new Object();
-		 category.id = row.find("TD").eq(0).html();
-		 category.name = row.find("TD").eq(1).html();
-		 listCategory.push(category);
-	 })
-	 var data = {
-		 categories :listCategory
-	 };
-	 $.ajax({
-		 type:"POST",
-		 url:"/admin/categories/getExcept",
-		 contentType: "application/json",
-		 data: JSON.stringify(data),
-		 dataType: "json",
-		 success: function (response){
-			 var $optionCategory = $('#categoryOption');
-			 $optionCategory.find('option').remove();
-			 $('<option selected hidden value>').text('--Chọn danh mục--').appendTo($optionCategory);
-			 response.forEach( c=>{
-				 $('<option>').val(c.id).text(c.name).appendTo($optionCategory);
-			 });
-		 }
-	 });
-}
 function deleteFromCategoryTable() {
 	var table = document.getElementById("categoryTable");
 	for (var i = 1, row; row = table.rows[i]; i++) {
@@ -193,7 +162,6 @@ function deleteFromCategoryTable() {
 			i = 0;
 		}
 	}
-	tableChange();
 }
 
 function checkRequiredTable() {
@@ -267,18 +235,82 @@ const deleteIcon = document.createElement("i");
 deleteIcon.classList.add("fas");
 deleteIcon.classList.add("fa-trash-alt");
 deleteButton.appendChild(deleteIcon);
+//Detail button
+//<button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng"
+//onclick="location.href='order-detail.html'"><i class="fa fa-info"></i></button>
+const detailButton = document.createElement("a");
+detailButton.classList.add("btn");
+detailButton.classList.add("btn-primary");
+detailButton.title = "Chi tiết đơn hàng";
+detailButton.type = "button";
+detailButton.href = "order-detail.html";
+const detailIcon = document.createElement("i");
+detailIcon.classList.add("fa");
+detailIcon.classList.add("fa-info");
+detailButton.appendChild(detailIcon);
+
+
 //input number
 const price = document.createElement("input");
 price.type = "number";
 price.value = 0;
 price.classList.add("import-price");
 
+function resetImportTable() {
+	var importProductTable = document.getElementById("importProductList");
+	for (var i = 1, row; row = importProductTable.rows[i]; i++) {
+		importProductTable.deleteRow(i);
+		i = 0
+	}
+	addSkudCode();
+}
+
+
+//1-a-2-3-P1-2022-02-03
+function addSkudCode() {
+	var warehouse = document.getElementById("warehouse").value;
+	var row = document.getElementById("row").value;
+	var column = document.getElementById("column").value;
+	var shelf = document.getElementById("shelf").value;
+	var importDate = document.getElementById("importDate").value;
+	var date = new Date(importDate);
+	var dd = String(date.getDate()).padStart(2, '0');
+	var mm = String(date.getMonth() + 1).padStart(2, '0');
+	var yyyy = date.getFullYear();
+	date = yyyy + '-' + mm + '-' + dd;
+
+	var importProductTable = document.getElementById("importProductList");
+	if (warehouse != "" && row != "" && column != "" && shelf != "" && importDate != "") {
+		for (var i = 1, rowTable; rowTable = importProductTable.rows[i]; i++) {
+			var id = rowTable.cells[0].innerHTML;
+			rowTable.cells[1].style = "";
+			rowTable.cells[1].innerHTML = warehouse + "-" + shelf + "-" + row + "-" + column + "-P" + id + "-" + date;
+		}
+	}
+}
+
+function importInfoSelect(e) {
+	var warehouse = document.getElementById("warehouse").value;
+	var row = document.getElementById("row").value;
+	var column = document.getElementById("column").value;
+	var shelf = document.getElementById("shelf").value;
+	var importDate = document.getElementById("importDate").value;
+	if(warehouse == "" || row == "" || column == "" || shelf == "" || importDate == "") {
+		e.removeAttribute("data-toggle");
+		$("#selectImportInfo").modal('show');
+	}else {
+		e.setAttribute("data-toggle", "modal");
+	}
+}
+
+
+
 function addToImportTable() {
-	var orderProductTable = document.getElementById("importProductList");
+	var importProductTable = document.getElementById("importProductList");
 	var productTable = document.getElementById("products");
 	for (var i = 1, row; row = productTable.rows[i]; i++) {
 		if (row.cells[7].getElementsByTagName('input')[0].checked && !duplicateimportProduct(row.cells[0].innerHTML)) {
-			var newRow = orderProductTable.insertRow(1);
+			var newRow = importProductTable.insertRow(1);
 			var cell0 = newRow.insertCell(0);
 			var cell1 = newRow.insertCell(1);
 			var cell2 = newRow.insertCell(2);
@@ -286,14 +318,17 @@ function addToImportTable() {
 			var cell4 = newRow.insertCell(4);
 			var cell5 = newRow.insertCell(5);
 			var cell6 = newRow.insertCell(6);
-
+			var cell7 = newRow.insertCell(7);
 			cell0.innerHTML = row.cells[0].innerHTML;
-			cell1.innerHTML = row.cells[1].innerHTML;
-			cell2.innerHTML = row.cells[2].innerHTML;
-			cell3.appendChild(price.cloneNode(true));
-			cell4.appendChild(quantity.cloneNode(true));
-			cell5.innerHTML = 0;
-			cell6.appendChild(deleteButton.cloneNode(true));
+			cell1.innerHTML = "Chưa tạo";
+			cell1.style.color = "red";
+			cell2.innerHTML = row.cells[1].innerHTML;
+			cell3.innerHTML = row.cells[2].innerHTML;
+			cell4.appendChild(price.cloneNode(true));
+			cell5.appendChild(quantity.cloneNode(true));
+			cell6.innerHTML = 0;
+			cell7.appendChild(deleteButton.cloneNode(true));
+
 		}
 	}
 	setEventImportPrice();
@@ -301,27 +336,27 @@ function addToImportTable() {
 	setMinusValueFunction();
 	setPlusValueFunction();
 	setWholeValue();
+	addSkudCode();
 }
 
 function addToExportTable() {
 	var orderProductTable = document.getElementById("exportProductList");
 	var productTable = document.getElementById("products");
 	for (var i = 1, row; row = productTable.rows[i]; i++) {
-		if (row.cells[7].getElementsByTagName('input')[0].checked && !duplicateExportProduct(row.cells[0].innerHTML)) {
+		if (row.cells[5].getElementsByTagName('input')[0].checked && !duplicateExportProduct(row.cells[0].innerHTML)) {
 			var newRow = orderProductTable.insertRow(1);
 			var cell0 = newRow.insertCell(0);
 			var cell1 = newRow.insertCell(1);
 			var cell2 = newRow.insertCell(2);
 			var cell3 = newRow.insertCell(3);
 			var cell4 = newRow.insertCell(4);
-			var cell5 = newRow.insertCell(5);
 
 			cell0.innerHTML = row.cells[0].innerHTML;
 			cell1.innerHTML = row.cells[1].innerHTML;
 			cell2.innerHTML = row.cells[2].innerHTML;
-			cell3.innerHTML = row.cells[6].innerHTML;
-			cell4.appendChild(quantity.cloneNode(true));
-			cell5.appendChild(deleteButton.cloneNode(true));
+			cell3.innerHTML = row.cells[3].innerHTML;
+			cell4.appendChild(deleteButton.cloneNode(true));
+			cell4.appendChild(detailButton.cloneNode(true));
 		}
 	}
 	setMinusValueFunction();
@@ -391,7 +426,7 @@ function duplicateExportProduct(id) {
 	var table = document.getElementById("exportProductList");
 	for (var i = 1, row; row = table.rows[i]; i++) {
 		if (row.cells[0].innerHTML === id) {
-			alert("Sản phẩm " + id + " đã có trong danh sách.")
+			alert("Đơn hàng " + id + " đã có trong danh sách.")
 			isDuplicate = true;
 			return isDuplicate;
 		}
@@ -419,10 +454,9 @@ function setSumImport() {
 		var sumNumber = 0;
 		var table = document.getElementById("importProductList");
 		for (var i = 1, row; row = table.rows[i]; i++) {
-			var currentUnit = row.cells[3].getElementsByTagName("input")[0].value;
-			console.log(currentUnit);
-			row.cells[5].innerHTML = currentUnit * row.cells[4].getElementsByTagName("input")[0].value;
-			sumNumber = sumNumber + parseFloat(row.cells[5].innerHTML);
+			var currentUnit = row.cells[4].getElementsByTagName("input")[0].value;
+			row.cells[6].innerHTML = currentUnit * row.cells[5].getElementsByTagName("input")[0].value;
+			sumNumber = sumNumber + parseFloat(row.cells[6].innerHTML);
 		}
 		sum.innerHTML = convertMoney(sumNumber);
 	}
@@ -494,7 +528,6 @@ function setPlusValueFunction() {
 					} else {
 						ammount.innerHTML = input.value * parseInt(unit.innerHTML);
 					}
-
 					setSumImport();
 					setSumOrder();
 				}
@@ -638,25 +671,18 @@ function validateTable() {
 		$("#categoryEmpty").modal('show');
 		return false;
 	}
-	$.ajax({
-		type: "POST",
-		url: "admin/produts/update"
-	})
 }
 
 
 
 
-window.onload = setEventImportPrice();
-window.onload = setSumOrder();
-window.onload = setSumImport();
-window.onload = greaterThanZero();
-window.onload = setPlusValueFunction();
-window.onload = setMinusValueFunction();
-window.onload = setWholeValue();
-
-
-
+setEventImportPrice();
+setSumOrder();
+setSumImport();
+greaterThanZero();
+setPlusValueFunction();
+setMinusValueFunction();
+setWholeValue();
 
 
 //Get the opener and Delete the product
@@ -717,3 +743,35 @@ $(document).ready(function () {
 });
 
 
+
+
+
+
+function tableChange(){
+	var listCategory = new Array();
+	$('.category-item').each(function (){
+		var row =$(this);
+		var category = new Object();
+		category.id = row.find("TD").eq(0).html();
+		category.name = row.find("TD").eq(1).html();
+		listCategory.push(category);
+	})
+	var data = {
+		categories :listCategory
+	};
+	$.ajax({
+		type:"POST",
+		url:"/admin/categories/getExcept",
+		contentType: "application/json",
+		data: JSON.stringify(data),
+		dataType: "json",
+		success: function (response){
+			var $optionCategory = $('#categoryOption');
+			$optionCategory.find('option').remove();
+			$('<option selected hidden value>').text('--Chọn danh mục--').appendTo($optionCategory);
+			response.forEach( c=>{
+				$('<option>').val(c.id).text(c.name).appendTo($optionCategory);
+			});
+		}
+	});
+}

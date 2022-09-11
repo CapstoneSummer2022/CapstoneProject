@@ -70,6 +70,8 @@ public class AccountServiceImpl implements AccountService {
         account.setGender(accountDTO.getGender());
         account.setPassword(passwordEncoder.encode(accountDTO.getPassword()));
         setAddress(accountDTO,account);
+        account.setBirthDate(Date.valueOf(accountDTO.getDob()));
+        account.setRoles(roles);
         return accountRepository.save(account) != null;
     }
     @Override
@@ -85,6 +87,7 @@ public class AccountServiceImpl implements AccountService {
            if(!accountDTO.getPassword().equals(optionalAccount.get().getPassword())){
                account.setPassword(passwordEncoder.encode(accountDTO.getPassword()));
            }
+
            account.setBirthDate(Date.valueOf(accountDTO.getDob()));
 //           List<Role> roles = new ArrayList<>();
 //           Optional<Role> roleOptional = roleService.findByRoleName(ERole.valueOf(accountDTO.getRole()));
