@@ -106,52 +106,63 @@
         </div>
         <form>
             <div class="row">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="tile">
-                            <h3 class="tile-title">Thông tin sản phẩm</h3>
-                            <div class="row element-button">
-                                <div class="col-sm-2">
-                                    <button class="btn btn-add btn-sm" title="Thêm" type="button" data-toggle="modal"
-                                        data-target="#productList"><i class="fas fa-plus"></i>
-                                        Thêm đơn hàng</button>
-                                </div>
-                            </div>
-                            <div class="du--lieu-san-pham">
-                                <table id="exportProductList" class="table table-hover table-bordered form-product">
-                                    <thead>
-                                        <tr>
-                                            <th width="100">Mã đơn hàng</th>
-                                            <th>Khách hàng</th>
-                                            <th>Ngày đặt hàng</th>
-                                            <th>Tổng tiền</th>
-                                            <th width="100" class="order-item-number text-center"
-                                                style="text-align: center; vertical-align: middle;">Tuỳ chọn</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
 
-                                    </tbody>
-                                </table>
+                <div class="col-md-8">
+                    <div class="tile">
+                        <h3 class="tile-title">Thông tin sản phẩm</h3>
+                        <div class="row element-button">
+                            <div class="col-sm-2">
+                                <button class="btn btn-add btn-sm" title="Thêm" type="button" data-toggle="modal"
+                                    data-target="#productList"><i class="fas fa-plus"></i>
+                                    Thêm đơn hàng</button>
                             </div>
                         </div>
+                        <div class="du--lieu-san-pham">
+                            <table id="exportProductList" class="table table-hover table-bordered form-product">
+                                <thead>
+                                    <tr>
+                                        <th width="100">Mã đơn hàng</th>
+                                        <th>Khách hàng</th>
+                                        <th>Ngày đặt hàng</th>
+                                        <th>Tổng tiền</th>
+                                        <th width="100" class="order-item-number text-center"
+                                            style="text-align: center; vertical-align: middle;">Tuỳ chọn</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>DH0837</td>
+                                        <td>Triệu Thanh Phú</td>
+                                        <td>21/7/2022</td>
+                                        <td>94.000 đ</td>
+                                        <td><button class="btn btn-primary btn-sm trash" data-toggle="modal"
+                                                data-target="#deleteProduct" type="button" title="Xoá"><i
+                                                    class="fas fa-trash-alt"></i></button><a class="btn btn-primary"
+                                                title="Chi tiết đơn hàng" type="button" href="order-detail.html"><i
+                                                    class="fa fa-info"></i></a></td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="tile">
-                            <h3 class="tile-title">Thông tin xuất hàng</h3>
-                            <div class="tile-body">
-                                <div class="form-group col-md-12">
-                                    <label for="importDate" class="control-label required-field">Ngày nhập</label>
-                                    <input class="form-control" type="date" name="birthmonth" id="importDate" required>
-                                </div>
-                                <div class="row">
-                                    <div class="tile-footer col-md-12">
-                                        <button type="submit" class="btn btn-primary create-order-button"
-                                            type="button">Lưu giao
-                                            dịch</button>
-                                        <a class="btn btn-primary cancel-order-button"
-                                            href="warehouse-export-management.html" type="button">Huỷ và quay về</a>
-                                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="tile">
+                        <h3 class="tile-title">Thông tin xuất hàng</h3>
+                        <div class="tile-body">
+                            <div class="form-group col-md-12">
+                                <label for="importDate" class="control-label required-field">Ngày nhập</label>
+                                <input class="form-control" type="date" name="birthmonth" id="importDate"
+                                    value="2013-01-08" required>
+                            </div>
+                            <div class="row">
+                                <div class="tile-footer col-md-12">
+                                    <button type="submit" class="btn btn-primary create-order-button" type="button">Lưu
+                                        giao
+                                        dịch</button>
+                                    <a class="btn btn-primary cancel-order-button"
+                                        href="warehouse-export-management.html" type="button">Huỷ và quay về</a>
                                 </div>
                             </div>
                         </div>
