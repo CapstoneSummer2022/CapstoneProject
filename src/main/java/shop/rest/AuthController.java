@@ -15,7 +15,11 @@ import shop.db.repositories.CategoryRepository;
 import shop.db.repositories.RoleRepository;
 import shop.services.AccountDetailImpl;
 import shop.services.CategoryService;
+<<<<<<< HEAD:src/main/java/shop/rest/AuthController.java
 import shop.services.order.OrderService;
+=======
+import shop.services.OrderService;
+>>>>>>> b767a4d (Refactor Code):src/main/java/com/example/electriccomponentsshop/controller/AuthController.java
 import shop.services.RefreshTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

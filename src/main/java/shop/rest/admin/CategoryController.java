@@ -1,8 +1,13 @@
 package shop.rest.admin;
 
 import shop.config.ModelMap;
+<<<<<<< HEAD:src/main/java/shop/rest/admin/CategoryController.java
 import shop.db.dto.category.CategoryDTO;
 import shop.db.dto.product.ProductDTO;
+=======
+import shop.db.dto.CategoryDTO;
+import shop.db.dto.ProductDTO;
+>>>>>>> b767a4d (Refactor Code):src/main/java/com/example/electriccomponentsshop/controller/admin/CategoryController.java
 import shop.db.repositories.CategoryRepository;
 import shop.services.CategoryService;
 import lombok.AllArgsConstructor;

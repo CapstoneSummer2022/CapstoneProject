@@ -1,6 +1,5 @@
 package shop.services;
 
-import shop.db.dto.WarehouseDTO;
 import shop.db.entities.Warehouse;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -16,10 +15,6 @@ public interface WarehouseService {
     List<Warehouse> findAll();
 
     List<Warehouse> findAll(Sort sort);
-
-    WarehouseDTO convertToDto(Warehouse warehouse);
-
-    Warehouse getWarehouse(String id);
 
     List<Warehouse> findAllById(Iterable<Integer> integers);
 

@@ -1,10 +1,14 @@
 package shop.rest.admin;
 
+<<<<<<< HEAD:src/main/java/shop/rest/admin/OrderController.java
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import shop.db.dto.ResponseObject;
 import shop.db.dto.order.OrderDTO;
+=======
+import shop.db.dto.OrderDTO;
+>>>>>>> b767a4d (Refactor Code):src/main/java/com/example/electriccomponentsshop/controller/admin/OrderController.java
 import shop.db.dto.ProvinceDTO;
 import shop.db.entities.Order;
 import shop.db.repositories.OrderItemRepository;
@@ -12,7 +16,10 @@ import shop.db.repositories.OrderRepository;
 import shop.db.repositories.ProductRepository;
 import shop.db.dto.DistrictDTO;
 import shop.db.dto.WardDTO;
+<<<<<<< HEAD:src/main/java/shop/rest/admin/OrderController.java
 import shop.rest.endpoint.Endpoints;
+=======
+>>>>>>> b767a4d (Refactor Code):src/main/java/com/example/electriccomponentsshop/controller/admin/OrderController.java
 import shop.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

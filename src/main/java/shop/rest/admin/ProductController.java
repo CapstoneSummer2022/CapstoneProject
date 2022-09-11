@@ -1,7 +1,12 @@
 package shop.rest.admin;
 
+<<<<<<< HEAD:src/main/java/shop/rest/admin/ProductController.java
 import shop.db.dto.category.CategoryDTO;
 import shop.db.dto.product.ProductDTO;
+=======
+import shop.db.dto.CategoryDTO;
+import shop.db.dto.ProductDTO;
+>>>>>>> b767a4d (Refactor Code):src/main/java/com/example/electriccomponentsshop/controller/admin/ProductController.java
 import shop.db.dto.SpecificationDto;
 import shop.db.dto.SpecificationValueDto;
 import shop.db.entities.Product;
