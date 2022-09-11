@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="Warehouse")
+@Table(name = "Warehouse")
 public class Warehouse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,20 +19,23 @@ public class Warehouse {
     @Column
     private Integer storeId;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="pCode")
+    @JoinColumn(name = "pCode")
     private Province provinceWarehouse;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="dCode")
+    @JoinColumn(name = "dCode")
     private District districtWarehouse;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="wCode")
+    @JoinColumn(name = "wCode")
     private Ward wardWarehouse;
     @Column
     private String detailLocation;
     @Column
     private Integer status;
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "warehouse")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "warehouse")
     List<Container> containerList = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "warehouseImport")
+    List<ImportTransaction> importTransactions = new ArrayList<>();
 
 
 }

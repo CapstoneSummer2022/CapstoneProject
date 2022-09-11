@@ -34,4 +34,6 @@ public class ImportItem {
         @JoinColumn(name = "product_id")
         private Product product;
 
+
+
 }

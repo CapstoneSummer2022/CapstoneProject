@@ -11,21 +11,18 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="Supplier", uniqueConstraints = @UniqueConstraint(columnNames = {"Mail","Phone"}))
+@Table(name="Supplier", uniqueConstraints = @UniqueConstraint(columnNames = {"website"}))
 public class Supplier {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column
     private String name;
-    @Column
-    private String phone;
-    @Column
-    private String mail;
-    @Column
-    private String address;
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "supplier")
-    List<ProductPackage> productPackages = new ArrayList<>();
+    private String website;
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "productSupplier")
+    List<Product> products = new ArrayList<>();
+
+
 
 
 }

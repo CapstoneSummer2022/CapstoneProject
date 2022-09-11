@@ -21,7 +21,6 @@ public class Sku {
     private Integer id;
     @OneToOne(mappedBy = "sku")
     private ImportItem importItem;
-    @CreationTimestamp
-    private Date createdDate;
     private Integer quantity;
+    private String code ;
 }
