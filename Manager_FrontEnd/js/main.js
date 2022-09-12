@@ -347,6 +347,8 @@ function addToImportTable() {
 			cell3.innerHTML = row.cells[2].innerHTML;
 			cell4.appendChild(price.cloneNode(true));
 			cell5.appendChild(quantity.cloneNode(true));
+			cell5.getElementsByClassName("minus-btn")[0].addEventListener("click", minus);
+			cell5.getElementsByClassName("plus-btn")[0].addEventListener("click", plus);
 			cell6.innerHTML = 0;
 			cell7.appendChild(deleteButton.cloneNode(true));
 
@@ -354,8 +356,6 @@ function addToImportTable() {
 	}
 	setEventImportPrice();
 	setSumImport();
-	setMinusValueFunction();
-	setPlusValueFunction();
 	setWholeValue();
 	addSkudCode();
 }
@@ -391,14 +391,14 @@ function addToProductTable() {
 			cell2.innerHTML = row.cells[2].innerHTML;
 			cell3.innerHTML = row.cells[5].innerHTML;
 			cell4.appendChild(quantity.cloneNode(true));
+			cell4.getElementsByClassName("minus-btn")[0].addEventListener("click", minus);
+			cell4.getElementsByClassName("plus-btn")[0].addEventListener("click", plus);
 			cell5.innerHTML = row.cells[5].innerHTML;
 			cell6.appendChild(deleteButton.cloneNode(true));
 
 		}
 	}
 	setSumOrder();
-	setMinusValueFunction();
-	setPlusValueFunction();
 	setWholeValue();
 }
 
@@ -493,57 +493,61 @@ function greaterThanZero() {
 function setMinusValueFunction() {
 	var minusButton = document.getElementsByClassName("minus-btn");
 	for (var i = 0; i < minusButton.length; i++) {
-		if (typeof minusButton[i].onclick !== "function") {
-			minusButton[i].addEventListener("click", function (e) {
-				var input = e.target.parentNode.parentNode.getElementsByTagName("input")[0];
-				input.value--;
-				if (input.value < 1) {
-					$("#deleteProduct").modal('show');
-					input.value = 1;
-				}
-				if (e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id !== "exportProductList") {
-					var unit = e.target.parentNode.parentNode.previousElementSibling;
-					var ammount = e.target.parentNode.parentNode.nextElementSibling;
-					if (e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id == "importProductList") {
-						ammount.innerHTML = input.value * parseInt(unit.getElementsByTagName("input")[0].value);
-					} else {
-						ammount.innerHTML = input.value * parseInt(unit.innerHTML);
-					}
-					setSumImport();
-					setSumOrder();
-				}
-			});
+		if (typeof minusButton[i].onclick != "function") {
+			minusButton[i].addEventListener("click", minus);
 		}
+	}
+}
+
+function minus(e) {
+	var input = e.target.parentNode.parentNode.getElementsByTagName("input")[0];
+	input.value--;
+	if (input.value < 1) {
+		$("#deleteProduct").modal('show');
+		input.value = 1;
+	}
+	if (e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id !== "exportProductList") {
+		var unit = e.target.parentNode.parentNode.previousElementSibling;
+		var ammount = e.target.parentNode.parentNode.nextElementSibling;
+		if (e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id == "importProductList") {
+			ammount.innerHTML = input.value * parseInt(unit.getElementsByTagName("input")[0].value);
+		} else {
+			ammount.innerHTML = input.value * parseInt(unit.innerHTML);
+		}
+		setSumImport();
+		setSumOrder();
 	}
 }
 
 function setPlusValueFunction() {
 	var plusButton = document.getElementsByClassName("plus-btn");
 	for (var i = 0; i < plusButton.length; i++) {
-		if (typeof plusButton[i].onclick !== "function") {
-			plusButton[i].addEventListener("click", function (e) {
-				var input = e.target.parentNode.parentNode.getElementsByTagName("input")[0];
-				input.value++;
-				if (input.value > 999) {
-					input.value = 999;
-				}
-				if (e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id !== "exportProductList") {
-					var unit = e.target.parentNode.parentNode.previousElementSibling;
-					var ammount = e.target.parentNode.parentNode.nextElementSibling;
-					if (e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id == "importProductList") {
-						console.log(unit.getElementsByTagName("input")[0].value);
-						ammount.innerHTML = input.value * parseInt(unit.getElementsByTagName("input")[0].value);
-					} else {
-						ammount.innerHTML = input.value * parseInt(unit.innerHTML);
-					}
-					setSumImport();
-					setSumOrder();
-				}
-
-			});
+		if (typeof plusButton[i].onclick != "function") {
+			plusButton[i].addEventListener("click", plus);
 		}
 
 	}
+}
+
+function plus(e) {
+	var input = e.target.parentNode.parentNode.getElementsByTagName("input")[0];
+	input.value++;
+	if (input.value > 999) {
+		input.value = 999;
+	}
+	if (e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id !== "exportProductList") {
+		var unit = e.target.parentNode.parentNode.previousElementSibling;
+		var ammount = e.target.parentNode.parentNode.nextElementSibling;
+		if (e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id == "importProductList") {
+			console.log(unit.getElementsByTagName("input")[0].value);
+			ammount.innerHTML = input.value * parseInt(unit.getElementsByTagName("input")[0].value);
+		} else {
+			ammount.innerHTML = input.value * parseInt(unit.innerHTML);
+		}
+		setSumImport();
+		setSumOrder();
+	}
+
 }
 
 function setWholeValue() {
