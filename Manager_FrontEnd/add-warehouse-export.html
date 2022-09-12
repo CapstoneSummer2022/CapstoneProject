@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Thêm xuất kho | Quản trị</title>
+    <title>Tạo giao dịch xuất kho | Quản trị</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -98,38 +98,87 @@
                         <li class="breadcrumb-item"><a href="warehouse-export-management.html"><b>Quản lý xuất
                                     kho</b></a>
                         </li>
-                        <li class="breadcrumb-item active"><b>Thêm xuất kho</b></li>
+                        <li class="breadcrumb-item active"><b>Tạo giao dịch xuất kho</b></li>
                     </ul>
-                    <div id="clock"></div>
                 </div>
             </div>
         </div>
         <form>
             <div class="row">
+
                 <div class="col-md-8">
                     <div class="tile">
                         <h3 class="tile-title">Thông tin sản phẩm</h3>
                         <div class="row element-button">
                             <div class="col-sm-2">
                                 <button class="btn btn-add btn-sm" title="Thêm" type="button" data-toggle="modal"
-                                    data-target="#productList"><i class="fas fa-plus"></i>
-                                    Thêm đơn hàng</button>
+                                    data-target="#productList" onclick="onlyOneOrder(this)"><i class="fas fa-plus"></i>
+                                    Chọn đơn hàng</button>
                             </div>
                         </div>
                         <div class="du--lieu-san-pham">
                             <table id="exportProductList" class="table table-hover table-bordered form-product">
                                 <thead>
                                     <tr>
-                                        <th width="100">Mã đơn hàng</th>
-                                        <th>Khách hàng</th>
-                                        <th>Ngày đặt hàng</th>
-                                        <th>Tổng tiền</th>
+                                        <th class="order-item-number">Mã sản phẩm</th>
+                                        <th class="order-item-number">Mã SKUD</th>
+                                        <th class="order-item-number">Tên sản phẩm</th>
+                                        <th class="order-item-number">Hình ảnh</th>
+                                        <th class="order-item-number" width="10">Số lượng</th>
                                         <th width="100" class="order-item-number text-center"
-                                            style="text-align: center; vertical-align: middle;">Tuỳ chọn</th>
+                                            style="text-align: center; vertical-align: middle;">Tuỳ chọn
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-
+                                    <tr>
+                                        <td>1</td>
+                                        <td>
+                                            <select class="skud" required>
+                                                <option disabled hidden value=""> Mã SKUD</option>
+                                                <option selected value="1">1-A-B-4-5</option>
+                                                <option value="2">1-A-B-4-6</option>
+                                                <option value="3">1-A-B-4-7</option>
+                                                <option value="4">1-A-B-4-8</option>
+                                            </select>
+                                        </td>
+                                        <td>Diode Xung Đôi SBL3040 TO-247 600V 30A</td>
+                                        <td><img src="resources/images/diode.jpg" alt="" width="50px;"></td>
+                                        <td>
+                                            2
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
+                                                data-toggle="modal" data-target="#deleteProduct"><i
+                                                    class="fas fa-trash-alt"></i></button>
+                                            <button class="btn btn-add btn-sm" title="Thêm" type="button"
+                                                onclick="duplicateRow(this)"><i class="fas fa-plus"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>
+                                            <select class="skud" required>
+                                                <option disabled hidden value=""> Mã SKUD</option>
+                                                <option selected value="1">1-A-B-4-5</option>
+                                                <option value="2">1-A-B-4-5</option>
+                                                <option value="3">1-A-B-4-6</option>
+                                                <option value="4">1-A-B-4-7</option>
+                                            </select>
+                                        </td>
+                                        <td>Diode SS34 SMD</td>
+                                        <td><img src="resources/images/diode.jpg" alt="" width="50px;"></td>
+                                        <td>
+                                            3
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-primary btn-sm trash" type="button"
+                                                data-toggle="modal" data-target="#deleteProduct" title="Xóa"><i
+                                                    class="fas fa-trash-alt"></i></button>
+                                            <button class="btn btn-add btn-sm" title="Thêm" type="button"
+                                                onclick="duplicateRow(this)"><i class="fas fa-plus"></i></button>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -140,8 +189,22 @@
                         <h3 class="tile-title">Thông tin xuất hàng</h3>
                         <div class="tile-body">
                             <div class="form-group col-md-12">
-                                <label for="importDate" class="control-label required-field">Ngày nhập</label>
-                                <input class="form-control" type="date" name="birthmonth" id="importDate" required>
+                                <label for="importDate" class="control-label required-field">Ngày Xuất</label>
+                                <input class="form-control" type="date" name="ExportDate" id="ExportDate" required>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="importDate" class="control-label required-field">Họ và tên người xuất
+                                    kho</label>
+                                <input class="form-control" type="text" name="exportName" id="exportName" required>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="importDate" class="control-label required-field">Họ và tên người
+                                    nhận</label>
+                                <input class="form-control" type="text" name="receive" id="receive" required>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label class="control-label">Ghi chú</label>
+                                <textarea class="form-control" name="mota" id="mota"></textarea>
                             </div>
                             <div class="row">
                                 <div class="tile-footer col-md-12">
@@ -155,12 +218,12 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
+            </div>
         </form>
     </main>
     <!--
-  PRODUCT MODAL
+  ORDER LIST MODAL
 -->
     <div class="modal fade" id="productList" role="dialog" tabindex="-1" aria-labelledby="exampleModalCenterTitle"
         data-backdrop="static">
@@ -172,10 +235,7 @@
                             <div class="tile">
                                 <div class="tile-body">
                                     <form>
-                                        <div class="modal-search-row">
-                                            <button class="btn btn-save" type="button" data-dismiss="modal"
-                                                onclick="addToExportTable()"><i class='fas fa-plus'></i>
-                                                Thêm vào danh sách đơn hàng</button>
+                                        <div class="modal-search-row-export">
                                             <form action="">
                                                 <div class="search-container">
                                                     <input class="form-control" type="text" placeholder="Tìm kiếm"
@@ -184,27 +244,26 @@
                                                 </div>
                                             </form>
                                         </div>
-                                        <table id="products" class="table table-hover table-bordered">
+                                        <table id="orders" class="table table-hover table-bordered">
                                             <thead>
                                                 <tr>
                                                     <th width="100">Mã đơn hàng</th>
                                                     <th>Khách hàng</th>
                                                     <th>Ngày đặt hàng</th>
                                                     <th>Tổng tiền</th>
-                                                    <th>Tình trạng</th>
                                                     <th width="100">Chọn</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td>DH0837</td>
+                                                    <td>DH0754</td>
                                                     <td>Triệu Thanh Phú</td>
                                                     <td>21/7/2022</td>
                                                     <td>94.000 đ</td>
-                                                    <td><span class="badge bg-warning">Đang giao hàng</span></td>
-                                                    <td><input class="status-checkbox" type="checkbox"
-                                                            data-toggle="modal" data-target="#confirmStatus"
-                                                            name="check1" value="1">
+                                                    <td>
+                                                        <button class="btn btn-add btn-sm" title="Chọn" type="button"
+                                                            data-dismiss="modal">
+                                                            <i class="fas fa-plus"></i></button>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -212,10 +271,9 @@
                                                     <td>Triệu Thanh Phú</td>
                                                     <td>21/7/2022</td>
                                                     <td>94.000 đ</td>
-                                                    <td><span class="badge bg-warning">Đang giao hàng</span></td>
-                                                    <td><input class="status-checkbox" type="checkbox"
-                                                            data-toggle="modal" data-target="#confirmStatus"
-                                                            name="check1" value="1">
+                                                    <td>
+                                                        <button class="btn btn-add btn-sm" title="Chọn" type="button"
+                                                            data-dismiss="modal"><i class="fas fa-plus"></i></button>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -223,10 +281,8 @@
                                                     <td>Triệu Thanh Phú</td>
                                                     <td>21/7/2022</td>
                                                     <td>94.000 đ</td>
-                                                    <td><span class="badge bg-warning">Đang giao hàng</span></td>
-                                                    <td><input class="status-checkbox" type="checkbox"
-                                                            data-toggle="modal" data-target="#confirmStatus"
-                                                            name="check1" value="1">
+                                                    <td><button class="btn btn-add btn-sm" title="Chọn" type="button"
+                                                            data-dismiss="modal"><i class="fas fa-plus"></i></button>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -234,10 +290,8 @@
                                                     <td>Triệu Thanh Phú</td>
                                                     <td>21/7/2022</td>
                                                     <td>94.000 đ</td>
-                                                    <td><span class="badge bg-warning">Đang giao hàng</span></td>
-                                                    <td><input class="status-checkbox" type="checkbox"
-                                                            data-toggle="modal" data-target="#confirmStatus"
-                                                            name="check1" value="1">
+                                                    <td><button class="btn btn-add btn-sm" title="Chọn" type="button"
+                                                            data-dismiss="modal"><i class="fas fa-plus"></i></button>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -245,21 +299,17 @@
                                                     <td>Triệu Thanh Phú</td>
                                                     <td>21/7/2022</td>
                                                     <td>94.000 đ</td>
-                                                    <td><span class="badge bg-warning">Đang giao hàng</span></td>
-                                                    <td><input class="status-checkbox" type="checkbox"
-                                                            data-toggle="modal" data-target="#confirmStatus"
-                                                            name="check1" value="1">
+                                                    <td><button class="btn btn-add btn-sm" title="Chọn" type="button"
+                                                            data-dismiss="modal"><i class="fas fa-plus"></i></button>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>DH0847</td>
+                                                    <td>DH0837</td>
                                                     <td>Triệu Thanh Phú</td>
                                                     <td>21/7/2022</td>
                                                     <td>94.000 đ</td>
-                                                    <td><span class="badge bg-warning">Đang giao hàng</span></td>
-                                                    <td><input class="status-checkbox" type="checkbox"
-                                                            data-toggle="modal" data-target="#confirmStatus"
-                                                            name="check1" value="1">
+                                                    <td><button class="btn btn-add btn-sm" title="Chọn" type="button"
+                                                            data-dismiss="modal"><i class="fas fa-plus"></i></button>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -308,6 +358,7 @@
     <!--
 MODAL
 -->
+
     <!--
   MODAL DELETE PRODUCT
 -->
@@ -342,6 +393,38 @@ MODAL
 -->
 
     <!--
+  MODAL MORE THAN ONE ORDER
+-->
+    <div class="modal fade" id="moreThanOneOrder" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group  col-md-12">
+                            <span class="thong-tin-thanh-toan">
+                                <h5>Thông báo</h5>
+                            </span>
+                        </div>
+                        <div class="form-group col-md-12" style="text-align: center;">
+                            <p class="modal-notify-successful">Đơn hàng đã được chọn</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: center; padding: 10px;">
+                        <button style="margin: 5px;" class="btn btn-save" data-dismiss="modal">Quay lại</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--
+MODAL
+-->
+    -->
+
+    <!--
   MODAL SUCCESSFUL
 -->
     <div class="modal fade" id="successful" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
@@ -356,7 +439,7 @@ MODAL
                             </span>
                         </div>
                         <div class="form-group col-md-12" style="text-align: center;">
-                            <p class="modal-notify-successful">Tạo đơn hàng thành công</p>
+                            <p class="modal-notify-successful">Tạo giao dịch xuất thành công</p>
                         </div>
                     </div>
                     <div style="display: flex; justify-content: center; padding: 10px;">
@@ -372,7 +455,7 @@ MODAL
 MODAL
 -->
     <!--
-MODAL PRODUCT EMPTY 
+MODAL ORDER EMPTY 
 -->
     <div class="modal fade" id="productEmpty" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
         data-backdrop="static" data-keyboard="false">
@@ -386,7 +469,7 @@ MODAL PRODUCT EMPTY
                             </span>
                         </div>
                         <div class="form-group col-md-12" style="text-align: center;">
-                            <p class="modal-notify-unsuccessful">Chưa có đơn hàng trong danh sách</p>
+                            <p class="modal-notify-successful">Chưa có đơn hàng nào được chọn</p>
                         </div>
                     </div>
                     <div style="display: flex; justify-content: center; padding: 10px;">
@@ -410,7 +493,6 @@ MODAL
     <script src="js/plugins/pace.min.js"></script>
     <script src="js/api-province.js"></script>
     <script src="resources/data.json"></script>
-
 </body>
 
 </html>

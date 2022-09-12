@@ -23,9 +23,6 @@
 	//$("[data-toggle='tooltip']").tooltip();
 })();
 
-document.querySelector(".status-checkbox").addEventListener("click", function (event) {
-	return false
-}, false);
 
 function removeSelectedFile() {
 	document.getElementById("fileInput").value = null;
@@ -236,14 +233,15 @@ deleteIcon.classList.add("fas");
 deleteIcon.classList.add("fa-trash-alt");
 deleteButton.appendChild(deleteIcon);
 //Detail button  
-//<button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng"
-//onclick="location.href='order-detail.html'"><i class="fa fa-info"></i></button>
-const detailButton = document.createElement("a");
+
+
+const detailButton = document.createElement("button");
 detailButton.classList.add("btn");
 detailButton.classList.add("btn-primary");
 detailButton.title = "Chi tiết đơn hàng";
 detailButton.type = "button";
-detailButton.href = "order-detail.html";
+detailButton.setAttribute("data-toggle", "modal");
+detailButton.setAttribute("data-target", "#orderItemList");
 const detailIcon = document.createElement("i");
 detailIcon.classList.add("fa");
 detailIcon.classList.add("fa-info");
@@ -289,16 +287,38 @@ function addSkudCode() {
 	}
 }
 
+function duplicateRow(e) {
+	var currentIndex = e.parentNode.parentNode.rowIndex;
+
+	var orderProductTable = document.getElementById("exportProductList");
+	var currentRow = orderProductTable.rows[currentIndex];
+	/* Loop here */
+	var newRow = orderProductTable.insertRow(currentIndex + 1);
+	var cell0 = newRow.insertCell(0);
+	var cell1 = newRow.insertCell(1);
+	var cell2 = newRow.insertCell(2);
+	var cell3 = newRow.insertCell(3);
+	var cell4 = newRow.insertCell(4);
+	var cell5 = newRow.insertCell(5);
+
+	cell0.innerHTML = currentRow.cells[0].innerHTML;
+	cell1.innerHTML = currentRow.cells[1].innerHTML;
+	cell2.innerHTML = currentRow.cells[2].innerHTML;
+	cell3.innerHTML = currentRow.cells[3].innerHTML;
+	cell4.innerHTML = currentRow.cells[4].innerHTML;
+	cell5.innerHTML = currentRow.cells[5].innerHTML;
+}
+
 function importInfoSelect(e) {
 	var warehouse = document.getElementById("warehouse").value;
 	var row = document.getElementById("row").value;
 	var column = document.getElementById("column").value;
 	var shelf = document.getElementById("shelf").value;
 	var importDate = document.getElementById("importDate").value;
-	if(warehouse == "" || row == "" || column == "" || shelf == "" || importDate == "") {
+	if (warehouse == "" || row == "" || column == "" || shelf == "" || importDate == "") {
 		e.removeAttribute("data-toggle");
 		$("#selectImportInfo").modal('show');
-	}else {
+	} else {
 		e.setAttribute("data-toggle", "modal");
 	}
 }
@@ -340,30 +360,17 @@ function addToImportTable() {
 	addSkudCode();
 }
 
-function addToExportTable() {
+function onlyOneOrder(e) {
 	var orderProductTable = document.getElementById("exportProductList");
-	var productTable = document.getElementById("products");
-	for (var i = 1, row; row = productTable.rows[i]; i++) {
-		if (row.cells[5].getElementsByTagName('input')[0].checked && !duplicateExportProduct(row.cells[0].innerHTML)) {
-			var newRow = orderProductTable.insertRow(1);
-			var cell0 = newRow.insertCell(0);
-			var cell1 = newRow.insertCell(1);
-			var cell2 = newRow.insertCell(2);
-			var cell3 = newRow.insertCell(3);
-			var cell4 = newRow.insertCell(4);
-
-			cell0.innerHTML = row.cells[0].innerHTML;
-			cell1.innerHTML = row.cells[1].innerHTML;
-			cell2.innerHTML = row.cells[2].innerHTML;
-			cell3.innerHTML = row.cells[3].innerHTML;
-			cell4.appendChild(deleteButton.cloneNode(true));
-			cell4.appendChild(detailButton.cloneNode(true));
-		}
+	if (orderProductTable.rows.length > 1) {
+		e.removeAttribute("data-toggle");
+		$("#moreThanOneOrder").modal('show');
+	} else {
+		e.setAttribute("data-toggle", "modal");
 	}
-	setMinusValueFunction();
-	setPlusValueFunction();
-	setWholeValue();
 }
+
+
 
 function addToProductTable() {
 	var orderProductTable = document.getElementById("orderProductList");
@@ -688,15 +695,14 @@ setWholeValue();
 
 //Get the opener and Delete the product
 $(document).ready(function () {
+	
 	var opener;
-
 	$('.modal').on('show.bs.modal', function (e) {
 		opener = document.activeElement;
 	});
 
 	$('.modal .btn-confirm').click(function () {
 		if (document.getElementById("orderProductList") != null) {
-			console.log(opener.className);
 			var index;
 			if (opener.className == "minus-btn") {
 				index = opener.parentNode.parentNode.parentNode.rowIndex;
@@ -721,17 +727,13 @@ $(document).ready(function () {
 		}
 		if (document.getElementById("exportProductList") != null) {
 			var index;
-			if (opener.className == "minus-btn") {
-				index = opener.parentNode.parentNode.parentNode.rowIndex;
-			} else {
-				index = opener.parentNode.parentNode.rowIndex;
-			}
+			index = opener.parentNode.parentNode.rowIndex;
 			var tableExport = document.getElementById("exportProductList");
 			tableExport.deleteRow(index);
 		}
-
 	});
 
+	
 	$('.create-order-button').click(function () {
 		var formProduct = document.getElementsByClassName("form-product")[0];
 		if (formProduct.rows.length < 2) {
@@ -742,7 +744,4 @@ $(document).ready(function () {
 
 
 });
-
-
-
 
