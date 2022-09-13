@@ -360,16 +360,22 @@ function addToImportTable() {
 	addSkudCode();
 }
 
-function onlyOneOrder(e) {
-	var orderProductTable = document.getElementById("exportProductList");
-	if (orderProductTable.rows.length > 1) {
-		e.removeAttribute("data-toggle");
-		$("#moreThanOneOrder").modal('show');
-	} else {
-		e.setAttribute("data-toggle", "modal");
-	}
-}
+function addToExportProductTable(e) {
+	var exportProductTable = document.getElementById("exportProductList");
+	var orderList = document.getElementById("orders");
 
+	//OrderID
+	var orderId = orderList.rows[e.parentNode.parentNode.rowIndex].cells[0].innerHTML;
+
+	for (var i = 1, row; row = exportProductTable.rows[i]; i++) {
+		exportProductTable.deleteRow(i);
+		i = 0;
+	}
+
+	//Get items from new order
+
+
+}
 
 
 function addToProductTable() {
