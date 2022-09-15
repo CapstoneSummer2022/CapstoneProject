@@ -13,6 +13,6 @@ public class CartItemId implements Serializable {
 
     private int productId;
 
-    private int accountId;
+    private int cartId;
 
 }
