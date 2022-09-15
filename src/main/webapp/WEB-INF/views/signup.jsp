@@ -31,7 +31,7 @@
                 </div>
                 <hr style="color: grey;">
                 <div class="form-elements">
-                    Bạn có tài khoản rồi?<a href="/signin.html" id="signin">Đăng nhập</a>
+                    Bạn có tài khoản rồi?<a href="/signin" id="signin">Đăng nhập</a>
                 </div>
             </form>
         </div>

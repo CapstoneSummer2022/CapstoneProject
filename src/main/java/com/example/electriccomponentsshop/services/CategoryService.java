@@ -14,10 +14,11 @@ public interface CategoryService {
 
     List<CategoryDTO> findCategoriesByParentCategoryIdIsNull();
 
-
     List<CategoryDTO> findCategoriesByIdNotIn(List<CategoryDTO> cId);
 
     Category getById(String id);
+
+    List<Category> getAllSub (int id);
 
     <S extends Category> S save(S entity);
 

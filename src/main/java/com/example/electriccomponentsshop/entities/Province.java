@@ -30,4 +30,6 @@ public class Province {
     @OneToMany(mappedBy = "provinceWarehouse",fetch = FetchType.LAZY)
     List<Warehouse> warehouses =new ArrayList<>();
 
+    @OneToMany(mappedBy = "provinceStore",fetch = FetchType.LAZY)
+    List<StoreInformation> store =new ArrayList<>();
 }

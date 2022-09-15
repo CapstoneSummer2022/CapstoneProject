@@ -14,4 +14,5 @@ public class ElectricComponentsShopApplication implements WebMvcConfigurer {
     public static void main(String[] args) {
         SpringApplication.run(ElectricComponentsShopApplication.class, args);
     }
+
 }

@@ -15,7 +15,6 @@ import java.util.List;
 @Setter
 public class ProductDTO {
     private String id;
-    private String sku;
     private String name;
     private String image;
     private Integer available;

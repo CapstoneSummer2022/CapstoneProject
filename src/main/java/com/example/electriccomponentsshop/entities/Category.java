@@ -18,16 +18,24 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Integer id;
+
     @Column
     private String name;
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name="parent_category_id")
     private Category parentCategory;
+
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "parentCategory")
+    @JsonIgnore
     private Set<Category> childCategories;
+
+    @JsonIgnore
+    private String path;
+
     public Category(String name){
         this.name=name;
     }

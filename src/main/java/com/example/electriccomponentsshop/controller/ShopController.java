@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @CrossOrigin
 @Controller
-@RequestMapping("/home")
+//@RequestMapping("/home")
 public class ShopController {
     @GetMapping("")
     public String shopHome(Model model){

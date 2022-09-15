@@ -18,12 +18,15 @@ public class RefreshToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @OneToOne
     @MapsId
     @JoinColumn(name ="account_id")
     private Account account;
+
     @Column(unique = true)
     private String token;
+
     @Column(nullable = false)
     private Instant expiryDate;
 }

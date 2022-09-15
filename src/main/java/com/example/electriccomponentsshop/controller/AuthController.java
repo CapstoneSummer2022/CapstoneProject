@@ -99,7 +99,7 @@ public class AuthController {
             modelMap.addAttribute("wrongEmail","Không có tài khoản chứa email này");
 
             return "customer/html/signin";
-        }else if(!passwordEncoder.matches(password,accountOptional.get().getPassword())) {
+        } else if (!passwordEncoder.matches(password,accountOptional.get().getPassword())) {
             System.out.println("gcccc");
             modelMap.addAttribute("wrongPassword","Sai mật khẩu");
             return "customer/html/signin";
@@ -130,13 +130,15 @@ public class AuthController {
         if(roles.contains("ROLE_MANAGER")||roles.contains("ROLE_EMPLOYEE")){
             modelMap.addAttribute("roles", roles.get(0));
             return "redirect:/admin/home";
-
         }
+
         return "redirect:/home";
     }
 
     @PostMapping ("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signupRequest) {
+
+
 
         if (accountRepository.existsAccountByEmail(signupRequest.getEmail())) {
             return ResponseEntity.badRequest().body(new MessageResponse("This email is registered"));
@@ -169,6 +171,7 @@ public class AuthController {
                     }
                 });
             }
+
             account.setRoles(roles);
             accountRepository.save(account);
             return ResponseEntity.ok().body(new MessageResponse("Register successfully"));

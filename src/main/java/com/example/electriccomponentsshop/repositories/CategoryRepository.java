@@ -22,6 +22,9 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     @Query(value = "select * from category where category.id not in (1,2)", nativeQuery = true)
     List<Category> findEx();
 
+    @Query(value = "select * from category c where category.parent_id = :id", nativeQuery = true)
+    List<Category> findSubcategories(@Param("id") Integer id);
+
     @Override
     <S extends Category> S save(S entity);
 

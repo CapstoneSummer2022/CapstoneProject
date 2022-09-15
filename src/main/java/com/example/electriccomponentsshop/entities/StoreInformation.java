@@ -14,8 +14,19 @@ public class StoreInformation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column
-    private String address;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="pCode")
+    private Province provinceStore;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="dCode")
+    private District districtStore;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="wCode")
+    private Ward wardStore;
+
     @Column
     private String phone;
     @Column

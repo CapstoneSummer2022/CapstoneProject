@@ -79,31 +79,18 @@ import java.util.List;
     protected void configure(HttpSecurity http) throws  Exception {
 
             http.logout().invalidateHttpSession(true).addLogoutHandler(logoutHandler()).logoutUrl("/sign-out").permitAll();
-         //   http.formLogin().loginPage("/signin.jsp").loginProcessingUrl("/auth/signin");
             http.cors().and().csrf().disable()
-                    .authorizeRequests().antMatchers("/error23","/css/**","/js/**","/resources/**","/auth/signin","/auth/signup","/auth/sign-out","/home","/error-401","/address/**").permitAll()
+                    .authorizeRequests().antMatchers("/error23","/css/**","/js/**","/resources/**",
+                            "/auth/signin", "/auth/signup", "/auth/sign-out","/home","/error-401", "/product?**",
+                            "/signup", "/address/**", "/img/**", "/product/**", "/contact").permitAll()
                     .antMatchers("/admin/**","/admin-home").hasAnyAuthority("ROLE_EMPLOYEE", "ROLE_MANAGER")
+                    .antMatchers("/addToCart/**", "/profile/**", "/createOrder",
+                            "/order/**", "/change-password", "/cart/**").hasAnyAuthority(("ROLE_CUSTOMER"))
                     .anyRequest().authenticated()
                     .and().exceptionHandling().accessDeniedHandler(accessDeniedHandler()).and().exceptionHandling().authenticationEntryPoint(unauthorizedHandler);
             http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
 
-//        http.logout()
-//                .logoutSuccessUrl("/signin")
-//                .logoutUrl("/logout")
-//                .invalidateHttpSession(true)
-//                .permitAll();
-//        http.cors().and().csrf().disable()
-//                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-//                .authorizeRequests().antMatchers("/list", "/test", "/signup", "/order", "cart", "/signin").permitAll().and()
-//                .authorizeRequests().antMatchers("/administrator/**").hasAnyAuthority("ROLE_EMPLOYEE", "ROLE_MANAGER")
-//                .antMatchers("/customer/change-password/**").hasAuthority("ROLE_CUSTOMER")
-//                .antMatchers("/customer/information/**").hasAnyAuthority("ROLE_CUSTOMER")
-//                .antMatchers("/logout").hasAnyAuthority("ROLE_CUSTOMER", "ROLE_EMPLOYEE", "ROLE_MANAGER")
-//                .anyRequest().authenticated();
-//
-//        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }
 

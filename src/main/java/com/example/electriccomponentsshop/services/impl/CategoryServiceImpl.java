@@ -47,6 +47,7 @@ public class CategoryServiceImpl implements CategoryService {
     public Category getById(String id){
         try{
             Integer cId = Integer.parseInt(id);
+
             Optional<Category> category = categoryRepository.findById(cId);
             if(category.isEmpty()){
                 throw new NoSuchElementException("Không tìm thấy danh mục này");
@@ -54,9 +55,13 @@ public class CategoryServiceImpl implements CategoryService {
         }catch (NumberFormatException e){
             throw  new NoSuchElementException("Không có danh mục này");
         }
-
-
     }
+
+    @Override
+    public List<Category> getAllSub(int id) {
+        return categoryRepository.findSubcategories(id);
+    }
+
     CategoryDTO convertToDto(Category category){
         return modelMap.modelMapper().map(category,CategoryDTO.class);
     }

@@ -11,7 +11,6 @@ import java.sql.Date;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="ExportPrice")
 public class ExportPrice {
     @Id
     @Column(name = "product_id")

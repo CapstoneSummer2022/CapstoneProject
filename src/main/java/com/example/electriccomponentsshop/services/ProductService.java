@@ -13,6 +13,11 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public interface ProductService {
+
+    int countByCate(String cate);
+
+    List<ProductDTO> getProductByCate(String cate, int pageNo, int pageSize);
+
     ProductDTO convertToDto(Product product);
 
     ProductDTO getProductDtoById(String id);

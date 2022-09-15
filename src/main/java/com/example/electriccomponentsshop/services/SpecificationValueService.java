@@ -5,4 +5,5 @@ import com.example.electriccomponentsshop.entities.SpecificationValue;
 
 public interface SpecificationValueService {
     SpecificationValueDto convertToDto(SpecificationValue specificationValue);
+
 }

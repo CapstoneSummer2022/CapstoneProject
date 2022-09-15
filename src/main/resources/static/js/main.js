@@ -403,8 +403,8 @@ function duplicateOrderProduct(id) {
 			isDuplicate = true;
 			return isDuplicate;
 		}
-
 	}
+
 	return isDuplicate;
 }
 
@@ -434,8 +434,6 @@ function duplicateExportProduct(id) {
 	return isDuplicate;
 }
 
-
-
 function setSumOrder() {
 	if (document.getElementById("orderProductList") != null) {
 		var table = document.getElementById("orderProductList");
@@ -461,8 +459,6 @@ function setSumImport() {
 		sum.innerHTML = convertMoney(sumNumber);
 	}
 }
-
-
 
 function greaterThanZero() {
 	var inputs = document.getElementsByTagName("input");

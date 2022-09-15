@@ -2,14 +2,11 @@ package com.example.electriccomponentsshop.entities;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -22,8 +19,6 @@ public class Product {
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     @Column
     private Integer id;
-    @Column
-    private String sku;
     @Column
     private String name;
     @Column
@@ -41,9 +36,8 @@ public class Product {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name="Product_Category", joinColumns =@JoinColumn(name= "product_id"),inverseJoinColumns =@JoinColumn( name="category_id") )
     private List<Category> categories = new ArrayList<>();
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="cart_id")
-    private Cart cart;
+    @OneToMany(mappedBy = "product")
+    private List<CartItem> cartItem;
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private ExportPrice exportPrice;
@@ -56,4 +50,6 @@ public class Product {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "supplier_id")
     private Supplier productSupplier;
+
+
 }

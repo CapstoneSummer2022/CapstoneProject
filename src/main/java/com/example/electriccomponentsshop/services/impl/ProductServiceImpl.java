@@ -7,7 +7,6 @@ import com.example.electriccomponentsshop.dto.SpecificationValueDto;
 import com.example.electriccomponentsshop.entities.Category;
 import com.example.electriccomponentsshop.entities.ExportPrice;
 import com.example.electriccomponentsshop.entities.Product;
-import com.example.electriccomponentsshop.repositories.CategoryRepository;
 import com.example.electriccomponentsshop.repositories.ExportPriceRepository;
 import com.example.electriccomponentsshop.repositories.ProductRepository;
 import com.example.electriccomponentsshop.services.CategoryService;
@@ -21,6 +20,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -30,6 +31,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+    @Autowired
+    EntityManager em;
+    
     @Autowired
     ProductRepository productRepository;
     @Autowired
@@ -44,10 +48,42 @@ public class ProductServiceImpl implements ProductService {
     public ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
-   @Override
-   public  ProductDTO convertToDto(Product product){
+
+    private String sql = "select p.* from product p join product_category pc on pc.product_id = p.id "
+            + " join category c on c.id = pc.category_id where status = 1 and path like :path " +
+            " order by p.added_date desc, p.id desc";
+
+    @Override
+    public int countByCate(String cate) {
+        Category category = categoryService.getById(cate);
+
+        Query query = em.createNativeQuery(sql, Product.class);
+        query.setParameter("path", category.getPath() + "%");
+
+        List<Product> products = query.getResultList();
+
+        return products.size();
+    }
+
+    @Override
+    public List<ProductDTO> getProductByCate(String cate, int pageNo, int pageSize) {
+        Category category = categoryService.getById(cate);
+
+        Query query = em.createNativeQuery(sql, Product.class);
+        query.setParameter("path", category.getPath() + "%");
+        query.setFirstResult((pageNo-1)*pageSize);
+        query.setMaxResults(pageSize);
+        
+        List<Product> products = query.getResultList();
+        
+        return products.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public  ProductDTO convertToDto(Product product){
         return modelMap.modelMapper().map(product,ProductDTO.class);
     }
+
     @Override
     public ProductDTO getProductDtoById(String id){
         return convertToDto(getById(id));
