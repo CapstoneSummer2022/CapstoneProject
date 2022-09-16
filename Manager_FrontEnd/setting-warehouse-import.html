@@ -141,12 +141,8 @@
                                             <td><img src="resources/images/diode.jpg" alt="" width="50px;"></td>
                                             <td><input class="import-price" type="number" value=5600></td>
                                             <td>
-                                                <div class="quantity">
-                                                    <button class="minus-btn" type="button" name="button">-
-                                                    </button>
+                                                <div>
                                                     <input class="input-number" type="number" name="name" value="1">
-                                                    <button class="plus-btn" type="button" name="button">+
-                                                    </button>
                                                 </div>
                                             </td>
                                             <td>5600</td>
@@ -163,12 +159,8 @@
                                             <td><img src="resources/images/diode.jpg" alt="" width="50px;"></td>
                                             <td><input class="import-price" type="number" value=33235></td>
                                             <td>
-                                                <div class="quantity">
-                                                    <button class="minus-btn" type="button" name="button">-
-                                                    </button>
+                                                <div>
                                                     <input class="input-number" type="number" name="name" value="1">
-                                                    <button class="plus-btn" type="button" name="button">+
-                                                    </button>
                                                 </div>
                                             </td>
                                             <td>33235</td>
@@ -185,12 +177,8 @@
                                             <td><img src="resources/images/diode.jpg" alt="" width="50px;"></td>
                                             <td><input class="import-price" type="number" value=16770></td>
                                             <td>
-                                                <div class="quantity">
-                                                    <button class="minus-btn" type="button" name="button">-
-                                                    </button>
+                                                <div>
                                                     <input class="input-number" type="number" name="name" value="1">
-                                                    <button class="plus-btn" type="button" name="button">+
-                                                    </button>
                                                 </div>
                                             </td>
                                             <td>16770</td>
@@ -211,7 +199,7 @@
                             <div class="tile-body">
                                 <div class="form-group col-md-12">
                                     <label for="importDate" class="control-label required-field">Ngày nhập</label>
-                                    <input class="form-control" type="date" name="birthmonth" id="importDate" required
+                                    <input class="form-control" type="date" name="importDate" id="importDate" required
                                         onchange="addSkudCode()">
                                 </div>
                                 <div class="form-group col-md-12">
@@ -275,7 +263,7 @@
                                 <div class="row">
                                     <div class="tile-footer col-md-12">
                                         <button type="submit" class="btn btn-primary create-order-button"
-                                            type="button">Lưu giao
+                                            type="button" onclick="checkDate()">Lưu giao
                                             dịch</button>
                                         <a class="btn btn-primary cancel-order-button" href="order-management.html"
                                             type="button">Huỷ và quay về</a>

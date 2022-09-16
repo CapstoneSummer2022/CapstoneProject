@@ -190,7 +190,6 @@ function showBigCategoryInput() {
 
 //Quantity
 const quantity = document.createElement("div");
-quantity.className = "quantity";
 
 const minusButton = document.createElement("button");
 minusButton.className = "minus-btn";
@@ -289,25 +288,73 @@ function addSkudCode() {
 
 function duplicateRow(e) {
 	var currentIndex = e.parentNode.parentNode.rowIndex;
-
+	var exportTable = document.getElementById("exportProductList");
+	var productID = parseInt(exportTable.rows[currentIndex].cells[0].innerHTML);
 	var orderProductTable = document.getElementById("exportProductList");
 	var currentRow = orderProductTable.rows[currentIndex];
-	/* Loop here */
-	var newRow = orderProductTable.insertRow(currentIndex + 1);
-	var cell0 = newRow.insertCell(0);
-	var cell1 = newRow.insertCell(1);
-	var cell2 = newRow.insertCell(2);
-	var cell3 = newRow.insertCell(3);
-	var cell4 = newRow.insertCell(4);
-	var cell5 = newRow.insertCell(5);
 
-	cell0.innerHTML = currentRow.cells[0].innerHTML;
-	cell1.innerHTML = currentRow.cells[1].innerHTML;
-	cell2.innerHTML = currentRow.cells[2].innerHTML;
-	cell3.innerHTML = currentRow.cells[3].innerHTML;
-	cell4.innerHTML = currentRow.cells[4].innerHTML;
-	cell5.innerHTML = currentRow.cells[5].innerHTML;
+	/* Loop here */
+	if (validateNumberSKUByButton(currentIndex)) {
+		console.log(validateNumberSKUByButton(currentIndex));
+		var newRow = orderProductTable.insertRow(currentIndex + 1);
+		var cell0 = newRow.insertCell(0);
+		var cell1 = newRow.insertCell(1);
+		var cell2 = newRow.insertCell(2);
+		var cell3 = newRow.insertCell(3);
+		var cell4 = newRow.insertCell(4);
+		var cell5 = newRow.insertCell(5);
+		var cell6 = newRow.insertCell(6);
+
+		cell0.innerHTML = currentRow.cells[0].innerHTML;
+		cell1.innerHTML = currentRow.cells[1].innerHTML;
+		cell2.innerHTML = currentRow.cells[2].innerHTML;
+		cell3.innerHTML = currentRow.cells[3].innerHTML;
+		cell4.innerHTML = currentRow.cells[4].innerHTML;
+		cell5.innerHTML = currentRow.cells[5].innerHTML;
+		cell6.innerHTML = currentRow.cells[6].innerHTML;// added here
+	} else {
+		alert("Tổng Số lượng theo từng SKU vượt quá số lượng sản phẩm\nMã sản phẩm: " + productID);
+	}
+
+
+
+
 }
+function validateNumberSKUByField(e) {
+	var exportTable = document.getElementById("exportProductList");
+	var clickedIndex = e.parentNode.parentNode.rowIndex;
+	var productTotal = parseInt(exportTable.rows[clickedIndex].cells[3].innerHTML);
+	var productID = parseInt(exportTable.rows[clickedIndex].cells[0].innerHTML);
+	var skuTotal = 0;
+	for (var i = 1, row; row = exportTable.rows[i]; i++) {
+		if (parseInt(row.cells[0].innerHTML) == productID) {
+			var skuNumber = parseInt(row.cells[5].getElementsByTagName("input")[0].value) || 0;
+			skuTotal = skuTotal + skuNumber;
+		}
+	}
+
+	if (skuTotal > productTotal) {
+		e.setCustomValidity("Tổng Số lượng theo từng SKU vượt quá số lượng sản phẩm");
+	} else {
+		e.setCustomValidity("");
+		console.log(skuTotal, productTotal);
+	}
+}
+
+function validateNumberSKUByButton(clickedIndex) {
+	var exportTable = document.getElementById("exportProductList");
+	var productTotal = parseInt(exportTable.rows[clickedIndex].cells[3].innerHTML)
+	var productID = parseInt(exportTable.rows[clickedIndex].cells[0].innerHTML);
+	var skuTotal = 0;
+	for (var i = 1, row; row = exportTable.rows[i]; i++) {
+		if (parseInt(row.cells[0].innerHTML) == productID) {
+			var skuNumber = parseInt(row.cells[5].getElementsByTagName("input")[0].value) || 0;
+			skuTotal = skuTotal + skuNumber;
+		}
+	}
+	return skuTotal < productTotal;
+}
+
 
 function importInfoSelect(e) {
 	var warehouse = document.getElementById("warehouse").value;
@@ -347,8 +394,6 @@ function addToImportTable() {
 			cell3.innerHTML = row.cells[2].innerHTML;
 			cell4.appendChild(price.cloneNode(true));
 			cell5.appendChild(quantity.cloneNode(true));
-			cell5.getElementsByClassName("minus-btn")[0].addEventListener("click", minus);
-			cell5.getElementsByClassName("plus-btn")[0].addEventListener("click", plus);
 			cell6.innerHTML = 0;
 			cell7.appendChild(deleteButton.cloneNode(true));
 
@@ -565,9 +610,6 @@ function setWholeValue() {
 					if (e.target.value == "" || e.target.value < 1) {
 						e.target.value = 1;
 					}
-					if (e.target.value > 999) {
-						e.target.value = 999;
-					}
 					e.target.value = parseInt(e.target.value);
 					if (e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id !== "exportProductList") {
 						var unit = e.target.parentNode.parentNode.previousElementSibling;
@@ -576,6 +618,9 @@ function setWholeValue() {
 							ammount.innerHTML = parseInt(unit.getElementsByTagName("input")[0].value) * parseInt(e.target.value);
 							setSumImport();
 						} else {
+							if (e.target.value > 999) {
+								e.target.value = 999;
+							}
 							ammount.innerHTML = parseInt(unit.innerHTML) * parseInt(e.target.value);
 							setSumOrder();
 						}
@@ -625,35 +670,42 @@ function showPassword(checkbox) {
 	}
 }
 
-
+//fixed
 function checkPassword() {
 	// /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+	var valid = true;
 	var passwordRegex = /^(?=.{8,}$)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?\W).*$/;
 	var password = document.getElementById("pw");
 	var rePassword = document.getElementById("rePw");
 	if (!password.value.match(passwordRegex)) {
 		password.setCustomValidity("Mật khẩu phải có ít nhất 8 ký tự, chữ in hoa, in thường, chữ số và ký tự đặc biệt");
-		return false;
+		valid = false;
 	} else {
 		password.setCustomValidity("");
 	}
 	if (password.value != rePassword.value) {
 		rePassword.setCustomValidity("Xác nhận lại mật khẩu không chính xác");
-		return false;
+		valid = false;
 	} else {
-		password.setCustomValidity("");
+		rePassword.setCustomValidity("");
 	}
-	return true;
+	valid = true;
 }
 
-function checkDateOfBirth() {
-	var date = document.getElementById("inputDate");
-	console.log(date.value);
+//fixed
+function checkDate() {
+	var date;
+	if (document.getElementById("inputDate") != null) {
+		date = document.getElementById("inputDate");
+	} else if (document.getElementById("importDate") != null) {
+		date = document.getElementById("importDate");
+	} else {
+		date = document.getElementById("exportDate");
+	}
 	var varDate = new Date(date.value); //dd-mm-YYYY
 	var today = new Date();
-	today.setHours(0, 0, 0, 0);
-	console.log(today);
-	if (varDate >= today) {
+	//today.setHours(0, 0, 0, 0);
+	if (varDate > today) {
 		date.setCustomValidity("Giá trị ngày nhập vượt quá thời điểm hiện tại");
 		return false;
 	} else {
@@ -664,7 +716,7 @@ function checkDateOfBirth() {
 
 function checkValidField() {
 	var validPassword = checkPassword();
-	var validDateOfBirth = checkDateOfBirth();
+	var validDateOfBirth = checkDate();
 	return validPassword && validDateOfBirth;
 }
 
@@ -705,7 +757,7 @@ setWholeValue();
 
 //Get the opener and Delete the product
 $(document).ready(function () {
-	
+
 	var opener;
 	$('.modal').on('show.bs.modal', function (e) {
 		opener = document.activeElement;
@@ -743,7 +795,7 @@ $(document).ready(function () {
 		}
 	});
 
-	
+
 	$('.create-order-button').click(function () {
 		var formProduct = document.getElementsByClassName("form-product")[0];
 		if (formProduct.rows.length < 2) {

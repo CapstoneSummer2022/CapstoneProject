@@ -112,7 +112,7 @@
                         <div class="row element-button">
                             <div class="col-sm-2">
                                 <button class="btn btn-add btn-sm" title="Thêm" type="button" data-toggle="modal"
-                                    data-target="#productList" ><i class="fas fa-plus"></i>
+                                    data-target="#productList"><i class="fas fa-plus"></i>
                                     Chọn đơn hàng</button>
                             </div>
                         </div>
@@ -121,10 +121,11 @@
                                 <thead>
                                     <tr>
                                         <th class="order-item-number">Mã sản phẩm</th>
-                                        <th class="order-item-number">Mã SKUD</th>
                                         <th class="order-item-number">Tên sản phẩm</th>
                                         <th class="order-item-number">Hình ảnh</th>
-                                        <th class="order-item-number" width="10">Số lượng</th>
+                                        <th class="order-item-number" width="10">Tổng Số lượng</th>
+                                        <th class="order-item-number">Mã SKUD</th>
+                                        <th class="order-item-number">Số lượng theo từng SKU</th>
                                         <th width="100" class="order-item-number text-center"
                                             style="text-align: center; vertical-align: middle;">Tuỳ chọn
                                         </th>
@@ -133,6 +134,11 @@
                                 <tbody>
                                     <tr>
                                         <td>1</td>
+                                        <td>Diode Xung Đôi SBL3040 TO-247 600V 30A</td>
+                                        <td><img src="resources/images/diode.jpg" alt="" width="50px;"></td>
+                                        <td>
+                                            2
+                                        </td>
                                         <td>
                                             <select class="skud" required>
                                                 <option disabled hidden value=""> Mã SKUD</option>
@@ -142,10 +148,9 @@
                                                 <option value="4">1-A-B-4-8</option>
                                             </select>
                                         </td>
-                                        <td>Diode Xung Đôi SBL3040 TO-247 600V 30A</td>
-                                        <td><img src="resources/images/diode.jpg" alt="" width="50px;"></td>
                                         <td>
-                                            2
+                                            <input class="numberForSKU input-number" type="number" value="1"
+                                                onchange="validateNumberSKUByField(this)" />
                                         </td>
                                         <td>
                                             <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
@@ -157,6 +162,11 @@
                                     </tr>
                                     <tr>
                                         <td>2</td>
+                                        <td>Diode SS34 SMD</td>
+                                        <td><img src="resources/images/diode.jpg" alt="" width="50px;"></td>
+                                        <td>
+                                            3
+                                        </td>
                                         <td>
                                             <select class="skud" required>
                                                 <option disabled hidden value=""> Mã SKUD</option>
@@ -166,10 +176,9 @@
                                                 <option value="4">1-A-B-4-7</option>
                                             </select>
                                         </td>
-                                        <td>Diode SS34 SMD</td>
-                                        <td><img src="resources/images/diode.jpg" alt="" width="50px;"></td>
                                         <td>
-                                            3
+                                            <input class="numberForSKU input-number" type="number" value="1"
+                                                onchange="validateNumberSKUByField(this)" />
                                         </td>
                                         <td>
                                             <button class="btn btn-primary btn-sm trash" type="button"
@@ -190,7 +199,7 @@
                         <div class="tile-body">
                             <div class="form-group col-md-12">
                                 <label for="importDate" class="control-label required-field">Ngày Xuất</label>
-                                <input class="form-control" type="date" name="ExportDate" id="ExportDate"
+                                <input class="form-control" type="date" name="ExportDate" id="exportDate"
                                     value="2013-01-08" required>
                             </div>
                             <div class="form-group col-md-12">
@@ -211,7 +220,8 @@
                             </div>
                             <div class="row">
                                 <div class="tile-footer col-md-12">
-                                    <button type="submit" class="btn btn-primary create-order-button" type="button">Lưu
+                                    <button type="submit" class="btn btn-primary create-order-button" type="button"
+                                        onclick="checkDate()">Lưu
                                         giao
                                         dịch</button>
                                     <a class="btn btn-primary cancel-order-button"
@@ -265,7 +275,8 @@
                                                     <td>94.000 đ</td>
                                                     <td>
                                                         <button class="btn btn-add btn-sm" title="Chọn" type="button"
-                                                            data-dismiss="modal" onclick="addToExportProductTable(this)">
+                                                            data-dismiss="modal"
+                                                            onclick="addToExportProductTable(this)">
                                                             <i class="fas fa-plus"></i></button>
                                                     </td>
                                                 </tr>
@@ -276,7 +287,9 @@
                                                     <td>94.000 đ</td>
                                                     <td>
                                                         <button class="btn btn-add btn-sm" title="Chọn" type="button"
-                                                            data-dismiss="modal" onclick="addToExportProductTable(this)"><i class="fas fa-plus"></i></button>
+                                                            data-dismiss="modal"
+                                                            onclick="addToExportProductTable(this)"><i
+                                                                class="fas fa-plus"></i></button>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -285,7 +298,9 @@
                                                     <td>21/7/2022</td>
                                                     <td>94.000 đ</td>
                                                     <td><button class="btn btn-add btn-sm" title="Chọn" type="button"
-                                                            data-dismiss="modal" onclick="addToExportProductTable(this)"><i class="fas fa-plus"></i></button>
+                                                            data-dismiss="modal"
+                                                            onclick="addToExportProductTable(this)"><i
+                                                                class="fas fa-plus"></i></button>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -294,7 +309,9 @@
                                                     <td>21/7/2022</td>
                                                     <td>94.000 đ</td>
                                                     <td><button class="btn btn-add btn-sm" title="Chọn" type="button"
-                                                            data-dismiss="modal" onclick="addToExportProductTable(this)"><i class="fas fa-plus"></i></button>
+                                                            data-dismiss="modal"
+                                                            onclick="addToExportProductTable(this)"><i
+                                                                class="fas fa-plus"></i></button>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -303,7 +320,9 @@
                                                     <td>21/7/2022</td>
                                                     <td>94.000 đ</td>
                                                     <td><button class="btn btn-add btn-sm" title="Chọn" type="button"
-                                                            data-dismiss="modal" onclick="addToExportProductTable(this)"><i class="fas fa-plus"></i></button>
+                                                            data-dismiss="modal"
+                                                            onclick="addToExportProductTable(this)"><i
+                                                                class="fas fa-plus"></i></button>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -312,7 +331,9 @@
                                                     <td>21/7/2022</td>
                                                     <td>94.000 đ</td>
                                                     <td><button class="btn btn-add btn-sm" title="Chọn" type="button"
-                                                            data-dismiss="modal" onclick="addToExportProductTable(this)"><i class="fas fa-plus"></i></button>
+                                                            data-dismiss="modal"
+                                                            onclick="addToExportProductTable(this)"><i
+                                                                class="fas fa-plus"></i></button>
                                                     </td>
                                                 </tr>
                                             </tbody>
