@@ -51,7 +51,7 @@ public class SignupShopController {
             Account account = new Account(custom.get("email"), passwordEncoder.encode(custom.get("pwd")));
 
             List<Role> roles = new ArrayList<>();
-            Role roleCustomer = roleRepository.findByRoleName(ERole.Customer).orElseThrow(() -> new RuntimeException("Role not found"));
+            Role roleCustomer = roleRepository.findByRoleName(ERole.ROLE_CUSTOMER).orElseThrow(() -> new RuntimeException("Role not found"));
             roles.add(roleCustomer);
 
             account.setRoles(roles);

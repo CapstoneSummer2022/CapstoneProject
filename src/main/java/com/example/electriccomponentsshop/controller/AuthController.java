@@ -130,9 +130,11 @@ public class AuthController {
         if(roles.contains("ROLE_MANAGER")||roles.contains("ROLE_EMPLOYEE")){
             modelMap.addAttribute("roles", roles.get(0));
             return "redirect:/admin/home";
+        } else if (roles.contains("ROLE_MANAGER")) {
+            return "redirect:/home";
         }
 
-        return "redirect:/home";
+        return null;
     }
 
     @PostMapping ("/signup")

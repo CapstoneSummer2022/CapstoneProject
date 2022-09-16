@@ -17,4 +17,8 @@ public class Cart {
     @OneToMany( mappedBy = "cart")
     private List<CartItem> cartItem;
 
+    private Integer totalProduct;
+
+    private Double totalPayment;
+
 }
