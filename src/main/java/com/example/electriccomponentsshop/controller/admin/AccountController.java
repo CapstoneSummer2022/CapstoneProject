@@ -1,11 +1,9 @@
 package com.example.electriccomponentsshop.controller.admin;
 
 import com.example.electriccomponentsshop.dto.*;
-import com.example.electriccomponentsshop.entities.Account;
-import com.example.electriccomponentsshop.entities.Role;
 import com.example.electriccomponentsshop.services.*;
+
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.math.BigInteger;
 import java.util.*;
 
 @CrossOrigin
@@ -51,8 +48,16 @@ public class AccountController {
     public String addAccount(ModelMap model, @Valid @ModelAttribute("accountDto") AccountDTO accountDTO, BindingResult bindingResult){
         System.out.println("gg48");
        // Set<String> strRoles = accountDTO.getRoles();
-        if(bindingResult.hasErrors()){
-            bindingResult.getFieldErrors().forEach(fieldError -> model.addAttribute(fieldError.getField(),fieldError.getDefaultMessage()));
+        boolean isExist = accountService.existsAccountByEmail(accountDTO.getEmail());
+        if(bindingResult.hasErrors()|| isExist){
+            if(isExist){
+                model.addAttribute("duplicate","Email đã tồn tại");
+            }
+            System.out.println("đây f");
+            bindingResult.getFieldErrors().forEach(fieldError -> {
+                System.out.println(fieldError.getDefaultMessage()+"lol"+ fieldError.getField());
+                        model.addAttribute(fieldError.getField(),fieldError.getDefaultMessage());});
+
             model.addAttribute("accountDto",accountDTO);
             List<ProvinceDTO> provinceDTOS = provinceService.findAll();
             model.addAttribute("listProvince", provinceDTOS);
@@ -62,9 +67,9 @@ public class AccountController {
             model.addAttribute("listWard", wardDTOS);
             return "administrator/add-employee";
         }
-
-       accountService.addAccount(accountDTO);
-        return "administrator/add-employee";
+        System.out.println("ggg");
+        accountService.addAccount(accountDTO);
+        return "redirect:/admin/accounts/system-account";
     }
     @GetMapping("/system-account")
     public String viewAllSystemAccount(Model model,@ModelAttribute("error") String mess){

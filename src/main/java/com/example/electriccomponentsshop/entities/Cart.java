@@ -15,7 +15,13 @@ import java.util.List;
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    @OneToMany(mappedBy = "cart",fetch =FetchType.LAZY)
-    private List<Product> products= new ArrayList<>();
+    private int id;
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "account_id")
+    private Account account;
+
+    @OneToMany( mappedBy = "cart")
+    private List<CartItem> cartItem;
 }

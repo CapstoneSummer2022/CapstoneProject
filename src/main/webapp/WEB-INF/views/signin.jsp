@@ -107,7 +107,7 @@
             <h2 style="margin: 0; padding: 0;">ECOM</h2>
         </div>
 
-        <%--@elvariable id="signinRequest" type="com.example.electriccomponentsshop.dto.SigninRequest"--%>
+        <%--@elvariable id="signinRequest" type="shop.db.dto.SigninRequest"--%>
         <form:form action="/auth/signin" method="POST" modelAttribute="signinRequest" style="width: 100%;">
             <div class="form-elements">
                 <form:input type="email" id="email" name ="email" placeholder="Email" path="email"/>

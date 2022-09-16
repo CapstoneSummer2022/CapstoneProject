@@ -114,7 +114,7 @@
           <div class="sign_form">
             <div id="signin_content"> 
               <h3>Đăng nhập</h3>
-              <%--@elvariable id="signinRequest" type="com.example.electriccomponentsshop.dto.SigninRequest"--%>
+                <%--@elvariable id="signinRequest" type="shop.db.dto.SigninRequest"--%>
               <form:form name="loginForm" action="${pageContext.request.contextPath}/auth/signin" method="POST" modelAttribute="signinRequest" style="width: 100%;"  >
                   <label for="email">Email</label>
                   <form:input type="email" id="email" name="email" path="email" />

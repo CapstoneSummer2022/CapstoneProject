@@ -1,12 +1,12 @@
 package com.example.electriccomponentsshop.dto;
 
-import com.example.electriccomponentsshop.entities.SpecificationValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
+
+
 import java.util.List;
 
 @NoArgsConstructor
@@ -15,7 +15,6 @@ import java.util.List;
 @Setter
 public class ProductDTO {
     private String id;
-    private String sku;
     private String name;
     private String image;
     private Integer available;
@@ -24,5 +23,6 @@ public class ProductDTO {
     private List<SpecificationValueDto> specificationValues;
     private int status ;
     private String description;
+    private String supplierId;
 
 }

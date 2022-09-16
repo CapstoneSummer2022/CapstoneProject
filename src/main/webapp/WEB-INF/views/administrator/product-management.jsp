@@ -42,7 +42,7 @@
           <div class="tile-body">
             <div class="row element-button">
               <div class="col-sm-2">
-                <a class="btn btn-add btn-sm" href="add-product.html" title="Thêm"><i class="fas fa-plus"></i>
+                <a class="btn btn-add btn-sm" href="${pageContext.request.contextPath}/admin/products/add" title="Thêm"><i class="fas fa-plus"></i>
                   Thêm sản phẩm</a>
               </div>
               <div class="col-sm-2">
@@ -63,7 +63,6 @@
               <thead>
                 <tr>
                   <th>Mã sản phẩm</th>
-                  <th>Mã SKU</th>
                   <th>Tên sản phẩm</th>
                   <th>Ảnh sản phẩm</th>
                   <th>Số lượng tồn kho</th>
@@ -77,7 +76,6 @@
               <c:forEach var="productDto" items="${productDtos}">
                 <tr>
                   <td>${productDto.id}</td>
-                  <td>${productDto.sku}</td>
                   <td>${productDto.name}</td>
                   <td><img src="${pageContext.request.contextPath}/resources/images/${productDto.image}" alt="" width="100px;"></td>
                   <td>${productDto.available}</td>

@@ -6,9 +6,8 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 @Getter
 @Setter
 @Entity
@@ -73,6 +72,9 @@ public class Account {
         }
 
     }
+    @OneToOne(mappedBy = "account")
+    @PrimaryKeyJoinColumn
+    private Cart cart;
     public String getRole(){
         return roles.stream().findFirst().get().getRoleName().name();
     }

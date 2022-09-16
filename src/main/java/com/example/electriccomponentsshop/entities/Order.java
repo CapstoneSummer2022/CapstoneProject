@@ -6,9 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -50,7 +48,9 @@ public class Order {
     @OneToMany(mappedBy = "order",fetch = FetchType.LAZY)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="order_type_id")
+    private OrderKind orderKind;
 
 
 }

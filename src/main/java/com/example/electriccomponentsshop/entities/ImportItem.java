@@ -6,8 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -33,6 +32,8 @@ public class ImportItem {
         @ManyToOne(fetch = FetchType.EAGER)
         @MapsId("productId")
         @JoinColumn(name = "product_id")
-        private Product product;
+        private Product productImport;
+
+
 
 }

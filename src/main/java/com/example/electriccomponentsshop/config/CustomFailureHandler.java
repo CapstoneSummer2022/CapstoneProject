@@ -1,6 +1,5 @@
 package com.example.electriccomponentsshop.config;
 
-import org.springframework.boot.util.Instantiator;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 

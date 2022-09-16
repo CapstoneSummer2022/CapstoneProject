@@ -4,7 +4,6 @@ import com.example.electriccomponentsshop.dto.ProvinceDTO;
 import com.example.electriccomponentsshop.entities.Province;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ProvinceService {
 

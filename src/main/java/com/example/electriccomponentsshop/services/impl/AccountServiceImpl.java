@@ -1,24 +1,21 @@
 package com.example.electriccomponentsshop.services.impl;
 
 import com.example.electriccomponentsshop.common.ERole;
+import com.example.electriccomponentsshop.config.ModelMap;
 import com.example.electriccomponentsshop.dto.AccountDTO;
 import com.example.electriccomponentsshop.entities.*;
 import com.example.electriccomponentsshop.repositories.*;
-import com.example.electriccomponentsshop.services.*;
+import com.example.electriccomponentsshop.services.AccountService;
 import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeMap;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -29,7 +26,7 @@ public class AccountServiceImpl implements AccountService {
     final
     AccountRepository accountRepository;
     final
-    ModelMapper modelMap;
+    ModelMap modelMap;
     final
     PasswordEncoder passwordEncoder;
     final
@@ -49,10 +46,17 @@ public class AccountServiceImpl implements AccountService {
         }
         return convertToDto(accountOptional.get());
     }
+    @Override
+    public Account getAccountCustomerByPhone(String phone){
+        Optional<Account> accountOptional = accountRepository.findAccountCustomerByPhone(phone);
+        if(accountOptional.isPresent()){
+            return accountOptional.get();
+        }else throw new NoSuchElementException("Không tìm thấy tài khoản khách có số điện thoại này");
+    }
 
     @Override
     public AccountDTO convertToDto(Account account){
-        return modelMap.map(account,AccountDTO.class);
+        return modelMap.modelMapper().map(account,AccountDTO.class);
     }
     @Override
    public boolean addAccount(AccountDTO accountDTO){
@@ -70,6 +74,8 @@ public class AccountServiceImpl implements AccountService {
         account.setGender(accountDTO.getGender());
         account.setPassword(passwordEncoder.encode(accountDTO.getPassword()));
         setAddress(accountDTO,account);
+        account.setBirthDate(Date.valueOf(accountDTO.getDob()));
+        account.setRoles(roles);
         return accountRepository.save(account) != null;
     }
     @Override
@@ -85,6 +91,7 @@ public class AccountServiceImpl implements AccountService {
            if(!accountDTO.getPassword().equals(optionalAccount.get().getPassword())){
                account.setPassword(passwordEncoder.encode(accountDTO.getPassword()));
            }
+
            account.setBirthDate(Date.valueOf(accountDTO.getDob()));
 //           List<Role> roles = new ArrayList<>();
 //           Optional<Role> roleOptional = roleService.findByRoleName(ERole.valueOf(accountDTO.getRole()));

@@ -3,7 +3,6 @@ package com.example.electriccomponentsshop.entities;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
 import java.sql.Date;
 
 @Getter

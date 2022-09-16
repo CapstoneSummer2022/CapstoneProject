@@ -28,7 +28,7 @@
   <jsp:include page="header.jsp"/>
   <!-- Sidebar menu-->
   <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-  <jsp:include page="home-menu.jsp"/>
+  <jsp:include page="warehouse-home-menu.jsp"/>
   <main class="app-content">
     <div class="app-title">
       <ul class="app-breadcrumb breadcrumb side">
@@ -42,7 +42,7 @@
           <div class="tile-body">
             <div class="row element-button">
               <div class="col-sm-2">
-                <a class="btn btn-add btn-sm" href="add-warehouse-import.html" title="Thêm"><i class="fas fa-plus"></i>
+                <a class="btn btn-add btn-sm" href="${pageContext.request.contextPath}/admin/warehouses/import/add" title="Thêm"><i class="fas fa-plus"></i>
                   Thêm giao dịch mới</a>
               </div>
             </div>
@@ -58,7 +58,7 @@
               <thead>
                 <tr>
                   <th width="150">Mã giao dịch nhập kho</th>
-                  <th>Vị Trí</th>
+                  <th>Nhà cung cấp</th>
                   <th>Kho hàng</th>
                   <th>Tổng tiền</th>
                   <th>Ngày nhập</th>
@@ -66,21 +66,24 @@
                 </tr>
               </thead>
               <tbody>
+              <c:forEach var="importTransaction" items="${listImport}">
                 <tr>
-                  <td>1</td>
+                  <td>${importTransaction.id}</td>
                   <td>
-                    Hàng 2 - Cột 3 - Kệ A
+                    ${importTransaction.supplierName}
                   </td>
-                  <td>XQCV+F65, P. Văn Quán, Hà Đông, Hà Nội</td>
-                  <td>120.000 đ</td>
-                  <td>20/07/2022</td>
+                  <td>${importTransaction.wardName}, ${importTransaction.districtName},${importTransaction.provinceName}</td>
+                  <td>${importTransaction.totalPayment}</td>
+                  <td>${importTransaction.importDate}</td>
                   <td>
                     <a href="setting-warehouse-import.html" class="btn btn-primary btn-sm edit" type="button"
-                      title="Sửa"><i class="fas fa-edit"></i></a>
+                       title="Sửa"><i class="fas fa-edit"></i></a>
                     <button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng"
-                      onclick="location.href='import-transaction-detail.html'"><i class="fa fa-info"></i></button>
+                            onclick="location.href='import-transaction-detail.html'"><i class="fa fa-info"></i></button>
                   </td>
                 </tr>
+              </c:forEach>
+
                 <tr>
                   <td>2</td>
                   <td>

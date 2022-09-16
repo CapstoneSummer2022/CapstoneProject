@@ -17,11 +17,11 @@ import java.sql.Date;
 @NoArgsConstructor
 public class Sku {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private String id ;
     @OneToOne(mappedBy = "sku")
     private ImportItem importItem;
-    @CreationTimestamp
-    private Date createdDate;
     private Integer quantity;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="productId")
+    private Product product;
 }

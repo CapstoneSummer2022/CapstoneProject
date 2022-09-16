@@ -25,74 +25,10 @@
 
 <body onload="time()" class="app sidebar-mini rtl">
     <!-- Navbar-->
-    <header class="app-header">
-        <!-- Navbar Right Menu-->
-        <ul class="app-nav">
-            <!-- User Menu-->
-            <div class="app-nav__button">
-                <div class="app-nav__item"><i class='bx bx-cog'></i></div>
-                <div class="app-nav__item-content">
-                    <a href="personal-info.html">Thông tin cá nhân</a>
-                    <a href="#">Đăng xuất</a>
-                </div>
-            </div>
-        </ul>
-    </header>
+    <jsp:include page="header.jsp"/>
     <!-- Sidebar menu-->
     <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-    <aside class="app-sidebar">
-        <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="resources/images/avatar.jpg"
-                width="50px" alt="User Image">
-            <div>
-                <p class="app-sidebar__user-name"><b>Bùi Minh Hiệu</b></p>
-                <p class="app-sidebar__user-designation">Quản lý</p>
-            </div>
-        </div>
-        <hr>
-        <ul class="app-menu">
-            <li><a class="app-menu__item" href="home-page.html"><i class='app-menu__icon bx bx-cart-alt'></i>
-                    <span class="app-menu__label">Trang chủ</span></a></li>
-            <li><a class="app-menu__item" href="system-account-management.html"><i
-                        class='app-menu__icon bx bx-id-card'></i>
-                    <span class="app-menu__label">Quản lý tài khoản</span>
-                </a>
-            </li>
-            <li><a class="app-menu__item" href="category-management.html"><i
-                        class='app-menu__icon bx bx-category'></i><span class="app-menu__label">Quản lý danh
-                        mục</span></a></li>
-            <li><a class="app-menu__item" href="product-management.html"><i
-                        class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản
-                        phẩm</span></a>
-            </li>
-            <li><a class="app-menu__item" href="supplier-management.html"><i
-                        class='app-menu__icon bx bxs-user-account'></i><span class="app-menu__label">Quản lý nhà cung
-                        cấp
-                    </span></a></li>
-            <li><a class="app-menu__item active" href="warehouse-management.html"><i
-                        class='app-menu__icon bx bx-building-house'></i><span class="app-menu__label">Quản lý kho
-                        hàng
-                    </span></a>
-                <ul class="sub-app-menu">
-                    <li><a class="sub-app-menu_item" href="warehouse-management.html"><span class="app-menu__label">Kho
-                                hàng</span></a></li>
-                    <li><a class="sub-app-menu_item" href="warehouse-import-management.html"><span
-                                class="app-menu__label">Quản lý
-                                nhập kho</span></a></li>
-                    <li><a class="sub-app-menu_item sub-item-active" href="warehouse-export-management.html"><span
-                                class="app-menu__label">Quản lý
-                                xuất kho</span></a></li>
-                </ul>
-            </li>
-            <li><a class="app-menu__item" href="order-management.html"><i class='app-menu__icon bx bx-task'></i><span
-                        class="app-menu__label">Quản lý đơn hàng</span></a></li>
-            <li><a class="app-menu__item" href="feedback-management.html"><i
-                        class='app-menu__icon bx bx-user-voice'></i><span class="app-menu__label">Feedback</span></a>
-            </li>
-            <li><a class="app-menu__item" href="report.html"><i class='app-menu__icon bx bx-pie-chart-alt-2'></i><span
-                        class="app-menu__label">Báo cáo thống kê</span></a>
-            </li>
-        </ul>
-    </aside>
+    <jsp:include page="warehouse-home-menu.jsp"/>
     <main class="app-content">
         <div class="app-title">
             <ul class="app-breadcrumb breadcrumb side">
@@ -107,7 +43,7 @@
                     <div class="tile-body">
                         <div class="row element-button">
                             <div class="col-sm-2">
-                                <a class="btn btn-add btn-sm" href="add-warehouse-export.html" title="Thêm"><i
+                                <a class="btn btn-add btn-sm" href="${pageContext.request.contextPath}/admin/warehouses/export/add " title="Thêm"><i
                                         class="fas fa-plus"></i>
                                     Thêm giao dịch mới</a>
                             </div>

@@ -1,20 +1,11 @@
 package com.example.electriccomponentsshop.controller.admin;
 
-import com.example.electriccomponentsshop.dto.CategoryDTO;
-import com.example.electriccomponentsshop.dto.ProductDTO;
-import com.example.electriccomponentsshop.dto.SpecificationDto;
-import com.example.electriccomponentsshop.dto.SpecificationValueDto;
-import com.example.electriccomponentsshop.entities.Product;
-import com.example.electriccomponentsshop.entities.SpecificationValue;
-import com.example.electriccomponentsshop.services.CategoryService;
-import com.example.electriccomponentsshop.services.ProductService;
-import com.example.electriccomponentsshop.services.SpecificationService;
+import com.example.electriccomponentsshop.dto.*;
+import com.example.electriccomponentsshop.services.*;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,11 +19,12 @@ import java.util.Optional;
 @Controller
 @RequestMapping("admin/products")
 public class ProductController {
+    final SupplierService supplierService;
     final
     ProductService productService;
     final CategoryService categoryService;
     final SpecificationService specificationService;
-
+    final SkuService skuService;
     @GetMapping("")
     public String viewAll(Model model){
         List<ProductDTO> products =  productService.findAll();
@@ -46,7 +38,6 @@ public class ProductController {
             List<CategoryDTO> categoryDtos = categoryService.findCategoriesByIdNotIn(productDTO.getCategories());
             System.out.println("dcun");
             List<SpecificationValueDto> specificationValueDtos = productDTO.getSpecificationValues();
-
             List<Integer> sIds = new ArrayList<>();
             for (SpecificationValueDto c: specificationValueDtos
             ) {
@@ -66,31 +57,54 @@ public class ProductController {
         }
         return "administrator/setting-product";
     }
+    @GetMapping("/getBySupplier")
+    @ResponseBody
+    public List<ProductDTO> getBySupplier(@RequestParam(name = "id") String id){
+
+        SupplierDTO supplierDTO = supplierService.convertToDto(supplierService.getBySupplierId(id));
+        return supplierDTO.getProducts();
+    }
     @GetMapping("/add")
         public String viewProduct(ModelMap modelMap){
-         modelMap.addAttribute("products",new ProductDTO() );
+        List<CategoryDTO> listCategories = categoryService.findAll();
+        List<SpecificationDto> specificationDtos = specificationService.findAll();
+        List<SupplierDTO> supplierDTOS = supplierService.getAllSupplier();
+        modelMap.addAttribute("listCategories",listCategories);
+        modelMap.addAttribute("specificationDtos", specificationDtos);
+        modelMap.addAttribute("listSuppliers",supplierDTOS);
             return "administrator/add-product";
         }
+
     @PostMapping("/add")
     @ResponseBody
     public String addNewProduct(@Valid @RequestBody ProductDTO productDTO){
-        return "";
+        try{
+            if(productService.addProduct(productDTO)){
+                return "thành công";
+            }
+            else return "thất bại";
+        }catch (Exception e){
+            return e.getMessage();
+        }
+    }
+    @GetMapping("/getSku")
+    @ResponseBody
+    public List<SkuDTO> getSku(@RequestParam(name = "id") String id){
+        try{
+            System.out.println(id+"skusiz");
+            System.out.println(skuService.getSkuDtoByProductId(id).size()+"skusize");
+            return skuService.getSkuDtoByProductId(id);
+        }catch (Exception e){
+            System.out.println(e.getMessage()+"đây");
+            return null;
+        }
+
     }
     @PostMapping("/update/{id}")
     @ResponseBody
     public String update(@PathVariable Integer id,@Valid @RequestBody ProductDTO productDTO){
 
-        Optional<Product> product = productService.findById(id);
-        if(product.isPresent()){
-           Product product1 = product.get();
-           product1.setName(productDTO.getName());
-           product1.setImage(productDTO.getImage());
-           product1.setDescription(productDTO.getDescription());
-           productService.save(product1);
-        }
-        else {
 
-        }
         return "administrator/product-management";
     }
     }
