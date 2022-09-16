@@ -393,7 +393,9 @@ function addToImportTable() {
 			cell2.innerHTML = row.cells[1].innerHTML;
 			cell3.innerHTML = row.cells[2].innerHTML;
 			cell4.appendChild(price.cloneNode(true));
-			cell5.appendChild(quantity.cloneNode(true));
+			var div = document.createElement("div");
+			div.appendChild(quantityInput);
+			cell5.appendChild(div);
 			cell6.innerHTML = 0;
 			cell7.appendChild(deleteButton.cloneNode(true));
 
