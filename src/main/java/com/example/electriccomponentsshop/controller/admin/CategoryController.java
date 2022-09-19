@@ -3,18 +3,14 @@ package com.example.electriccomponentsshop.controller.admin;
 import com.example.electriccomponentsshop.config.ModelMap;
 import com.example.electriccomponentsshop.dto.CategoryDTO;
 import com.example.electriccomponentsshop.dto.ProductDTO;
-import com.example.electriccomponentsshop.entities.Category;
 import com.example.electriccomponentsshop.repositories.CategoryRepository;
 import com.example.electriccomponentsshop.services.CategoryService;
-import com.example.electriccomponentsshop.services.RefreshTokenService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.*;

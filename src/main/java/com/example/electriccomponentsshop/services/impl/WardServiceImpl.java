@@ -24,6 +24,13 @@ public class WardServiceImpl implements WardService {
         List<Ward> wardList =  wardRepository.findByDistrictName(districtName);
         return wardList.stream().map(this::convertToDto).collect(Collectors.toList());
     }
+
+    @Override
+    public List<WardDTO> findByDistrictId(String dCode) {
+        List<Ward> wardList =  wardRepository.findByDistrictDCode(dCode);
+        return wardList.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
+
     @Override
     public WardDTO convertToDto(Ward ward){
         return modelMap.modelMapper().map(ward,WardDTO.class);

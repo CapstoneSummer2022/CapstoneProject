@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.sql.Date;
 
 @Getter
@@ -20,9 +21,9 @@ public class ExportPrice {
     @JoinColumn(name = "product_id")
     private Product product;
     @Column
-    private Double wholeSalePrice;
+    private BigDecimal wholeSalePrice;
     @Column
-    private Double retailPrice;
+    private BigDecimal retailPrice;
     @Column
     @UpdateTimestamp
     private Date updatedDate;

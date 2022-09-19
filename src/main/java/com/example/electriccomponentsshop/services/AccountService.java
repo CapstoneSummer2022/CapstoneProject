@@ -1,19 +1,25 @@
 package com.example.electriccomponentsshop.services;
 
+
 import com.example.electriccomponentsshop.dto.AccountDTO;
 import com.example.electriccomponentsshop.entities.Account;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface AccountService {
+    Account findEmployeeForOrder();
+
     AccountDTO findByEmail(String email) ;
 
     boolean addAccount(AccountDTO accountDTO);
+
+    Account getAccountCustomerByPhone(String phone);
+
     AccountDTO convertToDto(Account account) ;
+
     boolean updateAccount(AccountDTO accountDTO,Integer id);
+
     List<AccountDTO> findAllByRoleName(String... role) ;
 
     AccountDTO findById(Integer id);

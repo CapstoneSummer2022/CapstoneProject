@@ -1,22 +1,23 @@
 package com.example.electriccomponentsshop.services;
 
-import com.example.electriccomponentsshop.dto.CartDTO;
+import com.example.electriccomponentsshop.dto.CartItemDTO;
 import com.example.electriccomponentsshop.entities.CartItem;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface CartItemService {
 
-    CartDTO convertToDto(CartItem cart);
+    CartItemDTO convertToDTO(CartItem cartItem);
 
-    List<CartDTO> getCartByAccountId(int accId);
+    List<CartItemDTO> getCartItems (int accId);
 
-    CartItem getCartItem (int accId, int proId);
+    boolean addToCart(int accountId, int productId, BigDecimal quantity);
 
-    boolean addToCart (int accId, int proId, int quantity);
+    boolean removeCartItem (int accountId, int productId);
 
-    boolean updateCart (int accId, int proId, int quantity);
+    boolean updateCartItem (int accountId, int productId, BigDecimal quantity);
 
-    boolean removeCartItem (int accId, int proId);
+    void removeAll(int accountId);
 
 }

@@ -2,6 +2,7 @@ package com.example.electriccomponentsshop.controller.customer;
 
 import com.example.electriccomponentsshop.dto.CategoryDTO;
 import com.example.electriccomponentsshop.dto.ProductDTO;
+import com.example.electriccomponentsshop.entities.Category;
 import com.example.electriccomponentsshop.services.CategoryService;
 import com.example.electriccomponentsshop.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,17 +27,19 @@ public class HomeShopController {
 
     @GetMapping(value = "")
     public String getInfoForHome (ModelMap map) {
-        List<CategoryDTO> categoryDTOList = categoryService.findCategoriesByParentCategoryIdIsNull();
+        List<Category> categories = categoryService.findCategoriesByParentCategoryIdIsNull();
         Map<CategoryDTO, List<ProductDTO>> productsByCate = new HashMap<>();
 
-        for (CategoryDTO cateDto : categoryDTOList) {
-            List<ProductDTO> productDTOS = productService.getProductByCate(cateDto.getId(),1, 6);
+        for (Category cateTmp : categories) {
+            List<ProductDTO> productDTOS = productService.getProductByCate(String.valueOf(cateTmp.getId()),1, 6);
 
             if (!productDTOS.isEmpty()) {
+                CategoryDTO cateDto = categoryService.convertToDto(cateTmp);
                 productsByCate.put(cateDto, productDTOS);
             }
         }
 
+        map.addAttribute("categories", categories);
         map.addAttribute("productsByCate", productsByCate);
 
         return "customer/home";

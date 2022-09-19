@@ -5,14 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
+
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class SkuDTO {
-
     private String id;
-    private int productId;
-    private int quantity;
-
+    private Integer quantity;
 }

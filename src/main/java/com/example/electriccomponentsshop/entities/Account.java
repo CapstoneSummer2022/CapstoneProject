@@ -60,11 +60,6 @@ public class Account {
     @JoinColumn(name="wCode")
     private Ward wardAccount;
 
-    @OneToOne(mappedBy = "account")
-    @PrimaryKeyJoinColumn
-    private Cart cart;
-
-
     public Account(String email, String password) {
         this.email = email;
         this.password = password;
@@ -73,6 +68,12 @@ public class Account {
         this.email = email;
         this.password = password;
         this.roles = roles;
+    }
+
+    public Account(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
     }
     public String getDob(){
         try {
@@ -84,6 +85,7 @@ public class Account {
         }
 
     }
+
     public String getRole(){
         return roles.stream().findFirst().get().getRoleName().name();
     }

@@ -1,8 +1,11 @@
 package com.example.electriccomponentsshop.services.impl;
 
+import com.example.electriccomponentsshop.config.ModelMap;
+import com.example.electriccomponentsshop.dto.WarehouseDTO;
 import com.example.electriccomponentsshop.entities.Warehouse;
 import com.example.electriccomponentsshop.repositories.WarehouseRepository;
 import com.example.electriccomponentsshop.services.WarehouseService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -12,13 +15,17 @@ import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class WarehouseServiceImpl implements WarehouseService {
     @Autowired
     WarehouseRepository warehouseRepository;
+    @Autowired
+    ModelMap modelMap;
 
     @Override
     public List<Warehouse> findAll() {
@@ -29,7 +36,33 @@ public class WarehouseServiceImpl implements WarehouseService {
     public List<Warehouse> findAll(Sort sort) {
         return warehouseRepository.findAll(sort);
     }
+    @Override
+    public WarehouseDTO convertToDto(Warehouse warehouse){
+        return modelMap.modelMapper().map(warehouse,WarehouseDTO.class);
 
+    }
+    @Override
+    public  List<WarehouseDTO>  getAllWarehouse(){
+        List<Warehouse> warehouseList = warehouseRepository.findAll();
+        if(warehouseList.isEmpty()){
+            throw new NoSuchElementException("Không có kho nào");
+        }
+        else {
+            return warehouseList.stream().map(this::convertToDto).collect(Collectors.toList());
+        }
+    }
+    @Override
+    public Warehouse getWarehouse(String id){
+        try{
+            int wid = Integer.parseInt(id);
+            Optional<Warehouse> warehouseOptional = warehouseRepository.findById(wid);
+            if(warehouseOptional.isPresent()){
+                return warehouseOptional.get();
+            }else throw  new NoSuchElementException("Không có kho này");
+        }catch (NumberFormatException e){
+            throw new NoSuchElementException("Không có kho này");
+        }
+    }
     @Override
     public List<Warehouse> findAllById(Iterable<Integer> integers) {
         return warehouseRepository.findAllById(integers);

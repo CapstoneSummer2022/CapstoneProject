@@ -1,24 +1,30 @@
 package com.example.electriccomponentsshop.entities;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.List;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Cart {
-    @Id
-    @GeneratedValue
-    private int id;
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "account_id")
-    private Account account;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    private Integer accountId;
 
     @OneToMany( mappedBy = "cart")
-    private List<CartItem> cartItem;
+    private List<CartItem> cartItems;
 
-    private Integer totalProduct;
-
-    private Double totalPayment;
+    public Cart (Integer accountId, List<CartItem> items) {
+        this.accountId = accountId;
+        this.cartItems = items;
+    }
 
 }

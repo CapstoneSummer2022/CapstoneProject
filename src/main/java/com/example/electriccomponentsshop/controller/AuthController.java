@@ -130,17 +130,14 @@ public class AuthController {
         if(roles.contains("ROLE_MANAGER")||roles.contains("ROLE_EMPLOYEE")){
             modelMap.addAttribute("roles", roles.get(0));
             return "redirect:/admin/home";
-        } else if (roles.contains("ROLE_MANAGER")) {
-            return "redirect:/home";
         }
 
-        return null;
+        return "redirect:/home";
     }
+
 
     @PostMapping ("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signupRequest) {
-
-
 
         if (accountRepository.existsAccountByEmail(signupRequest.getEmail())) {
             return ResponseEntity.badRequest().body(new MessageResponse("This email is registered"));
@@ -175,6 +172,7 @@ public class AuthController {
             }
 
             account.setRoles(roles);
+            account.setStatus(true);
             accountRepository.save(account);
             return ResponseEntity.ok().body(new MessageResponse("Register successfully"));
         }

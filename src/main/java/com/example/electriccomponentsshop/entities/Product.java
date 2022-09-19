@@ -1,9 +1,11 @@
 package com.example.electriccomponentsshop.entities;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +18,14 @@ import java.util.List;
 @Table(name = "Product")
 public class Product {
     @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Integer id;
     @Column
     private String name;
+
+    private Integer unit;
+
     @Column
     private String image;
     @Column
@@ -29,27 +34,38 @@ public class Product {
     @Column(updatable = false)
     private Date addedDate;
     @Column
-    private Integer available;
+    @ColumnDefault("0")
+    private BigDecimal available;
     @Column
     private int status;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name="Product_Category", joinColumns =@JoinColumn(name= "product_id"),inverseJoinColumns =@JoinColumn( name="category_id") )
+    @JoinTable(name = "Product_Category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categories = new ArrayList<>();
+
     @OneToMany(mappedBy = "product")
     private List<CartItem> cartItem;
+
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private ExportPrice exportPrice;
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "product")
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     private List<Feedback> feedbackList = new ArrayList<>();
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "product")
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     private List<SpecificationValue> specificationValues = new ArrayList<>();
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "product")
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     private List<OrderItem> orderItems = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "supplier_id")
     private Supplier productSupplier;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "productImport")
+    private List<ImportItem> importItemsProduct = new ArrayList<>();
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
+    private List<Sku> skus = new ArrayList<>();
 }

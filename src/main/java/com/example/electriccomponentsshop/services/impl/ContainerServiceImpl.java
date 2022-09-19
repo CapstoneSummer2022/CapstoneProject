@@ -7,9 +7,10 @@ import com.example.electriccomponentsshop.repositories.ContainerRepository;
 import com.example.electriccomponentsshop.services.ContainerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ContainerServiceImpl implements ContainerService {
@@ -35,6 +36,12 @@ public class ContainerServiceImpl implements ContainerService {
         }
     }
 
-
+   @Override
+   public List<ContainerDTO> getAllContainer(){
+        List<Container> containerList = containerRepository.findAll();
+        if(containerList.isEmpty()){
+            throw new NoSuchElementException("Không có ô chứ nào");
+        }else return containerList.stream().map(this::convertToDto).collect(Collectors.toList());
+   }
 
 }

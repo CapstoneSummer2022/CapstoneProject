@@ -18,6 +18,8 @@ public class SpecificationValueServiceImpl implements SpecificationValueService 
     public SpecificationValueDto convertToDto(SpecificationValue specificationValue){
         return modelMap.modelMapper().map(specificationValue, SpecificationValueDto.class);
     }
-
-
+    @Override
+    public <S extends SpecificationValue> S save(S entity) {
+        return specificationValueRepository.save(entity);
+    }
 }

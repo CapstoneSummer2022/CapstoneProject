@@ -28,14 +28,17 @@ public class ProductShopController {
 
     @GetMapping(value = "/{id}")
     //@ResponseBody
-    public String getProduct (ModelMap model, @PathVariable String id) {
+    public String getProduct (ModelMap map, @PathVariable String id) {
         ProductDTO productDTO = null;
 
         try {
             productDTO = productService.getProductDtoById(id);
-            model.addAttribute("product", productDTO);
+            List<Category> categories = categoryService.findCategoriesByParentCategoryIdIsNull();
+
+            map.addAttribute("categories", categories);
+            map.addAttribute("product", productDTO);
         } catch (NoSuchElementException e) {
-            model.addAttribute("notFound", e.getMessage());
+            throw e;
         }
 
         return "customer/product";
@@ -51,15 +54,18 @@ public class ProductShopController {
             int no = Integer.parseInt(pageNo);
 
             int pageNum = (int) Math.ceil(productService.countByCate(cate)/18.0);
+            List<Category> categories = categoryService.findCategoriesByParentCategoryIdIsNull();
 
             category = categoryService.getById(cate);
             products = productService.getProductByCate(cate, no, 18);
+
+            model.addAttribute("categories", categories);
             model.addAttribute("products", products);
             model.addAttribute("category", category);
             model.addAttribute("pageNum", pageNum);
             model.addAttribute("active", no);
         } catch (Exception e) {
-            model.addAttribute("error", e.getMessage());
+            throw e;
         }
 
         return "customer/product-by-cgr";
