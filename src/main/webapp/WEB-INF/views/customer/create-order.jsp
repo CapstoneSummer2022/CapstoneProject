@@ -57,7 +57,7 @@
           </div>
           <div class="col-md-8 order-md-1">
             <h4 class="mb-3">Thông tin nhận hàng</h4>
-            <form class="needs-validation" action="${pageContext.request.contextPath}/order/create-order" method="post" name="createorderForm"
+            <form class="needs-validation" action="${pageContext.request.contextPath}/create-order" method="post" name="createorderForm"
                         onsubmit="return validateCreateOrderForm();">
               <div class="row">
                 <div class="mb-3">
@@ -141,11 +141,11 @@
               </div>
 
                <div class="mb-3">
-                 <label for="detailLocation">Phương thức thanh toán</label><br/>
+                 <label>Phương thức thanh toán</label><br/>
                  <input type="radio" id="all" name="payment_method" value="all" checked>
                  <label for="all">Thanh toán toàn bộ</label><br/>
-                 <input type="radio" id="70" name="payment_method" value="70">
-                 <label for="70">Thanh toán 70% đơn hàng</label><br/>
+                 <input type="radio" id="40" name="payment_method" value="40">
+                 <label for="40">Thanh toán 40% đơn hàng</label><br/>
                </div>
 
               <button class="btn btn-primary btn-lg btn-block" type="submit">Xác nhận đặt hàng</button>

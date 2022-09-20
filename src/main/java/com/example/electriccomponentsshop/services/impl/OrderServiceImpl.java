@@ -1,6 +1,5 @@
 package com.example.electriccomponentsshop.services.impl;
 
-import com.example.electriccomponentsshop.common.ERole;
 import com.example.electriccomponentsshop.common.OrderEnum;
 import com.example.electriccomponentsshop.config.ModelMap;
 import com.example.electriccomponentsshop.dto.CartItemDTO;
@@ -155,7 +154,6 @@ public class OrderServiceImpl implements OrderService {
             list.add(orderItem);
             totalPayment = totalPayment.add(subTotal);
         }
-
         order.setTotalPayment(totalPayment);
 
         order.setOrderItems(list);
@@ -163,7 +161,6 @@ public class OrderServiceImpl implements OrderService {
 
         orderRepository.save(order);
         return Boolean.TRUE;
-
     }
     @Override
     public List<OrderDTO> findByStatus(String status){

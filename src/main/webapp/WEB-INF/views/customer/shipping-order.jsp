@@ -20,100 +20,42 @@
         <main>
           <div class="account">
               <div class="account_side">
-                <a href="/profile"><i class="material-icons"> arrow_right</i>Hồ sơ của tôi</a>
-                <a href="/order/all" style="font-weight: bold; background-color: rgba(0,0,0,0.1);"><i class="material-icons"> arrow_right</i>Đơn hàng của tôi</a>
-                <a href="/change-password"><i class="material-icons"> arrow_right</i>Đổi mật khẩu</a>
+                <a href="${pageContext.request.contextPath}/profile"><i class="material-icons"> arrow_right</i>Hồ sơ của tôi</a>
+                <a href="${pageContext.request.contextPath}/order" style="font-weight: bold; background-color: rgba(0,0,0,0.1);"><i class="material-icons"> arrow_right</i>Đơn hàng của tôi</a>
+                <a href="${pageContext.request.contextPath}/change-password"><i class="material-icons"> arrow_right</i>Đổi mật khẩu</a>
               </div>
               <div class="account_content">
                 <div id="order_tabs">
-                  <a href="/order/all" style="color: white; background-color: #01447e;">Tất cả</a>
-                  <a href="/order/waiting">Chờ xác nhận</a>
-                  <a href="/order/shipping">Đang giao hàng</a>
-                  <a href="/order/received">Đã nhận hàng</a>
-                  <a href="/order/canceled">Đã hủy</a>
+                  <a href="${pageContext.request.contextPath}/order">Tất cả</a>
+                  <a href="${pageContext.request.contextPath}/order/waiting">Chờ xác nhận</a>
+                  <a href="${pageContext.request.contextPath}/order/shipping" style="color: white; background-color: #01447e;">Đang giao hàng</a>
+                  <a href="${pageContext.request.contextPath}/order/received">Đã nhận hàng</a>
+                  <a href="${pageContext.request.contextPath}/order/cancelled">Đã hủy</a>
                 </div>
               <div id="order_list">
-                <div class="an-order">
-                  <table>
-                    <tr>
-                      <td>Mã đơn: 1</td>
-                      <td>CHỜ XÁC NHẬN</td>
-                    </tr>
-                    <tr>
-                      <td><img src="/img/pros/0 Ohm 0.25W Precision Resistor.jpg" alt="hinh ảnh sản phẩm"> <span> Tụ điện 10V</span> <br> x10</td>
-                      <td>20000</td>
-                    </tr>
-                    <tr>
-                      <td><img src="/img/pros/0 Ohm 0.25W Precision Resistor.jpg" alt="hinh ảnh sản phẩm"><span> Tụ điện 10V</span>  <br> x10</td>
-                      <td>20000</td>
-                    </tr>
-                    <tr>                      
-                      <td><img src="/img/pros/0 Ohm 0.25W Precision Resistor.jpg" alt="hinh ảnh sản phẩm"><span> Tụ điện 10V</span>  <br> x10</td>
-                      <td>20000</td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td><span style="font-weight: bold;">Tổng thanh toán:</span>  60000</td>
-                    </tr>
-                    <tr>
-                      <td colspan="2"><button>Đánh giá</button><button>Hủy đơn hàng</button></td>
-                    </tr>
-                  </table>
-                </div>
-                <div class="an-order">
-                  <table>
-                    <tr>
-                      <td>Mã đơn: 1</td>
-                      <td>CHỜ XÁC NHẬN</td>
-                    </tr>
-                    <tr>
-                      <td><img src="/img/pros/0 Ohm 0.25W Precision Resistor.jpg" alt="hinh ảnh sản phẩm"> <span> Tụ điện 10V</span> <br> x10</td>
-                      <td>20000</td>
-                    </tr>
-                    <tr>
-                      <td><img src="/img/pros/0 Ohm 0.25W Precision Resistor.jpg" alt="hinh ảnh sản phẩm"><span> Tụ điện 10V</span>  <br> x10</td>
-                      <td>20000</td>
-                    </tr>
-                    <tr>                      
-                      <td><img src="/img/pros/0 Ohm 0.25W Precision Resistor.jpg" alt="hinh ảnh sản phẩm"><span> Tụ điện 10V</span>  <br> x10</td>
-                      <td>20000</td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td><span style="font-weight: bold;">Tổng thanh toán:</span>  60000</td>
-                    </tr>
-                    <tr>
-                      <td colspan="2"><button>Đánh giá</button><button>Hủy đơn hàng</button></td>
-                    </tr>
-                  </table>
-                </div>
-                <div class="an-order">
-                  <table>
-                    <tr>
-                      <td>Mã đơn: 1</td>
-                      <td>CHỜ XÁC NHẬN</td>
-                    </tr>
-                    <tr>
-                      <td><img src="/img/pros/0 Ohm 0.25W Precision Resistor.jpg" alt="hinh ảnh sản phẩm"> <span> Tụ điện 10V</span> <br> x10</td>
-                      <td>20000</td>
-                    </tr>
-                    <tr>
-                      <td><img src="/img/pros/0 Ohm 0.25W Precision Resistor.jpg" alt="hinh ảnh sản phẩm"><span> Tụ điện 10V</span>  <br> x10</td>
-                      <td>20000</td>
-                    </tr>
-                    <tr>                      
-                      <td><img src="/img/pros/0 Ohm 0.25W Precision Resistor.jpg" alt="hinh ảnh sản phẩm"><span> Tụ điện 10V</span>  <br> x10</td>
-                      <td>20000</td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td><span style="font-weight: bold;">Tổng thanh toán:</span>  60000</td>
-                    </tr>
-                    <tr>
-                      <td colspan="2"><button>Đánh giá</button><button>Hủy đơn hàng</button></td>
-                    </tr>
-                  </table>
-                </div>
+                <c:forEach var="order" items="${orders}">
+                    <div class="an-order">
+                      <table>
+                        <tr>
+                          <td>Mã đơn: ${order.id}</td>
+                          <td>${order.status}</td>
+                        </tr>
+                        <c:forEach var="item" items="${order.orderItems}">
+                            <tr>
+                              <td><img src="/img/${item.productImage}" alt="hinh ảnh sản phẩm"> <span> ${item.productName}</span> <br> x${item.quantity}</td>
+                              <td>${item.subTotal}</td>
+                            </tr>
+                        </c:forEach>
+                        <tr>
+                          <td></td>
+                          <td style="font-size: 20px;"><span style="font-weight: bold;">Tổng thanh toán:</span>  ${order.totalPayment}</td>
+                        </tr>
+                        <tr>
+                          <td colspan="2"><button>Hủy đơn hàng</button></td>
+                        </tr>
+                      </table>
+                    </div>
+                </c:forEach>
               </div>
             </div>
           </div>

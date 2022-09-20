@@ -12,23 +12,19 @@ import java.util.Optional;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account,Integer> {
-    /**
-     * Find account by email
-     * @param email
-     * @return Account
-     */
+
     Optional<Account> findByEmail(String email);
 
-    @Query(value = "select * from accounts join account_roles on accounts.id = account_roles.account_id join roles on account_roles.role_id= roles.id where role_name in :role", nativeQuery = true)
+    @Query(value = "select * from accounts join account_roles on accounts.id = account_roles.account_id join roles on account_roles.role_id= roles.id where status = b'1' and role_name in :role", nativeQuery = true)
     List<Account> findAllByRoleName(@Param("role")String[] role);
 
-    @Query(value = "select distinct a.* from accounts a join orders o on o.employee_id = a.id group by o.employee_id", nativeQuery = true)
+    @Query(value = "select distinct a.* from accounts a join orders o on o.employee_id = a.id where a.status = b'1' group by o.employee_id", nativeQuery = true)
     List<Account> findAllEmployeeInOrder ();
 
-    @Query(value = "select accounts.* from accounts join account_roles on accounts.id = account_roles.account_id join roles on account_roles.role_id= roles.id where role_name = 'ROLE_EMPLOYEE' and accounts.id not in :ids limit 1", nativeQuery = true)
+    @Query(value = "select accounts.* from accounts join account_roles on accounts.id = account_roles.account_id join roles on account_roles.role_id= roles.id where status = b'1' and role_name = 'ROLE_EMPLOYEE' and accounts.id not in :ids limit 1", nativeQuery = true)
     Account findEmployeeNotYetInOrder (@Param("ids")int[] ids);
 
-    @Query(value = "select a.*from accounts a join orders o on o.employee_id = a.id group by o.employee_id order by count(o.id) limit 1;", nativeQuery = true)
+    @Query(value = "select a.* from accounts a join orders o on o.employee_id = a.id where a.status = b'1' group by o.employee_id order by count(o.id) limit 1", nativeQuery = true)
     Account findLessOrderEmployee ();
 
     Optional<Account> findById(Integer id);

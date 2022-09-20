@@ -21,7 +21,7 @@
           <div class="account">
             <div class="account_side">
               <a href="${pageContext.request.contextPath}/profile" style="font-weight: bold; background-color: rgba(0,0,0,0.1);"><i class="material-icons"> arrow_right</i>Hồ sơ của tôi</a>
-              <a href="${pageContext.request.contextPath}/order/all"><i class="material-icons"> arrow_right</i>Đơn hàng của tôi</a>
+              <a href="${pageContext.request.contextPath}/order"><i class="material-icons"> arrow_right</i>Đơn hàng của tôi</a>
               <a href="${pageContext.request.contextPath}/change-password"><i class="material-icons"> arrow_right</i>Đổi mật khẩu</a>
             </div>
             <div class="account_content">

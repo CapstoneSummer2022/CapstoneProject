@@ -57,7 +57,7 @@
                   <td id="total">${total}đ</td>
                 </tr>
                 <tr>
-                  <td colspan="2" style="padding: 0;"><button onclick="goToCreateOrder()" id="createOrder_btn">Đặt hàng</button></td>
+                  <td colspan="2" style="padding: 0;"><button onclick="goToCreateOrder()" id="createorder_btn">Đặt hàng</button></td>
                 </tr>
               </table>
             </div>
@@ -88,7 +88,7 @@
           }
 
           function goToCreateOrder () {
-            window.location.href = "http://localhost:8083/order/create-order";
+            window.location.href = "http://localhost:8083/create-order";
           }
 
         </script>
