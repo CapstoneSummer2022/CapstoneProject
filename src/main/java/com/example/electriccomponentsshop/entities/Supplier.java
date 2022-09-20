@@ -22,8 +22,4 @@ public class Supplier {
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "productSupplier")
     List<Product> products = new ArrayList<>();
     private Integer active;
-
-
-
-
 }

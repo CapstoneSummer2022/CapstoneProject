@@ -54,5 +54,7 @@ public class Order {
     @OneToOne(mappedBy = "order",optional = true)
     private ExportTransaction exportTransaction;
 
+    private String paymentMethod;
+
 
 }

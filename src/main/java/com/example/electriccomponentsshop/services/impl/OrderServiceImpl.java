@@ -49,13 +49,14 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDTO> findAllOrderForCustomer(int accId) {
-
-        return null;
+        List<Order> orders = orderRepository.findByCustomerId(accId);
+        return orders.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     @Override
     public List<OrderDTO> findOrderByStatusForCustomer(int accId, String status) {
-        return null;
+        List<Order> orders = orderRepository.findByCustomerIdAndStatus(accId, status);
+        return orders.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     public OrderDTO convertToDTO(Order order) {
@@ -66,8 +67,7 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderDTO> findAll() {
         List<Order> orderList = orderRepository.findAll();
         List<OrderDTO> orderDTOList = new ArrayList<>();
-        for (Order o: orderList
-             ) {
+        for (Order o: orderList) {
             orderDTOList.add(convertToDTO(o));
         }
         return orderDTOList;
@@ -165,11 +165,14 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public int createOrderOnline(Map<String, String> orderInfo) {
         Order order = new Order();
+        BigDecimal total = new BigDecimal(0);
+        order.setTotalPayment(total);
         order.setStatus(OrderEnum.PENDING.getName());
         order.setPaidMoney(BigDecimal.valueOf(0));
         order.setOrderKind(orderKindRepo.findByName("Đặt đơn online"));
         order.setReceivedPerson(orderInfo.get("name"));
         order.setReceivedPhone(orderInfo.get("phone"));
+        order.setPaymentMethod(orderInfo.get("payment_method"));
 
         Province province = provinceRepository.findById(orderInfo.get("province")).get();
         District district = districtRepository.findById(orderInfo.get("district")).get();
@@ -188,7 +191,6 @@ public class OrderServiceImpl implements OrderService {
         order = orderRepository.save(order);
 
         List<CartItemDTO> cartItemDTOS = cartItemService.getCartItems(accountDetail.getId());
-        BigDecimal total = new BigDecimal(0);
         for (CartItemDTO item : cartItemDTOS ) {
             Product product = productRepository.findById(Integer.parseInt(item.getProductDTO().getId())).get();
 

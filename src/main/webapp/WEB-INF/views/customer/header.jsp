@@ -28,7 +28,7 @@
                             <button class="dropbtn"><i class="material-icons">person</i><c:out value = "${username}"/></button>
                             <div class="dropdown-content">
                               <a href="${pageContext.request.contextPath}/profile" style="color: black;">Tài khoản của tôi</a>
-                              <a href="${pageContext.request.contextPath}/order/all" style="color: black;">Đơn hàng của tôi</a>
+                              <a href="${pageContext.request.contextPath}/order" style="color: black;">Đơn hàng của tôi</a>
                               <a href="${pageContext.request.contextPath}/sign-out" style="color: black;">Đăng xuất</a>
                             </div>
                          </div>

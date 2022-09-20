@@ -66,10 +66,10 @@ public class OrderShopController {
 
         map.addAttribute("orderId", orderId);
 
-        return "customer/order-result";
+        return "redirect:/order";
     }
 
-    @GetMapping(value = "/order/all")
+    @GetMapping(value = "/order")
     public String getAllOrder (Authentication authentication, ModelMap map) {
         AccountDetailImpl accountDetail = (AccountDetailImpl) authentication.getPrincipal();
         List<Category> categories = categoryService.findCategoriesByParentCategoryIdIsNull();
@@ -78,7 +78,7 @@ public class OrderShopController {
         map.addAttribute("categories", categories);
         map.addAttribute("orders", orders);
 
-        return "customer/all-order";
+        return "customer/all-orders";
     }
 
     @GetMapping(value = "/order/{status}")
