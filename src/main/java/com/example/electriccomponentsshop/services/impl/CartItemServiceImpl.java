@@ -51,7 +51,7 @@ public class CartItemServiceImpl implements CartItemService {
         CartItemId cartItemId = new CartItemId(productId, cart.getId());
         Optional<CartItem> cartItemOptional = cartItemRepository.findById(cartItemId);
 
-        CartItem cartItem = null;
+        CartItem cartItem;
         BigDecimal subTotal;
 
         if (!cartItemOptional.isPresent()) {
@@ -97,10 +97,4 @@ public class CartItemServiceImpl implements CartItemService {
         return cartItemRepository.save(cartItem) != null;
     }
 
-    @Override
-    public void removeAll(int accountId) {
-        Cart cart = cartRepository.findByAccountId(accountId);
-
-        cartItemRepository.deleteAllCartItemByCartId(cart.getId());
-    }
 }

@@ -8,12 +8,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
 
 @Controller
+@RequestMapping(path = "/order/")
 public class OrderShopController {
 
     @Autowired
@@ -56,7 +58,6 @@ public class OrderShopController {
         return "customer/create-order";
     }
 
-    //create order
     @PostMapping(value = "/create-order")
     public String createOrder (@RequestParam Map<String, String> order, ModelMap map) {
         boolean created = orderService.createOrderOnline(order);
@@ -64,5 +65,8 @@ public class OrderShopController {
         return "customer/order-result";
     }
 
-    //notif status
+    @GetMapping(value = "/all")
+    public String getAllOrder () {
+        return "customer/all-order";
+    }
 }

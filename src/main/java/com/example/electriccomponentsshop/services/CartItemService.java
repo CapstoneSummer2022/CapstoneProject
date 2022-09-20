@@ -18,6 +18,4 @@ public interface CartItemService {
 
     boolean updateCartItem (int accountId, int productId, BigDecimal quantity);
 
-    void removeAll(int accountId);
-
 }

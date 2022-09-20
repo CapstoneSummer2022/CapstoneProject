@@ -18,11 +18,21 @@
     
         <!--Page Content-->
         <main>
+          <c:if test="${not empty error}">
+            <p class="error" style="display: block; background-color: pink; text-align: center; padding: 10px; border-radius: 5px;">
+              ${error}
+            </p>
+          </c:if>
+          <c:if test="${not empty success}">
+            <p class="success" style="display: block; background-color: green; text-align: center; padding: 10px; border-radius: 5px; color: white;">
+              ${success}
+            </p>
+          </c:if>
           <div id="product_content">
             <div>
               <div id="product_area"> 
                 <div id="product_images">
-                  <img src="/img/${product.getImage()}" alt="product_image">
+                  <img src="/img/${product.image}" alt="product_image">
                 </div>
                 <div id="product_info">
                   <div>
@@ -46,11 +56,10 @@
                     </table>
                   </div>
                   <div>
-                    <form action="/cart/add" method="post" name="addToCart" onsubmit="return checkNumberOfProduct();">
-                      <input type="hidden" name="id" value="a11">
-                      <label for="product">Số lượng: </label>
-                      <input type="text" name="product" id="product" value="1" max="${product.getAvailable()}" onchange="changeNumber()"
-                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" size="2">
+                    <form action="/cart/add-to-cart" method="post" name="addToCart" onsubmit="return checkNumberOfProduct();">
+                      <input type="hidden" id="productId" name="productId" value="${product.id}"/>
+                      <label for="quantity">Số lượng: </label>
+                      <input type="text" id="quantity" name="quantity" value="1" min="${product.unit}" max="${product.available}" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" size="2"/>
                       <button type="submit">Thêm vào giỏ</button>
                     </form>
                   </div> 
@@ -70,14 +79,16 @@
         <!--Javascript-->
         <script>
             function checkNumberOfProduct () {
-                const product = document.addToCart.product;
+                const product = document.addToCart.quantity;
                 let productValue = product.value;
                 const maxNum = parseInt(product.max);
+                const minNum = parseInt(product.min)
                 const currentNumOfProduct = parseInt(productValue);
+                const maxNumForCustomer = maxNum/minNum;
 
-                if (maxNum < currentNumOfProduct) {
+                if (maxNumForCustomer < currentNumOfProduct) {
                   alert("Bạn không thể đặt quá giới hạn sản phẩm");
-                  product.value = maxNum;
+                  product.value = maxNumForCustomer;
                   return false;
                 }
 

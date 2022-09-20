@@ -22,13 +22,13 @@
 
         <c:forEach var="map" items="${productsByCate}">
           <div class="single-cate">
-          <h3>${map.key.getName()} <span><a href="${pageContext.request.contextPath}/product?cate=${map.key.getId()}&pageNo=1">Xem tất cả &nbsp; <i class="material-icons">arrow_forward</i></a></span></h3>
+          <h3>${map.key.getName()} <span><a href="${pageContext.request.contextPath}/product?cate=${map.key.id}&pageNo=1">Xem tất cả &nbsp; <i class="material-icons">arrow_forward</i></a></span></h3>
           <div class="product_list">
            <div>
              <c:forEach var="product" items="${map.value}">
                <div class="product-card">
-                 <a href="${pageContext.request.contextPath}/product/${product.getId()}"><img src="/img/${product.getImage()}" alt="hình ảnh sản phẩm" class="prod_img"></a>
-                 <p class="product-name"><a href="/product/${product.getId()}">${product.getName()}</a></p>
+                 <a href="${pageContext.request.contextPath}/product/${product.id}"><img src="/img/${product.image}" alt="hình ảnh sản phẩm" class="prod_img"></a>
+                 <p class="product-name"><a href="${pageContext.request.contextPath}/product/${product.id}">${product.getName()}</a></p>
                  <p>${product.getPrice()}đ</p>
                </div>
              </c:forEach>

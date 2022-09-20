@@ -11,4 +11,8 @@ public interface SpecificationService {
     SpecificationDto convertToDto(Specification specification);
 
     List<SpecificationDto> findSpecificationsBySpecificationIdNotIn(List<Integer> list);
+
+    Specification getById(String id);
+
+    List<SpecificationDto> findAll();
 }

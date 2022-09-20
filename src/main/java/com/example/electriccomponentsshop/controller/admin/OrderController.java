@@ -125,8 +125,7 @@ public class OrderController {
     public Map<String,List<SkuDTO>> getItems(@RequestParam(name="id") String id){
         try{
             Map<String,List<SkuDTO>> map = new HashMap<>();
-            for (OrderItemDTO orderItemDTO: orderService.getOrderDtoById(id).getOrderItems()
-                 ) {
+            for (OrderItemDTO orderItemDTO: orderService.getOrderDtoById(id).getOrderItems()                 ) {
                 ObjectMapper objectMapper = new ObjectMapper();
                 String itemDto = objectMapper.writeValueAsString(orderItemDTO);
                 System.out.println(itemDto+"lôn");

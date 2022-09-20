@@ -29,32 +29,24 @@
                   <th>Tổng</th>
                   <th></th>
                 </tr>
-                <tr>
-                  <td><img src="/img/pros/1N4148 SMD 1206.webp" alt=""> </td>
-                  <td class="prod_name"><a href="product.html">Tụ điện 3V </a></td>
-                  <td>2500đ</td>
-                  <td>
-                    <div>
-                      <input type="text" name="product" id="a21" value="1" max="1000" onchange="updateCart('a21')" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-                    </div>
-                  </td>
-                  <td >20000đ</td>
-                  <td><a href="#"><i class="material-icons">delete</i></a></td>
-                </tr>
-                <tr>
-                  <td><img src="/img/pros/0 Ohm 0.25W Precision Resistor.jpg" alt=""> </td>
-                  <td class="prod_name"><a href="product.html"> Tụ điện 5V</a></td>
-                  <td>3000đ</td>
-                  <td>
-                    <div>
-                      <input type="text" name="product" id="a11" value="1" max="1000" onchange="updateCart('a11')" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-                    </div>
-                  </td>
-                  <td>60000đ</td>
-                  <td><a href="#"><i class="material-icons">delete</i></a></td>
-                </tr>
-              </table>
-            </div>
+                <c:set var = "total" value = "${0}"/>
+                <c:forEach var = "item" items = "${cartItems}">
+                    <tr>
+                      <td><img src="/img/${item.productDTO.image}" alt=""> </td>
+                      <td class="prod_name"><a href="${pageContext.request.contextPath}/product/${item.productDTO.id}">${item.productDTO.name} </a></td>
+                      <td>${item.productDTO.price}đ</td>
+                      <td>
+                        <div>
+                          <input type="text" name="quantity" id="${item.productDTO.id}" value="${item.quantity}" min="${item.productDTO.unit}" max="${item.productDTO.available}" onchange="updateCartNumber('${item.productDTO.id}')" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+                        </div>
+                      </td>
+                      <td >${item.subTotal}đ</td>
+                      <td><a href="${pageContext.request.contextPath}/cart/remove?prodId=${item.productDTO.id}" onclick="return confirm('Bạn muốn xóa sản phẩm này khỏi giỏ hàng?')"><i class="material-icons">delete</i></a></td>
+                    </tr>
+                    <c:set var = "total" value = "${total + item.subTotal}"/>
+                </c:forEach>
+                </table>
+                </div>
             <div id="leadto_order">
               <table table class="w3-table-all">
                 <tr>
@@ -62,10 +54,10 @@
                 </tr>
                 <tr>
                   <td>Tổng thanh toán: </td>
-                  <td id="total">60000đ</td>
+                  <td id="total">${total}đ</td>
                 </tr>
                 <tr>
-                  <td colspan="2" style="padding: 0;"><button onclick="goToCreateOrder()" id="createorder_btn">Đặt hàng</button></td>
+                  <td colspan="2" style="padding: 0;"><button onclick="goToCreateOrder()" id="createOrder_btn">Đặt hàng</button></td>
                 </tr>
               </table>
             </div>
@@ -77,31 +69,26 @@
 
         <!--Javascript-->
         <script>          
-          function updateCart(productId) {
+          function updateCartNumber(productId) {
             const product = document.getElementById(productId);
-            const maxNum = product.max;
-            const currentNumOfProduct = parseInt(product.value);
+            const productValue = product.value;
+            const maxNum = parseInt(product.max);
+            const minNum = parseInt(product.min)
+            const currentNumOfProduct = parseInt(productValue);
+            const maxNumForCustomer = maxNum/minNum;
 
-            if ( currentNumOfProduct > parseInt(maxNum)) {
-              product.value = maxNum;
+            if ( currentNumOfProduct > maxNumForCustomer ) {
+              alert("Bạn không thể đặt quá giới hạn của sản phẩm");
+              product.value = currentNumOfProduct;
             } 
 
             if ( currentNumOfProduct == 0 ) {
-              removeProd (productId);
-            }
-              //Continue update cart here
-            
-          }
-
-          function removeProd (productId) {
-            if (confirm("Bạn muốn xóa sản phẩm này khỏi giỏ hàng?")){
-                alert("Sản phẩm " + productId + "đã được xóa!");
-                //Contitnue remove product here
+              product.value = 1;
             }
           }
 
           function goToCreateOrder () {
-            window.location.href = "/createOrder";
+            window.location.href = "http://localhost:8083/order/create-order";
           }
 
         </script>

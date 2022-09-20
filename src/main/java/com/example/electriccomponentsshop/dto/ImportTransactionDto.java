@@ -13,6 +13,7 @@ import java.util.List;
 public class ImportTransactionDto {
     private String sku;
     private String supplierId;
+    private String warehouseId;
     private List<ImportItemDto> importItems;
     private String importDate;
     private WarehouseDTO warehouseDTO;

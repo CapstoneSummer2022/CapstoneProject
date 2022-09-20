@@ -1,5 +1,7 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         <header>
+          <c:set var="username" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.name}"/>
           <div id="first_row">
             <a href="/home"><h1 id="store_name">Electroco</h1></a>
             <div id="searchByCate">
@@ -10,42 +12,57 @@
             </div>
             <div id="store_icons">
               <div id="cart_icon">
-                <a href="/cart"><i class="material-icons">shopping_cart</i><span id="no_of_prods">1</span> </a> <a href="cart.html">Giỏ hàng</a>
+                <a href="${pageContext.request.contextPath}/cart">
+                <i class="material-icons">shopping_cart</i><span id="no_of_prods"></span> </a>
+                <a href="${pageContext.request.contextPath}/cart">Giỏ hàng</a>
               </div>
-              <div id="avatar_icon">
-                <a href="../signin"><i class="material-icons">person</i></a><a href="../signin">Đăng nhập</a> / <a href="../signup">Đăng ký</a>
-              </div>
+                 <c:choose>
+                     <c:when test = "${username == null}">
+                        <div id="avatar_icon">
+                            <a href="${pageContext.request.contextPath}/signin"><i class="material-icons">person</i></a><a href="${pageContext.request.contextPath}/signin">Đăng nhập</a> / <a href="${pageContext.request.contextPath}/signup">Đăng ký</a>
+                        </div>
+                     </c:when>
+
+                     <c:otherwise>
+                        <div class="dropdown">
+                            <button class="dropbtn"><i class="material-icons">person</i><c:out value = "${username}"/></button>
+                            <div class="dropdown-content">
+                              <a href="${pageContext.request.contextPath}/profile" style="color: black;">Tài khoản của tôi</a>
+                              <a href="${pageContext.request.contextPath}/order/all" style="color: black;">Đơn hàng của tôi</a>
+                              <a href="${pageContext.request.contextPath}/sign-out" style="color: black;">Đăng xuất</a>
+                            </div>
+                         </div>
+                     </c:otherwise>
+                 </c:choose>
             </div>
           </div>
           <div id="second_row">
             <ul id="nav">
               <li><a href="#">Danh mục sản phẩm <i class="material-icons">arrow_drop_down</i></a>
                 <ul>
-                  <li><a href="/product?cate=?">Linh kiện bán dẫn </a>
-                    <ul>
-                      <li><a href="child-cgr.html">Transistor</a>
-                      <li><a href="#">Diode</a>
-                      <li><a href="#">Thysistor</a>
-                      <li><a href="#">Diac - Triac</a>
-                    </ul>
-                  </li>
-                  <li><a href="#">Linh kiện thụ động </a>
-                    <ul>
-                      <li><a href="child-cgr.html">Tụ điện</a>
-                      <li><a href="#">Cuộn cảm</a>
-                      <li><a href="#">Biến trở</a>
-                      <li><a href="#">Điện trở</a>
-                      <li><a href="#">Chiết áp</a>
-                    </ul>
-                  </li>
-                  <li><a href="#">Cảm biến</a></li>
+                  <c:forEach var="cate" items="${categories}">
+                    <li><a href="${pageContext.request.contextPath}/product?cate=${cate.id}&pageNo=1">${cate.name}</a>
+                        <ul>
+                            <c:forEach var="childCate" items="${cate.childCategories}">
+                                <li><a href="${pageContext.request.contextPath}/product?cate=${childCate.id}&pageNo=1">${childCate.name}</a>
+                            </c:forEach>
+                        </ul>
+                    </li>
+                  </c:forEach>
                 </ul>
               </li>
-              <li><a href="../contact">Thông tin liên hệ</a></li>
+              <li><a href="${pageContext.request.contextPath}/contact">Thông tin liên hệ</a></li>
             </ul>
           </div>
         </header>
 
-        <script>
+<script>
+    getNumbersOfProduct();
 
-        </script>
+    function getNumbersOfProduct () {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", "http://localhost:8083/cart/get-numbers-product", true);
+
+        document.getElementById("no_of_prods").innerHTML = this.responseText;
+    }
+</script>
