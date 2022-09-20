@@ -19,8 +19,18 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        System.out.println("THUONG DAY");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.addHeader("UNAUTHORIZED","UNAUTHORIZED");
+        System.out.println("hoang" + request.getContentType());
+        if(request.getContentType() == null || !request.getContentType().equals("application/json")){
+            System.out.println("hoangdexz");
             response.sendRedirect("/auth/signin");
+        }
+        else if(request.getContentType().equals("application/json")){
+                System.out.println("Gg34");
+               response.sendError(401,"unauth");
+            }
+
     }
 
 }

@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 @Entity
 @Table(name="Order_Items")
@@ -17,18 +18,13 @@ import java.math.BigDecimal;
 public class OrderItem {
     @EmbeddedId
     private OrderItemId orderItemId;
-
     private BigDecimal unitPrice;
-
-    private BigDecimal quantity;
-
+    private BigInteger quantity;
     private BigDecimal subTotal;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @MapsId("orderId")
     @JoinColumn(name="order_id")
     private Order order;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @MapsId("productId")
     @JoinColumn(name="product_id")

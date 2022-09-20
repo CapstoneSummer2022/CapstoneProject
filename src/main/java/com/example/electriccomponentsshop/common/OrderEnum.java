@@ -6,7 +6,10 @@ public enum OrderEnum {
     PENDING(1, "Chờ Xử Lý"),
     CONFIRM(2, "Đã Xác Nhận"),
     DELIVERY(3, "Đang Giao Hàng"),
-    DONE(4, "Hoàn Thành");
+    DONE(4, "Hoàn Thành"),
+
+    CANCEL(5,"Đã Hủy"),
+    RETURNED(6,"Đã Nhận Hoàn");
 
     private final Integer id;
     private final String name;

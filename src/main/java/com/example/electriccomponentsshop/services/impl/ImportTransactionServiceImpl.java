@@ -1,5 +1,8 @@
 package com.example.electriccomponentsshop.services.impl;
 
+
+
+
 import com.example.electriccomponentsshop.config.ModelMap;
 import com.example.electriccomponentsshop.dto.ImportItemDto;
 import com.example.electriccomponentsshop.dto.ImportTransactionDto;
@@ -10,7 +13,9 @@ import com.example.electriccomponentsshop.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,22 +46,24 @@ public class ImportTransactionServiceImpl implements ImportTransactionService {
     public ImportTransactionDto convertToDto(ImportTransaction importTransaction){
         return modelMap.modelMapper().map(importTransaction,ImportTransactionDto.class);
     }
-
     @Override
-    public ImportTransaction getImportTransactionById(String id){
+    public ImportTransactionDto getDtoById(String id){
+        return convertToDto(getById(id));
+    }
+    @Override
+    public ImportTransaction getById(String id){
         try{
             int importId = Integer.parseInt(id);
-            Optional<ImportTransaction> importTransaction = importTransactionRepository.findById(importId);
-            if(importTransaction.isPresent()){
-                return importTransaction.get();
+            Optional<ImportTransaction> importTransactionOptional = importTransactionRepository.findById(importId);
+            if(importTransactionOptional.isEmpty()){
+                throw  new NoSuchElementException("Không có giao dịch này");
             }
-            else throw new NoSuchElementException("Không tìm thấy giao dịch nhập này");
-
+            else return importTransactionOptional.get();
         }catch (NumberFormatException e){
-            throw  new NoSuchElementException("Không tìm thấy giao dịch nhập này");
+            throw  new NoSuchElementException("Không có giao dịch này");
         }
-    }
 
+    }
     @Override
     public List<ImportTransactionDto> findAll() {
         List<ImportTransaction> importTransactions = importTransactionRepository.findAll();
@@ -65,38 +72,24 @@ public class ImportTransactionServiceImpl implements ImportTransactionService {
         }
         return importTransactions.stream().map(this::convertToDto).collect(Collectors.toList());
     }
+    public boolean updateImportTransaction(ImportTransactionDto importTransactionDto){
+        return true;
+    }
     @Override
     public boolean addImportTransaction(ImportTransactionDto importTransactionDto) throws NoSuchElementException{
         ImportTransaction importTransaction= new ImportTransaction();
+        BigDecimal totalPayment= new BigDecimal("0");
         importTransaction.setImportDate(Date.valueOf(importTransactionDto.getImportDate()));
         Supplier supplier = supplierService.getBySupplierId(importTransactionDto.getSupplierId());
         importTransaction.setSupplier(supplier);
-
+        Warehouse warehouse  = warehouseService.getWarehouse(importTransactionDto.getWarehouseId());
+        importTransaction.setWarehouseImport(warehouse);
+        importTransaction.setTotalPayment(totalPayment);
         importTransaction = importTransactionRepository.save(importTransaction);
         List<ImportItem> importItems = new ArrayList<>();
         List<ImportItemDto> importItemDtos = importTransactionDto.getImportItems();
-        BigDecimal totalPayment= new BigDecimal(0);
-        for (ImportItemDto im: importItemDtos
-             ) {
-                Container container = containerService.getContainerById(im.getContainerId());
-                Product product = productService.getById(im.getProductId());
-                Sku sku = new Sku();
-                sku = skuService.save(sku);
-                BigDecimal quantity = im.getQuantity();
-                BigDecimal importPrice = im.getImportPrice();
-                BigDecimal subtotal = quantity.multiply(importPrice);
-                importItems.add(new ImportItem(new ImportItemId(importTransaction.getId(),container.getId(),product.getId()),quantity,importPrice,sku,importTransaction,container,product));
-
-        }
-        importTransaction.setImportItems(importItems);
-
-        Warehouse warehouse  = warehouseService.getWarehouse(importTransactionDto.getWarehouseId());
-        importTransaction.setWarehouseImport(warehouse);
-        importTransaction = importTransactionRepository.save(importTransaction);
-        importItems = new ArrayList<>();
-        importItemDtos = importTransactionDto.getImportItems();
         System.out.println(importItemDtos.size() + "đây là");
-        totalPayment= new BigDecimal(0);
+
         for (ImportItemDto im: importItemDtos
              ) {
             System.out.println("híadd");
@@ -104,20 +97,19 @@ public class ImportTransactionServiceImpl implements ImportTransactionService {
             System.out.println(container.getRowIn()+ "cơ mà");
                 Product product = productService.getById(im.getProductId());
             System.out.println("đay");
-                product.setAvailable(product.getAvailable().add(im.getQuantity()));
-
+            BigInteger quantity = im.getQuantity();
+                product.setAvailable(product.getAvailable().add(quantity));
                 Sku sku = new Sku();
                 sku.setId(im.getSkuId()+"-"+importTransaction.getId());
-                sku.setQuantity(im.getQuantity());
+                sku.setQuantity(quantity);
                 sku.setProduct(product);
                 sku = skuService.save(sku);
                 List<Sku> skus =  product.getSkus();
                 skus.add(sku);
                 productService.save(product);
-                BigDecimal quantity = im.getQuantity();
                 BigDecimal importPrice = im.getImportPrice();
-                BigDecimal subtotal = quantity.multiply(importPrice);
-                ImportItem importItem = new ImportItem(new ImportItemId(importTransaction.getId(),container.getId(),product.getId()),quantity,importPrice,sku,importTransaction,container,product);
+                BigDecimal subtotal = importPrice.multiply(new BigDecimal(quantity));
+                ImportItem importItem = new ImportItem(new ImportItemId(importTransaction.getId(),container.getId(),product.getId()),quantity,importPrice,sku,importTransaction,container,product,subtotal);
                 importItems.add(importItem);
                 importItemRepository.save(importItem);
                 totalPayment = totalPayment.add(subtotal);

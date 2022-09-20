@@ -10,7 +10,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class WarehouseDTO {
-    private String address;
-    private String status;
+    private String id;
+    private String provinceName;
+    private String districtName;
+    private String wardName;
+    private String detailLocation;
+    private Integer status;
 
 }

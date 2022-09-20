@@ -43,18 +43,25 @@
             </div>
         </div>
     </div>
-    <%--@elvariable id="orderDto" type="com.example.electriccomponentsshop.dto.OrderDTO"--%>
-    <form:form modelAttribute="orderDto">
+    <form>
         <div class="row">
             <div class="col-md-12">
                 <div class="tile">
+                    <h3 class="tile-title">Thông tin người mua</h3>
+                    <div class="tile-body">
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label class="control-label required-field">Số điện thoại</label>
+                                <input class="form-control" type="number" id="orderPhone" required>
+                            </div>
+                        </div>
+                    </div>
                     <h3 class="tile-title">Thông tin nhận hàng</h3>
                     <div class="tile-body">
                         <div class="row">
                             <div class="form-group col-md-4">
                                 <label class="control-label required-field">Họ và tên</label>
-                                <input id="name" class="form-control" type="text" required>
-                                <form:errors path="receivedPerson" element="span"/>
+                                <input class="form-control" type="text" id="receivedPerson" required>
                             </div>
                         </div>
                         <div class="row">
@@ -62,16 +69,20 @@
                                 <label for="exampleSelect1" class="control-label required-field">Tỉnh/Thành
                                     phố</label>
                                 <select class="form-control" id="province" required>
-                                    <c:forEach var="province" items="${listProvince}">
-                                        <option value="${province.name}">${province.name}</option>
+                                    <c:forEach  var="province" items="${listProvince}" >
+                                        <option value="${province.name}">
+                                                ${province.name}
+                                        </option>
                                     </c:forEach>
                                 </select>
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="exampleSelect1" class="control-label required-field">Quận/Huyện</label>
                                 <select class="form-control" id="district" required>
-                                    <c:forEach items="${listDistrict}" var="district">
-                                        <option value="${district.name}">${district.name}</option>
+                                    <c:forEach  var="district" items="${listDistrict}" >
+                                        <option value="${district.name}">
+                                                ${district.name}
+                                        </option>
                                     </c:forEach>
                                 </select>
                             </div>
@@ -79,8 +90,10 @@
                                 <label for="exampleSelect1" class="control-label required-field">Phường/Xã/Thị
                                     trấn</label>
                                 <select class="form-control" id="ward" required>
-                                    <c:forEach items="${listWard}" var="ward">
-                                        <option value="${ward.name}">${ward.name}</option>
+                                    <c:forEach  var="ward" items="${listWard}" >
+                                        <option value="${ward.name}">
+                                                ${ward.name}
+                                        </option>
                                     </c:forEach>
                                 </select>
                             </div>
@@ -88,13 +101,13 @@
                         <div class="row">
                             <div class="form-group col-md-4">
                                 <label class="control-label required-field">Địa chỉ</label>
-                                <input id ="detail-location" class="form-control" type="text" required>
+                                <input class="form-control" id="detailLocation" type="text" required>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-md-4">
                                 <label class="control-label required-field">Số điện thoại</label>
-                                <input id="phone" class="form-control" type="number" required>
+                                <input class="form-control" type="number" id="receivedPhone" required>
                             </div>
                         </div>
                     </div>
@@ -106,7 +119,7 @@
                     <div class="row element-button">
                         <div class="col-sm-2">
                             <button class="btn btn-add btn-sm" title="Thêm" data-toggle="modal"
-                                    data-target="#productList"><i class="fas fa-plus"></i>
+                                    data-target="#productList" type="button"><i class="fas fa-plus"></i>
                                 Thêm sản phẩm</button>
                         </div>
                     </div>
@@ -114,7 +127,7 @@
                         <table id="orderProductList" class="table table-hover table-bordered form-product">
                             <thead>
                             <tr>
-                                <th class="order-item-number">Mã sản phẩm</th>
+                                <th class="order-item-number">Mã SKUD</th>
                                 <th class="order-item-number">Tên sản phẩm</th>
                                 <th class="order-item-number">Hình ảnh</th>
                                 <th class="order-item-number">Đơn giá</th>
@@ -125,29 +138,6 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr class="order-item">
-                                <td>1</td>
-                                <td>Diode Xung Đôi SBL3040 TO-247 600V 30A</td>
-                                <td><img src="/img-sanpham/reno.jpg" alt="" width="50px;"></td>
-                                <td>5600</td>
-                                <td>
-                                    <div class="quantity">
-                                        <button class="minus-btn" type="button" name="button">
-                                            -
-                                        </button>
-                                        <input class="input-number" type="number" name="name" value="1">
-                                        <button class="plus-btn" type="button" name="button">
-                                            +
-                                        </button>
-                                    </div>
-                                </td>
-                                <td>5600</td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                            data-toggle="modal" data-target="#deleteProduct"><i
-                                            class="fas fa-trash-alt"></i></button>
-                                </td>
-                            </tr>
 
                             </tbody>
                         </table>
@@ -158,12 +148,20 @@
                 <div class="tile">
                     <h3 class="tile-title">Thông tin thanh toán</h3>
                     <div class="row">
-                        <div class="form-group  col-md-6">
+                        <div class="form-group col-md-12">
+                            <label for="exampleSelect1" class="control-label required-field">Loại đơn hàng</label>
+                            <select class="form-control" id="orderType"required>
+                               <c:forEach var="type" items="${listType}">
+                                   <option value="${type.id}">${type.name}</option>
+                               </c:forEach>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-12">
                             <label class="control-label">Tổng cộng thanh toán: </label>
                             <p class="control-all-money-total"><span id="sum">0</span></p>
                         </div>
                         <div class="tile-footer col-md-12">
-                            <button id="create" class="btn btn-primary create-order-button" type="button">Tạo đơn
+                            <button type="button" class="btn btn-primary create-order-button" id="createOrder">Tạo đơn
                                 hàng</button>
                             <a class="btn btn-primary cancel-order-button" href="order-management.html"
                                type="button">Huỷ và quay về</a>
@@ -174,7 +172,7 @@
             </div>
 
         </div>
-    </form:form>
+    </form>
 </main>
 <!--
 PRODUCT MODAL
@@ -188,128 +186,72 @@ PRODUCT MODAL
                     <div class="col-md-12">
                         <div class="tile">
                             <div class="tile-body">
-                                <div class="modal-search-row">
-                                    <button class="btn btn-save"><i class='fas fa-plus'></i>
-                                        Thêm vào giỏ hàng</button>
-                                    <form action="">
-                                        <div class="search-container">
-                                            <input class="form-control" type="text" placeholder="Tìm kiếm"
-                                                   name="search">
-                                            <button type="button" id="find-product"><i class="fa fa-search"></i></button>
-                                        </div>
-                                    </form>
-                                </div>
-                                <table class="table table-hover table-bordered" id="productTable">
-                                    <thead>
-                                    <tr>
-                                        <th>Mã sản phẩm</th>
-                                        <th>Tên sản phẩm</th>
-                                        <th>Ảnh sản phẩm</th>
-                                        <th>Số lượng tồn kho</th>
-                                        <th>Tình trạng</th>
-                                        <th>Giá tiền</th>
-                                        <th>Danh mục</th>
-                                        <th>Chọn</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="list-product">
+                                <form>
+                                    <div class="modal-search-row">
+                                        <button class="btn btn-save" type="button" data-dismiss="modal"
+                                                onclick="addToProductTable()"><i class='fas fa-plus'></i>
+                                            Thêm vào đơn hàng</button>
+                                        <form action="">
+                                            <div class="search-container">
+                                                <input class="form-control" type="text" placeholder="Tìm kiếm"
+                                                       name="search">
+                                                <button type="submit"><i class="fa fa-search"></i></button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <table id="products" class="table table-hover table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>Mã sản phẩm</th>
+                                            <th>Tên sản phẩm</th>
+                                            <th>Ảnh sản phẩm</th>
+                                            <th>Số lượng tồn kho</th>
+                                            <th>Giá tiền</th>
+                                            <th>Chọn</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <c:forEach var="product" items="${listProduct}">
+                                            <tr>
+                                                <td>${product.id}</td>
+                                                <td>${product.name}</td>
+                                                <td></td>
+                                                <td>${product.available}</td>
+                                                <td>${product.price}</td>
+                                                <td><input class="status-checkbox" type="checkbox"
+                                                           data-toggle="modal" data-target="#confirmStatus"
+                                                           name="check1" value="1">
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
 
-                                    <tr>
-                                        <td>1-A-2-2</td>
-                                        <td>Diode Xung Đôi SBL3040 TO-247 600V 30A</td>
-                                        <td><img src="/img-sanpham/theresa.jpg" alt="" width="100px;"></td>
-                                        <td>40</td>
-                                        <td><span class="badge bg-success">Còn hàng</span></td>
-                                        <td>5.600 đ</td>
-                                        <td>Đi-ốt</td>
-                                        <td><input class="status-checkbox" type="checkbox" data-toggle="modal"
-                                                   data-target="#confirmStatus" name="check1" value="1">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>1-A-10-1</td>
-                                        <td>Diode Chỉnh Lưu FR307 3A 1000V</td>
-                                        <td><img src="/img-sanpham/reno.jpg" alt="" width="100px;"></td>
-                                        <td>70</td>
-                                        <td><span class="badge bg-success">Còn hàng</span></td>
-                                        <td>24.200 đ</td>
-                                        <td>Đi-ốt</td>
-                                        <td><input class="status-checkbox" type="checkbox" data-toggle="modal"
-                                                   data-target="#confirmStatus" name="check1" value="1">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>1-A-6-2</td>
-                                        <td>Diode Cầu 25A Dẹt 1000V KBJ2510</td>
-                                        <td><img src="/img-sanpham/matda.jpg" alt="" width="100px;"></td>
-                                        <td>40</td>
-                                        <td><span class="badge bg-success">Còn hàng</span></td>
-                                        <td>33.235 đ</td>
-                                        <td>Đi-ốt</td>
-                                        <td><input class="status-checkbox" type="checkbox" data-toggle="modal"
-                                                   data-target="#confirmStatus" name="check1" value="1">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>1-A-10-2</td>
-                                        <td>Tụ Hóa 6.3V</td>
-                                        <td><img src="/img-sanpham/ghethera.jpg" alt="" width="100px;"></td>
-                                        <td>50</td>
-                                        <td><span class="badge bg-success">Còn hàng</span></td>
-                                        <td>9.500 đ</td>
-                                        <td>Tụ điện</td>
-                                        <td><input class="status-checkbox" type="checkbox" data-toggle="modal"
-                                                   data-target="#confirmStatus" name="check1" value="1">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>1-A-6-5</td>
-                                        <td>Tụ Phân Tần Loa Trebel CBB 335J 250V</td>
-                                        <td><img src="/img-sanpham/zuno.jpg" alt="" width="100px;"></td>
-                                        <td>50</td>
-                                        <td><span class="badge bg-success">Còn hàng</span></td>
-                                        <td>3.800 đ</td>
-                                        <td>Tụ điện</td>
-                                        <td><input class="status-checkbox" type="checkbox" data-toggle="modal"
-                                                   data-target="#confirmStatus" name="check1" value="1">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>1-A-10-6</td>
-                                        <td>Cuộn cảm HCI1005LF-10NJ-MS8</td>
-                                        <td><img src="/img-sanpham/vita.jpg" alt="" width="100px;"></td>
-                                        <td>55</td>
-                                        <td><span class="badge bg-success">Còn hàng</span></td>
-                                        <td>4.600 đ</td>
-                                        <td>Cuộn cảm</td>
-                                        <td><input class="status-checkbox" type="checkbox" data-toggle="modal"
-                                                   data-target="#confirmStatus" name="check1" value="1">
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                                <div class="pagination-row">
-                                    <div class="pagination-container">
-                                        <div class="dataTables_paginate paging_simple_numbers"
-                                             id="sampleTable_paginate">
-                                            <ul class="pagination">
-                                                <li class="paginate_button page-item previous disabled"
-                                                    id="sampleTable_previous"><a href="#"
-                                                                                 aria-controls="sampleTable" data-dt-idx="0" tabindex="0"
-                                                                                 class="page-link">Lùi</a></li>
-                                                <li class="paginate_button page-item active"><a href="#"
-                                                                                                aria-controls="sampleTable" data-dt-idx="1" tabindex="0"
-                                                                                                class="page-link">1</a></li>
-                                                <li class="paginate_button page-item "><a href="#"
-                                                                                          aria-controls="sampleTable" data-dt-idx="2" tabindex="0"
-                                                                                          class="page-link">2</a></li>
-                                                <li class="paginate_button page-item next" id="sampleTable_next"><a
-                                                        href="#" aria-controls="sampleTable" data-dt-idx="3"
-                                                        tabindex="0" class="page-link">Tiếp</a></li>
-                                            </ul>
+
+                                        </tbody>
+                                    </table>
+                                    <div class="pagination-row">
+                                        <div class="pagination-container">
+                                            <div class="dataTables_paginate paging_simple_numbers"
+                                                 id="sampleTable_paginate">
+                                                <ul class="pagination">
+                                                    <li class="paginate_button page-item previous disabled"
+                                                        id="sampleTable_previous"><a href="#"
+                                                                                     aria-controls="sampleTable" data-dt-idx="0" tabindex="0"
+                                                                                     class="page-link">Lùi</a></li>
+                                                    <li class="paginate_button page-item active"><a href="#"
+                                                                                                    aria-controls="sampleTable" data-dt-idx="1" tabindex="0"
+                                                                                                    class="page-link">1</a></li>
+                                                    <li class="paginate_button page-item "><a href="#"
+                                                                                              aria-controls="sampleTable" data-dt-idx="2" tabindex="0"
+                                                                                              class="page-link">2</a></li>
+                                                    <li class="paginate_button page-item next"
+                                                        id="sampleTable_next"><a href="#"
+                                                                                 aria-controls="sampleTable" data-dt-idx="3" tabindex="0"
+                                                                                 class="page-link">Tiếp</a></li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -337,7 +279,6 @@ MODAL DELETE PRODUCT
      data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-
             <div class="modal-body">
                 <div class="row">
                     <div class="form-group  col-md-12">
@@ -350,7 +291,8 @@ MODAL DELETE PRODUCT
                     </div>
                 </div>
                 <div style="display: flex; justify-content: center; padding: 10px;">
-                    <a style="margin: 5px;" class="btn btn-save" data-dismiss="modal" href="#">Xác nhận</a>
+                    <a style="margin: 5px;" class="btn btn-save btn-confirm" data-dismiss="modal" href="#">Xác
+                        nhận</a>
                     <a style="margin: 5px;" class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
                 </div>
             </div>
@@ -362,17 +304,67 @@ MODAL DELETE PRODUCT
 <!--
 MODAL
 -->
-<!-- The Modal -->
-<div id="myModal" class="modal">
 
-    <!-- Modal content -->
-    <div class="modal-content">
-        <div class="modal-header">
-            <span class="close" id="errorAlert">X</span>
+<!--
+MODAL SUCCESSFUL
+-->
+<div class="modal fade" id="successful" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group  col-md-12">
+                            <span class="thong-tin-thanh-toan">
+                                <h5>Thông báo</h5>
+                            </span>
+                    </div>
+                    <div class="form-group col-md-12" style="text-align: center;">
+                        <p class="modal-notify-successful">Tạo đơn hàng thành công</p>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: center; padding: 10px;">
+                    <button style="margin: 5px;" class="btn btn-save" data-dismiss="modal">Quay lại</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
         </div>
     </div>
 </div>
-<!-- Essential javascripts for application to work-->
+<!--
+MODAL
+-->
+<!--
+MODAL PRODUCT EMPTY
+-->
+<div class="modal fade" id="productEmpty" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group  col-md-12">
+                            <span class="thong-tin-thanh-toan">
+                                <h5>Thông báo</h5>
+                            </span>
+                    </div>
+                    <div class="form-group col-md-12" style="text-align: center;">
+                        <p class="modal-notify-unsuccessful">Chưa có sản phẩm trong danh sách</p>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: center; padding: 10px;">
+                    <button style="margin: 5px;" class="btn btn-save" data-dismiss="modal">Quay lại</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<!--
+MODAL
+-->
 
 <!-- The javascript plugin to display page loading on top-->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
@@ -385,28 +377,29 @@ MODAL
 <script src="<c:url value="/js/plugins/pace.min.js"/>"></script>
 <script src="<c:url value="/resources/data.json"/>"></script>
 <script>
-    var element = document.getElementById("create");
+    var element = document.getElementById("createOrder");
     element.addEventListener('click',()=>{
         var orderItems= new Array();
         $(".order-item").each(function (){
             var row = $(this);
             var orderItem = new Object();
-            alert(row.find("TD").eq(0));
             orderItem.productId = row.find("TD").eq(0).html();
             orderItem.quantity = row.find("INPUT").val();
             orderItems.push(orderItem);
-            alert(orderItem.productId + orderItem.quantity);
+
         });
         var data1={
-            receivedPerson: $('#name').val(),
+            accountCustomerPhone:$('#orderPhone').val(),
+            receivedPerson: $('#receivedPerson').val(),
             provinceName: $('#province').val(),
             districtName: $('#district').val(),
             wardName:$('#ward').val(),
-            detailLocation:$('#detail-location').val(),
-            receivedPhone:$('#phone').val(),
+            detailLocation:$('#detailLocation').val(),
+            receivedPhone:$('#receivedPhone').val(),
+            kindId:$('#orderType').val(),
             orderItems: orderItems
         };
-        alert(JSON.stringify(data1));
+
         $.ajax({
             type: "POST",
             contentType: "application/json",
@@ -432,7 +425,6 @@ MODAL
                 contentType:"application/x-www-form-urlencoded",
                 url: "/address/district?province="+pro,
                 success: function (response){
-                    alert(response);
                     var  $dis= $('#district');
                     var $ward = $('#ward')
                     $dis.find('option').remove();

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.math.BigInteger;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +36,18 @@ public class ExportTransactionServiceImpl implements ExportTransactionService {
     ExportItemRepository exportItemRepository;
     @Override
     public ExportTransactionDto convertToDto(ExportTransaction exportTransaction){
-        return modelMap.modelMapper().map(exportTransaction, ExportTransactionDto.class);
+        System.out.println(exportTransaction.getId()+"ds");
+        ExportTransactionDto exportTransactionDto = modelMap.modelMapper().map(exportTransaction, ExportTransactionDto.class);
+        exportTransactionDto.setExportDate(exportTransaction.getExportDate().toString());
+        exportTransactionDto.setExportPerson(exportTransactionDto.getExportPerson());
+        exportTransactionDto.setReceivedPerson(exportTransactionDto.getReceivedPerson());
+        return exportTransactionDto;
     }
+    @Override
+    public ExportTransactionDto getDtoById(String id){
+        return convertToDto(getById(id));
+    }
+
     @Override
     public ExportTransaction getById(String id){
         try{
@@ -52,6 +63,7 @@ public class ExportTransactionServiceImpl implements ExportTransactionService {
     @Override
     public List<ExportTransactionDto>  findAll(){
         List<ExportTransaction> exportTransactionList = exportTransactionRepository.findAll();
+        System.out.println(exportTransactionList.size()+"đây là ");
         if(exportTransactionList.isEmpty()){
             throw new NoSuchElementException("Không có dữ liệu");
         }else{
@@ -71,17 +83,18 @@ public class ExportTransactionServiceImpl implements ExportTransactionService {
         exportTransaction =  exportTransactionRepository.save(exportTransaction);
         List<ExportItem> exportItems = new ArrayList<>();
          List<ExportItemDto> exportItemDtoList = exportTransactionDto.getExportItems();
-        System.out.println("size " + exportItemDtoList.size());
         for (ExportItemDto e: exportItemDtoList
              ) {
+            System.out.println(e.getSkuId()+"hoangx");
             Sku sku = skuService.getSkuById(e.getSkuId());
-            sku.setQuantity(sku.getQuantity().subtract(e.getQuantity()));
+
+            Product product = sku.getProduct();
+            BigInteger quantity = e.getQuantity();
+            sku.setQuantity(sku.getQuantity().subtract(quantity.multiply(product.getUnit())));
             skuService.save(sku);
-            System.out.println("dcmi");
-            ExportItem exportItem = new ExportItem(new ExportItemId(exportTransaction.getId(),sku.getId()),e.getQuantity(),sku,exportTransaction);
+            ExportItem exportItem = new ExportItem(new ExportItemId(exportTransaction.getId(),sku.getId()),quantity,sku,exportTransaction);
             exportItemRepository.save(exportItem);
             exportItems.add(exportItem);
-            System.out.println("dcmm");
         }
         order.setStatus(OrderEnum.DELIVERY.getName());
         orderService.save(order);
@@ -89,6 +102,40 @@ public class ExportTransactionServiceImpl implements ExportTransactionService {
         exportTransactionRepository.save(exportTransaction);
     }
 
-
+    @Override
+    public void updateExportTransaction(ExportTransactionDto exportTransactionDto) throws NoSuchElementException{
+        ExportTransaction exportTransaction = getById(exportTransactionDto.getId());
+        exportTransaction.setExportPerson(exportTransactionDto.getExportPerson());
+        exportTransaction.setReceivedPerson(exportTransactionDto.getReceivedPerson());
+        exportTransaction.setDescription(exportTransactionDto.getDescription());
+        Order order = orderService.getById(exportTransactionDto.getOrderId());
+        exportTransaction.setOrder(order);
+        exportTransaction.setExportDate(Date.valueOf(exportTransactionDto.getExportDate()));
+        exportTransaction =  exportTransactionRepository.save(exportTransaction);
+        List<ExportItem> exportItems = new ArrayList<>();
+        List<ExportItemDto> exportItemDtoList = exportTransactionDto.getExportItems();
+        exportItemRepository.deleteExportItemsByExportTransactionId(exportTransaction.getId());
+        for (ExportItem e: exportTransaction.getExportItems()
+        ) {
+            Sku sku = e.getSku();
+            Product product = sku.getProduct();
+            BigInteger quantity = e.getQuantity();
+            sku.setQuantity(sku.getQuantity().add(quantity.multiply(product.getUnit())));
+            skuService.save(sku);
+        }
+        for (ExportItemDto e: exportItemDtoList
+        ) {
+            Sku sku = skuService.getSkuById(e.getSkuId());
+            Product product = sku.getProduct();
+            BigInteger quantity = e.getQuantity();
+            sku.setQuantity(sku.getQuantity().subtract(quantity.multiply(product.getUnit())));
+            skuService.save(sku);
+            ExportItem exportItem = new ExportItem(new ExportItemId(exportTransaction.getId(),sku.getId()),quantity,sku,exportTransaction);
+            exportItemRepository.save(exportItem);
+            exportItems.add(exportItem);
+        }
+        exportTransaction.setExportItems(exportItems);
+        exportTransactionRepository.save(exportTransaction);
+    }
 
 }

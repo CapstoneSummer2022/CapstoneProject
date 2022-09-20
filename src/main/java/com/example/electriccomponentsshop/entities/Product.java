@@ -5,7 +5,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +23,6 @@ public class Product {
     private Integer id;
     @Column
     private String name;
-
-    private Integer unit;
-
     @Column
     private String image;
     @Column
@@ -35,16 +32,18 @@ public class Product {
     private Date addedDate;
     @Column
     @ColumnDefault("0")
-    private BigDecimal available;
+    private BigInteger available;
     @Column
     private int status;
+    private BigInteger unit;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "Product_Category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categories = new ArrayList<>();
 
-    @OneToMany(mappedBy = "product")
-    private List<CartItem> cartItem;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
 
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
@@ -58,14 +57,11 @@ public class Product {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     private List<OrderItem> orderItems = new ArrayList<>();
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "supplier_id")
     private Supplier productSupplier;
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "productImport")
     private List<ImportItem> importItemsProduct = new ArrayList<>();
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     private List<Sku> skus = new ArrayList<>();
 }

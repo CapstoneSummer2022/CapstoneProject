@@ -28,11 +28,11 @@ public class SkuServiceImpl implements SkuService {
     }
     @Override
     public Sku getSkuById(String id){
-        Optional<Sku> skuOptional = skuRepository.findById(id);
-        if(skuOptional.isPresent()){
-            return skuOptional.get();
-        }
-        else throw new NoSuchElementException("Không có sku này");
+            Optional<Sku> skuOptional = skuRepository.findById(id);
+            if(skuOptional.isPresent()){
+                return skuOptional.get();
+            }
+            else throw new NoSuchElementException("Không có sku này");
 
     }
     @Override

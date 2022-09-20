@@ -7,5 +7,4 @@ public interface SpecificationValueService {
     SpecificationValueDto convertToDto(SpecificationValue specificationValue);
 
     <S extends SpecificationValue> S save(S entity);
-
 }

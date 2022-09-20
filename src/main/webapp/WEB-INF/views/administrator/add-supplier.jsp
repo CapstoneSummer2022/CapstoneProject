@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -74,7 +75,7 @@
   <main class="app-content">
     <div class="app-title">
       <ul class="app-breadcrumb breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Quản lý nhà cung cấp</a></li>
+        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/admin/suppliers">Quản lý nhà cung cấp</a></li>
         <li class="breadcrumb-item active">Thêm nhà cung cấp</li>
       </ul>
     </div>
@@ -83,27 +84,28 @@
         <div class="tile">
           <h3 class="tile-title">Thêm nhà cung cấp</h3>
           <div class="tile-body">
-            <form>
+            <%--@elvariable id="newSupplier" type="com.example.electriccomponentsshop.dto.SupplierDTO"--%>
+            <form:form action="${pageContext.request.contextPath}/admin/suppliers/add" method="post" modelAttribute="newSupplier">
               <div class="row">
                 <div class="form-group col-md-3">
                   <label class="control-label required-field">Tên nhà cung cấp</label>
-                  <input class="form-control" type="text" required>
+                  <form:input class="form-control" type="text" required="required" path="name"/>
                 </div>
                 <div class="form-group col-md-3">
-                  <label class="control-label">Địa chỉ trang web</label>
-                  <input class="form-control" type="text">
+                  <label class="control-label">Số điện thoại</label>
+                  <form:input class="form-control" type="text" path="phone"/>
                 </div>
               </div>
               <div class="row">
                 <div class="confirm-button">
                   <div class="button">
-                    <button type="submit" class="btn btn-save" type="button">Lưu lại</button>
+                    <button type="submit" class="btn btn-save" >Lưu lại</button>
                     <button type="button" class="btn btn-cancel" onclick="location.href='supplier-management.html'">Hủy
                       bỏ</button>
                   </div>
                 </div>
               </div>
-            </form>
+            </form:form>
           </div>
         </div>
       </div>

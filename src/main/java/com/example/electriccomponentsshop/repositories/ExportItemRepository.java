@@ -5,4 +5,5 @@ import com.example.electriccomponentsshop.entities.ExportItemId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ExportItemRepository extends JpaRepository<ExportItem, ExportItemId> {
+    void deleteExportItemsByExportTransactionId(Integer eId);
 }

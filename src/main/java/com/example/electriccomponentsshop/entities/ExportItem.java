@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
+import java.math.BigInteger;
 
 @Getter
 @Setter
@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 public class ExportItem {
     @EmbeddedId
     private ExportItemId exportItemId;
-    private BigDecimal quantity;
+    private BigInteger quantity;
     @ManyToOne(fetch = FetchType.EAGER)
     @MapsId("skuId")
     @JoinColumn(name = "sku_id", referencedColumnName = "id")

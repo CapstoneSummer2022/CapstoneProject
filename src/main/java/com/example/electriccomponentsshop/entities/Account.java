@@ -6,8 +6,9 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-
+import java.util.Set;
 @Getter
 @Setter
 @Entity
@@ -38,28 +39,21 @@ public class Account {
     @OneToOne(mappedBy = "account")
     @PrimaryKeyJoinColumn
     private RefreshToken refreshToken;
-
     @OneToMany(mappedBy = "account",fetch = FetchType.LAZY)
     List<Feedback> feedbackList =new ArrayList<>();
-
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "accountEmployee")
     List<Order> ordersOfEmployee = new ArrayList<>();
-
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "accountCustomer")
     List<Order> ordersOfCustomer = new ArrayList<>();
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="pCode")
     private Province provinceAccount;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="dCode")
     private District districtAccount;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="wCode")
     private Ward wardAccount;
-
     public Account(String email, String password) {
         this.email = email;
         this.password = password;
@@ -68,12 +62,6 @@ public class Account {
         this.email = email;
         this.password = password;
         this.roles = roles;
-    }
-
-    public Account(String name, String email, String password) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
     }
     public String getDob(){
         try {
@@ -85,7 +73,6 @@ public class Account {
         }
 
     }
-
     public String getRole(){
         return roles.stream().findFirst().get().getRoleName().name();
     }

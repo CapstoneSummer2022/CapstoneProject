@@ -1,16 +1,17 @@
 package com.example.electriccomponentsshop.controller.admin;
 
-import com.example.electriccomponentsshop.config.ModelMap;
 import com.example.electriccomponentsshop.dto.SupplierDTO;
 import com.example.electriccomponentsshop.entities.Supplier;
 import com.example.electriccomponentsshop.services.SupplierService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin
@@ -26,29 +27,50 @@ public class SupplierController {
 
     @GetMapping("")
     public String viewAll(Model model){
-        ArrayList<Supplier> suppliers = (ArrayList<Supplier>)supplierService.findAll();
+        List<SupplierDTO> suppliers = supplierService.getAllSupplier();
         model.addAttribute("listSupplier",suppliers);
         return "administrator/supplier-management";
     }
     @PostMapping("/add")
     public String addNew(@Valid @ModelAttribute("newSupplier") SupplierDTO supplierDTO, BindingResult bindingResult){
-        supplierService.save(convertToEntity(supplierDTO)) ;
-        return "administrator/supplier-management";
+        supplierService.addSupplier(supplierDTO);
+        return "administrator/add-supplier";
     }
-    @PostMapping("/view/{id}")
-    public String update(@PathVariable Integer id,@Valid @ModelAttribute("newSupplier")SupplierDTO supplierDTO, BindingResult bindingResult){
-        Optional<Supplier> supplier = supplierService.findById(id);
-        if(supplier.isPresent()){
-            supplierService.save(convertToEntity(supplierDTO));
+    @GetMapping("/add")
+    public String viewAddForm(ModelMap modelMap){
+        modelMap.addAttribute("newSupplier",new SupplierDTO());
+        return "administrator/add-supplier";
+    }
+    @PostMapping("/edit/{id}")
+    public String update(@PathVariable(name="id") String id,@Valid @ModelAttribute("supplier")SupplierDTO supplierDTO, BindingResult bindingResult){
+        supplierService.updateSupplier(supplierDTO,id);
+        return "administrator/setting-supplier";
+    }
+    @GetMapping("/edit/{id}")
+    public String viewFormUpdate(@PathVariable(name="id") String id,ModelMap modelMap){
+        SupplierDTO supplierDTO = supplierService.getDtoById(id);
+        modelMap.addAttribute("supplier",supplierDTO);
+        return "administrator/setting-supplier";
+    }
+    @PostMapping("/disable")
+    @ResponseBody
+    public String disable(@RequestParam(name="id") String id ){
+        try {
+            supplierService.disableSupplier(id);
+            return "Vô hiệu hóa thành công";
+        }catch (RuntimeException e){
+            return e.getMessage();
         }
-        else {
-
+    }
+    @PostMapping("/enable")
+    @ResponseBody
+    public String enable(@RequestParam(name="id") String id ){
+        try {
+            supplierService.enableSupplier(id);
+            return "Kích hoạt thành công";
+        }catch (RuntimeException e){
+            return e.getMessage();
         }
-        return "administrator/setting-management";
     }
-    Supplier convertToEntity(SupplierDTO supplierDTO){
-        ModelMap map = new ModelMap();
-        return map.modelMapper().map(supplierDTO,Supplier.class);
 
-    }
 }

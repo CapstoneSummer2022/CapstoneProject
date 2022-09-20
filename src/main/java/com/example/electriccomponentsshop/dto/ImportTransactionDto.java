@@ -5,16 +5,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
+import java.math.BigDecimal;
 import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ImportTransactionDto {
-    private String sku;
+    private String id;
     private String supplierId;
-    private String warehouseId;
+    private String supplierName;
     private List<ImportItemDto> importItems;
     private String importDate;
-    private WarehouseDTO warehouseDTO;
+    private String warehouseId;
+    private String provinceName;
+    private String districtName;
+    private String wardName;
+    private BigDecimal totalPayment;
 }

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigInteger;
 
 @Getter
 @Setter
@@ -12,5 +13,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class SkuDTO {
     private String id;
-    private Integer quantity;
+    private BigInteger quantity;
 }

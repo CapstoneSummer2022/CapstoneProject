@@ -1,11 +1,12 @@
 package com.example.electriccomponentsshop.dto;
 
+import com.example.electriccomponentsshop.entities.SpecificationValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
+import javax.persistence.Column;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -16,15 +17,13 @@ import java.util.List;
 public class ProductDTO {
     private String id;
     private String name;
-    private Integer unit;
-    private String sku;
     private String image;
-    private BigDecimal available;
+    private BigInteger available;
     private BigDecimal price;
     private List<CategoryDTO> categories;
     private List<SpecificationValueDto> specificationValues;
     private int status ;
     private String description;
     private String supplierId;
-
+    private BigInteger unit;
 }

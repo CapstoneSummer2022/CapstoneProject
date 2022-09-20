@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
+import java.math.BigInteger;
 
 @Getter
 @Setter
@@ -14,5 +14,6 @@ import java.math.BigDecimal;
 public class ExportItemDto {
     private String exportTransactionId;
     private String skuId;
-    private BigDecimal quantity;
+    private String productName;
+    private BigInteger quantity;
 }

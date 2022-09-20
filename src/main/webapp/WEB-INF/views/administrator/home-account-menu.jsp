@@ -117,14 +117,16 @@
         </li>
         <li><a class="app-menu__item" href="${pageContext.request.contextPath}/admin/orders"><i class='app-menu__icon bx bx-task'></i><span
                 class="app-menu__label">Quản lý đơn hàng</span></a></li>
-        <sec:authorize access="hasRole('ROLE_MANAGER')">
+
             <li><a class="app-menu__item" href="${pageContext.request.contextPath}/admin/accounts/system-account"><i class='app-menu__icon bx bx-id-card'></i>
                 <span class="app-menu__label">Quản lý tài khoản</span>
             </a>
                 <ul class="sub-app-menu" >
                     <div id="sub-account-menu">
+                        <sec:authorize access="hasRole('ROLE_MANAGER')">
                         <li><a class="sub-app-menu_item sub-item-active" href="${pageContext.request.contextPath}/admin/accounts/system-account"><span
                                 class="app-menu__label">Tài khoản hệ thống</span></a></li>
+                        </sec:authorize>
                         <li><a class="sub-app-menu_item" href="${pageContext.request.contextPath}/admin/accounts/customer-account"><span class="app-menu__label">Tài khoản khách
                 hàng</span></a></li>
                     </div>
@@ -140,11 +142,7 @@
                     class='app-menu__icon bx bx-building-house'></i><span class="app-menu__label">Quản lý kho
             hàng
           </span></a></li>
-
-            <li><a class="app-menu__item" href="${pageContext.request.contextPath}/admin/orders"><i
-                    class='app-menu__icon bx bxs-package '></i><span class="app-menu__label">Quản lý lô sản
-            phẩm</span></a>
-            </li>
+        <sec:authorize access="hasRole('ROLE_MANAGER')">
             <li><a class="app-menu__item" href="${pageContext.request.contextPath}/admin/feedbacks"><i class='app-menu__icon bx bx-user-voice'></i><span
                     class="app-menu__label">Feedback</span></a>
             </li>
@@ -152,6 +150,7 @@
                     class="app-menu__label">Báo cáo thống kê</span></a>
             </li>
         </sec:authorize>
+
     </ul>
 </aside>
 

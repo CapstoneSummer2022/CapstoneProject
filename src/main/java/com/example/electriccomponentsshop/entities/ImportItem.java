@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 @Getter
 @Setter
@@ -17,7 +18,7 @@ import java.math.BigDecimal;
 public class ImportItem {
         @EmbeddedId
         private ImportItemId importItemId;
-        private BigDecimal quantity;
+        private BigInteger quantity;
         private BigDecimal importPrice;
         @OneToOne(cascade = CascadeType.ALL)
         @JoinColumn(name = "sku_id", referencedColumnName = "id")
@@ -34,9 +35,7 @@ public class ImportItem {
         @MapsId("productId")
         @JoinColumn(name = "product_id")
         private Product productImport;
-
-
-
+        private BigDecimal subTotal;
 
 
 }

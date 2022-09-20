@@ -43,7 +43,7 @@
             </div>
         </div>
     </div>
-    <%--@elvariable id="orderDto" type="com.example.electriccomponentsshop.dto.OrderDTO"--%>
+    <%--@elvariable id="orderDto" type="shop.db.dto.order.OrderDTO"--%>
     <form:form modelAttribute="orderDto">
         <div class="row">
             <div class="col-md-12">

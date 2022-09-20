@@ -5,16 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class ContainerDTO {
-
-    private int id;
-    private int rowIn;
-    private int columnIn;
+    private String id;
     private String shelf;
-    private String warehouseName;
-
+    private String rowIn;
+    private String columnIn;
 }

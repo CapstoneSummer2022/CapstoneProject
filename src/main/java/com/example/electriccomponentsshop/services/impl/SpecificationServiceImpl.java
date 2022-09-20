@@ -25,6 +25,20 @@ public class SpecificationServiceImpl implements SpecificationService {
     }
 
     @Override
+    public boolean addNewSpecification(SpecificationDto specificationDto){
+
+        Optional<Specification> specificationOptional = specificationRepository.findSpecificationsByName(specificationDto.getName());
+        if(specificationOptional.isPresent()){
+            return false;
+        }else {
+            Specification specification = new Specification();
+            specification.setName(specificationDto.getName());
+            specificationRepository.save(specification);
+            return true;
+        }
+    }
+
+    @Override
     public List<SpecificationDto> findSpecificationsBySpecificationIdNotIn(List<Integer> list) {
 
         List<Specification> specifications = specificationRepository.findSpecificationsByIdNotIn(list.toArray(new Integer[list.size()]));

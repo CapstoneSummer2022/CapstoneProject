@@ -72,19 +72,23 @@
                         <div class="row">
                             <div class="modal-confirm-button">
                                 <div>
-                                    <c:if test="${orderDto.status == 'Chờ xử lý'}">
+                                    <c:if test="${orderDto.status == 'Chờ Xử Lý'}">
                                         <button class="btn btn-primary" data-toggle="modal"
                                                 data-target="#confirmOrder">Xác nhận đơn hàng</button>
                                     </c:if>
-                                    <c:if test="${orderDto.status == 'Đã xác nhận'}">
-                                        <button class="btn btn-primary" data-toggle="modal"
-                                                data-target="#confirmGiaohang">Đóng gói và giao hàng</button>
-                                    </c:if>
-                                    <c:if test="${orderDto.status == 'Đang giao hàng'}">
+                                    <c:if test="${orderDto.status == 'Đã Xác Nhận'}">
                                         <button class="btn btn-primary" data-toggle="modal"
                                                 data-target="#confirmFinished">Hoàn thành</button>
                                     </c:if>
-                                    <c:if test="${orderDto.status != 'Hoàn thành'}">
+                                    <c:if test="${orderDto.status == 'Đang Giao Hàng'}">
+                                        <button class="btn btn-primary" data-toggle="modal"
+                                                data-target="#confirmFinished">Hoàn thành</button>
+                                    </c:if>
+                                    <c:if test="${orderDto.status == 'Đã Hủy'}">
+                                        <button class="btn btn-primary" data-toggle="modal"
+                                                data-target="#confirmReturned">Đã nhận hoàn</button>
+                                    </c:if>
+                                    <c:if test="${orderDto.status != 'Hoàn Thành'}">
                                         <button class="btn btn-cancel" data-toggle="modal"
                                                 data-target="#confirmCancel">Huỷ đơn hàng</button>
                                     </c:if>
@@ -112,15 +116,15 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach var = "orderItemDto" items = "${orderDto.orderItems}">
+                            <c:forEach var = "orderItemDTO" items = "${orderDto.orderItems}">
                                 <tr>
-                                    <td>${orderItemDto.productId}</td>
-                                    <td>${orderItemDto.productName}</td>
+                                    <td>${orderItemDTO.productId}</td>
+                                    <td>${orderItemDTO.productName}</td>
                                     <td><img src="resources/images/diode.jpg" alt="" width="100px;"></td>
                                     <td>Dây kết nối</td>
-                                    <td>${orderItemDto.unitPrice} đ</td>
-                                    <td>${orderItemDto.quantity}</td>
-                                    <td>${orderItemDto.subTotal} đ</td>
+                                    <td>${orderItemDTO.unitPrice} đ</td>
+                                    <td>${orderItemDTO.quantity}</td>
+                                    <td>${orderItemDTO.subTotal} đ</td>
                                 </tr>
                             </c:forEach>
                             <tr>
@@ -134,6 +138,33 @@
             </div>
         </div>
     </main>
+    <div class="modal fade" id="confirmReturned" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+         data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group  col-md-12">
+                            <span class="thong-tin-thanh-toan">
+                                <h5>Chú ý</h5>
+                            </span>
+                        </div>
+                        <div class="form-group col-md-12" style="text-align: center;">
+                            <label class="control-label">Xác nhận đã nhận hoàn đơn hàng </label>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: center; padding: 10px;">
+                        <form method="POST" action="${pageContext.request.contextPath}/admin/orders/returned/${orderDto.id}">
+                            <input style="margin: 5px;" type="submit" class="btn btn-save"  value="Xác nhận"/>
+                        </form>
+                        <a style="margin: 5px;" class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
     <!--
 MODAL CONFIRM đóng gói và giao hàng
 -->
@@ -253,7 +284,7 @@ MODAL CONFIRM CANCEL
                         </div>
                     </div>
                     <div style="display: flex; justify-content: center; padding: 10px;">
-                        <form method="POST" action="${pageContext.request.contextPath}/admin/orders/update/${orderDto.id}">
+                        <form method="POST" action="${pageContext.request.contextPath}/admin/orders/cancel/${orderDto.id}">
                             <input type="submit" class="btn btn-save"  value="Xác nhận"/>
                         </form>
                         <a style="margin: 5px;" class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
