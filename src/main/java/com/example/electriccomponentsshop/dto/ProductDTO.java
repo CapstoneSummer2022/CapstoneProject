@@ -18,7 +18,7 @@ public class ProductDTO {
     private String id;
     private String name;
     private String image;
-    private Integer available;
+    private BigInteger available;
     private BigDecimal price;
     private List<CategoryDTO> categories;
     private List<SpecificationValueDto> specificationValues;

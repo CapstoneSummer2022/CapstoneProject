@@ -356,10 +356,7 @@ function getItems(e){
     var orderList = document.getElementById("orders");
     //OrderID
     var orderId = $(e).find("TD").eq(0).html();
-    for (var i = 1, row; row = exportProductTable.rows[i]; i++) {
-        exportProductTable.deleteRow(i);
-        i = 0;
-    }
+
     $('#order-id').text(orderId);
     $('#productList').modal('hide');
     $.ajax({
@@ -885,18 +882,6 @@ $(document).ready(function () {
             var tableImport = document.getElementById("importProductList");
             tableImport.deleteRow(index);
             setSumImport();
-        }
-
-        if (document.getElementById("exportProductList") != null) {
-            var index;
-            if (opener.className == "minus-btn") {
-                index = opener.parentNode.parentNode.parentNode.rowIndex;
-            } else {
-                index = opener.parentNode.parentNode.rowIndex;
-            }
-
-            var tableExport = document.getElementById("exportProductList");
-            tableExport.deleteRow(index);
         }
 
     });

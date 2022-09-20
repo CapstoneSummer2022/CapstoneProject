@@ -169,19 +169,10 @@ public class OrderServiceImpl implements OrderService {
         }else  return orderList.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
-    public Order getOrderById(String id) {
-        try {
-            Optional<Order> orderOptional = orderRepository.findById(Integer.parseInt(id));
-            if (orderOptional.isEmpty()) {
-                throw new NoSuchElementException("Không tìm thấy đơn hàng này");
-            } else return orderOptional.get();
-        } catch (NumberFormatException e) {
-            throw new NoSuchElementException("Không tìm thấy đơn hàng này");
-        }
-    }
+
     @Override
     public OrderDTO getOrderDtoById(String id){
-        return convertToDTO(getOrderById(id));
+        return convertToDTO(getById(id));
     }
     @Transactional
     @Override
@@ -189,7 +180,7 @@ public class OrderServiceImpl implements OrderService {
         System.out.println("vào đây");
         System.out.println(orderDTO.getProvinceName());
         System.out.println(orderDTO.getDistrictName());
-        Order order = getOrderById(id);
+        Order order = getById(id);
         List<OrderItemDTO> dtos = orderDTO.getOrderItems();
         BigDecimal totalPayment = new BigDecimal("0");
         setAddress(orderDTO, order);
@@ -258,7 +249,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void cancelOrder(String id) {
-        Order order = getOrderById(id);
+        Order order = getById(id);
         List<OrderItem> orderItemList  = order.getOrderItems();
         String status = order.getStatus();
         if(status.equals(OrderEnum.PENDING.getName())||status.equals(OrderEnum.CONFIRM.getName())){
@@ -275,7 +266,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void returnedOrder(String id) {
-        Order order = getOrderById(id);
+        Order order = getById(id);
         List<OrderItem> orderItemList  = order.getOrderItems();
         ExportTransaction exportTransaction  = exportTransactionRepository.findExportTransactionByOrderId(order.getId());
         for (OrderItem orderItem: orderItemList
