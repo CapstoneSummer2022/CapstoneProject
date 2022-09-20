@@ -161,10 +161,6 @@
     <script src="/js/validate.js">
     </script>
     <script>
-
-    getDistricts();
-    getWards();
-
     function getDistricts () {
         const province = document.getElementById("province").value;
         const xhr = new XMLHttpRequest();

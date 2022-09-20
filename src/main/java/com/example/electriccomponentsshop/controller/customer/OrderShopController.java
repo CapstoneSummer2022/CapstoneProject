@@ -1,22 +1,24 @@
 package com.example.electriccomponentsshop.controller.customer;
 
+import com.example.electriccomponentsshop.common.OrderEnum;
 import com.example.electriccomponentsshop.dto.*;
+import com.example.electriccomponentsshop.entities.Category;
 import com.example.electriccomponentsshop.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping(path = "/order/")
 public class OrderShopController {
+
+    @Autowired
+    CategoryService categoryService;
 
     @Autowired
     AccountService accountService;
@@ -60,13 +62,49 @@ public class OrderShopController {
 
     @PostMapping(value = "/create-order")
     public String createOrder (@RequestParam Map<String, String> order, ModelMap map) {
-        boolean created = orderService.createOrderOnline(order);
+        int orderId = orderService.createOrderOnline(order);
+
+        map.addAttribute("orderId", orderId);
 
         return "customer/order-result";
     }
 
-    @GetMapping(value = "/all")
-    public String getAllOrder () {
+    @GetMapping(value = "/order/all")
+    public String getAllOrder (Authentication authentication, ModelMap map) {
+        AccountDetailImpl accountDetail = (AccountDetailImpl) authentication.getPrincipal();
+        List<Category> categories = categoryService.findCategoriesByParentCategoryIdIsNull();
+        List<OrderDTO> orders = orderService.findAllOrderForCustomer(accountDetail.getId());
+
+        map.addAttribute("categories", categories);
+        map.addAttribute("orders", orders);
+
         return "customer/all-order";
+    }
+
+    @GetMapping(value = "/order/{status}")
+    public String getOrderByStatus (Authentication authentication, ModelMap map, @PathVariable String status) {
+        AccountDetailImpl accountDetail = (AccountDetailImpl) authentication.getPrincipal();
+        List<Category> categories = categoryService.findCategoriesByParentCategoryIdIsNull();
+        List<OrderDTO> orders = new ArrayList<>();
+        String page = "";
+
+        if (status.equals("waiting")) {
+            orders = orderService.findOrderByStatusForCustomer(accountDetail.getId(), OrderEnum.PENDING.getName());
+            page = "waiting-order";
+        } else if (status.equals("shipping")) {
+            orders = orderService.findOrderByStatusForCustomer(accountDetail.getId(), OrderEnum.DELIVERY.getName());
+            page = "shipping-order";
+        } else if (status.equals("received")) {
+            orders = orderService.findOrderByStatusForCustomer(accountDetail.getId(), OrderEnum.DONE.getName());
+            page = "received-order";
+        } else if (status.equals("cancelled")) {
+            orders = orderService.findOrderByStatusForCustomer(accountDetail.getId(), "Đã Hủy");
+            page = "cancelled-order";
+        }
+
+        map.addAttribute("categories", categories);
+        map.addAttribute("orders", orders);
+
+        return "customer/"+page;
     }
 }

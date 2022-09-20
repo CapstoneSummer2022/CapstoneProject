@@ -101,7 +101,7 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.save(account) != null;
     }
     @Override
-    public boolean updateAccount(AccountDTO accountDTO,Integer id) {
+    public boolean updateAccount(AccountDTO accountDTO, Integer id) {
        Optional<Account> optionalAccount = accountRepository.findById(id);
 
        if(optionalAccount.isPresent()){
@@ -115,15 +115,6 @@ public class AccountServiceImpl implements AccountService {
            }
 
            account.setBirthDate(Date.valueOf(accountDTO.getDob()));
-//           List<Role> roles = new ArrayList<>();
-//           Optional<Role> roleOptional = roleService.findByRoleName(ERole.valueOf(accountDTO.getRole()));
-//           if(roleOptional.isEmpty()){
-//               throw new NoSuchElementException("Không tìm thấy chức vụ này");
-//           }
-//           else {
-//               roles.add(roleOptional.get());
-//           }
-//         account.setRoles(roles);
             setAddress(accountDTO, account);
            return accountRepository.save(account) != null;
        }

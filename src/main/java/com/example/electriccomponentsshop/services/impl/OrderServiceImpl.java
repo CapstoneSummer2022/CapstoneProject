@@ -45,6 +45,17 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findOrdersByStatus(status);
     }
 
+    @Override
+    public List<OrderDTO> findAllOrderForCustomer(int accId) {
+
+        return null;
+    }
+
+    @Override
+    public List<OrderDTO> findOrderByStatusForCustomer(int accId, String status) {
+        return null;
+    }
+
     public OrderDTO convertToDTO(Order order) {
         return modelMap.modelMapper().map(order, OrderDTO.class);
     }
@@ -129,6 +140,7 @@ public class OrderServiceImpl implements OrderService {
         order.setReceivedPhone(orderDTO.getReceivedPhone());
         order.setStatus(OrderEnum.PENDING.getName());
         order =  orderRepository.save(order);
+
         AccountDetailImpl accountDetail = (AccountDetailImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(accountDetail.getAuthorities().stream().map(item->item.getAuthority()).collect(Collectors.toList()).contains(ERole.ROLE_MANAGER.name())){
             Account customerAccount = accountService.getAccountCustomerByPhone(orderDTO.getAccountCustomerPhone());
@@ -139,6 +151,7 @@ public class OrderServiceImpl implements OrderService {
             order.setAccountEmployee(accountOptional.get());
             order.setAccountCustomer(customerAccount);
         }
+
         List<OrderItem> list = new ArrayList<>();
         for (OrderItemDTO o : orderItems) {
             BigDecimal quantity = o.getQuantity();
@@ -162,7 +175,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public boolean createOrderOnline(Map<String, String> orderInfo) {
+    public int createOrderOnline(Map<String, String> orderInfo) {
         Order order = new Order();
         order.setStatus(OrderEnum.PENDING.getName());
         order.setPaidMoney(BigDecimal.valueOf(0));
@@ -205,7 +218,9 @@ public class OrderServiceImpl implements OrderService {
 
         order.setTotalPayment(total);
 
-        return orderRepository.save(order) != null;
+        orderRepository.save(order);
+
+        return  order.getId();
     }
 
     @Override

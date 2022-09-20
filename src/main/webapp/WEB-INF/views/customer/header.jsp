@@ -63,6 +63,12 @@
         const xhr = new XMLHttpRequest();
         xhr.open("GET", "http://localhost:8083/cart/get-numbers-product", true);
 
-        document.getElementById("no_of_prods").innerHTML = this.responseText;
+        xhr.onload = function() {
+           const data = JSON.parse(this.responseText);
+           document.getElementById("no_of_prods").innerHTML = this.responseText;
+       }
+
+       xhr.send();
+
     }
 </script>

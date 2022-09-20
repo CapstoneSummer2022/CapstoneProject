@@ -92,7 +92,11 @@ public class CartController {
     @GetMapping(value = "/get-numbers-product")
     @ResponseBody
     public String getNumbersOfProductInCart (Authentication authentication) {
-        AccountDetailImpl accountDetail = (AccountDetailImpl) authentication.getPrincipal();
+        AccountDetailImpl accountDetail = null;
+
+        if (authentication != null) {
+            accountDetail = (AccountDetailImpl) authentication.getPrincipal();
+        }
 
         int numbersOfProduct = 0;
 

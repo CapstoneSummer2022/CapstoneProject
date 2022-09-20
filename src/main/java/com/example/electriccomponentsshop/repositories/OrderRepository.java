@@ -15,6 +15,10 @@ public interface OrderRepository extends JpaRepository<Order,Integer> {
 
     List<Order> findOrdersByStatus(String status);
 
+    List<Order> findByCustomerId (int customerId);
+
+    List<Order> findByCustomerIdAndStatus (int customerId, String status);
+
     @Override
     <S extends Order> S save(S entity);
 }

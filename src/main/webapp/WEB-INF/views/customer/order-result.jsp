@@ -8,6 +8,9 @@
     <title>Chúc mừng</title>
   </head>
   <body>
-    <h1>Chúc mừng</h1>
+    <div>
+        <h1>Mã đơn hàng của bạn là ${orderId}</h1>
+        <h2>Bạn có thể theo dõi lịch sử đơn hàng trong mục <a href="${pageContext.request.contextPath}/order">Đơn hàng</a></h2>
+    </div>
   </body>
 </html>

@@ -9,7 +9,6 @@ import java.util.List;
 
 public interface CartRepository extends JpaRepository<Cart, Integer> {
 
-    @Query(value = "select * from cart where account_id = :accId", nativeQuery = true)
     Cart findByAccountId(int accId);
 
 }

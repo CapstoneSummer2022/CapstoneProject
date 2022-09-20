@@ -12,6 +12,10 @@ public interface OrderService {
 
     List<Order> findOrdersByStatus(String status);
 
+    List<OrderDTO> findAllOrderForCustomer (int accId);
+
+    List<OrderDTO> findOrderByStatusForCustomer (int accId, String status);
+
     OrderDTO convertToDTO(Order order);
 
     Order getById(String id);
@@ -20,7 +24,7 @@ public interface OrderService {
 
     boolean createOrder(OrderDTO orderDTO);
 
-    boolean createOrderOnline(Map<String, String> order);
+    int createOrderOnline(Map<String, String> order);
 
     List<OrderDTO> findByStatus(String status);
 

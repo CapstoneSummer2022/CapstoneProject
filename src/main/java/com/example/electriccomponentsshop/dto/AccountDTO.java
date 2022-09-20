@@ -27,6 +27,9 @@ public class AccountDTO {
     private String districtName;
     @NotEmpty(message = "Không được để trống")
     private String wardName;
+
+    private String detailLocation;
+
     @NotEmpty(message = "Không được để trống")
     private String gender;
     @NotEmpty(message = "Không được để trống")

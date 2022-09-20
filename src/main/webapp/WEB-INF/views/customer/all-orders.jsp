@@ -33,87 +33,29 @@
                 <a href="/order/canceled">Đã hủy</a>
               </div>
               <div id="order_list">
-                <div class="an-order">
-                  <table>
-                    <tr>
-                      <td>Mã đơn: 1</td>
-                      <td>CHỜ XÁC NHẬN</td>
-                    </tr>
-                    <tr>
-                      <td><img src="/img/pros/0 Ohm 0.25W Precision Resistor.jpg" alt="hinh ảnh sản phẩm"> <span> Tụ điện 10V</span> <br> x10</td>
-                      <td>20000</td>
-                    </tr>
-                    <tr>
-                      <td><img src="/img/pros/0 Ohm 0.25W Precision Resistor.jpg" alt="hinh ảnh sản phẩm"><span> Tụ điện 10V</span>  <br> x10</td>
-                      <td>20000</td>
-                    </tr>
-                    <tr>                      
-                      <td><img src="/img/pros/0 Ohm 0.25W Precision Resistor.jpg" alt="hinh ảnh sản phẩm"><span> Tụ điện 10V</span>  <br> x10</td>
-                      <td>20000</td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td><span style="font-weight: bold;">Tổng thanh toán:</span>  60000</td>
-                    </tr>
-                    <tr>
-                      <td colspan="2"><button>Đánh giá</button><button>Hủy đơn hàng</button></td>
-                    </tr>
-                  </table>
-                </div>
-                <div class="an-order">
-                  <table>
-                    <tr>
-                      <td>Mã đơn: 1</td>
-                      <td>CHỜ XÁC NHẬN</td>
-                    </tr>
-                    <tr>
-                      <td><img src="/img/pros/0 Ohm 0.25W Precision Resistor.jpg" alt="hinh ảnh sản phẩm"> <span> Tụ điện 10V</span> <br> x10</td>
-                      <td>20000</td>
-                    </tr>
-                    <tr>
-                      <td><img src="/img/pros/0 Ohm 0.25W Precision Resistor.jpg" alt="hinh ảnh sản phẩm"><span> Tụ điện 10V</span>  <br> x10</td>
-                      <td>20000</td>
-                    </tr>
-                    <tr>                      
-                      <td><img src="/img/pros/0 Ohm 0.25W Precision Resistor.jpg" alt="hinh ảnh sản phẩm"><span> Tụ điện 10V</span>  <br> x10</td>
-                      <td>20000</td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td><span style="font-weight: bold;">Tổng thanh toán:</span>  60000</td>
-                    </tr>
-                    <tr>
-                      <td colspan="2"><button>Đánh giá</button><button>Hủy đơn hàng</button></td>
-                    </tr>
-                  </table>
-                </div>
-                <div class="an-order">
-                  <table>
-                    <tr>
-                      <td>Mã đơn: 1</td>
-                      <td>CHỜ XÁC NHẬN</td>
-                    </tr>
-                    <tr>
-                      <td><img src="/img/pros/0 Ohm 0.25W Precision Resistor.jpg" alt="hinh ảnh sản phẩm"> <span> Tụ điện 10V</span> <br> x10</td>
-                      <td>20000</td>
-                    </tr>
-                    <tr>
-                      <td><img src="/img/pros/0 Ohm 0.25W Precision Resistor.jpg" alt="hinh ảnh sản phẩm"><span> Tụ điện 10V</span>  <br> x10</td>
-                      <td>20000</td>
-                    </tr>
-                    <tr>                      
-                      <td><img src="/img/pros/0 Ohm 0.25W Precision Resistor.jpg" alt="hinh ảnh sản phẩm"><span> Tụ điện 10V</span>  <br> x10</td>
-                      <td>20000</td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td><span style="font-weight: bold;">Tổng thanh toán:</span>  60000</td>
-                    </tr>
-                    <tr>
-                      <td colspan="2"><button>Đánh giá</button><button>Hủy đơn hàng</button></td>
-                    </tr>
-                  </table>
-                </div>
+                <c:forEach var="order" items="${orders}">
+                    <div class="an-order">
+                      <table>
+                        <tr>
+                          <td>Mã đơn: ${order.id}</td>
+                          <td>${order.status}</td>
+                        </tr>
+                        <c:forEach var="item" items="${orderItems}">
+                            <tr>
+                              <td><img src="/img/${item.productImage}" alt="hinh ảnh sản phẩm"> <span> ${item.productName}</span> <br> x${item.quantity}</td>
+                              <td>${item.subTotal}</td>
+                            </tr>
+                        </c:forEach>
+                        <tr>
+                          <td></td>
+                          <td><span style="font-weight: bold;">Tổng thanh toán:</span>  ${order.totalPayment}</td>
+                        </tr>
+                        <tr>
+                          <td colspan="2"><button>Đánh giá</button><button>Hủy đơn hàng</button></td>
+                        </tr>
+                      </table>
+                    </div>
+                </c:forEach>
               </div>
             </div>
           </div>
