@@ -272,6 +272,30 @@ PRODUCT MODAL
 <!--
 MODAL
 -->
+<div class="modal fade" id="unsuccessful" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group  col-md-12">
+              <span class="thong-tin-thanh-toan">
+                <h5>Thông báo</h5>
+              </span>
+                    </div>
+                    <div class="form-group col-md-12" style="text-align: center;">
+                        <p class="modal-notify-unsuccessful" id="reason"></p>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: center; padding: 10px;">
+                    <button style="margin: 5px;" class="btn btn-save" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
 <!--
 MODAL DELETE PRODUCT
 -->
@@ -324,7 +348,7 @@ MODAL SUCCESSFUL
                     </div>
                 </div>
                 <div style="display: flex; justify-content: center; padding: 10px;">
-                    <button style="margin: 5px;" class="btn btn-save" data-dismiss="modal">Quay lại</button>
+                    <a href="${pageContext.request.contextPath}/admin/orders" style="margin: 5px;" class="btn btn-save">Đóng</a>
                 </div>
             </div>
             <div class="modal-footer">
@@ -369,7 +393,7 @@ MODAL
 <!-- The javascript plugin to display page loading on top-->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-<script src="js/api-province.js"></script>
+
 <script src="<c:url value="/js/jquery-3.2.1.min.js"/>"></script>
 <script src="<c:url value="/js/popper.min.js"/>"></script>
 <script src="<c:url value="/js/bootstrap.min.js"/>"></script>
@@ -409,8 +433,14 @@ MODAL
             ,
             dataType:"text",
             success: function (response){
-                $("errorAlert").innerHTML = response
-                alert(response);
+                if(response==="thành công"){
+                    $('#successful').modal('show');
+                }
+                else {
+                    $('#reason').innerHTML = response;
+                    $('#unsuccessful').modal('show');
+                }
+
             }
         });
     });

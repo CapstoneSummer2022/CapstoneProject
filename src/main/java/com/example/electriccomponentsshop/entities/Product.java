@@ -64,4 +64,14 @@ public class Product {
     private List<ImportItem> importItemsProduct = new ArrayList<>();
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     private List<Sku> skus = new ArrayList<>();
+    public Product(Integer id, String name, String image, String description,BigInteger available,int status,BigInteger unit){
+        this.id = id;
+        this.name=name;
+        this.image=image;
+        this.description =description;
+        this.available = available;
+        this.status =status;
+        this.unit = unit;
+
+    }
 }

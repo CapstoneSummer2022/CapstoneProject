@@ -1,5 +1,6 @@
 package com.example.electriccomponentsshop.services.impl;
 
+import com.example.electriccomponentsshop.common.ERole;
 import com.example.electriccomponentsshop.common.OrderEnum;
 import com.example.electriccomponentsshop.config.ModelMap;
 import com.example.electriccomponentsshop.dto.CartItemDTO;
@@ -120,18 +121,26 @@ public class OrderServiceImpl implements OrderService {
         List<OrderItemDTO> orderItems = orderDTO.getOrderItems();
         BigDecimal totalPayment = new BigDecimal("0");
         Order order = new Order();
-        order.setStatus("Chờ xử lý");
-        setAddress(orderDTO,order);
+        OrderKind orderKind = orderKindService.getById(orderDTO.getKindId());
+        order.setOrderKind(orderKind);
+        setAddress(orderDTO, order);
         order.setDetailLocation(orderDTO.getDetailLocation());
         order.setReceivedPerson(orderDTO.getReceivedPerson());
         order.setReceivedPhone(orderDTO.getReceivedPhone());
+        order.setStatus(OrderEnum.PENDING.getName());
+        order.setTotalPayment(totalPayment);
         AccountDetailImpl accountDetail = (AccountDetailImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Optional<Account> accountOptional = accountRepository.findByEmail(accountDetail.getEmail());
-        if(accountOptional.isEmpty()){
-            throw  new NoSuchElementException("Không tìm thấy nhân viên này");
+        if(accountDetail.getAuthorities().stream().map(item->item.getAuthority()).collect(Collectors.toList()).contains(ERole.ROLE_EMPLOYEE.name())){
+            Account customerAccount = accountService.getAccountCustomerByPhone(orderDTO.getAccountCustomerPhone());
+            Optional<Account> accountOptional = accountRepository.findByEmail(accountDetail.getEmail());
+            System.out.println("jjh4");
+            if (accountOptional.isEmpty()) {
+                throw new NoSuchElementException("Không tìm thấy nhân viên này");
+            }
+            order.setAccountEmployee(accountOptional.get());
+            order.setAccountCustomer(customerAccount);
         }
-        order.setAccountEmployee(accountOptional.get());
-        order = orderRepository.save(order);
+        order =  orderRepository.save(order);
         List<OrderItem> list = new ArrayList<>();
         for (OrderItemDTO o : orderItems) {
             BigInteger quantity = o.getQuantity();
@@ -146,6 +155,7 @@ public class OrderServiceImpl implements OrderService {
             list.add(orderItem);
             totalPayment = totalPayment.add(subTotal);
         }
+
         order.setTotalPayment(totalPayment);
 
         order.setOrderItems(list);
@@ -153,6 +163,7 @@ public class OrderServiceImpl implements OrderService {
 
         orderRepository.save(order);
         return Boolean.TRUE;
+
     }
     @Override
     public List<OrderDTO> findByStatus(String status){
@@ -165,6 +176,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public int createOrderOnline(Map<String, String> orderInfo) {
         Order order = new Order();
+        BigDecimal total = new BigDecimal(0);
+        order.setTotalPayment(total);
         order.setStatus(OrderEnum.PENDING.getName());
         order.setPaidMoney(BigDecimal.valueOf(0));
         order.setOrderKind(orderKindRepo.findByName("Đặt đơn online"));
@@ -188,7 +201,7 @@ public class OrderServiceImpl implements OrderService {
         order = orderRepository.save(order);
 
         List<CartItemDTO> cartItemDTOS = cartItemService.getCartItems(accountDetail.getId());
-        BigDecimal total = new BigDecimal(0);
+
         for (CartItemDTO item : cartItemDTOS ) {
             Product product = productRepository.findById(Integer.parseInt(item.getProductDTO().getId())).get();
 

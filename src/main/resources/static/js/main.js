@@ -828,8 +828,13 @@ function addProduct(){
         ,
         dataType:"text",
         success: function (response){
-
-            alert("hoang");
+            if(response === "thành công"){
+                $('#successful').modal('show');
+            }
+            else {
+                $('#reason').innerHTML = response;
+                $('#unsuccessful').modal('show');
+            }
         },
         error: function (error){
             window.location.replace('http://localhost:8083/auth/signin');
@@ -887,17 +892,7 @@ $(document).ready(function () {
             setSumImport();
         }
 
-        if (document.getElementById("exportProductList") != null) {
-            var index;
-            if (opener.className == "minus-btn") {
-                index = opener.parentNode.parentNode.parentNode.rowIndex;
-            } else {
-                index = opener.parentNode.parentNode.rowIndex;
-            }
 
-            var tableExport = document.getElementById("exportProductList");
-            tableExport.deleteRow(index);
-        }
 
     });
 

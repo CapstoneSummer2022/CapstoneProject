@@ -38,7 +38,7 @@ public class OrderShopController {
     @Autowired
     WardService wardService;
 
-    @GetMapping(value = "/create-order")
+    @GetMapping(value = "/order/create-order")
     public String createOrder (ModelMap map, Authentication authentication) {
         AccountDetailImpl accountDetail = (AccountDetailImpl) authentication.getPrincipal();
         List<CartItemDTO> cartItems = cartItemService.getCartItems(accountDetail.getId());
@@ -60,7 +60,7 @@ public class OrderShopController {
         return "customer/create-order";
     }
 
-    @PostMapping(value = "/create-order")
+    @PostMapping(value = "/order/create-order")
     public String createOrder (@RequestParam Map<String, String> order, ModelMap map) {
         int orderId = orderService.createOrderOnline(order);
 
@@ -78,7 +78,7 @@ public class OrderShopController {
         map.addAttribute("categories", categories);
         map.addAttribute("orders", orders);
 
-        return "customer/all-order";
+        return "customer/all-orders";
     }
 
     @GetMapping(value = "/order/{status}")
