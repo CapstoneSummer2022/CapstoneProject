@@ -33,11 +33,6 @@ public class ImportTransaction {
     private Warehouse warehouseImport;
     private BigDecimal totalPayment;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="warehouse_id")
-    private Warehouse warehouseImport;
-
-    private BigDecimal totalPayment;
 
 
 }

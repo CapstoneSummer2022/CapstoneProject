@@ -20,6 +20,8 @@ public interface CategoryService {
 
     <S extends Category> S save(S entity);
 
+    CategoryDTO convertToDto(Category category);
+
     List<CategoryDTO> findAllSubAndParCategories(Integer cId);
 
     List<CategoryDTO> findAll();

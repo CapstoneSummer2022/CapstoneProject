@@ -83,7 +83,7 @@
                 <tr>
                   <td>${productDto.id}</td>
                   <td>${productDto.name}</td>
-                  <td><img src="${pageContext.request.contextPath}/resources/images/${productDto.image}" alt="" width="100px;"></td>
+                  <td><img src="/img/${productDto.image}" alt="" width="100px;"></td>
                   <td>${productDto.available}</td>
                   <td>${productDto.price}</td>
                   <td>
@@ -111,11 +111,20 @@
             </table>
             <div class="pagination-row">
               <div class="pagination-container">
+              <p>${pageNo} + thuong</p>
                 <div class="dataTables_paginate paging_simple_numbers" id="sampleTable_paginate">
                  <ul class="pagination">
                    <c:forEach var="i" step="1" begin="1" end="${total-1}">
-                     <li class="paginate_button page-item " id="sampleTable_previous"><a href="${pageContext.request.contextPath}/admin/products/search?index=${i}<c:if test="${text!=null}">&text=${text}</c:if>"
-                                                                                                          aria-controls="sampleTable" data-dt-idx="0" tabindex="0" class="page-link">${i}</a></li>
+                     <c:choose>
+                        <c:when test="${pageNo == i}">
+                            <li class="active paginate_button page-item " id="sampleTable_previous"><a href="${pageContext.request.contextPath}/admin/products<c:choose><c:when test="${text!=null}">/search?text=${text}&index=${i}</c:when><c:otherwise>?index=${i}</c:otherwise></c:choose>"
+                                                                                                                                  aria-controls="sampleTable" data-dt-idx="0" tabindex="0" class="page-link">${i}</a></li>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="paginate_button page-item " id="sampleTable_previous"><a href="${pageContext.request.contextPath}/admin/products<c:choose><c:when test="${text!=null}">/search?text=${text}&index=${i}</c:when><c:otherwise>?index=${i}</c:otherwise></c:choose>"
+                                                                                                                                  aria-controls="sampleTable" data-dt-idx="0" tabindex="0" class="page-link">${i}</a></li>
+                        </c:otherwise>
+                     </c:choose>
                    </c:forEach>
                  </ul>
                 </div>

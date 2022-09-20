@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 
 @NoArgsConstructor

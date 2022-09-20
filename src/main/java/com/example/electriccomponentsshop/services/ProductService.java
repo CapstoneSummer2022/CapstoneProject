@@ -41,5 +41,5 @@ public interface ProductService {
     <S extends Product> S save(S entity);
 
     Page<ProductDTO> findAll(Pageable pageable);
-    ListProductResponse getProductByCategory(Pageable pageable);
+
 }

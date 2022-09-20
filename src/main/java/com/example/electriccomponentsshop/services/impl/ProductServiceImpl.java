@@ -4,15 +4,11 @@ import com.example.electriccomponentsshop.config.ModelMap;
 import com.example.electriccomponentsshop.dto.CategoryDTO;
 import com.example.electriccomponentsshop.dto.ProductDTO;
 import com.example.electriccomponentsshop.dto.SpecificationValueDto;
-import com.example.electriccomponentsshop.entities.Category;
-import com.example.electriccomponentsshop.entities.ExportPrice;
-import com.example.electriccomponentsshop.entities.Product;
+import com.example.electriccomponentsshop.entities.*;
 import com.example.electriccomponentsshop.repositories.CategoryRepository;
 import com.example.electriccomponentsshop.repositories.ExportPriceRepository;
 import com.example.electriccomponentsshop.repositories.ProductRepository;
-import com.example.electriccomponentsshop.services.CategoryService;
-import com.example.electriccomponentsshop.services.ProductService;
-import com.example.electriccomponentsshop.services.SpecificationValueService;
+import com.example.electriccomponentsshop.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -21,6 +17,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -32,6 +32,16 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductRepository productRepository;
+
+    @Autowired
+    SpecificationService specificationService;
+
+    @Autowired
+    SupplierService supplierService;
+
+    @Autowired
+    EntityManager em;
+
     @Autowired
     ModelMap modelMap;
     @Autowired
@@ -78,11 +88,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDTO convertToDto(Product product) {
         return modelMap.modelMapper().map(product, ProductDTO.class);
-
-    @Override
-    public ProductDTO convertToDto(Product product) {
-        return modelMap.modelMapper().map(product, ProductDTO.class);
     }
+
     @Override
     public ProductDTO getProductDtoById(String id){
         return convertToDto(getById(id));
@@ -128,6 +135,7 @@ public class ProductServiceImpl implements ProductService {
         List<SpecificationValue> specificationValues = new ArrayList<>();
         for (SpecificationValueDto s: specificationValueDtos
              ) {
+
             Specification specification = specificationService.getById(s.getSpecificationId());
             SpecificationValue specificationValue = new SpecificationValue(new SpecificationValueId(product.getId(),specification.getId()),s.getValueFrom(),s.getValueTo(),product,specification);
             specificationValues.add(specificationValue);
@@ -204,48 +212,6 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findProductsByProductSupplierIdAndNameContains(supplier.getId(),text).stream().map(this::convertToDto).collect(Collectors.toList());
     }
     @Override
-    public boolean addProduct(ProductDTO productDTO) {
-        Product product = new Product();
-        product.setImage("dd");
-        product.setName(productDTO.getName());
-        product.setAvailable(BigDecimal.valueOf(0));
-
-        List<CategoryDTO> categoryDTOS = productDTO.getCategories();
-        List<Category> categories = new ArrayList<>();
-        for (CategoryDTO c : categoryDTOS) {
-            Category category = categoryService.getById(c.getId());
-            categories.add(category);
-        }
-        product.setCategories(categories);
-
-        Supplier supplier = supplierService.getBySupplierId(productDTO.getSupplierId());
-        product.setProductSupplier(supplier);
-
-        product = productRepository.save(product);
-
-        ExportPrice newExportPrice = new ExportPrice();
-        newExportPrice.setProduct(product);
-        newExportPrice.setRetailPrice(productDTO.getPrice());
-        exportPriceRepository.save(newExportPrice);
-
-        List<SpecificationValueDto> specificationValueDtos = productDTO.getSpecificationValues();
-        List<SpecificationValue> specificationValues = new ArrayList<>();
-        for (SpecificationValueDto s: specificationValueDtos) {
-            Specification specification = specificationService.getById(s.getSpecificationId());
-            SpecificationValue specificationValue = new SpecificationValue(new SpecificationValueId(product.getId(),specification.getId()),s.getValueFrom(),s.getValueTo(),product,specification);
-            specificationValues.add(specificationValue);
-            specificationValueService.save(specificationValue);
-        }
-
-        product.setStatus(1);
-        product.setSpecificationValues(specificationValues);
-        product.setDescription(productDTO.getDescription());
-
-        return  productRepository.save(product)!=null;
-
-    }
-
-    @Override
     public List<ProductDTO> findAll() {
         List<Product> products = productRepository.findAll();
         if(products.isEmpty()){
@@ -255,8 +221,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> findAll(Pageable pageable) {
-        return productRepository.findAll(pageable);
+    public Page<ProductDTO> findAll(Pageable pageable) {
+        Page<Product> productPages = productRepository.findAll(pageable);
+        Page<ProductDTO> dtoPage = productPages.map(this::convertToDto);
+        return dtoPage;
     }
 
     @Override

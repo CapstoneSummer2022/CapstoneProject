@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.validation.constraints.NotEmpty;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 @NoArgsConstructor

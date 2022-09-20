@@ -1,35 +1,34 @@
 package com.example.electriccomponentsshop.services.impl;
 
+import com.example.electriccomponentsshop.common.OrderEnum;
 import com.example.electriccomponentsshop.config.ModelMap;
+import com.example.electriccomponentsshop.dto.CartItemDTO;
 import com.example.electriccomponentsshop.dto.OrderDTO;
-import com.example.electriccomponentsshop.dto.OrderItemDto;
+import com.example.electriccomponentsshop.dto.OrderItemDTO;
 import com.example.electriccomponentsshop.entities.*;
 import com.example.electriccomponentsshop.repositories.*;
-import com.example.electriccomponentsshop.services.AccountDetailImpl;
-import com.example.electriccomponentsshop.services.OrderService;
+import com.example.electriccomponentsshop.services.*;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.function.Function;
+import java.util.*;
+import java.util.stream.Collectors;
+
 @Service
 @AllArgsConstructor
 public class OrderServiceImpl implements OrderService {
     final OrderRepository orderRepository;
     final AccountRepository accountRepository;
     final ModelMap modelMap;
+
+    final CartItemService cartItemService;
+
     final ProductRepository productRepository;
     final ProvinceRepository provinceRepository;
     final DistrictRepository districtRepository;
@@ -38,6 +37,9 @@ public class OrderServiceImpl implements OrderService {
     final AccountService accountService;
 
     final OrderKindService orderKindService;
+
+    final OrderKindRepository orderKindRepo;
+
     final ExportTransactionRepository exportTransactionRepository;
     final SkuService skuService;
     @Override
@@ -119,8 +121,6 @@ public class OrderServiceImpl implements OrderService {
         BigDecimal totalPayment = new BigDecimal("0");
         Order order = new Order();
         order.setStatus("Chờ xử lý");
-        List<OrderItemDto> dtos= orderDTO.getOrderItems();
-        double totalPayment = 0.0;
         setAddress(orderDTO,order);
         order.setDetailLocation(orderDTO.getDetailLocation());
         order.setReceivedPerson(orderDTO.getReceivedPerson());
@@ -132,9 +132,9 @@ public class OrderServiceImpl implements OrderService {
         }
         order.setAccountEmployee(accountOptional.get());
         order = orderRepository.save(order);
-        for (OrderItemDto o : dtos
-             ) {
-            Integer quantity = Integer.parseInt(o.getQuantity());
+        List<OrderItem> list = new ArrayList<>();
+        for (OrderItemDTO o : orderItems) {
+            BigInteger quantity = o.getQuantity();
             Product p = getProduct(o.getProductId());
             BigInteger unit = p.getUnit();
             p.setAvailable(p.getAvailable().subtract(o.getQuantity().multiply(unit)));
@@ -197,8 +197,8 @@ public class OrderServiceImpl implements OrderService {
 
             total = total.add(item.getSubTotal());
 
-            BigDecimal available = product.getAvailable();
-            product.setAvailable(available.subtract(item.getQuantity().multiply(BigDecimal.valueOf(product.getUnit()))));
+            BigInteger available = product.getAvailable();
+            product.setAvailable(available.subtract(item.getQuantity().multiply(product.getUnit())));
             productRepository.save(product);
 
             cartItemService.removeCartItem(accountDetail.getId(), product.getId());
@@ -212,30 +212,21 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDTO> findByStatus(String status){
-        List<Order> orderList = orderRepository.findOrdersByStatus(status);
-        if(orderList.isEmpty()){
-            throw new NoSuchElementException("Không có đơn hàng nào có trạng thái "+status);
-        }else  return orderList.stream().map(this::convertToDTO).collect(Collectors.toList());
-    }
-
-    public Order getOrderById(String id) {
-        try {
-
-    public Order getOrderById(String id) {
-        try {
-            Optional<Order> orderOptional = orderRepository.findById(Integer.parseInt(id));
-            if(orderOptional.isEmpty()){
-                throw new NoSuchElementException("Không tìm thấy đơn hàng này");
-            }
-            else return orderOptional.get();
+    public Order getById(String id){
+        try{
+            int oId = Integer.parseInt(id);
+            Optional<Order> orderOptional = orderRepository.findById(oId);
+            if(orderOptional.isPresent()){
+                return orderOptional.get();
+            }else throw new NoSuchElementException("Không tìm thấy đơn này");
         }catch (NumberFormatException e){
-            throw new NoSuchElementException("Không tìm thấy đơn hàng này");
+            throw new NoSuchElementException("Không tìm thấy đơn này");
         }
     }
+
     @Override
     public OrderDTO getOrderDtoById(String id){
-        return convertToDTO(getOrderById(id));
+        return convertToDTO(getById(id));
     }
     @Transactional
     @Override
@@ -243,15 +234,15 @@ public class OrderServiceImpl implements OrderService {
         System.out.println("vào đây");
         System.out.println(orderDTO.getProvinceName());
         System.out.println(orderDTO.getDistrictName());
-        Order order = getOrderById(id);
-        List<OrderItemDto> dtos= orderDTO.getOrderItems();
-        double totalPayment = 0.0;
+        Order order = getById(id);
+        List<OrderItemDTO> dtos= orderDTO.getOrderItems();
+        BigDecimal totalPayment = new BigDecimal(0);
         setAddress(orderDTO,order);
         order.setDetailLocation(orderDTO.getDetailLocation());
         order.setReceivedPerson(orderDTO.getReceivedPerson());
         order.setReceivedPhone(orderDTO.getReceivedPhone());
         orderItemRepository.deleteOrderItemsByOrderId(order.getId());
-        for (OrderItemDto o : dtos
+        for (OrderItemDTO o : dtos
         ) {
             BigInteger quantity =o.getQuantity();
             Product p = getProduct(o.getProductId());
@@ -326,7 +317,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void cancelOrder(String id) {
-        Order order = getOrderById(id);
+        Order order = getById(id);
         List<OrderItem> orderItemList  = order.getOrderItems();
         String status = order.getStatus();
         if(status.equals(OrderEnum.PENDING.getName())||status.equals(OrderEnum.CONFIRM.getName())){
@@ -343,7 +334,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void returnedOrder(String id) {
-        Order order = getOrderById(id);
+        Order order = getById(id);
         List<OrderItem> orderItemList  = order.getOrderItems();
         ExportTransaction exportTransaction  = exportTransactionRepository.findExportTransactionByOrderId(order.getId());
         for (OrderItem orderItem: orderItemList

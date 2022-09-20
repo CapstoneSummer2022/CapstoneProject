@@ -130,13 +130,16 @@ public class ProductController {
             return productService.findBySupplierIdAndNameContain(sId,text);
     }
     @GetMapping("search")
-    public String searchProduct(@RequestParam(name="text") String text,@RequestParam(name="index",defaultValue = "0") String index,ModelMap modelMap){
+    public String searchProduct(@RequestParam(name="text", required = false) String text, @RequestParam(name="index",defaultValue = "0") String index, ModelMap modelMap){
         int pIndex = Integer.parseInt(index);
+
         Page<ProductDTO> productDTOS = productService.searchProduct(text,PageRequest.of(pIndex,10));
+
+        modelMap.addAttribute("pageNo", 1);
         modelMap.addAttribute("productDtos", productDTOS.getContent());
-        modelMap.addAttribute("total",productDTOS.getTotalPages());
-        modelMap.addAttribute("text",text);
-        System.out.println(text+"đây là gi");
+        modelMap.addAttribute("total", productDTOS.getTotalPages());
+        modelMap.addAttribute("text", text);
+
         return "administrator/product-management";
     }
     @PostMapping("/add")
