@@ -14,5 +14,7 @@ public class WarehouseDTO {
     private String provinceName;
     private String districtName;
     private String wardName;
+    private String detailLocation;
+    private Integer status;
 
 }

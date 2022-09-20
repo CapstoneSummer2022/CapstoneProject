@@ -43,17 +43,9 @@
         <div class="tile-body">
           <div class="row element-button">
             <div class="col-sm-2">
-              <a class="btn btn-add btn-sm" href="add-warehouse.html" title="Thêm"><i class="fas fa-plus"></i>
+              <a class="btn btn-add btn-sm" href="${pageContext.request.contextPath}/admin/warehouses/add" title="Thêm"><i class="fas fa-plus"></i>
                 Thêm kho hàng</a>
             </div>
-          </div>
-          <div class="search-row">
-            <form action="">
-              <div class="search-container">
-                <input class="form-control" type="text" placeholder="Tìm kiếm" name="search">
-                <button type="submit"><i class="fa fa-search"></i></button>
-              </div>
-            </form>
           </div>
           <table class="table table-hover table-bordered" cellpadding="0" cellspacing="0" id="sampleTable">
             <thead>
@@ -65,66 +57,25 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <td>1</td>
-              <td>XQCV+F65, P. Văn Quán, Hà Đông, Hà Nội</td>
-              <td>
-                <label class="switch">
-                  <input class="status-checkbox" onclick="return false" type="checkbox" data-toggle="modal"
-                         data-target="#disableStatus" name="check" checked>
+            <c:forEach var="warehouse" items="${warehouses}">
+              <tr>
+                <td>${warehouse.id}</td>
+                <td>${warehouse.detailLocation}, ${warehouse.wardName}, ${warehouse.districtName}, ${warehouse.provinceName}</td>
+                <td>
+                  <div class="switch">
+                  <input class="status-checkbox" onclick="return false" type="checkbox"  name="check" <c:if test="${warehouse.status == 1}"> checked</c:if>/>
+
                   <span class="slider round"></span>
-                </label>
-              </td>
-              <td>
-                <a href="setting-warehouse.html" class="btn btn-primary btn-sm edit" type="button" title="Sửa"><i
-                        class="fas fa-edit"></i></a>
-              </td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>68 P. Nguyễn Văn Giáp, Mễ Trì, Nam Từ Liêm, Hà Nội</td>
-              <td>
-                <label class="switch">
-                  <input class="status-checkbox" onclick="return false" type="checkbox" data-toggle="modal"
-                         data-target="#disableStatus" name="check" checked>
-                  <span class="slider round"></span>
-                </label>
-              </td>
-              <td>
-                <a href="setting-warehouse.html" class="btn btn-primary btn-sm edit" type="button" title="Sửa"><i
-                        class="fas fa-edit"></i></a>
-              </td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Đinh Tú, Cấn Hữu, Quốc Oai, Hà Nội</td>
-              <td>
-                <label class="switch">
-                  <input class="status-checkbox" onclick="return false" type="checkbox" data-toggle="modal"
-                         data-target="#disableStatus" name="check" checked>
-                  <span class="slider round"></span>
-                </label>
-              </td>
-              <td>
-                <a href="setting-warehouse.html" class="btn btn-primary btn-sm edit" type="button" title="Sửa"><i
-                        class="fas fa-edit"></i></a>
-              </td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>4F9R+78G, Đường khu TĐC, Tông, Sơn Tây, Hà Nội</td>
-              <td>
-                <label class="switch">
-                  <input class="status-checkbox" onclick="return false" type="checkbox" data-toggle="modal" data-target="#disableStatus"
-                         name="check">
-                  <span class="slider round"></span>
-                </label>
-              </td>
-              <td>
-                <a href="setting-warehouse.html" class="btn btn-primary btn-sm edit" type="button" title="Sửa"><i
-                        class="fas fa-edit"></i></a>
-              </td>
-            </tr>
+                    <div style="position:absolute; left:0; right:0; top:0; bottom:0;" onclick="updateWarehouseStatus(this)"data-toggle="modal"
+                            <c:if test="${warehouse.status == 1}"> data-target="#disableStatus"</c:if> <c:if test="${warehouse.status == 0}"> data-target="#enableStatus"</c:if> ></div>
+                </div>
+                </td>
+                <td>
+                  <a href="${pageContext.request.contextPath}/admin/warehouses/edit/${warehouse.id}" class="btn btn-primary btn-sm edit" type="button" title="Sửa"><i
+                          class="fas fa-edit"></i></a>
+                </td>
+              </tr>
+            </c:forEach>
             </tbody>
           </table>
           <div class="pagination-row">
@@ -168,7 +119,7 @@ MODAL DISABLE STATUS
           </div>
         </div>
         <div style="display: flex; justify-content: center; padding: 10px;">
-          <button style="margin: 5px;" class="btn btn-save" data-dismiss="modal" href="#">Xác nhận</button>
+          <button style="margin: 5px;" class="btn btn-save" data-dismiss="modal" id="disableW" type="button" href="#">Xác nhận</button>
           <a style="margin: 5px;" class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
         </div>
       </div>
@@ -196,12 +147,37 @@ MODAL ENABLE STATUS
               </span>
           </div>
           <div class="form-group col-md-12" style="text-align: center;">
-            <label class="control-label">Bạn có chắc chắn kích hoạt tài khoản này</label>
+            <label class="control-label">Bạn có chắc chắn kích hoạt kho hàng này</label>
           </div>
         </div>
         <div style="display: flex; justify-content: center; padding: 10px;">
-          <a style="margin: 5px;" class="btn btn-save" data-dismiss="modal" href="#">Xác nhận</a>
+          <button style="margin: 5px;" class="btn btn-save" id="enableW" data-dismiss="modal" type="button">Xác nhận</button>
           <a style="margin: 5px;" class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
+        </div>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="result" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+
+      <div class="modal-body">
+        <div class="row">
+          <div class="form-group  col-md-12">
+              <span class="thong-tin-thanh-toan">
+                <h5>Thông báo</h5>
+              </span>
+          </div>
+          <div class="form-group col-md-12" style="text-align: center;">
+            <label class="control-label" style="font-size: medium" id="resultLabel"></label>
+          </div>
+        </div>
+        <div style="display: flex; justify-content: center; padding: 10px;">
+          <a href="${pageContext.request.contextPath}/admin/warehouses" style="margin: 5px;" class="btn btn-cancel">Đóng</a>
         </div>
       </div>
       <div class="modal-footer">
@@ -221,6 +197,50 @@ MODAL
 <script src="<c:url value="/js/api-province.js"/>"></script>
 <script src="<c:url value="/js/plugins/pace.min.js"/>"></script>
 <script src="<c:url value="/resources/data.json"/>"></script>
+<script>
+  $(document).ready(function (){
+
+  });
+  function updateWarehouseStatus(e){
+    var id = $(e.parentNode.parentNode.parentNode).find('td').eq(0).html();
+    var element =$(e.parentNode).find('input');
+    if($(element).is(":checked")){
+
+      disableWarehouse(id);
+    } else enableWarehouse(id);
+  }
+  function disableWarehouse(id){
+    var dis = document.getElementById("disableW");
+    dis.addEventListener('click',()=>{
+      $.ajax({
+        type:"POST",
+        url:"/admin/warehouses/disable?id=" + id,
+        contentType:"application/json",
+        success: function (response){
+          var  result = document.getElementById("resultLabel");
+          result.innerHTML= response;
+          $('#result').modal('show');
+        }
+      });
+    });
+  }
+  function enableWarehouse(id){
+    var en = document.getElementById("enableW");
+    en.addEventListener('click', ()=>{
+      $.ajax({
+        type:"POST",
+        url:"/admin/warehouses/enable?id=" + id,
+        contentType:"application/json",
+        success: function (response){
+          var  result = document.getElementById("resultLabel");
+          result.innerHTML= response;
+          $('#result').modal('show');
+        }
+      });
+    });
+  }
+
+</script>
 <!-- Page specific javascripts-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 </body>

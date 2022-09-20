@@ -47,6 +47,10 @@ public class SupplierServiceImpl implements SupplierService {
             throw  new NoSuchElementException("Không tìm nhà cung cấp này");
         }
     }
+   @Override
+   public SupplierDTO getDtoById(String id){
+        return convertToDto(getBySupplierId(id));
+   }
     @Override
     public List<SupplierDTO> getAllSupplier(){
         List<Supplier> supplierList = supplierRepository.findAll();
@@ -58,5 +62,32 @@ public class SupplierServiceImpl implements SupplierService {
     @Override
     public Optional<Supplier> findById(Integer integer) {
         return supplierRepository.findById(integer);
+    }
+    @Override
+    public void addSupplier(SupplierDTO supplierDTO){
+        Supplier supplier = new Supplier();
+        supplier.setName(supplierDTO.getName());
+        supplier.setPhone(supplierDTO.getPhone());
+        supplier.setActive(1);
+        supplierRepository.save(supplier);
+    }
+    @Override
+    public void updateSupplier(SupplierDTO supplierDTO,String id){
+        Supplier supplier = getBySupplierId(id);
+        supplier.setName(supplierDTO.getName());
+        supplier.setPhone(supplierDTO.getPhone());
+        supplierRepository.save(supplier);
+    }
+    @Override
+    public void disableSupplier(String id){
+        Supplier supplier = getBySupplierId(id);
+        supplier.setActive(0);
+        supplierRepository.save(supplier);
+    }
+    @Override
+    public void enableSupplier(String id){
+        Supplier supplier = getBySupplierId(id);
+        supplier.setActive(1);
+        supplierRepository.save(supplier);
     }
 }

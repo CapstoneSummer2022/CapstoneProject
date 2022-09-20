@@ -100,8 +100,13 @@ public class AuthController {
 
             return "customer/html/signin";
         }else if(!passwordEncoder.matches(password,accountOptional.get().getPassword())) {
-            System.out.println("gcccc");
+
             modelMap.addAttribute("wrongPassword","Sai mật khẩu");
+            return "customer/html/signin";
+        }
+        else if(!accountOptional.get().getStatus()){
+            System.out.println(accountOptional.get().getStatus()+"đây nè");
+            modelMap.addAttribute("locked","Tài khoản này đã bị vô hiệu hóa");
             return "customer/html/signin";
         }
         Authentication authentication = authenticationManager.authenticate(

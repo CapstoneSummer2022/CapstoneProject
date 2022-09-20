@@ -14,4 +14,6 @@ public interface DistrictService {
     List<DistrictDTO> findAll();
 
     DistrictDTO findByName(String name);
+
+    District getByName(String name);
 }

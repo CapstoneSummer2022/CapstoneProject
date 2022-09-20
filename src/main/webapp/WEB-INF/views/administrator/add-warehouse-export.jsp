@@ -28,7 +28,7 @@
     <jsp:include page="header.jsp"/>
     <!-- Sidebar menu-->
     <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-    <jsp:include page="home-menu.jsp"/>
+    <jsp:include page="warehouse-home-menu.jsp"/>
     <main class="app-content">
         <div class="row">
             <div class="col-md-12">
@@ -87,7 +87,7 @@
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="ExportDate" class="control-label required-field">Ngày Xuất</label>
-                                <input class="form-control" type="date" name="ExportDate" id="ExportDate" required>
+                                <input class="form-control" type="date" name="ExportDate" id="ExportDate" onchange="checkDate()" required>
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="exportName" class="control-label required-field">Họ và tên người xuất
@@ -362,7 +362,8 @@ MODAL
             $(".export-items").each(function (){
                 var row = $(this);
                 var exportItem = new Object();
-                exportItem.skuCode = row.find("TD").eq(4).find("select").find("option:selected" ).text();
+                exportItem.skuId = row.find("TD").eq(4).find("select").find("option:selected" ).text();
+                alert(exportItem.skuId);
                 exportItem.quantity = row.find("TD").eq(5).find("INPUT").val();
                 exportItems.push(exportItem);
             });

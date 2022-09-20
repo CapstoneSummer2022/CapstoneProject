@@ -3,6 +3,7 @@ package com.example.electriccomponentsshop.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ public class ImportTransaction {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="warehouse_id")
     private Warehouse warehouseImport;
-    private Double totalPayment;
+    private BigDecimal totalPayment;
 
 
 }

@@ -62,54 +62,28 @@
                                 <tr>
                                     <th width="200">Mã giao dịch xuất kho</th>
                                     <th>Ngày xuất</th>
+                                    <th>Người xuất</th>
+                                    <th>Người nhận</th>
                                     <th width="100">Tuỳ chọn</th>
                                 </tr>
                             </thead>
                             <tbody>
+                            <c:forEach var="exportTransaction" items="${listOfExport}">
                                 <tr>
-                                    <td>1</td>
-                                    <td>20/07/2022</td>
+                                    <td>${exportTransaction.id}</td>
+                                    <td>${exportTransaction.exportDate}</td>
+                                    <td>${exportTransaction.exportPerson}</td>
+                                    <td>${exportTransaction.receivedPerson}</td>
                                     <td>
-                                        <a href="setting-warehouse-export.html" class="btn btn-primary btn-sm edit"
-                                            type="button" title="Sửa"><i class="fas fa-edit"></i></a>
+                                        <a href="${pageContext.request.contextPath}/admin/warehouses/export/edit/${exportTransaction.id}" class="btn btn-primary btn-sm edit"
+                                           type="button" title="Sửa"><i class="fas fa-edit"></i></a>
                                         <button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng"
-                                            onclick="location.href='export-transaction-detail.html'"><i
+                                                onclick="location.href='export-transaction-detail.html'"><i
                                                 class="fa fa-info"></i></button>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>20/07/2022</td>
-                                    <td>
-                                        <a href="setting-warehouse-export.html" class="btn btn-primary btn-sm edit"
-                                            type="button" title="Sửa"><i class="fas fa-edit"></i></a>
-                                        <button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng"
-                                            onclick="location.href='export-transaction-detail.html'"><i
-                                                class="fa fa-info"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>20/07/2022</td>
-                                    <td>
-                                        <a href="setting-warehouse-export.html" class="btn btn-primary btn-sm edit"
-                                            type="button" title="Sửa"><i class="fas fa-edit"></i></a>
-                                        <button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng"
-                                            onclick="location.href='export-transaction-detail.html'"><i
-                                                class="fa fa-info"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>20/07/2022</td>
-                                    <td>
-                                        <a href="setting-warehouse-export.html" class="btn btn-primary btn-sm edit"
-                                            type="button" title="Sửa"><i class="fas fa-edit"></i></a>
-                                        <button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng"
-                                            onclick="location.href='export-transaction-detail.html'"><i
-                                                class="fa fa-info"></i></button>
-                                    </td>
-                                </tr>
+                            </c:forEach>
+
                             </tbody>
                         </table>
                         <div class="pagination-row">

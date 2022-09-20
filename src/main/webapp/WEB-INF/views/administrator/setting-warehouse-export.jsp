@@ -28,161 +28,167 @@
     <jsp:include page="header.jsp"/>
     <!-- Sidebar menu-->
     <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-    <jsp:include page="home-menu.jsp"/>
+    <jsp:include page="warehouse-home-menu.jsp"/>
     <main class="app-content">
-        <div class="app-title">
-            <ul class="app-breadcrumb breadcrumb side">
-                <li class="breadcrumb-item active"><a href="warehouse-export-management.html"><b>Quản lý xuất
-                            kho</b></a></li>
-                <li class="breadcrumb-item active"><b>Tuỳ chỉnh xuất kho</b></li>
-            </ul>
-            <div id="clock"></div>
-        </div>
         <div class="row">
-            <div class="col-md-8">
-                <div class="tile">
-                    <h3 class="tile-title">Thông tin sản phẩm</h3>
-                    <div class="row element-button">
-                        <div class="col-sm-2">
-                            <button class="btn btn-add btn-sm" title="Thêm" data-toggle="modal"
-                                data-target="#productList"><i class="fas fa-plus"></i>
-                                Thêm sản phẩm</button>
-                        </div>
-                    </div>
-                    <div class="du--lieu-san-pham">
-                        <table class="table table-hover table-bordered">
-                            <thead>
-                                <tr>
-                                    <th class="order-item-number">Mã sản phẩm</th>
-                                    <th class="order-item-number" width="200">Tên sản phẩm</th>
-                                    <th class="order-item-number" width="100">Đơn giá</th>
-                                    <th class="order-item-number" width="10">Số lượng</th>
-                                    <th class="order-item-number">Thành tiền</th>
-                                    <th width="100" class="order-item-number text-center"
-                                        style="text-align: center; vertical-align: middle;">Tuỳ chọn</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1-A-9-1</td>
-                                    <td>Diode Xung Đôi SBL3040 TO-247 600V 30A</td>
-                                    <td><input type="number" value="5600"></td>
-                                    <td>
-                                        <div class="quantity">
-                                            <button class="plus-btn" type="button" name="button">
-                                                <i class='bx bx-minus'></i>
-                                            </button>
-                                            <input type="number" name="name" value="1" inputmode="">
-                                            <button class="minus-btn" type="button" name="button">
-                                                <i class='bx bx-plus'></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                    <td>5.600 đ</td>
-                                    <td>
-                                        <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                            data-toggle="modal" data-target="#deleteProduct"><i
-                                                class="fas fa-trash-alt"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1-A-5-2</td>
-                                    <td>Diode SS34 SMD</td>
-                                    <td><input type="number" value="33235"></td>
-                                    <td>
-                                        <div class="quantity">
-                                            <button class="plus-btn" type="button" name="button">
-                                                <i class='bx bx-minus'></i>
-                                            </button>
-                                            <input type="number" name="name" value="1">
-                                            <button class="minus-btn" type="button" name="button">
-                                                <i class='bx bx-plus'></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                    <td>33.235 đ</td>
-                                    <td>
-                                        <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                            data-toggle="modal" data-target="#deleteProduct"><i
-                                                class="fas fa-trash-alt"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1-A-8-2</td>
-                                    <td>Diode Cầu 25A Dẹt 1000V KBJ2510</td>
-                                    <td><input type="number" value="16770"></td>
-                                    <td>
-                                        <div class="quantity">
-                                            <button class="plus-btn" type="button" name="button">
-                                                <i class='bx bx-minus'></i>
-                                            </button>
-                                            <input type="number" name="name" value="1">
-                                            <button class="minus-btn" type="button" name="button">
-                                                <i class='bx bx-plus'></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                    <td>16.770 đ</td>
-                                    <td>
-                                        <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                            data-toggle="modal" data-target="#deleteProduct"><i
-                                                class="fas fa-trash-alt"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td>1-A-7-5</td>
-                                    <td>Tụ Cao Áp 102K 2kV</td>
-                                    <td><input type="number" value="22650"></td>
-                                    <td>
-                                        <div class="quantity">
-                                            <button class="plus-btn" type="button" name="button">
-                                                <i class='bx bx-minus'></i>
-                                            </button>
-                                            <input type="number" name="name" value="1">
-                                            <button class="minus-btn" type="button" name="button">
-                                                <i class='bx bx-plus'></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                    <td>22.650 đ</td>
-                                    <td>
-                                        <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"><i
-                                                class="fas fa-trash-alt" data-toggle="modal"
-                                                data-target="#deleteProduct"></i></button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+            <div class="col-md-12">
+                <div class="app-title">
+                    <ul class="app-breadcrumb breadcrumb side">
+                        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/admin/warehouses"><b>Quản lý xuất
+                            kho</b></a>
+                        </li>
+                        <li class="breadcrumb-item active"><b>Tuỳ chỉnh xuất kho</b></li>
+                    </ul>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="tile">
-                    <h3 class="tile-title">Thông tin nhập hàng</h3>
-                    <div class="tile-body">
-                        <div class="form-group col-md-12">
-                            <label for="exampleSelect1" class="control-label">Kho xuất</label>
-                            <select class="form-control" id="exampleSelect1">
-                                <option selected disabled hidden>-- Chọn kho hàng --</option>
-                                <option>XQCV+F65, P. Văn Quán, Hà Đông, Hà Nội</option>
-                                <option>68 P. Nguyễn Văn Giáp, Mễ Trì, Nam Từ Liêm, Hà Nội</option>
-                                <option>Đinh Tú, Cấn Hữu, Quốc Oai, Hà Nội</option>
-                                <option>4F9R+78G, Đường khu TĐC, Tông, Sơn Tây, Hà Nội</option>
-                            </select>
+        </div>
+        <form>
+            <div class="row">
+
+                <div class="col-md-8">
+                    <div class="tile">
+                        <h3 class="tile-title">Thông tin sản phẩm</h3>
+                        <div class="row element-button">
+                            <div class="col-sm-2">
+                                <button class="btn btn-add btn-sm" title="Thêm" type="button" data-toggle="modal" data-target="#productList"><i class="fas fa-plus"></i>
+                                    Chọn đơn hàng</button>
+                            </div>
                         </div>
-                        <div class="row">
-                            <div class="tile-footer col-md-12">
-                                <button type="submit" class="btn btn-primary create-order-button" type="button">Lưu giao
-                                    dịch</button>
-                                <a class="btn btn-primary cancel-order-button" href="warehouse-export-management.html"
-                                    type="button">Huỷ và quay về</a>
+                        <div class="du--lieu-san-pham">
+                            <table id="exportProductList" class="table table-hover table-bordered form-product">
+                                <thead>
+                                <tr>
+                                    <th class="order-item-number">Tên sản phẩm</th>
+                                    <th class="order-item-number" width="10">Tổng Số lượng</th>
+                                    <th class="order-item-number">Mã SKUD</th>
+                                    <th class="order-item-number">Số lượng theo từng SKU</th>
+                                    <th width="100" class="order-item-number text-center" style="text-align: center; vertical-align: middle;">Tuỳ chọn
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach var="exportItem" items="${exportTransaction.exportItems}">
+                                    <tr>
+                                        <td>${exportItem.productName}</td>
+                                        <td>
+                                            2
+                                        </td>
+                                        <td>
+                                            <select class="skud" required="">
+                                                <option disabled="" hidden="" value=""> Mã SKUD</option>
+                                                <option selected="" value="1">1-A-B-4-5</option>
+                                                <option value="2">1-A-B-4-6</option>
+                                                <option value="3">1-A-B-4-7</option>
+                                                <option value="4">1-A-B-4-8</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input class="numberForSKU input-number" type="number" value="1" onchange="validateNumberSKUByField(this)">
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-primary btn-sm trash" type="button" title="Xóa" data-toggle="modal" data-target="#deleteProduct"><i class="fas fa-trash-alt"></i></button>
+                                            <button class="btn btn-add btn-sm" title="Thêm" type="button" onclick="duplicateRow(this)"><i class="fas fa-plus"></i></button>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Diode Xung Đôi SBL3040 TO-247 600V 30A</td>
+                                    <td><img src="resources/images/diode.jpg" alt="" width="50px;"></td>
+                                    <td>
+                                        2
+                                    </td>
+                                    <td>
+                                        <select class="skud" required="">
+                                            <option disabled="" hidden="" value=""> Mã SKUD</option>
+                                            <option selected="" value="1">1-A-B-4-5</option>
+                                            <option value="2">1-A-B-4-6</option>
+                                            <option value="3">1-A-B-4-7</option>
+                                            <option value="4">1-A-B-4-8</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input class="numberForSKU input-number" type="number" value="1" onchange="validateNumberSKUByField(this)">
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary btn-sm trash" type="button" title="Xóa" data-toggle="modal" data-target="#deleteProduct"><i class="fas fa-trash-alt"></i></button>
+                                        <button class="btn btn-add btn-sm" title="Thêm" type="button" onclick="duplicateRow(this)"><i class="fas fa-plus"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Diode SS34 SMD</td>
+                                    <td><img src="resources/images/diode.jpg" alt="" width="50px;"></td>
+                                    <td>
+                                        3
+                                    </td>
+                                    <td>
+                                        <select class="skud" required="">
+                                            <option disabled="" hidden="" value=""> Mã SKUD</option>
+                                            <option selected="" value="1">1-A-B-4-5</option>
+                                            <option value="2">1-A-B-4-5</option>
+                                            <option value="3">1-A-B-4-6</option>
+                                            <option value="4">1-A-B-4-7</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input class="numberForSKU input-number" type="number" value="1" onchange="validateNumberSKUByField(this)">
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary btn-sm trash" type="button" data-toggle="modal" data-target="#deleteProduct" title="Xóa"><i class="fas fa-trash-alt"></i></button>
+                                        <button class="btn btn-add btn-sm" title="Thêm" type="button" onclick="duplicateRow(this)"><i class="fas fa-plus"></i></button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="tile">
+                        <h3 class="tile-title">Thông tin xuất hàng</h3>
+
+                        <div class="tile-body">
+                            <div class="form-group col-md-12">
+                                <label for="importDate" class="control-label required-field">Mã giao dịch xuất</label>
+                                <input class="form-control" type="text" id="orderId" value="${exportTransaction.id}" readonly>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="importDate" class="control-label required-field">Mã đơn hàng</label>
+                                <input class="form-control" type="text" id="orderId" value="${exportTransaction.orderId}" readonly>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="importDate" class="control-label required-field">Ngày Xuất</label>
+                                <input class="form-control" type="date" name="ExportDate" id="exportDate" value="2013-01-08" required="">
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="importDate" class="control-label required-field">Họ và tên người xuất
+                                    kho</label>
+                                <input class="form-control" type="text" name="exportName" id="exportName" value="${exportTransaction.exportPerson}" readonly>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="importDate" class="control-label required-field">Họ và tên người
+                                    nhận</label>
+                                <input class="form-control" type="text" name="receive" id="receive" value="Bùi Phương Thảo" required="">
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label class="control-label">Ghi chú</label>
+                                <textarea class="form-control" name="mota" id="mota">Xuất kho để bán</textarea>
+                            </div>
+                            <div class="row">
+                                <div class="tile-footer col-md-12">
+                                    <button type="submit" class="btn btn-primary create-order-button" onclick="checkDate()">Lưu
+                                        giao
+                                        dịch</button>
+                                    <a class="btn btn-primary cancel-order-button" href="warehouse-export-management.html" type="button">Huỷ và quay về</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
-        </div>
+        </form>
     </main>
 
 

@@ -103,12 +103,21 @@ public class OrderController {
     }
 
     @PostMapping("/update/{id}")
-    public String updateStatus(@PathVariable String id, ModelMap model) {
+    public String updateStatus(@PathVariable String id) {
         System.out.println("cập nhật");
         orderService.updateStatus(Integer.parseInt(id));
         return "redirect:/admin/orders/view/" + id;
     }
-
+    @PostMapping("cancel/{id}")
+    public String cancelOrder(@PathVariable String id){
+        orderService.cancelOrder(id);
+        return "redirect:/admin/orders/view/" + id;
+    }
+    @PostMapping("returned/{id}")
+    public String returnedOrder(@PathVariable String id){
+        orderService.returnedOrder(id);
+        return "redirect:/admin/orders/view/" + id;
+    }
     @PostMapping("/save/{id}")
     @ResponseBody
     public String saveOrder(@Valid @RequestBody OrderDTO orderDTO, @PathVariable String id, ModelMap model) {
@@ -129,7 +138,6 @@ public class OrderController {
                  ) {
                 ObjectMapper objectMapper = new ObjectMapper();
                 String itemDto = objectMapper.writeValueAsString(orderItemDTO);
-                System.out.println(itemDto+"lôn");
                 List<SkuDTO> skuDTOS = skuService.getSkuDtoByProductId(orderItemDTO.getProductId());
                 map.put(itemDto,skuDTOS);
             }

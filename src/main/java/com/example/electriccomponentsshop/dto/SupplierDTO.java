@@ -13,8 +13,9 @@ import java.util.List;
 public class SupplierDTO {
     private String id;
     private String name;
-    private String website;
+    private String phone;
     private List<ProductDTO> products;
+    private Integer active;
 
 
 }

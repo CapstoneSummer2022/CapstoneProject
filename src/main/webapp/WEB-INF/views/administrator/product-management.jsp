@@ -8,8 +8,13 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.xx.x/css/uikit.min.css" />
   <!-- Main CSS-->
   <link href="<c:url value="/css/main.css"/>" rel="stylesheet" type="text/css">
+  <link href="<c:url value="/css/uikit.css"/>" rel="stylesheet" type="text/css">
+  <link href="<c:url value="/css/uikit.min.css"/>" rel="stylesheet" type="text/css">
+  <link href="<c:url value="/css/uikit-rtl.css"/>" rel="stylesheet" type="text/css">
+  <link href="<c:url value="/css/uikit-rtl.min.css"/>" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
   <!-- or -->
   <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
@@ -52,10 +57,11 @@
               </div>
             </div>
             <div class="search-row">
-              <form action="">
+              <form action="${pageContext.request.contextPath}/admin/products/search" method="GET">
                 <div class="search-container">
-                  <input class="form-control" type="text" placeholder="Tìm kiếm" name="search">
-                  <button type="submit"><i class="fa fa-search"></i></button>
+                  <input class="form-control" type="text" placeholder="Tìm kiếm" name="text" id="searchText" value="${text}">
+                  <input type="hidden" value="0" type="text" name="index">
+                  <button type="submit" id="search" ><i class="fa fa-search"></i></button>
                 </div>
               </form>
             </div>
@@ -86,11 +92,13 @@
                     </c:forEach>
                   </td>
                   <td>
-                    <label class="switch">
-                      <input class="status-checkbox" onclick="return false" type="checkbox" data-toggle="modal"
-                             data-target="#disableStatus" name="check" <c:if test="${productDto.status == 1}"> checked</c:if>/>
+                    <div class="switch">
+                      <input class="status-checkbox" onclick="return false" type="checkbox"  name="check" <c:if test="${productDto.status == 1}"> checked</c:if>/>
+
                       <span class="slider round"></span>
-                    </label>
+                      <div style="position:absolute; left:0; right:0; top:0; bottom:0;" onclick="updateProductStatus(this)"data-toggle="modal"
+                              <c:if test="${productDto.status == 1}"> data-target="#disableStatus"</c:if> <c:if test="${productDto.status == 0}"> data-target="#enableStatus"</c:if> ></div>
+                    </div>
                   </td>
                   <td>
                     <a href="${pageContext.request.contextPath}/admin/products/view/${productDto.id}" class="btn btn-primary btn-sm edit" type="button" title="Sửa"><i
@@ -104,16 +112,12 @@
             <div class="pagination-row">
               <div class="pagination-container">
                 <div class="dataTables_paginate paging_simple_numbers" id="sampleTable_paginate">
-                  <ul class="pagination">
-                    <li class="paginate_button page-item previous disabled" id="sampleTable_previous"><a href="#"
-                        aria-controls="sampleTable" data-dt-idx="0" tabindex="0" class="page-link">Lùi</a></li>
-                    <li class="paginate_button page-item active"><a href="#" aria-controls="sampleTable" data-dt-idx="1"
-                        tabindex="0" class="page-link">1</a></li>
-                    <li class="paginate_button page-item "><a href="#" aria-controls="sampleTable" data-dt-idx="2"
-                        tabindex="0" class="page-link">2</a></li>
-                    <li class="paginate_button page-item next" id="sampleTable_next"><a href="#"
-                        aria-controls="sampleTable" data-dt-idx="3" tabindex="0" class="page-link">Tiếp</a></li>
-                  </ul>
+                 <ul class="pagination">
+                   <c:forEach var="i" step="1" begin="1" end="${total-1}">
+                     <li class="paginate_button page-item " id="sampleTable_previous"><a href="${pageContext.request.contextPath}/admin/products/search?index=${i}<c:if test="${text!=null}">&text=${text}</c:if>"
+                                                                                                          aria-controls="sampleTable" data-dt-idx="0" tabindex="0" class="page-link">${i}</a></li>
+                   </c:forEach>
+                 </ul>
                 </div>
               </div>
             </div>
@@ -123,37 +127,7 @@
     </div>
   </main>
 
-  <!--
-  MODAL IMPORT FILE 
--->
-  <div class="modal fade" id="importFile" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-    data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <form>
-          <div class="modal-body">
-            <div class="row">
-              <div class="form-group col-md-12">
-                <span class="thong-tin-thanh-toan">
-                  <h5>Chọn file</h5>
-                </span>
-              </div>
-              <div class="form-group col-md-12" style="text-align: center;">
-                <input type="file" required id="fileInput" value="Chọn tệp" class="btn input-file">
-              </div>
-            </div>
-            <div style="display: flex; justify-content: center; padding: 10px;">
-              <button style="margin: 5px;" class="btn btn-save" type="submit">Xác nhận</button>
-              <button style="margin: 5px;" class="btn btn-cancel" data-dismiss="modal"
-                onclick="removeSelectedFile()">Hủy bỏ</a>
-            </div>
-          </div>
-          <div class="modal-footer">
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
+
   <!--
 MODAL
 -->
@@ -176,7 +150,7 @@ MODAL
             </div>
           </div>
           <div style="display: flex; justify-content: center; padding: 10px;">
-            <button style="margin: 5px;" class="btn btn-save" data-dismiss="modal">Xác nhận</button>
+            <button style="margin: 5px;" class="btn btn-save" type="button" data-dismiss="modal" id="disableP">Xác nhận</button>
             <button style="margin: 5px;" class="btn btn-cancel" data-dismiss="modal">Hủy bỏ</button>
           </div>
         </div>
@@ -209,7 +183,7 @@ MODAL
             </div>
           </div>
           <div style="display: flex; justify-content: center; padding: 10px;">
-            <a style="margin: 5px;" class="btn btn-save" data-dismiss="modal" href="#">Xác nhận</a>
+            <button style="margin: 5px;" class="btn btn-save" type="button" data-dismiss="modal" id="enableP">Xác nhận</button>
             <a style="margin: 5px;" class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
           </div>
         </div>
@@ -248,22 +222,94 @@ MODAL
       </div>
     </div>
   </div>
+  <div class="modal fade" id="result" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+       data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+
+        <div class="modal-body">
+          <div class="row">
+            <div class="form-group  col-md-12">
+              <span class="thong-tin-thanh-toan">
+                <h5>Thông báo</h5>
+              </span>
+            </div>
+            <div class="form-group col-md-12" style="text-align: center;">
+              <label class="control-label" style="font-size: medium" id="resultLabel"></label>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: center; padding: 10px;">
+            <a href="${pageContext.request.contextPath}/admin/products" style="margin: 5px;" class="btn btn-cancel">Đóng</a>
+          </div>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
   <!--
 MODAL
 -->
 
 
   <!-- Essential javascripts for application to work-->
-  <script src="js/jquery-3.2.1.min.js"></script>
-  <script src="js/popper.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <script src="src/jquery.table2excel.js"></script>
-  <script src="js/main.js"></script>
+  <script src="<c:url value="/js/jquery-3.2.1.min.js"/>"></script>
+  <script src="<c:url value="/js/popper.min.js"/>"></script>
+  <script src="<c:url value="/js/bootstrap.min.js"/>"></script>
+  <script src="<c:url value="/js/main.js"/>"></script>
+  <script src="<c:url value="/js/plugins/pace.min.js"/>"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.xx.x/js/uikit.min.js"></script>
   <!-- The javascript plugin to display page loading on top-->
-  <script src="js/plugins/pace.min.js"></script>
   <!-- Page specific javascripts-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+  <script>
+    $(document).ready(function (){
+
+    });
+    function updateProductStatus(e){
+      var id = $(e.parentNode.parentNode.parentNode).find('td').eq(0).html();
+      var element =$(e.parentNode).find('input');
+      if($(element).is(":checked")){
+
+        disableProduct(id);
+      } else enableProduct(id);
+    }
+    function disableProduct(id){
+      var dis = document.getElementById("disableP");
+      alert("hoang");
+      dis.addEventListener('click',()=>{
+        $.ajax({
+          type:"POST",
+          url:"/admin/products/disable?id=" + id,
+          contentType:"application/json",
+          success: function (response){
+            var  result = document.getElementById("resultLabel");
+            result.innerHTML= response;
+            $('#result').modal('show');
+          }
+        });
+      });
+    }
+    function enableProduct(id){
+      var en = document.getElementById("enableP");
+      en.addEventListener('click', ()=>{
+        $.ajax({
+          type:"POST",
+          url:"/admin/products/enable?id=" + id,
+          contentType:"application/json",
+          success: function (response){
+            var  result = document.getElementById("resultLabel");
+            result.innerHTML= response;
+            $('#result').modal('show');
+          }
+        });
+      });
+    }
+
+  </script>
 </body>
 
 </html>

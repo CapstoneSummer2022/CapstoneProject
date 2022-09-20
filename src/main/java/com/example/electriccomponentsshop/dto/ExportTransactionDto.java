@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ExportTransactionDto {
-    private String exportTransactionId;
+    private String id;
     private String exportDate;
     private String orderId;
     private List<ExportItemDto> exportItems;

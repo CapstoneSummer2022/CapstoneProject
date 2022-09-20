@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -12,8 +15,8 @@ import lombok.Setter;
 public class ImportItemDto {
     private String productId;
     private String skuId;
-    private Integer importPrice;
-    private Integer quantity;
+    private BigDecimal importPrice;
+    private BigInteger quantity;
     private String importTransactionId;
     private String containerId;
 }

@@ -13,4 +13,6 @@ public interface WardService {
 
     WardDTO findByName(String name);
     WardDTO convertToDto(Ward ward);
+
+    Ward getByName(String name);
 }

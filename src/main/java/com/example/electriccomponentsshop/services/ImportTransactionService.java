@@ -12,6 +12,10 @@ public interface ImportTransactionService {
 
     ImportTransactionDto convertToDto(ImportTransaction importTransaction);
 
+    ImportTransactionDto getDtoById(String id);
+
+    ImportTransaction getById(String id);
+
     List<ImportTransactionDto> findAll();
 
     boolean addImportTransaction(ImportTransactionDto importTransactionDto) throws NoSuchElementException;

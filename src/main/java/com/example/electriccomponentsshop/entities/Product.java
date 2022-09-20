@@ -5,6 +5,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.math.BigInteger;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +32,10 @@ public class Product {
     private Date addedDate;
     @Column
     @ColumnDefault("0")
-    private Integer available;
+    private BigInteger available;
     @Column
     private int status;
+    private BigInteger unit;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "Product_Category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))

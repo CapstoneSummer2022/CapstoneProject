@@ -6,7 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
-
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 
 @NoArgsConstructor
@@ -18,11 +19,11 @@ public class ProductDTO {
     private String name;
     private String image;
     private Integer available;
-    private Double price;
+    private BigDecimal price;
     private List<CategoryDTO> categories;
     private List<SpecificationValueDto> specificationValues;
     private int status ;
     private String description;
     private String supplierId;
-
+    private BigInteger unit;
 }

@@ -18,11 +18,22 @@ public interface ProductService {
 
     boolean addProduct(ProductDTO productDTO);
 
+    void disableProduct(String id);
+
+    void enableProduct(String id);
+
+    Page<ProductDTO> searchProduct(String text, Pageable pageable);
+
+    Page<ProductDTO> findBySupplierId(Pageable pageable, String sId);
+
+    List<ProductDTO> findBySupplierIdAndNameContain(String sId, String text);
+
     List<ProductDTO> findAll();
+
 
     <S extends Product> S save(S entity);
 
-    Page<Product> findAll(Pageable pageable);
+    Page<ProductDTO> findAll(Pageable pageable);
 
     Optional<Product> findById(Integer integer);
 

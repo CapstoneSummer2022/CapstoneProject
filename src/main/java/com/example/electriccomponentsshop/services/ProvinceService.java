@@ -13,4 +13,5 @@ public interface ProvinceService {
 
     ProvinceDTO findByName(String name);
 
+    Province getByName(String name);
 }

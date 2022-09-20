@@ -86,7 +86,7 @@
                             <div class="tile-body">
                                 <div class="form-group col-md-12">
                                     <label for="importDate" class="control-label required-field">Ngày nhập</label>
-                                    <input class="form-control" type="date" name="birthmonth" id="importDate" required
+                                    <input class="form-control" type="date" name="birthmonth" id="importDate" onchange="checkDate()" required
                                           >
                                 </div>
                                 <div class="form-group col-md-12">
@@ -161,8 +161,8 @@
                                             <form action="">
                                                 <div class="search-container">
                                                     <input class="form-control" type="text" placeholder="Tìm kiếm"
-                                                           name="search">
-                                                    <button type="submit"><i class="fa fa-search"></i></button>
+                                                           name="search" id="searchText">
+                                                    <button type="button" onclick="searchProductInImport()"><i class="fa fa-search"></i></button>
                                                 </div>
                                             </form>
                                         </div>
@@ -181,29 +181,6 @@
 
                                             </tbody>
                                         </table>
-                                        <div class="pagination-row">
-                                            <div class="pagination-container">
-                                                <div class="dataTables_paginate paging_simple_numbers"
-                                                     id="sampleTable_paginate">
-                                                    <ul class="pagination">
-                                                        <li class="paginate_button page-item previous disabled"
-                                                            id="sampleTable_previous"><a href="#"
-                                                                                         aria-controls="sampleTable" data-dt-idx="0" tabindex="0"
-                                                                                         class="page-link">Lùi</a></li>
-                                                        <li class="paginate_button page-item active"><a href="#"
-                                                                                                        aria-controls="sampleTable" data-dt-idx="1" tabindex="0"
-                                                                                                        class="page-link">1</a></li>
-                                                        <li class="paginate_button page-item "><a href="#"
-                                                                                                  aria-controls="sampleTable" data-dt-idx="2" tabindex="0"
-                                                                                                  class="page-link">2</a></li>
-                                                        <li class="paginate_button page-item next"
-                                                            id="sampleTable_next"><a href="#"
-                                                                                     aria-controls="sampleTable" data-dt-idx="3" tabindex="0"
-                                                                                     class="page-link">Tiếp</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </form>
                                 </div>
                             </div>
@@ -371,7 +348,8 @@ MODAL
                 var importItem = new Object();
 
                 importItem.productId = row.find("TD").eq(0).html();
-                importItem.skuCode = row.find("TD").eq(1).html();
+                importItem.skuId = row.find("TD").eq(1).html();
+                alert(importItem.skuId);
                 importItem.importPrice = row.find("TD").eq(4).find("INPUT").val();
                 importItem.quantity = row.find("TD").eq(5).find("INPUT").val();
                 importItem.containerId =  row.find("TD").eq(8).html();;

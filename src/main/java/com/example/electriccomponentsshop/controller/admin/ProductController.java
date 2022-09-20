@@ -1,11 +1,17 @@
 package com.example.electriccomponentsshop.controller.admin;
 
 import com.example.electriccomponentsshop.dto.*;
+import com.example.electriccomponentsshop.entities.Product;
+import com.example.electriccomponentsshop.entities.Supplier;
 import com.example.electriccomponentsshop.services.*;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,10 +32,35 @@ public class ProductController {
     final SpecificationService specificationService;
     final SkuService skuService;
     @GetMapping("")
-    public String viewAll(Model model){
-        List<ProductDTO> products =  productService.findAll();
-        model.addAttribute("productDtos", products);
+    public String viewAll(Model model,@RequestParam(name="index",defaultValue = "0") String index){
+        Page<ProductDTO> products =  productService.findAll(PageRequest.of(Integer.parseInt(index),10));
+        model.addAttribute("productDtos", products.getContent());
+        model.addAttribute("total",products.getTotalPages());
         return "administrator/product-management";
+    }
+    @GetMapping("/specification/add")
+    public String getAddSpecForm(ModelMap modelMap){
+        List<SpecificationDto> specificationDtos = specificationService.findAll();
+        modelMap.addAttribute("listSpec",specificationDtos);
+        modelMap.addAttribute("newSpecification",new SpecificationDto());
+        return "administrator/add-product-specification";
+    }
+    @PostMapping("/specification/add")
+    public String addNewSpecification(@ModelAttribute(name = "newSpecification") SpecificationDto specificationDto, BindingResult bindingResult,ModelMap modelMap){
+        if(bindingResult.hasErrors()){
+            bindingResult.getFieldErrors().forEach(fieldError -> modelMap.addAttribute(fieldError.getField(),fieldError.getDefaultMessage()));
+        }
+        else{
+            if(specificationService.addNewSpecification(specificationDto)){
+                modelMap.addAttribute("success",1);
+            }else{
+                modelMap.addAttribute("success" , 0);
+                modelMap.addAttribute("message", "Thông số này đã tồn tại");
+            }
+        }
+        List<SpecificationDto> specificationDtos = specificationService.findAll();
+        modelMap.addAttribute("listSpec",specificationDtos);
+            return "administrator/add-product-specification";
     }
     @GetMapping("/view/{id}")
     public String viewById(ModelMap model,@PathVariable @Valid String id){
@@ -60,9 +91,8 @@ public class ProductController {
     @GetMapping("/getBySupplier")
     @ResponseBody
     public List<ProductDTO> getBySupplier(@RequestParam(name = "id") String id){
-
-        SupplierDTO supplierDTO = supplierService.convertToDto(supplierService.getBySupplierId(id));
-        return supplierDTO.getProducts();
+        SupplierDTO supplierDTO =supplierService.getDtoById(id);
+        return   supplierDTO.getProducts();
     }
     @GetMapping("/add")
         public String viewProduct(ModelMap modelMap){
@@ -74,7 +104,41 @@ public class ProductController {
         modelMap.addAttribute("listSuppliers",supplierDTOS);
             return "administrator/add-product";
         }
-
+    @PostMapping("/disable")
+    @ResponseBody
+    public String disable(@RequestParam(name="id") String id ){
+        try {
+            productService.disableProduct(id);
+            return "Vô hiệu hóa thành công";
+        }catch (RuntimeException e){
+            return e.getMessage();
+        }
+    }
+    @PostMapping("/enable")
+    @ResponseBody
+    public String enable(@RequestParam(name="id") String id ){
+        try {
+            productService.enableProduct(id);
+            return "Kích hoạt thành công";
+        }catch (RuntimeException e){
+            return e.getMessage();
+        }
+    }
+    @GetMapping ("search-import")
+    @ResponseBody
+    public List<ProductDTO> getProductImport(@RequestParam(name="text") String text,@RequestParam(name="sId",defaultValue = "0")String sId){
+            return productService.findBySupplierIdAndNameContain(sId,text);
+    }
+    @GetMapping("search")
+    public String searchProduct(@RequestParam(name="text") String text,@RequestParam(name="index",defaultValue = "0") String index,ModelMap modelMap){
+        int pIndex = Integer.parseInt(index);
+        Page<ProductDTO> productDTOS = productService.searchProduct(text,PageRequest.of(pIndex,10));
+        modelMap.addAttribute("productDtos", productDTOS.getContent());
+        modelMap.addAttribute("total",productDTOS.getTotalPages());
+        modelMap.addAttribute("text",text);
+        System.out.println(text+"đây là gi");
+        return "administrator/product-management";
+    }
     @PostMapping("/add")
     @ResponseBody
     public String addNewProduct(@Valid @RequestBody ProductDTO productDTO){
@@ -103,8 +167,6 @@ public class ProductController {
     @PostMapping("/update/{id}")
     @ResponseBody
     public String update(@PathVariable Integer id,@Valid @RequestBody ProductDTO productDTO){
-
-
         return "administrator/product-management";
     }
     }

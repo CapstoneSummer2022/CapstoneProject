@@ -374,15 +374,16 @@ function getItems(e){
 
                 $itemsExport.append('<tr class="export-items"><td>'+items.productId+'</td><td>'+items.productName+'</td><td></td><td>'+items.quantity +
                     '  <td>\n' +
-                    '                                            <select class="skud" id="skuOption" required="">\n' +
+                    '                                            <select class="skud" required="">\n' +
                     '                                            </select>\n' +
                     '                                        </td><td><input type="number" class="input-number sku-quantity" value="1"></td><td><button class="btn btn-add btn-sm" title="Thêm" type="button" onclick="duplicateRow(this)"><i class="fas fa-plus"></i></button>\n' +
                     '                                        </td></tr>');
+                var $row= $itemsExport.find('tr').eq(index);
                 $.each(value,function (k,v){
+                    $('<option>').val(v.id).text(v.id).appendTo($($row).find('select'));
 
-                    $('<option>').val(v.id).text(v.skuCode).appendTo($('#skuOption'));
                 });
-
+                index = index+1;
             });
         }
     });
@@ -695,22 +696,23 @@ function showPassword(checkbox) {
 
 function checkPassword() {
     // /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+    var valid = true;
     var passwordRegex = /^(?=.{8,}$)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?\W).*$/;
     var password = document.getElementById("pw");
     var rePassword = document.getElementById("rePw");
     if (!password.value.match(passwordRegex)) {
         password.setCustomValidity("Mật khẩu phải có ít nhất 8 ký tự, chữ in hoa, in thường, chữ số và ký tự đặc biệt");
-        return false;
+        valid = false;
     } else {
         password.setCustomValidity("");
     }
     if (password.value != rePassword.value) {
         rePassword.setCustomValidity("Xác nhận lại mật khẩu không chính xác");
-        return false;
+        valid = false;
     } else {
-        password.setCustomValidity("");
+        rePassword.setCustomValidity("");
     }
-    return true;
+    valid = true;
 }
 
 function checkDateOfBirth() {
@@ -757,6 +759,38 @@ function validateTable() {
     }
 
 }
+
+
+//fixed
+function checkDate() {
+
+    var date;
+    if (document.getElementById("inputDate") != null) {
+        date = document.getElementById("inputDate");
+    } else if (document.getElementById("importDate") != null) {
+        date = document.getElementById("importDate");
+    } else {
+        date = document.getElementById("ExportDate");
+    }
+    var varDate = new Date(date.value); //dd-mm-YYYY
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0');
+    var yyyy = today.getFullYear();
+
+
+    //today.setHours(0, 0, 0, 0);
+    if (varDate > today) {
+        alert("Không thê nhập ngày vượt quá thời điểm hiện tại");
+        varDate = yyyy + '-' + mm + '-' + dd;
+        date.value = varDate;
+        date.setCustomValidity("Giá trị ngày nhập vượt quá thời điểm hiện tại");
+        return false;
+    } else {
+        date.setCustomValidity("");
+    }
+    return true;
+}
 function addProduct(){
     validateTable();
     var specificationValues= new Array();
@@ -781,6 +815,7 @@ function addProduct(){
         price: $('#price').val(),
         description: $('#mota').val(),
         supplierId:$('#supplierOption').val(),
+        unit:$('#unit').val(),
         categories: categories,
         specificationValues:specificationValues
     };
@@ -794,8 +829,13 @@ function addProduct(){
         dataType:"text",
         success: function (response){
 
-            alert(response);
+            alert("hoang");
+        },
+        error: function (error){
+            window.location.replace('http://localhost:8083/auth/signin');
         }
+
+
     });
     $('#createProduct').off('click');
 
@@ -905,3 +945,23 @@ function tableChange(){
         }
     });
 }
+function searchProductInImport(){
+    var text = $('#searchText').val();
+    var sId = $('#supplierSelect').val();
+    $.ajax({
+        type: "GET",
+        url: "/admin/products/search-import?text=" + text+"&sId="+sId,
+        contentType:"application/json",
+        success:function (response){
+            var $product = $('#products tbody');
+            $product.find('tr').remove();
+            response.forEach(p=>{
+                $product.append('<tr class="export-items"><td>'+p.id+'</td><td>'+p.name+'</td><td></td><td>'+p.available +
+                    '  </td><td>'+p.price+ '</td><td><input className="status-checkbox" type="checkbox" data-toggle="modal" data-target="#confirmStatus" name="check1" value="1"></td></tr>')
+            });
+
+        }
+    });
+}
+
+

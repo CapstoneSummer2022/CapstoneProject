@@ -36,10 +36,15 @@ public class WardServiceImpl implements WardService {
 
     @Override
     public WardDTO findByName(String name) {
+
+        return convertToDto(getByName(name));
+    }
+    @Override
+    public Ward getByName(String name){
         Optional<Ward> wardOptional= wardRepository.findByName(name);
         if(wardOptional.isEmpty()){
             throw  new NoSuchElementException("Không có xã/thị trấn này");
         }
-        return convertToDto(wardOptional.get());
+        return wardOptional.get();
     }
 }

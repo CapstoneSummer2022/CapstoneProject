@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.math.BigInteger;
 import java.sql.Date;
 
 @Entity
@@ -20,7 +21,7 @@ public class Sku {
     private String id ;
     @OneToOne(mappedBy = "sku")
     private ImportItem importItem;
-    private Integer quantity;
+    private BigInteger quantity;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="productId")
     private Product product;

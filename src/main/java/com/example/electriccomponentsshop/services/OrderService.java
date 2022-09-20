@@ -28,4 +28,8 @@ public interface OrderService {
     boolean updateStatus(Integer id);
 
     OrderDTO findById(Integer integer);
+
+    void cancelOrder(String id);
+
+    void returnedOrder(String id);
 }

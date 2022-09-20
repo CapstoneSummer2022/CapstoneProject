@@ -1,4 +1,4 @@
-<jsp:useBean id="orderDto" scope="request" type="shop.db.dto.order.OrderDTO"/>
+<jsp:useBean id="orderDto" scope="request" type="com.example.electriccomponentsshop.dto.OrderDTO"/>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -78,11 +78,15 @@
                                     </c:if>
                                     <c:if test="${orderDto.status == 'Đã Xác Nhận'}">
                                         <button class="btn btn-primary" data-toggle="modal"
-                                                data-target="#confirmGiaohang">Đóng gói và giao hàng</button>
+                                                data-target="#confirmFinished">Hoàn thành</button>
                                     </c:if>
                                     <c:if test="${orderDto.status == 'Đang Giao Hàng'}">
                                         <button class="btn btn-primary" data-toggle="modal"
                                                 data-target="#confirmFinished">Hoàn thành</button>
+                                    </c:if>
+                                    <c:if test="${orderDto.status == 'Đã Hủy'}">
+                                        <button class="btn btn-primary" data-toggle="modal"
+                                                data-target="#confirmReturned">Đã nhận hoàn</button>
                                     </c:if>
                                     <c:if test="${orderDto.status != 'Hoàn Thành'}">
                                         <button class="btn btn-cancel" data-toggle="modal"
@@ -134,6 +138,33 @@
             </div>
         </div>
     </main>
+    <div class="modal fade" id="confirmReturned" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+         data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group  col-md-12">
+                            <span class="thong-tin-thanh-toan">
+                                <h5>Chú ý</h5>
+                            </span>
+                        </div>
+                        <div class="form-group col-md-12" style="text-align: center;">
+                            <label class="control-label">Xác nhận đã nhận hoàn đơn hàng </label>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: center; padding: 10px;">
+                        <form method="POST" action="${pageContext.request.contextPath}/admin/orders/returned/${orderDto.id}">
+                            <input style="margin: 5px;" type="submit" class="btn btn-save"  value="Xác nhận"/>
+                        </form>
+                        <a style="margin: 5px;" class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
     <!--
 MODAL CONFIRM đóng gói và giao hàng
 -->
@@ -253,7 +284,7 @@ MODAL CONFIRM CANCEL
                         </div>
                     </div>
                     <div style="display: flex; justify-content: center; padding: 10px;">
-                        <form method="POST" action="${pageContext.request.contextPath}/admin/orders/update/${orderDto.id}">
+                        <form method="POST" action="${pageContext.request.contextPath}/admin/orders/cancel/${orderDto.id}">
                             <input type="submit" class="btn btn-save"  value="Xác nhận"/>
                         </form>
                         <a style="margin: 5px;" class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>

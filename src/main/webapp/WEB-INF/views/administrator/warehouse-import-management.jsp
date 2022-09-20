@@ -32,7 +32,7 @@
   <main class="app-content">
     <div class="app-title">
       <ul class="app-breadcrumb breadcrumb side">
-        <li class="breadcrumb-item"><a href="warehouse-import-management.html"><b>Quản lý nhập kho</b></a></li>
+        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/admin/warehouses/add"><b>Quản lý nhập kho</b></a></li>
       </ul>
       <div id="clock"></div>
     </div>
@@ -76,7 +76,7 @@
                   <td>${importTransaction.totalPayment}</td>
                   <td>${importTransaction.importDate}</td>
                   <td>
-                    <a href="setting-warehouse-import.html" class="btn btn-primary btn-sm edit" type="button"
+                    <a href="${pageContext.request.contextPath}/admin/warehouses/import/update/${importTransaction.id}" class="btn btn-primary btn-sm edit"
                        title="Sửa"><i class="fas fa-edit"></i></a>
                     <button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng"
                             onclick="location.href='import-transaction-detail.html'"><i class="fa fa-info"></i></button>
@@ -154,16 +154,15 @@
   </main>
 
   <!-- Essential javascripts for application to work-->
-  <script src="js/jquery-3.2.1.min.js"></script>
-  <script src="js/popper.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script src="src/jquery.table2excel.js"></script>
-  <script src="js/main.js"></script>
-  <!-- The javascript plugin to display page loading on top-->
-  <script src="js/plugins/pace.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+  <script src="<c:url value="/js/jquery-3.2.1.min.js"/>"></script>
+  <script src="<c:url value="/js/popper.min.js"/>"></script>
+  <script src="<c:url value="/js/bootstrap.min.js"/>"></script>
+  <script src="<c:url value="/js/main.js"/>"></script>
+  <script src="<c:url value="/js/plugins/pace.min.js"/>"></script>
+  <script src="<c:url value="/resources/data.json"/>"></script>
   <!-- Page specific javascripts-->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 </body>
 
 </html>

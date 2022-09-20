@@ -3,6 +3,7 @@ package com.example.electriccomponentsshop.dto;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -17,7 +18,7 @@ public class OrderDTO {
     @NotEmpty(message = "not null")
     private List<OrderItemDTO> orderItems;
     private String status;
-    private Double totalPayment;
+    private BigDecimal totalPayment;
     private String orderedDate;
     @NotEmpty(message = "Không được để trống")
     private String receivedPerson;
@@ -26,7 +27,7 @@ public class OrderDTO {
     private String districtName;
     private String wardName;
     private String detailLocation;
-    private Double paidMoney;
+    private BigDecimal paidMoney;
     private String kindId;
     @NoArgsConstructor
     @Getter

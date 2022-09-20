@@ -15,7 +15,6 @@ import java.util.function.Function;
 public interface WarehouseService {
     List<Warehouse> findAll();
 
-    List<Warehouse> findAll(Sort sort);
 
     WarehouseDTO convertToDto(Warehouse warehouse);
 
@@ -23,64 +22,16 @@ public interface WarehouseService {
 
     Warehouse getWarehouse(String id);
 
-    List<Warehouse> findAllById(Iterable<Integer> integers);
-
-    <S extends Warehouse> List<S> saveAll(Iterable<S> entities);
-
-    void flush();
-
-    <S extends Warehouse> S saveAndFlush(S entity);
-
-    <S extends Warehouse> List<S> saveAllAndFlush(Iterable<S> entities);
-
-    @Deprecated
-    void deleteInBatch(Iterable<Warehouse> entities);
-
-    void deleteAllInBatch(Iterable<Warehouse> entities);
-
-    void deleteAllByIdInBatch(Iterable<Integer> integers);
-
-    void deleteAllInBatch();
-
-    @Deprecated
-    Warehouse getOne(Integer integer);
-
-    @Deprecated
-    Warehouse getById(Integer integer);
-
-    Warehouse getReferenceById(Integer integer);
-
-    <S extends Warehouse> List<S> findAll(Example<S> example);
-
-    <S extends Warehouse> List<S> findAll(Example<S> example, Sort sort);
-
     Page<Warehouse> findAll(Pageable pageable);
-
     <S extends Warehouse> S save(S entity);
-
     Optional<Warehouse> findById(Integer integer);
+    void add(WarehouseDTO warehouseDTO);
 
-    boolean existsById(Integer integer);
+    void update(WarehouseDTO warehouseDTO,String id);
 
-    long count();
+    WarehouseDTO getWarehouseDtoById(String id);
 
-    void deleteById(Integer integer);
+    void disableWarehouse(String id);
 
-    void delete(Warehouse entity);
-
-    void deleteAllById(Iterable<? extends Integer> integers);
-
-    void deleteAll(Iterable<? extends Warehouse> entities);
-
-    void deleteAll();
-
-    <S extends Warehouse> Optional<S> findOne(Example<S> example);
-
-    <S extends Warehouse> Page<S> findAll(Example<S> example, Pageable pageable);
-
-    <S extends Warehouse> long count(Example<S> example);
-
-    <S extends Warehouse> boolean exists(Example<S> example);
-
-    <S extends Warehouse, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction);
+    void enableWarehouse(String id);
 }

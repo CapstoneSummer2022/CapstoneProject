@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ public class Order {
     private Date orderedDate;
     private String receivedPerson;
     private String receivedPhone;
-    private Double paidMoney;
+    private BigDecimal paidMoney;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="pCode")
     private Province provinceOrder;
@@ -44,13 +45,14 @@ public class Order {
     @Column
     private String status;
     @Column
-    private Double totalPayment;
+    private BigDecimal totalPayment;
     @OneToMany(mappedBy = "order",fetch = FetchType.LAZY)
     private List<OrderItem> orderItems = new ArrayList<>();
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="order_type_id")
     private OrderKind orderKind;
+    @OneToOne(mappedBy = "order",optional = true)
+    private ExportTransaction exportTransaction;
 
 
 }

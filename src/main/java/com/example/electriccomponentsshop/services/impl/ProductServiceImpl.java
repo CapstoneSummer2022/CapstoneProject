@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -114,7 +115,8 @@ public class ProductServiceImpl implements ProductService {
         Product product = new Product();
         product.setImage("dd");
         product.setName(productDTO.getName());
-        product.setAvailable(0);
+        product.setUnit(productDTO.getUnit());
+        product.setAvailable(new BigInteger("0"));
         List<CategoryDTO> categoryDTOS = productDTO.getCategories();
         List<Category> categories = new ArrayList<>();
         for (CategoryDTO c : categoryDTOS
@@ -125,7 +127,7 @@ public class ProductServiceImpl implements ProductService {
         Supplier supplier = supplierService.getBySupplierId(productDTO.getSupplierId());
         product.setProductSupplier(supplier);
         product.setCategories(categories);
-       product = productRepository.save(product);
+        product = productRepository.save(product);
             ExportPrice newExportPrice = new ExportPrice();
             newExportPrice.setProduct(product);
             newExportPrice.setRetailPrice(productDTO.getPrice());
@@ -146,7 +148,32 @@ public class ProductServiceImpl implements ProductService {
         return  productRepository.save(product)!=null;
 
     }
-
+    @Override
+    public void disableProduct(String id){
+        Product product = getById(id);
+        product.setStatus(0);
+        productRepository.save(product);
+    }
+    @Override
+    public void enableProduct(String id){
+        Product product = getById(id);
+        product.setStatus(1);
+        productRepository.save(product);
+    }
+    @Override
+    public Page<ProductDTO> searchProduct(String text, Pageable pageable){
+        return productRepository.searchProductsByNameContain(text,pageable).map(this::convertToDto);
+    }
+    @Override
+    public Page<ProductDTO> findBySupplierId(Pageable pageable, String sId){
+        Supplier supplier = supplierService.getBySupplierId(sId);
+        return productRepository.findProductsByProductSupplierId(supplier.getId(),pageable).map(this::convertToDto);
+    }
+    @Override
+    public List<ProductDTO> findBySupplierIdAndNameContain(String sId, String text){
+        Supplier supplier = supplierService.getBySupplierId(sId);
+        return productRepository.findProductsByProductSupplierIdAndNameContains(supplier.getId(),text).stream().map(this::convertToDto).collect(Collectors.toList());
+    }
     @Override
     public List<ProductDTO> findAll() {
         List<Product> products = productRepository.findAll();
@@ -157,8 +184,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> findAll(Pageable pageable) {
-        return productRepository.findAll(pageable);
+    public Page<ProductDTO> findAll(Pageable pageable) {
+        Page<Product> productPages = productRepository.findAll(pageable);
+        Page<ProductDTO> dtoPage = productPages.map(this::convertToDto);
+        return dtoPage;
     }
 
     @Override

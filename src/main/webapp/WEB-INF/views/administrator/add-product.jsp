@@ -75,7 +75,7 @@
   <main class="app-content">
     <div class="app-title">
       <ul class="app-breadcrumb breadcrumb side">
-        <li class="breadcrumb-item"><a href="product-management.html">Quản lý sản phẩm</a></li>
+        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/admin/products">Quản lý sản phẩm</a></li>
         <li class="breadcrumb-item active">Thêm sản phẩm</a></li>
       </ul>
       <div id="clock"></div>
@@ -87,7 +87,7 @@
           <div class="tile-body">
             <div class="row element-button">
               <div class="col-sm-2">
-                <a class="btn btn-add btn-sm" href="add-product-specification.html" title="Thêm"><i
+                <a class="btn btn-add btn-sm" href="${pageContext.request.contextPath}/admin/products/specification/add" title="Thêm"><i
                         class="fas fa-plus"></i>
                   Thêm thông số kỹ thuật</a>
               </div>
@@ -113,6 +113,10 @@
                 </div>
               </div>
               <div class="row">
+                <div class="form-group col-md-3">
+                  <label class="control-label required-field">Đơn vị bán</label>
+                  <input class="form-control" id="unit" type="number">
+                </div>
                 <div class="form-group col-md-3">
                   <label for="exampleSelect1" class="control-label required-field">Danh mục</label>
                   <select class="form-control" id="categoryOption" required>
