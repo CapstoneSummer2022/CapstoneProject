@@ -159,7 +159,7 @@ MODAL
             </div>
           </div>
           <div style="display: flex; justify-content: center; padding: 10px;">
-            <button style="margin: 5px;" class="btn btn-save" type="button" id="endableS" data-dismiss="modal" href="#">Xác nhận</button>
+            <button style="margin: 5px;" class="btn btn-save" type="button" id="enableS" data-dismiss="modal" href="#">Xác nhận</button>
             <a style="margin: 5px;" class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
           </div>
         </div>

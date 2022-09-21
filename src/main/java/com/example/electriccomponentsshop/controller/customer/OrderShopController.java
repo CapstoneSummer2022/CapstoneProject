@@ -62,11 +62,9 @@ public class OrderShopController {
     }
 
     @PostMapping(value = "/create-order")
-    public String createOrder (@RequestParam Map<String, String> order, RedirectAttributes re) {
+    public String createOrder (@RequestParam Map<String, String> order, RedirectAttributes redirectAttributes) {
         int orderId = orderService.createOrderOnline(order);
-
-        re.addAttribute("orderId", orderId);
-
+        redirectAttributes.addFlashAttribute("orderId",orderId);
         return "redirect:/order";
     }
 

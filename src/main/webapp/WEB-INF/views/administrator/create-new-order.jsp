@@ -149,12 +149,17 @@
                     <h3 class="tile-title">Thông tin thanh toán</h3>
                     <div class="row">
                         <div class="form-group col-md-12">
-                            <label for="exampleSelect1" class="control-label required-field">Loại đơn hàng</label>
+                            <label  class="control-label required-field">Loại đơn hàng</label>
                             <select class="form-control" id="orderType"required>
                                <c:forEach var="type" items="${listType}">
                                    <option value="${type.id}">${type.name}</option>
                                </c:forEach>
                             </select>
+                            <label style="margin-top: 8px;" class="control-label required-field"> Phương thức thanh toán</label><br/>
+                            <input type="radio" id="all" name="payment_method" value="Thanh toán toàn bộ" checked>
+                            <label for="all">Thanh toán toàn bộ</label><br/>
+                            <input type="radio" id="40" name="payment_method" value="Thanh toán 40% đơn hàng">
+                            <label for="40">Thanh toán 40% đơn hàng</label><br/>
                         </div>
                         <div class="form-group col-md-12">
                             <label class="control-label">Tổng cộng thanh toán: </label>
@@ -228,29 +233,6 @@ PRODUCT MODAL
 
                                         </tbody>
                                     </table>
-                                    <div class="pagination-row">
-                                        <div class="pagination-container">
-                                            <div class="dataTables_paginate paging_simple_numbers"
-                                                 id="sampleTable_paginate">
-                                                <ul class="pagination">
-                                                    <li class="paginate_button page-item previous disabled"
-                                                        id="sampleTable_previous"><a href="#"
-                                                                                     aria-controls="sampleTable" data-dt-idx="0" tabindex="0"
-                                                                                     class="page-link">Lùi</a></li>
-                                                    <li class="paginate_button page-item active"><a href="#"
-                                                                                                    aria-controls="sampleTable" data-dt-idx="1" tabindex="0"
-                                                                                                    class="page-link">1</a></li>
-                                                    <li class="paginate_button page-item "><a href="#"
-                                                                                              aria-controls="sampleTable" data-dt-idx="2" tabindex="0"
-                                                                                              class="page-link">2</a></li>
-                                                    <li class="paginate_button page-item next"
-                                                        id="sampleTable_next"><a href="#"
-                                                                                 aria-controls="sampleTable" data-dt-idx="3" tabindex="0"
-                                                                                 class="page-link">Tiếp</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -272,6 +254,30 @@ PRODUCT MODAL
 <!--
 MODAL
 -->
+<div class="modal fade" id="unsuccessful" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group  col-md-12">
+              <span class="thong-tin-thanh-toan">
+                <h5>Thông báo</h5>
+              </span>
+                    </div>
+                    <div class="form-group col-md-12" style="text-align: center;">
+                        <p class="modal-notify-unsuccessful" id="reason"></p>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: center; padding: 10px;">
+                    <button style="margin: 5px;" class="btn btn-save" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
 <!--
 MODAL DELETE PRODUCT
 -->
@@ -324,7 +330,7 @@ MODAL SUCCESSFUL
                     </div>
                 </div>
                 <div style="display: flex; justify-content: center; padding: 10px;">
-                    <button style="margin: 5px;" class="btn btn-save" data-dismiss="modal">Quay lại</button>
+                    <a href="${pageContext.request.contextPath}/admin/orders" style="margin: 5px;" class="btn btn-save">Đóng</a>
                 </div>
             </div>
             <div class="modal-footer">
@@ -369,7 +375,7 @@ MODAL
 <!-- The javascript plugin to display page loading on top-->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-<script src="js/api-province.js"></script>
+
 <script src="<c:url value="/js/jquery-3.2.1.min.js"/>"></script>
 <script src="<c:url value="/js/popper.min.js"/>"></script>
 <script src="<c:url value="/js/bootstrap.min.js"/>"></script>
@@ -377,9 +383,12 @@ MODAL
 <script src="<c:url value="/js/plugins/pace.min.js"/>"></script>
 <script src="<c:url value="/resources/data.json"/>"></script>
 <script>
+
+
     var element = document.getElementById("createOrder");
     element.addEventListener('click',()=>{
         var orderItems= new Array();
+        var type = $('input[name="payment_method"]:checked').val();
         $(".order-item").each(function (){
             var row = $(this);
             var orderItem = new Object();
@@ -388,6 +397,7 @@ MODAL
             orderItems.push(orderItem);
 
         });
+
         var data1={
             accountCustomerPhone:$('#orderPhone').val(),
             receivedPerson: $('#receivedPerson').val(),
@@ -397,6 +407,7 @@ MODAL
             detailLocation:$('#detailLocation').val(),
             receivedPhone:$('#receivedPhone').val(),
             kindId:$('#orderType').val(),
+            paymentMethod:type,
             orderItems: orderItems
         };
 
@@ -409,8 +420,14 @@ MODAL
             ,
             dataType:"text",
             success: function (response){
-                $("errorAlert").innerHTML = response
-                alert(response);
+                if(response==="thành công"){
+                    $('#successful').modal('show');
+                }
+                else {
+                    $('#reason').innerHTML = response;
+                    $('#unsuccessful').modal('show');
+                }
+
             }
         });
     });

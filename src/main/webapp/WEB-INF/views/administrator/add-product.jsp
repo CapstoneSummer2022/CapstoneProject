@@ -236,7 +236,7 @@
             </div>
           </div>
           <div style="display: flex; justify-content: center; padding: 10px;">
-            <button style="margin: 5px;" class="btn btn-save" data-dismiss="modal">Quay lại</button>
+            <a  href="${pageContext.request.contextPath}/admin/products" style="margin: 5px;" class="btn btn-save" >Đóng</a>
           </div>
         </div>
         <div class="modal-footer">
@@ -262,11 +262,11 @@ MODAL CATEGORY EMPTY
               </span>
             </div>
             <div class="form-group col-md-12" style="text-align: center;">
-              <p class="modal-notify-unsuccessful">Chưa có danh mục nào được chọn</p>
+              <p class="modal-notify-unsuccessful" >Chưa có danh mục nào được chọn</p>
             </div>
           </div>
           <div style="display: flex; justify-content: center; padding: 10px;">
-            <button style="margin: 5px;" class="btn btn-save" data-dismiss="modal">Quay lại</button>
+            <button style="margin: 5px;" class="btn btn-save" data-dismiss="modal">Đóng</button>
           </div>
         </div>
         <div class="modal-footer">
@@ -292,11 +292,11 @@ MODAL UNSUCCESSFUL
               </span>
             </div>
             <div class="form-group col-md-12" style="text-align: center;">
-              <p class="modal-notify-unsuccessful">Thêm sản phẩm không thành công</p>
+              <p class="modal-notify-unsuccessful" id="reason"></p>
             </div>
           </div>
           <div style="display: flex; justify-content: center; padding: 10px;">
-            <button style="margin: 5px;" class="btn btn-save" data-dismiss="modal">Quay lại</button>
+            <button style="margin: 5px;" class="btn btn-save" data-dismiss="modal">Đóng</button>
           </div>
         </div>
         <div class="modal-footer">

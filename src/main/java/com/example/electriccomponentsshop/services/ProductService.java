@@ -26,6 +26,8 @@ public interface ProductService {
 
     boolean addProduct(ProductDTO productDTO);
 
+    List<Product> getAll();
+
     void disableProduct(String id);
 
     void enableProduct(String id);

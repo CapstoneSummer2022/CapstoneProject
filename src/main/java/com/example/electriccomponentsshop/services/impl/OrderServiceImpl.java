@@ -1,5 +1,6 @@
 package com.example.electriccomponentsshop.services.impl;
 
+import com.example.electriccomponentsshop.common.ERole;
 import com.example.electriccomponentsshop.common.OrderEnum;
 import com.example.electriccomponentsshop.config.ModelMap;
 import com.example.electriccomponentsshop.dto.CartItemDTO;
@@ -58,7 +59,6 @@ public class OrderServiceImpl implements OrderService {
         List<Order> orders = orderRepository.findByCustomerIdAndStatus(accId, status);
         return orders.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
-
     public OrderDTO convertToDTO(Order order) {
         return modelMap.modelMapper().map(order, OrderDTO.class);
     }
@@ -67,12 +67,13 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderDTO> findAll() {
         List<Order> orderList = orderRepository.findAll();
         List<OrderDTO> orderDTOList = new ArrayList<>();
-        for (Order o: orderList) {
+        for (Order o: orderList
+             ) {
             orderDTOList.add(convertToDTO(o));
         }
         return orderDTOList;
     }
-    private boolean setAddress(OrderDTO orderDTO, Order order) {
+    private void setAddress(OrderDTO orderDTO, Order order) {
         Optional<Province> provinceOptional = provinceRepository.findByName(orderDTO.getProvinceName());
 
         if(provinceOptional.isEmpty()){
@@ -113,25 +114,33 @@ public class OrderServiceImpl implements OrderService {
 
             }
         }
-        return true;
     }
     @Override
     public boolean createOrder(OrderDTO orderDTO){
         List<OrderItemDTO> orderItems = orderDTO.getOrderItems();
         BigDecimal totalPayment = new BigDecimal("0");
         Order order = new Order();
-        order.setStatus("Chờ xử lý");
-        setAddress(orderDTO,order);
+        OrderKind orderKind = orderKindService.getById(orderDTO.getKindId());
+        order.setOrderKind(orderKind);
+        setAddress(orderDTO, order);
         order.setDetailLocation(orderDTO.getDetailLocation());
         order.setReceivedPerson(orderDTO.getReceivedPerson());
         order.setReceivedPhone(orderDTO.getReceivedPhone());
+        order.setStatus(OrderEnum.PENDING.getName());
+        order.setTotalPayment(totalPayment);
+        order.setPaymentMethod(orderDTO.getPaymentMethod());
         AccountDetailImpl accountDetail = (AccountDetailImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Optional<Account> accountOptional = accountRepository.findByEmail(accountDetail.getEmail());
-        if(accountOptional.isEmpty()){
-            throw  new NoSuchElementException("Không tìm thấy nhân viên này");
+        if(accountDetail.getAuthorities().stream().map(item->item.getAuthority()).collect(Collectors.toList()).contains(ERole.ROLE_EMPLOYEE.name())){
+            Account customerAccount = accountService.getAccountCustomerByPhone(orderDTO.getAccountCustomerPhone());
+            Optional<Account> accountOptional = accountRepository.findByEmail(accountDetail.getEmail());
+            System.out.println("jjh4");
+            if (accountOptional.isEmpty()) {
+                throw new NoSuchElementException("Không tìm thấy nhân viên này");
+            }
+            order.setAccountEmployee(accountOptional.get());
+            order.setAccountCustomer(customerAccount);
         }
-        order.setAccountEmployee(accountOptional.get());
-        order = orderRepository.save(order);
+        order =  orderRepository.save(order);
         List<OrderItem> list = new ArrayList<>();
         for (OrderItemDTO o : orderItems) {
             BigInteger quantity = o.getQuantity();
@@ -162,6 +171,7 @@ public class OrderServiceImpl implements OrderService {
         }else  return orderList.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
+
     @Override
     public int createOrderOnline(Map<String, String> orderInfo) {
         Order order = new Order();
@@ -191,6 +201,7 @@ public class OrderServiceImpl implements OrderService {
         order = orderRepository.save(order);
 
         List<CartItemDTO> cartItemDTOS = cartItemService.getCartItems(accountDetail.getId());
+
         for (CartItemDTO item : cartItemDTOS ) {
             Product product = productRepository.findById(Integer.parseInt(item.getProductDTO().getId())).get();
 
@@ -226,6 +237,7 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+
     @Override
     public OrderDTO getOrderDtoById(String id){
         return convertToDTO(getById(id));
@@ -240,6 +252,7 @@ public class OrderServiceImpl implements OrderService {
         List<OrderItemDTO> dtos= orderDTO.getOrderItems();
         BigDecimal totalPayment = new BigDecimal(0);
         setAddress(orderDTO,order);
+
         order.setDetailLocation(orderDTO.getDetailLocation());
         order.setReceivedPerson(orderDTO.getReceivedPerson());
         order.setReceivedPhone(orderDTO.getReceivedPhone());
@@ -277,14 +290,11 @@ public class OrderServiceImpl implements OrderService {
         if(orderOptional.isPresent()){
             Order order = orderOptional.get();
             String status = order.getStatus();
-            if(status.equalsIgnoreCase("Chờ xử lý")){
-                order.setStatus("Đã xác nhận");
+            if(status.equalsIgnoreCase(OrderEnum.PENDING.getName())){
+                order.setStatus(OrderEnum.CONFIRM.getName());
             }
-            else if(status.equals("Đã xác nhận")){
-                order.setStatus("Đang giao hàng");
-            }
-            else if(status.equals("Đang giao hàng")){
-                order.setStatus("Hoàn thành");
+            else if(status.equals(OrderEnum.DELIVERY.getName())){
+                order.setStatus(OrderEnum.DONE.getName());
             }
             else{
                 throw new RuntimeException("Thao tác không được thực hiện");
@@ -338,24 +348,29 @@ public class OrderServiceImpl implements OrderService {
     public void returnedOrder(String id) {
         Order order = getById(id);
         List<OrderItem> orderItemList  = order.getOrderItems();
-        ExportTransaction exportTransaction  = exportTransactionRepository.findExportTransactionByOrderId(order.getId());
-        for (OrderItem orderItem: orderItemList
-        ) {
-            Product p = orderItem.getProduct();
-            p.setAvailable(p.getAvailable().add(orderItem.getQuantity()));
+        Optional<ExportTransaction> exportTransactionOptional  = exportTransactionRepository.findExportTransactionByOrderId(order.getId());
+       if(exportTransactionOptional.isPresent()){
+           ExportTransaction exportTransaction = exportTransactionOptional.get();
+           for (OrderItem orderItem: orderItemList
+           ) {
+               Product p = orderItem.getProduct();
+               p.setAvailable(p.getAvailable().add(orderItem.getQuantity()));
 
-        }
-        System.out.println(exportTransaction.getId() + "--" + exportTransaction.getReceivedPerson());
-        List<ExportItem> exportItems = exportTransaction.getExportItems();
-        System.out.println(exportItems.size()+"hou");
-        for (ExportItem e :
-                exportItems) {
-            Sku sku  = e.getSku();
-            System.out.println(sku.getId()+"poi"+ e.getQuantity());
-            sku.setQuantity(sku.getQuantity().add(e.getQuantity()));
-            skuService.save(sku);
-        }
-        //order.setStatus(OrderEnum.RETURNED.getName());
+           }
+           System.out.println(exportTransaction.getId() + "--" + exportTransaction.getReceivedPerson());
+           List<ExportItem> exportItems = exportTransaction.getExportItems();
+           System.out.println(exportItems.size()+"hou");
+           for (ExportItem e :
+                   exportItems) {
+               Sku sku  = e.getSku();
+               System.out.println(sku.getId()+"poi"+ e.getQuantity());
+               sku.setQuantity(sku.getQuantity().add(e.getQuantity()));
+               skuService.save(sku);
+           }
+
+       }
+        order.setStatus(OrderEnum.RETURNED.getName());
         orderRepository.save(order);
+
     }
 }

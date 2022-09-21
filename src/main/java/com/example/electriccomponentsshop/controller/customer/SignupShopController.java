@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -69,6 +71,9 @@ public class SignupShopController {
             accountRepository.save(account);
 
             Cart cart = new Cart(account.getId(), null);
+            cart.setTotalProduct(new BigInteger("0"));
+            cart.setTotalPayment(new BigDecimal(0));
+
             cartRepository.save(cart);
         }
 

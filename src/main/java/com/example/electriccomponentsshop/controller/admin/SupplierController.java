@@ -34,7 +34,7 @@ public class SupplierController {
     @PostMapping("/add")
     public String addNew(@Valid @ModelAttribute("newSupplier") SupplierDTO supplierDTO, BindingResult bindingResult){
         supplierService.addSupplier(supplierDTO);
-        return "administrator/add-supplier";
+        return "redirect:/admin/suppliers";
     }
     @GetMapping("/add")
     public String viewAddForm(ModelMap modelMap){

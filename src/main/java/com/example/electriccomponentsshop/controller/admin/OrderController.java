@@ -53,7 +53,6 @@ public class OrderController {
     public String viewAll(ModelMap modelMap) {
         ArrayList<OrderDTO> orders = (ArrayList<OrderDTO>) orderService.findAll();
         modelMap.addAttribute("listOrder", orders);
-
         return "administrator/order-management";
     }
 

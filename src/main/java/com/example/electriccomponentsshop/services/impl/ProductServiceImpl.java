@@ -5,27 +5,21 @@ import com.example.electriccomponentsshop.dto.CategoryDTO;
 import com.example.electriccomponentsshop.dto.ProductDTO;
 import com.example.electriccomponentsshop.dto.SpecificationValueDto;
 import com.example.electriccomponentsshop.entities.*;
-import com.example.electriccomponentsshop.repositories.CategoryRepository;
 import com.example.electriccomponentsshop.repositories.ExportPriceRepository;
 import com.example.electriccomponentsshop.repositories.ProductRepository;
 import com.example.electriccomponentsshop.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -184,6 +178,10 @@ public class ProductServiceImpl implements ProductService {
         product.setDescription(productDTO.getDescription());
         return  productRepository.save(product)!=null;
 
+    }
+    @Override
+    public List<Product> getAll(){
+        return productRepository.findAll();
     }
     @Override
     public void disableProduct(String id){
