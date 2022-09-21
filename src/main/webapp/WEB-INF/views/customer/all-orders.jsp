@@ -24,7 +24,7 @@
               <!-- Modal content -->
               <div class="modal-content">
                 <span class="close">&times;</span>
-                <p>Đơn hàng với mã ${ordreId} vừa được tạo</p>
+                <p>Đơn hàng với mã ${orderId} vừa được tạo</p>
               </div>
 
             </div>

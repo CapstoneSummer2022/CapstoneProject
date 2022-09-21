@@ -1,5 +1,6 @@
 package com.example.electriccomponentsshop.services.impl;
 
+import com.example.electriccomponentsshop.common.ERole;
 import com.example.electriccomponentsshop.common.OrderEnum;
 import com.example.electriccomponentsshop.config.ModelMap;
 import com.example.electriccomponentsshop.dto.CartItemDTO;
@@ -49,15 +50,15 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDTO> findAllOrderForCustomer(int accId) {
-
-        return null;
+        List<Order> orders = orderRepository.findByCustomerId(accId);
+        return orders.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     @Override
     public List<OrderDTO> findOrderByStatusForCustomer(int accId, String status) {
-        return null;
+        List<Order> orders = orderRepository.findByCustomerIdAndStatus(accId, status);
+        return orders.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
-
     public OrderDTO convertToDTO(Order order) {
         return modelMap.modelMapper().map(order, OrderDTO.class);
     }
@@ -72,7 +73,7 @@ public class OrderServiceImpl implements OrderService {
         }
         return orderDTOList;
     }
-    private boolean setAddress(OrderDTO orderDTO, Order order) {
+    private void setAddress(OrderDTO orderDTO, Order order) {
         Optional<Province> provinceOptional = provinceRepository.findByName(orderDTO.getProvinceName());
 
         if(provinceOptional.isEmpty()){
@@ -113,7 +114,6 @@ public class OrderServiceImpl implements OrderService {
 
             }
         }
-        return true;
     }
     @Override
     public boolean createOrder(OrderDTO orderDTO){
@@ -128,6 +128,7 @@ public class OrderServiceImpl implements OrderService {
         order.setReceivedPhone(orderDTO.getReceivedPhone());
         order.setStatus(OrderEnum.PENDING.getName());
         order.setTotalPayment(totalPayment);
+        order.setPaymentMethod(orderDTO.getPaymentMethod());
         AccountDetailImpl accountDetail = (AccountDetailImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(accountDetail.getAuthorities().stream().map(item->item.getAuthority()).collect(Collectors.toList()).contains(ERole.ROLE_EMPLOYEE.name())){
             Account customerAccount = accountService.getAccountCustomerByPhone(orderDTO.getAccountCustomerPhone());
@@ -180,6 +181,7 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderKind(orderKindRepo.findByName("Đặt đơn online"));
         order.setReceivedPerson(orderInfo.get("name"));
         order.setReceivedPhone(orderInfo.get("phone"));
+        order.setPaymentMethod(orderInfo.get("payment_method"));
 
         Province province = provinceRepository.findById(orderInfo.get("province")).get();
         District district = districtRepository.findById(orderInfo.get("district")).get();
@@ -285,14 +287,11 @@ public class OrderServiceImpl implements OrderService {
         if(orderOptional.isPresent()){
             Order order = orderOptional.get();
             String status = order.getStatus();
-            if(status.equalsIgnoreCase("Chờ xử lý")){
-                order.setStatus("Đã xác nhận");
+            if(status.equalsIgnoreCase(OrderEnum.PENDING.getName())){
+                order.setStatus(OrderEnum.CONFIRM.getName());
             }
-            else if(status.equals("Đã xác nhận")){
-                order.setStatus("Đang giao hàng");
-            }
-            else if(status.equals("Đang giao hàng")){
-                order.setStatus("Hoàn thành");
+            else if(status.equals(OrderEnum.DELIVERY.getName())){
+                order.setStatus(OrderEnum.DONE.getName());
             }
             else{
                 throw new RuntimeException("Thao tác không được thực hiện");
@@ -346,24 +345,29 @@ public class OrderServiceImpl implements OrderService {
     public void returnedOrder(String id) {
         Order order = getById(id);
         List<OrderItem> orderItemList  = order.getOrderItems();
-        ExportTransaction exportTransaction  = exportTransactionRepository.findExportTransactionByOrderId(order.getId());
-        for (OrderItem orderItem: orderItemList
-        ) {
-            Product p = orderItem.getProduct();
-            p.setAvailable(p.getAvailable().add(orderItem.getQuantity()));
+        Optional<ExportTransaction> exportTransactionOptional  = exportTransactionRepository.findExportTransactionByOrderId(order.getId());
+       if(exportTransactionOptional.isPresent()){
+           ExportTransaction exportTransaction = exportTransactionOptional.get();
+           for (OrderItem orderItem: orderItemList
+           ) {
+               Product p = orderItem.getProduct();
+               p.setAvailable(p.getAvailable().add(orderItem.getQuantity()));
 
-        }
-        System.out.println(exportTransaction.getId() + "--" + exportTransaction.getReceivedPerson());
-        List<ExportItem> exportItems = exportTransaction.getExportItems();
-        System.out.println(exportItems.size()+"hou");
-        for (ExportItem e :
-                exportItems) {
-            Sku sku  = e.getSku();
-            System.out.println(sku.getId()+"poi"+ e.getQuantity());
-            sku.setQuantity(sku.getQuantity().add(e.getQuantity()));
-            skuService.save(sku);
-        }
-        //order.setStatus(OrderEnum.RETURNED.getName());
+           }
+           System.out.println(exportTransaction.getId() + "--" + exportTransaction.getReceivedPerson());
+           List<ExportItem> exportItems = exportTransaction.getExportItems();
+           System.out.println(exportItems.size()+"hou");
+           for (ExportItem e :
+                   exportItems) {
+               Sku sku  = e.getSku();
+               System.out.println(sku.getId()+"poi"+ e.getQuantity());
+               sku.setQuantity(sku.getQuantity().add(e.getQuantity()));
+               skuService.save(sku);
+           }
+
+       }
+        order.setStatus(OrderEnum.RETURNED.getName());
         orderRepository.save(order);
+
     }
 }

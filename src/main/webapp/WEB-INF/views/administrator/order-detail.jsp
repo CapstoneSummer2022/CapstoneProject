@@ -68,6 +68,10 @@
                                 <label class="control-label">Tình trạng đơn hàng</label>
                                 <p class="detail-text"><span class="badge bg-warning">${orderDto.status}</span></p>
                             </div>
+                            <div class="form-group col-md-4">
+                                <label class="control-label">Phương thức thanh toán</label>
+                                <p class="detail-text"><span class="badge bg-warning">${orderDto.paymentMethod}</span></p>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="modal-confirm-button">
@@ -76,10 +80,7 @@
                                         <button class="btn btn-primary" data-toggle="modal"
                                                 data-target="#confirmOrder">Xác nhận đơn hàng</button>
                                     </c:if>
-                                    <c:if test="${orderDto.status == 'Đã Xác Nhận'}">
-                                        <button class="btn btn-primary" data-toggle="modal"
-                                                data-target="#confirmFinished">Hoàn thành</button>
-                                    </c:if>
+
                                     <c:if test="${orderDto.status == 'Đang Giao Hàng'}">
                                         <button class="btn btn-primary" data-toggle="modal"
                                                 data-target="#confirmFinished">Hoàn thành</button>
@@ -88,7 +89,7 @@
                                         <button class="btn btn-primary" data-toggle="modal"
                                                 data-target="#confirmReturned">Đã nhận hoàn</button>
                                     </c:if>
-                                    <c:if test="${orderDto.status != 'Hoàn Thành'}">
+                                    <c:if test="${orderDto.status != 'Hoàn Thành'&&orderDto.status!='Đã Nhận Hoàn'}">
                                         <button class="btn btn-cancel" data-toggle="modal"
                                                 data-target="#confirmCancel">Huỷ đơn hàng</button>
                                     </c:if>

@@ -149,12 +149,17 @@
                     <h3 class="tile-title">Thông tin thanh toán</h3>
                     <div class="row">
                         <div class="form-group col-md-12">
-                            <label for="exampleSelect1" class="control-label required-field">Loại đơn hàng</label>
+                            <label  class="control-label required-field">Loại đơn hàng</label>
                             <select class="form-control" id="orderType"required>
                                <c:forEach var="type" items="${listType}">
                                    <option value="${type.id}">${type.name}</option>
                                </c:forEach>
                             </select>
+                            <label style="margin-top: 8px;" class="control-label required-field"> Phương thức thanh toán</label><br/>
+                            <input type="radio" id="all" name="payment_method" value="Thanh toán toàn bộ" checked>
+                            <label for="all">Thanh toán toàn bộ</label><br/>
+                            <input type="radio" id="40" name="payment_method" value="Thanh toán 40% đơn hàng">
+                            <label for="40">Thanh toán 40% đơn hàng</label><br/>
                         </div>
                         <div class="form-group col-md-12">
                             <label class="control-label">Tổng cộng thanh toán: </label>
@@ -228,29 +233,6 @@ PRODUCT MODAL
 
                                         </tbody>
                                     </table>
-                                    <div class="pagination-row">
-                                        <div class="pagination-container">
-                                            <div class="dataTables_paginate paging_simple_numbers"
-                                                 id="sampleTable_paginate">
-                                                <ul class="pagination">
-                                                    <li class="paginate_button page-item previous disabled"
-                                                        id="sampleTable_previous"><a href="#"
-                                                                                     aria-controls="sampleTable" data-dt-idx="0" tabindex="0"
-                                                                                     class="page-link">Lùi</a></li>
-                                                    <li class="paginate_button page-item active"><a href="#"
-                                                                                                    aria-controls="sampleTable" data-dt-idx="1" tabindex="0"
-                                                                                                    class="page-link">1</a></li>
-                                                    <li class="paginate_button page-item "><a href="#"
-                                                                                              aria-controls="sampleTable" data-dt-idx="2" tabindex="0"
-                                                                                              class="page-link">2</a></li>
-                                                    <li class="paginate_button page-item next"
-                                                        id="sampleTable_next"><a href="#"
-                                                                                 aria-controls="sampleTable" data-dt-idx="3" tabindex="0"
-                                                                                 class="page-link">Tiếp</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -401,9 +383,12 @@ MODAL
 <script src="<c:url value="/js/plugins/pace.min.js"/>"></script>
 <script src="<c:url value="/resources/data.json"/>"></script>
 <script>
+
+
     var element = document.getElementById("createOrder");
     element.addEventListener('click',()=>{
         var orderItems= new Array();
+        var type = $('input[name="payment_method"]:checked').val();
         $(".order-item").each(function (){
             var row = $(this);
             var orderItem = new Object();
@@ -412,6 +397,7 @@ MODAL
             orderItems.push(orderItem);
 
         });
+
         var data1={
             accountCustomerPhone:$('#orderPhone').val(),
             receivedPerson: $('#receivedPerson').val(),
@@ -421,6 +407,7 @@ MODAL
             detailLocation:$('#detailLocation').val(),
             receivedPhone:$('#receivedPhone').val(),
             kindId:$('#orderType').val(),
+            paymentMethod:type,
             orderItems: orderItems
         };
 
