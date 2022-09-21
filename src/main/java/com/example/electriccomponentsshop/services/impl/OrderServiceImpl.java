@@ -171,6 +171,7 @@ public class OrderServiceImpl implements OrderService {
         }else  return orderList.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
+
     @Override
     public int createOrderOnline(Map<String, String> orderInfo) {
         Order order = new Order();
@@ -236,6 +237,7 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+
     @Override
     public OrderDTO getOrderDtoById(String id){
         return convertToDTO(getById(id));
@@ -250,6 +252,7 @@ public class OrderServiceImpl implements OrderService {
         List<OrderItemDTO> dtos= orderDTO.getOrderItems();
         BigDecimal totalPayment = new BigDecimal(0);
         setAddress(orderDTO,order);
+
         order.setDetailLocation(orderDTO.getDetailLocation());
         order.setReceivedPerson(orderDTO.getReceivedPerson());
         order.setReceivedPhone(orderDTO.getReceivedPhone());
