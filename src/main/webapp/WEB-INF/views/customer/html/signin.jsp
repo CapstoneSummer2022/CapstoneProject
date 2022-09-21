@@ -45,7 +45,7 @@
                 </div>
                 <hr style="color: grey;">
                 <div class="form-elements">
-                  Bạn chưa có tài khoản?<a href="/signup.html" id="signup">Đăng ký</a>
+                  Bạn chưa có tài khoản?<a href="${pageContext.request.contextPath}/signup" id="signup">Đăng ký</a>
                 </div>
               </form:form>
 

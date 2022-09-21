@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -21,7 +22,6 @@
           <c:if test="${not empty orderId}">
             <div id="myModal" class="modal">
 
-              <!-- Modal content -->
               <div class="modal-content">
                 <span class="close">&times;</span>
                 <p>Đơn hàng với mã ${ordreId} vừa được tạo</p>
@@ -61,7 +61,7 @@
                           <td></td>
                           <td style="font-size: 20px;"><span style="font-weight: bold;">Tổng thanh toán:</span>  ${order.totalPayment}</td>
                         </tr>
-                        <c:if test="${item.status != 'Đã Hủy' && item.status != 'Hoàn Thành'}">
+                        <c:if test="${item.status ne 'Đã Hủy' && item.status ne 'Hoàn Thành'}">
                             <tr>
                               <td colspan="2"><button>Hủy đơn hàng</button></td>
                             </tr>

@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,10 +62,10 @@ public class OrderShopController {
     }
 
     @PostMapping(value = "/create-order")
-    public String createOrder (@RequestParam Map<String, String> order, ModelMap map) {
+    public String createOrder (@RequestParam Map<String, String> order, RedirectAttributes re) {
         int orderId = orderService.createOrderOnline(order);
 
-        map.addAttribute("orderId", orderId);
+        re.addAttribute("orderId", orderId);
 
         return "redirect:/order";
     }

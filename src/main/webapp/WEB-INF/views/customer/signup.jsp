@@ -28,6 +28,9 @@
 
                 <h3>Đăng ký</h3>
                 <form action="/signup" method="post" name="signupForm" onsubmit="return validateRegisterForm();">
+                  <label for="name">Họ Tên</label>
+                  <input type="text" id="name" name="name"/>
+                  <p id="name-error" class="error"></p>
                   <label for="email">Email</label>
                   <input type="text" id="email" name="email" placeholder="email@example.com"/>
                   <p id="email-error" class="error"></p>

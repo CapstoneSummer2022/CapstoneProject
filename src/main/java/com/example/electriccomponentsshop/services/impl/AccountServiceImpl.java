@@ -80,6 +80,7 @@ public class AccountServiceImpl implements AccountService {
     public AccountDTO convertToDto(Account account){
         return modelMap.modelMapper().map(account,AccountDTO.class);
     }
+
     @Override
    public boolean addAccount(AccountDTO accountDTO){
         Account account = new Account();

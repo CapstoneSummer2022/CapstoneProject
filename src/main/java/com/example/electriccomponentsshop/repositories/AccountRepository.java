@@ -34,8 +34,10 @@ public interface AccountRepository extends JpaRepository<Account,Integer> {
      *
      */
     Boolean existsAccountByEmail(String email);
+
     @Query(value = "select * from accounts join account_roles on accounts.id = account_roles.account_id join roles on account_roles.role_id= roles.id where role_name = 'ROLE_CUSTOMER' and phone = :phone",nativeQuery = true)
     Optional<Account> findAccountCustomerByPhone(String phone);
+
     @Override
     <S extends Account> S save(S entity);
 }

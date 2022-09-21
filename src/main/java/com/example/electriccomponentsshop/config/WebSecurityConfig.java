@@ -81,7 +81,7 @@ import java.util.List;
         http.logout().invalidateHttpSession(true).addLogoutHandler(logoutHandler()).logoutUrl("/sign-out").permitAll();
         http.cors().and().csrf().disable()
                 .authorizeRequests().antMatchers("/error23", "/css/**", "/js/**", "/resources/**", "/store-info-api", "/cart/get-numbers-product",
-                        "/auth/signin", "/auth/signup", "/auth/sign-out", "/home", "/error-401", "/product?**",
+                        "/auth/signin", "/auth/signup", "/auth/sign-out", "/home", "/error-401", "/product?**", "/logo/**",
                         "/signup", "/address/**", "/img/**", "/product/**", "/contact").permitAll()
                 .antMatchers("/admin/**", "/admin-home").hasAnyAuthority("ROLE_EMPLOYEE", "ROLE_MANAGER")
                 .antMatchers("/addToCart/**", "/profile/**", "/createOrder",

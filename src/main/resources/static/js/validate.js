@@ -11,8 +11,8 @@
 
 /**
  * Validate email that has 5 to 50 characters and is right format
- * 
- * @param {*} email 
+ *
+ * @param {*} email
  * @returns boolean value
  */
 function validateEmail(email) {
@@ -40,7 +40,7 @@ function validateEmail(email) {
 
 /**
  * Validate text from a field that has valid length
- * 
+ *
  * @param {*} text . String got from input field
  * @param {*} errorElementID . Error element id to style if there has any problem
  * @param {*} field . Field name for present what field has error
@@ -57,7 +57,7 @@ function validatePassword(text, errorElementID, field) {
         if (lengthOfText < 8) {
             error.style.display = "block";
             error.innerHTML = `${field} không được ít hơn 8 kí tự`;
-        } 
+        }
     } else {
         error.style.display = "block";
         error.innerHTML = `${field} là bắt buộc`;
@@ -66,7 +66,7 @@ function validatePassword(text, errorElementID, field) {
 
 /**
  * Chech if re-password has valid length and same as password
- * 
+ *
  * @param {*} pwd . Password got from password field
  * @param {*} repwd . Re-password got from password field
  * @returns boolean value
@@ -81,15 +81,15 @@ function validateRePassword(pwd, repwd) {
     } else {
         error.style.display = 'none';
         return true;
-        
+
     }
-    
+
     return false;
 }
 
 /**
  * Validate phone string
- * 
+ *
  * @param {*} phone . String got from phone field
  * @returns boolean value
  */
@@ -106,49 +106,6 @@ function validatePhone(phone) {
         error.style.display = "block";
         error.innerHTML = "Số điện thoại của bạn không hợp lệ";
         return false;
-    }
-}
-
-/**
- * Validate Login Form
- * 
- * @returns boolean value
- */
-function validateLoginForm() {
-    const EMAIL = document.loginForm.email.value;
-    const PWD = document.loginForm.password.value;
-
-    let isValid = 0;
-    if (!validateEmail(EMAIL)) { isValid++; }
-    if (!validateText(PWD, "pwd-error", "Password", 8, 30)) { isValid++; }
-
-    if (isValid !== 0) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-/**
- * Validate Register Form
- * 
- * @returns boolean value
- */
-function validateRegisterForm() {
-    const USERNAME = document.registerForm.username.value
-    const EMAIL = document.registerForm.email.value;
-    const PWD = document.registerForm.password.value;
-    const RE_PWD = document.registerForm.repassword.value;
-
-    let isValid = 0;
-    if (!validateEmail(EMAIL)) { isValid++; }
-    if (!validateText(PWD, "pwd-error", "Password", 8, 30)) { isValid++; }
-    if (!validateRePassword(PWD, RE_PWD)) { isValid++; }
-
-    if (isValid !== 0) {
-        return false;
-    } else {
-        return true;
     }
 }
 
@@ -333,11 +290,17 @@ function validateSigninForm() {
  * @returns boolean value
  */
 function validateRegisterForm() {
+    const NAME = document.signUpForm.name.value;
     const EMAIL = document.signupForm.email.value;
     const PWD = document.signupForm.pwd.value;
     const RE_PWD = document.signupForm.repwd.value;
 
     let isValid = 0;
+
+    //check if email is valid
+    //if it is not, increase "isValid"
+    if (!validateRequiredField(NAME, "name-error", "Tên",
+                textPattern, invalidMessage ("Tên"))) { isValid++; }
 
     //check if email is valid
     //if it is not, increase "isValid"
