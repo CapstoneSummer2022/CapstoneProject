@@ -19,10 +19,6 @@
 
         <!--Page Content-->
         <main>
-          <ul class="breadcrumb">
-            <li><a href="home.html">Trang chủ</a></li>
-            <li>Đăng nhập</li>
-          </ul>
           <div class="sign_form">
             <div id="signin_content">
               <h3>Đăng nhập</h3>

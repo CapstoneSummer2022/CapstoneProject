@@ -12,7 +12,7 @@ public interface CartItemService {
 
     List<CartItemDTO> getCartItems (int accId);
 
-    boolean addToCart(int accountId, int productId, BigDecimal quantity);
+    String addToCart(int accountId, int productId, BigDecimal quantity);
 
     boolean removeCartItem (int accountId, int productId);
 

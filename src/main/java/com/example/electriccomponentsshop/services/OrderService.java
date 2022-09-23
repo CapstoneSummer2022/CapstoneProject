@@ -12,11 +12,12 @@ public interface OrderService {
     List<OrderDTO> findAll();
 
     Page<Order> findAll(Pageable pageable);
+
     List<Order> findOrdersByStatus(String status);
 
-    List<OrderDTO> findAllOrderForCustomer (int accId);
+    List<OrderDTO> findAllOrder (int accId);
 
-    List<OrderDTO> findOrderByStatusForCustomer (int accId, String status);
+    List<OrderDTO> findOrderByStatus (int accId, String status, String roleOfAccount);
 
     OrderDTO convertToDTO(Order order);
 

@@ -49,14 +49,21 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDTO> findAllOrderForCustomer(int accId) {
+    public List<OrderDTO> findAllOrder (int accId) {
         List<Order> orders = orderRepository.findByCustomerId(accId);
         return orders.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     @Override
-    public List<OrderDTO> findOrderByStatusForCustomer(int accId, String status) {
-        List<Order> orders = orderRepository.findByCustomerIdAndStatus(accId, status);
+    public List<OrderDTO> findOrderByStatus (int accId, String status, String roleOfAccount) {
+        List<Order> orders = new ArrayList<>();
+
+        if (roleOfAccount.equals("ROLE_CUSTOMER")) {
+            orders = orderRepository.findByCustomerIdAndStatus(accId, status);
+        } else if (roleOfAccount.equals("ROLE_EMPLOYEE")) {
+            orders = orderRepository.findByEmployeeIdAndStatus(accId, status);
+        }
+
         return orders.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
     public OrderDTO convertToDTO(Order order) {
@@ -184,9 +191,9 @@ public class OrderServiceImpl implements OrderService {
         order.setReceivedPhone(orderInfo.get("phone"));
         order.setPaymentMethod(orderInfo.get("payment_method"));
 
-        Province province = provinceRepository.findById(orderInfo.get("province")).get();
-        District district = districtRepository.findById(orderInfo.get("district")).get();
-        Ward ward = wardRepository.findById(orderInfo.get("ward")).get();
+        Province province = provinceRepository.findByName(orderInfo.get("province")).get();
+        District district = districtRepository.findByName(orderInfo.get("district")).get();
+        Ward ward = wardRepository.findByName(orderInfo.get("ward")).get();
         order.setProvinceOrder(province);
         order.setDistrictOrder(district);
         order.setWardOrder(ward);

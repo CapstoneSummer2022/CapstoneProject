@@ -10,6 +10,8 @@ import java.util.List;
 public interface AccountService {
     Account findEmployeeForOrder();
 
+    boolean existsByPhone(String phone);
+
     AccountDTO findByEmail(String email) ;
 
     boolean addAccount(AccountDTO accountDTO);

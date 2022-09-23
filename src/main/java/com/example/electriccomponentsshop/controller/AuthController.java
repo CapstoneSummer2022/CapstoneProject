@@ -8,6 +8,7 @@ import com.example.electriccomponentsshop.dto.MessageResponse;
 import com.example.electriccomponentsshop.dto.SigninRequest;
 import com.example.electriccomponentsshop.dto.SignupRequest;
 import com.example.electriccomponentsshop.entities.Account;
+import com.example.electriccomponentsshop.entities.Category;
 import com.example.electriccomponentsshop.entities.RefreshToken;
 import com.example.electriccomponentsshop.entities.Role;
 import com.example.electriccomponentsshop.repositories.AccountRepository;
@@ -80,13 +81,17 @@ public class AuthController {
         return new ModelAndView("logout");
     }
     @GetMapping("/signin")
-    public String login(Model model){
+    public String login(Model model, ModelMap map){
         model.addAttribute("signinRequest", new SigninRequest());
+
+        List<Category> categories = categoryService.findCategoriesByParentCategoryIdIsNull();
+        map.addAttribute("categories", categories);
+
         return "customer/html/signin";
     }
     @PostMapping("/signin")
     public String authenticateUser(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response, @Valid @ModelAttribute("signinRequest") SigninRequest signinRequest, BindingResult bindingResult) {
-        System.out.println("true");
+
         if(bindingResult.hasErrors()){
             System.out.println("gg");
             bindingResult.getFieldErrors().forEach(fieldError -> modelMap.addAttribute(fieldError.getField(),fieldError.getDefaultMessage()));
@@ -134,7 +139,7 @@ public class AuthController {
         response.addCookie(cookie);
         if(roles.contains("ROLE_MANAGER")||roles.contains("ROLE_EMPLOYEE")){
             modelMap.addAttribute("roles", roles.get(0));
-            return "redirect:/admin/home";
+            return "redirect:/admin/orders/waiting";
 
         }
         return "redirect:/home";

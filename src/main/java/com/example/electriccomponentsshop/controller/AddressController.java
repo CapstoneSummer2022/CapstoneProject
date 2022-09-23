@@ -38,16 +38,4 @@ public class AddressController {
     public List<WardDTO> getWard(@RequestParam(name ="district") String districtName){
         return wardService.findByDistrictName(districtName);
     }
-
-    @GetMapping("/get-district")
-    @ResponseBody
-    public List<DistrictDTO> getDistrictByProvince(@RequestParam(name ="pCode") String pCode){
-        return districtService.findByProvinceId(pCode);
-    }
-
-    @GetMapping("/get-ward")
-    @ResponseBody
-    public List<WardDTO> getWardByDistrict(@RequestParam(name ="dCode") String dCode){
-        return wardService.findByDistrictId(dCode);
-    }
 }

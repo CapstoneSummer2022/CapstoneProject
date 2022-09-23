@@ -61,7 +61,7 @@
                           <td></td>
                           <td style="font-size: 20px;"><span style="font-weight: bold;">Tổng thanh toán:</span>  ${order.totalPayment}</td>
                         </tr>
-                        <c:if test="${item.status ne 'Đã Hủy' && item.status ne 'Hoàn Thành'}">
+                        <c:if test="${order.status ne 'Đã Hủy' && order.status ne 'Hoàn Thành'}">
                             <tr>
                               <td colspan="2"><button>Hủy đơn hàng</button></td>
                             </tr>

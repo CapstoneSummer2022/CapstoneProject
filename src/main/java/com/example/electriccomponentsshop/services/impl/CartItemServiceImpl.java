@@ -46,29 +46,40 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     @Override
-    public boolean addToCart(int accountId, int productId, BigDecimal quantity) {
+    public String addToCart(int accountId, int productId, BigDecimal quantity) {
+        String message = "";
         Cart cart = cartRepository.findByAccountId(accountId);
         CartItemId cartItemId = new CartItemId(productId, cart.getId());
         Optional<CartItem> cartItemOptional = cartItemRepository.findById(cartItemId);
+        Product product = productService.getById(String.valueOf(productId));
 
         CartItem cartItem;
         BigDecimal subTotal;
 
         if (!cartItemOptional.isPresent()) {
-            Product product = productService.getById(String.valueOf(productId));
             subTotal = quantity.multiply(product.getExportPrice().getRetailPrice());
 
             cartItem = new CartItem(new CartItemId(accountId, productId), product, quantity, subTotal, cart);
         } else {
+            BigDecimal newQuantity;
             cartItem = cartItemOptional.get();
-            quantity = quantity.add(cartItem.getQuantity());
-            subTotal = quantity.multiply(cartItem.getProduct().getExportPrice().getRetailPrice());
+            newQuantity = quantity.add(cartItem.getQuantity());
 
-            cartItem.setQuantity(quantity);
-            cartItem.setSubTotal(subTotal);
+            if (newQuantity.compareTo(new BigDecimal(product.getAvailable().divide(product.getUnit()))) == -1) {
+                subTotal = newQuantity.multiply(cartItem.getProduct().getExportPrice().getRetailPrice());
+
+                cartItem.setQuantity(newQuantity);
+                cartItem.setSubTotal(subTotal);
+            } else {
+                return "Không thể thêm vào giỏ vì số lượng vượt mức tối đa";
+            }
         }
 
-        return cartItemRepository.save(cartItem) != null;
+        if (cartItemRepository.save(cartItem) != null) {
+            message = "Thêm sản phẩm thành công!";
+        }
+
+        return message;
     }
 
     @Override

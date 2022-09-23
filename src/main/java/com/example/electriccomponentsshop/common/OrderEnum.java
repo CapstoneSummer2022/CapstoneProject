@@ -7,7 +7,6 @@ public enum OrderEnum {
     CONFIRM(2, "Đã Xác Nhận"),
     DELIVERY(3, "Đang Giao Hàng"),
     DONE(4, "Hoàn Thành"),
-
     CANCEL(5,"Đã Hủy"),
     RETURNED(6,"Đã Nhận Hoàn");
 

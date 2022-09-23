@@ -290,10 +290,10 @@ function validateSigninForm() {
  * @returns boolean value
  */
 function validateRegisterForm() {
-    const NAME = document.signUpForm.name.value;
-    const EMAIL = document.signupForm.email.value;
-    const PWD = document.signupForm.pwd.value;
-    const RE_PWD = document.signupForm.repwd.value;
+    const NAME = document.signUpForm.name.value.trim();
+    const EMAIL = document.signupForm.email.value.trim();
+    const PWD = document.signupForm.pwd.value.trim();
+    const RE_PWD = document.signupForm.repwd.value.trim();
 
     let isValid = 0;
 
@@ -337,9 +337,9 @@ function validateRegisterForm() {
  * @returns boolean value
  */
 function validateChangepwdForm () {
-    const CURRENT_PWD = document.changepwdForm.current_pwd.value;
-    const NEW_PWD = document.changepwdForm.new_pwd.value;
-    const CONFIRM_PWD = document.changepwdForm.confirm_pwd.value;
+    const CURRENT_PWD = document.changepwdForm.current_pwd.value.trim();
+    const NEW_PWD = document.changepwdForm.new_pwd.value.trim();
+    const CONFIRM_PWD = document.changepwdForm.confirm_pwd.value.trim();
 
     let isValid = 0;
 
@@ -379,14 +379,14 @@ function validateChangepwdForm () {
  * @returns boolean value
  */
 function validateUpdateProfileForm() {
-    const NAME = document.profileForm.name.value;
-    const EMAIL = document.profileForm.email.value;
-    const PHONE = document.profileForm.phone.value;
+    const NAME = document.profileForm.name.value.trim();
+    const EMAIL = document.profileForm.email.value.trim();
+    const PHONE = document.profileForm.phone.value.trim();
     const BIRTH_DATE = document.profileForm.birthday.value;
     const PROVINCE = document.profileForm.province.value;
     const DISTRICT = document.profileForm.district.value;
     const WARD = document.profileForm.ward.value;
-    const DETAIL_LOCATION = document.profileForm.detailLocation.value;
+    const DETAIL_LOCATION = document.profileForm.detailLocation.value.trim();
 
     let isValid = 0;
 
@@ -403,31 +403,17 @@ function validateUpdateProfileForm() {
 }
 
 /**
- * Validate order tracking form's phone field
- *
- * @returns boolean value
- */
-function validateOrderSearch () {
-    const PHONE = document.orderSearch.phone.value;
-
-    if (!validateRequiredField(PHONE, "phone-error", "Số điện thoại",
-                phonePattern, "Số điện thoại của bạn không hợp lệ")) { return false; }
-
-    return true;
-}
-
-/**
  * Validate Create Order Form's fields
  *
  * @returns boolean value
  */
 function validateCreateOrderForm () {
-    const NAME = document.createorderForm.name.value;
-    const PHONE = document.createorderForm.phone.value;
+    const NAME = document.createorderForm.name.value.trim();
+    const PHONE = document.createorderForm.phone.value.trim();
     const PROVINCE = document.createorderForm.province.value;
     const DISTRICT = document.createorderForm.district.value;
     const WARD = document.createorderForm.ward.value;
-    const DETAIL_LOCATION = document.createorderForm.detailLocation.value;
+    const DETAIL_LOCATION = document.createorderForm.detailLocation.value.trim();
 
     let isValid = 0;
 

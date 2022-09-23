@@ -1,5 +1,6 @@
 package com.example.electriccomponentsshop.controller.admin;
 
+import com.example.electriccomponentsshop.common.OrderEnum;
 import com.example.electriccomponentsshop.dto.*;
 import com.example.electriccomponentsshop.entities.Order;
 import com.example.electriccomponentsshop.repositories.OrderItemRepository;
@@ -8,6 +9,7 @@ import com.example.electriccomponentsshop.repositories.ProductRepository;
 import com.example.electriccomponentsshop.services.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -49,15 +51,39 @@ public class OrderController {
     OrderKindService orderKindService;
     @Autowired
     SkuService skuService;
-    @GetMapping("")
-    public String viewAll(ModelMap modelMap) {
-        ArrayList<OrderDTO> orders = (ArrayList<OrderDTO>) orderService.findAll();
+    @GetMapping("/{status}")
+    public String viewAllOrderByEmployeeId(@PathVariable String status, ModelMap modelMap, Authentication authentication) {
+        AccountDetailImpl accountDetail = (AccountDetailImpl) authentication.getPrincipal();
+        List<OrderDTO> orders = new ArrayList<>();
+        String active = "";
+
+        if (status.equals("waiting")) {
+            orders = orderService.findOrderByStatus(accountDetail.getId(), OrderEnum.PENDING.getName(), "ROLE_EMPLOYEE");
+            active = "waiting";
+        } else if (status.equals("confirmed")) {
+            orders = orderService.findOrderByStatus(accountDetail.getId(), OrderEnum.CONFIRM.getName(), "ROLE_EMPLOYEE");
+            active = "confirmed";
+        } else if (status.equals("shipping")) {
+            orders = orderService.findOrderByStatus(accountDetail.getId(), OrderEnum.DELIVERY.getName(), "ROLE_EMPLOYEE");
+            active = "shipping";
+        } else if (status.equals("received")) {
+            orders = orderService.findOrderByStatus(accountDetail.getId(), OrderEnum.DONE.getName(), "ROLE_EMPLOYEE");
+            active = "received";
+        } else if (status.equals("cancelled")) {
+            orders = orderService.findOrderByStatus(accountDetail.getId(), OrderEnum.CANCEL.getName(), "ROLE_EMPLOYEE");
+            active = "cancelled";
+        } else if (status.equals("returned")) {
+            orders = orderService.findOrderByStatus(accountDetail.getId(), OrderEnum.RETURNED.getName(), "ROLE_EMPLOYEE");
+            active = "returned";
+        }
+
+        modelMap.addAttribute("active", active);
         modelMap.addAttribute("listOrder", orders);
+
         return "administrator/order-management";
     }
 
     private ModelMap getAddress(ModelMap model) {
-
         List<ProvinceDTO> provinceDTOS = provinceService.findAll();
         System.out.println(provinceDTOS.get(0).getName() + "đâ ");
         model.addAttribute("listProvince", provinceDTOS);

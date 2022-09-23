@@ -16,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -50,23 +51,12 @@ public class CartController {
     }
 
     @PostMapping(value = "/add-to-cart")
-    public String addToCart (@RequestParam int productId, @RequestParam BigDecimal quantity, ModelMap map, Authentication authentication) {
+    public String addToCart (@RequestParam int productId, @RequestParam BigDecimal quantity, RedirectAttributes re, Authentication authentication) {
+        AccountDetailImpl accountDetail = (AccountDetailImpl) authentication.getPrincipal();
 
-        try {
-            AccountDetailImpl accountDetail = (AccountDetailImpl) authentication.getPrincipal();
+        String message = cartItemService.addToCart(accountDetail.getId(), productId, quantity);
 
-            boolean added = cartItemService.addToCart(accountDetail.getId(), productId, quantity);
-
-            System.out.println("thuong: " + added);
-
-            if (added == true) {
-                map.addAttribute("success", "Đã thêm sản phẩm vào giỏ");
-            } else {
-                map.addAttribute("error", "Không thể thêm sản phẩm vào giỏ. Hãy thử lại");
-            }
-        } catch (Exception e) {
-            throw e;
-        }
+        re.addFlashAttribute("message", message);
 
         return "redirect:/product/" + productId;
     }
@@ -84,7 +74,7 @@ public class CartController {
     public String updateCart (@RequestParam int prodId, @RequestParam BigDecimal quantity, Authentication authentication) {
         AccountDetailImpl accountDetail = (AccountDetailImpl) authentication.getPrincipal();
 
-        boolean updated = cartItemService.updateCartItem(accountDetail.getId(), prodId, quantity);
+        cartItemService.updateCartItem(accountDetail.getId(), prodId, quantity);
 
         return "redirect:/cart";
     }

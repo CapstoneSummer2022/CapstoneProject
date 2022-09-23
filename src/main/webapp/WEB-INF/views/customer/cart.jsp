@@ -19,48 +19,57 @@
         <!--Page Content-->
         <main>
           <div id="cart_content">
-            <div id="product_table">
-              <table>
-                <tr>
-                  <th></th>
-                  <th class="prod_name">Tên sản phẩm</th>
-                  <th>Giá</th>
-                  <th>Số lượng</th>
-                  <th>Tổng</th>
-                  <th></th>
-                </tr>
-                <c:set var = "total" value = "${0}"/>
-                <c:forEach var = "item" items = "${cartItems}">
-                    <tr>
-                      <td><img src="/img/${item.productDTO.image}" alt=""> </td>
-                      <td class="prod_name"><a href="${pageContext.request.contextPath}/product/${item.productDTO.id}">${item.productDTO.name} </a></td>
-                      <td>${item.productDTO.price}đ</td>
-                      <td>
-                        <div>
-                          <input type="text" name="quantity" id="${item.productDTO.id}" value="${item.quantity}" min="${item.productDTO.unit}" max="${item.productDTO.available}" onchange="updateCartNumber('${item.productDTO.id}')" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
-                        </div>
-                      </td>
-                      <td >${item.subTotal}đ</td>
-                      <td><a href="${pageContext.request.contextPath}/cart/remove?prodId=${item.productDTO.id}" onclick="return confirm('Bạn muốn xóa sản phẩm này khỏi giỏ hàng?')"><i class="material-icons">delete</i></a></td>
-                    </tr>
-                    <c:set var = "total" value = "${total + item.subTotal}"/>
-                </c:forEach>
-                </table>
-                </div>
-            <div id="leadto_order">
-              <table table class="w3-table-all">
-                <tr>
-                  <td colspan="2" style="text-align: center; font-weight: bold;">Giỏ hàng</td>
-                </tr>
-                <tr>
-                  <td>Tổng thanh toán: </td>
-                  <td id="total">${total}đ</td>
-                </tr>
-                <tr>
-                  <td colspan="2" style="padding: 0;"><button onclick="goToCreateOrder()" id="createorder_btn">Đặt hàng</button></td>
-                </tr>
-              </table>
-            </div>
+            <c:choose>
+                <c:when test="${cartItems.size() != 0}">
+                    <div id="product_table">
+                      <table>
+                        <tr>
+                          <th></th>
+                          <th class="prod_name">Tên sản phẩm</th>
+                          <th>Giá</th>
+                          <th>Số lượng</th>
+                          <th>Tổng</th>
+                          <th></th>
+                        </tr>
+                        <c:set var = "total" value = "${0}"/>
+                        <c:forEach var = "item" items = "${cartItems}">
+                            <tr>
+                              <td><img src="/img/${item.productDTO.image}" alt=""> </td>
+                              <td class="prod_name"><a href="${pageContext.request.contextPath}/product/${item.productDTO.id}">${item.productDTO.name} </a></td>
+                              <td>${item.productDTO.price}đ</td>
+                              <td>
+                                <div>
+                                  <input type="text" name="quantity" id="${item.productDTO.id}" value="${item.quantity}" min="${item.productDTO.unit}" max="${item.productDTO.available}" onblur="updateCartNumber('${item.productDTO.id}')" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+                                </div>
+                              </td>
+                              <td >${item.subTotal}đ</td>
+                              <td><a href="${pageContext.request.contextPath}/cart/remove?prodId=${item.productDTO.id}" onclick="return confirm('Bạn muốn xóa sản phẩm này khỏi giỏ hàng?')"><i class="material-icons">delete</i></a></td>
+                            </tr>
+                            <c:set var = "total" value = "${total + item.subTotal}"/>
+                        </c:forEach>
+                        </table>
+                    </div>
+                    <div id="leadto_order">
+                      <table table class="w3-table-all">
+                        <tr>
+                          <td colspan="2" style="text-align: center; font-weight: bold;">Giỏ hàng</td>
+                        </tr>
+                        <tr>
+                          <td>Tổng thanh toán: </td>
+                          <td id="total">${total}đ</td>
+                        </tr>
+                        <tr>
+                          <td colspan="2" style="padding: 0;"><button onclick="goToCreateOrder()" id="createorder_btn">Đặt hàng</button></td>
+                        </tr>
+                      </table>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <p style="text-align: center; font-size: 24px;">Giỏ hàng của bạn hiện ko có sản phẩm nào</p>
+                    <p style="text-align: center; color: blue;"><a href="${pageContext.request.contextPath}/home">Quay lại cửa hàng</a></p>
+                </c:otherwise>
+            </c:choose>
+
           </div>
         </main>
     
@@ -80,11 +89,12 @@
             if ( currentNumOfProduct > maxNumForCustomer ) {
               alert("Bạn không thể đặt quá giới hạn của sản phẩm");
               product.value = currentNumOfProduct;
-            } 
-
-            if ( currentNumOfProduct == 0 ) {
+            } else if (currentNumOfProduct < maxNumForCustomer && currentNumOfProduct > 0) {
+                window.location.href = "http://localhost:8083/cart/update-cart?prodId=" + productId + "&quantity=" + currentNumOfProduct;
+            } else if ( currentNumOfProduct == 0 ) {
               product.value = 1;
             }
+
           }
 
           function goToCreateOrder () {

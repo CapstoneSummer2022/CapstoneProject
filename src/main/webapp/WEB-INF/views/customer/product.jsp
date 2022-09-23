@@ -18,14 +18,9 @@
     
         <!--Page Content-->
         <main>
-          <c:if test="${not empty error}">
-            <p class="error" style="display: block; background-color: pink; text-align: center; padding: 10px; border-radius: 5px;">
-              ${error}
-            </p>
-          </c:if>
-          <c:if test="${not empty success}">
-            <p class="success" style="display: block; background-color: green; text-align: center; padding: 10px; border-radius: 5px; color: white;">
-              ${success}
+          <c:if test="${not empty message}">
+            <p style="display: block; background-color: pink; text-align: center; padding: 10px; border-radius: 5px;">
+              ${message}
             </p>
           </c:if>
           <div id="product_content">

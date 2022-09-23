@@ -81,10 +81,10 @@
                   <c:forEach var="pro" items="${provinces}">
                     <c:choose>
                         <c:when test="${account.provinceName eq pro.name}">
-                            <option value="${pro.PCode}" selected>${pro.name}</option>
+                            <option value="${pro.name}" selected>${pro.name}</option>
                         </c:when>
                         <c:otherwise>
-                            <option value="${pro.PCode}">${pro.name}</option>
+                            <option value="${pro.name}">${pro.name}</option>
                         </c:otherwise>
                     </c:choose>
                   </c:forEach>
@@ -100,10 +100,10 @@
                       <c:forEach var="dis" items="${districts}">
                         <c:choose>
                             <c:when test="${account.districtName eq dis.name}">
-                                <option value="${dis.DCode}" selected>${dis.name}</option>
+                                <option value="${dis.name}" selected>${dis.name}</option>
                             </c:when>
                             <c:otherwise>
-                                <option value="${dis.DCode}">${dis.name}</option>
+                                <option value="${dis.name}">${dis.name}</option>
                             </c:otherwise>
                         </c:choose>
                       </c:forEach>
@@ -120,10 +120,10 @@
                       <c:forEach var="ward" items="${wards}">
                         <c:choose>
                             <c:when test="${account.wardName eq ward.name}">
-                                <option value="${ward.WCode}">${ward.name}</option>
+                                <option value="${ward.name}">${ward.name}</option>
                             </c:when>
                             <c:otherwise>
-                                <option value="${ward.WCode}">${ward.name}</option>
+                                <option value="${ward.name}">${ward.name}</option>
                             </c:otherwise>
                         </c:choose>
                       </c:forEach>
@@ -157,52 +157,50 @@
     </main>
 
     <!-- Bootstrap 5 JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
     <script src="/js/validate.js">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="http://code.jquery.com/jquery.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
     </script>
     <script>
-    function getDistricts () {
-        const province = document.getElementById("province").value;
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", "http://localhost:8083/address/get-district?pCode=" + province, true);
-        xhr.getResponseHeader("Content-type", "application/json");
+        $(document).ready(function (){
+          $('#province').change(function(event){
+            var pro = $('#province').val();
 
-        xhr.onload = function() {
-            const data = JSON.parse(this.responseText);
-            let html = '';
-
-            for ( let c in data ) {
-               html += '<option value="'+ data[c].dcode +'">'+ data[c].name +'</option>';
-            }
-
-           document.querySelector("#district").innerHTML = html;
-        }
-
-        xhr.send();
-
-        getWards ();
-    }
-
-    function getWards () {
-        const district = document.getElementById("district").value;
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", "http://localhost:8083/address/get-ward?dCode=" + district, true);
-        xhr.getResponseHeader("Content-type", "application/json");
-
-        xhr.onload = function() {
-            const data = JSON.parse(this.responseText);
-            let html = '';
-
-            for ( let c in data ) {
-               html += '<option value="'+ data[c].wcode +'">'+ data[c].name +'</option>';
-
-            }
-
-           document.querySelector("#ward").innerHTML = html;
-        }
-
-        xhr.send();
-    }
-    </script>
+            $.ajax({
+              type:"GET",
+              contentType:"application/x-www-form-urlencoded",
+              url: "/address/district?province="+pro,
+              success: function (response){
+                var  $dis= $('#district');
+                var $ward = $('#ward')
+                $dis.find('option').remove();
+                $ward.find('option').remove();
+                response[0].forEach(d=>{
+                  $('<option>').val(d.name).text(d.name).appendTo($dis);
+                });
+                response[1].forEach(w=>{
+                  $('<option>').val(w.name).text(w.name).appendTo($ward);
+                })
+              }
+            });
+          });
+          $('#district').change(function (){
+            var district = $('#district').val();
+            $.ajax({
+              type: "GET",
+              url: "/address/ward?district="+district,
+              success: function (response){
+                var $ward = $('#ward');
+                $ward.find('option').remove();
+                $.each(response, function(key,value){
+                  $('<option>').val(value.name).text(value.name).appendTo($ward);
+                });
+              }
+            });
+          });
+        });
+      </script>
   </body>
 </html>

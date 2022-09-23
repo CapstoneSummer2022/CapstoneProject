@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,10 +27,59 @@
 <body onload="time()" class="app sidebar-mini rtl">
   <!-- Navbar-->
   <jsp:include page="header.jsp"/>
-  <!-- Sidebar menu-->
-  <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-  <jsp:include page="home-menu.jsp"/>
-  <main class="app-content">
+  <!-- Sidebar menu start-->
+    <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+    <aside class="app-sidebar">
+        <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="${pageContext.request.contextPath}/img/avatar.jpg" width="50px"
+                                            alt="User Image">
+            <div>
+                <p class="app-sidebar__user-name"><b>${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.name}</b></p>
+                <p class="app-sidebar__user-designation">
+                    <sec:authorize access="hasRole('ROLE_MANAGER')">
+                        Quản lí
+                    </sec:authorize>
+                    <sec:authorize access="hasRole('ROLE_EMPLOYEE')">
+                        Nhân viên
+                    </sec:authorize>
+                </p>
+            </div>
+        </div>
+        <hr>
+        <ul class="app-menu">
+            <li><a class="app-menu__item" href="${pageContext.request.contextPath}/admin/products"><i
+                    class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản
+                phẩm</span></a>
+            </li>
+            <li><a class="app-menu__item active" href="${pageContext.request.contextPath}/admin/orders/waiting"><i class='app-menu__icon bx bx-task'></i><span
+                    class="app-menu__label">Quản lý đơn hàng</span></a></li>
+
+                <li><a class="app-menu__item" href="${pageContext.request.contextPath}/admin/accounts/system-account"><i class='app-menu__icon bx bx-id-card'></i>
+                    <span class="app-menu__label">Quản lý tài khoản</span>
+                </a>
+
+                </li>
+                <li><a class="app-menu__item" href="${pageContext.request.contextPath}/admin/categories"><i class='app-menu__icon bx bx-category'></i><span
+                        class="app-menu__label">Quản lý danh mục</span></a></li>
+
+                <li><a class="app-menu__item" href="${pageContext.request.contextPath}/admin/suppliers"><i
+                        class='app-menu__icon bx bxs-user-account'></i><span class="app-menu__label">Quản lý nhà cung cấp
+              </span></a></li>
+                <li><a class="app-menu__item" href="${pageContext.request.contextPath}/admin/warehouses"><i
+                        class='app-menu__icon bx bx-building-house'></i><span class="app-menu__label">Quản lý kho hàng
+              </span></a></li>
+            <sec:authorize  access="hasRole('ROLE_MANAGER')">
+                <li><a class="app-menu__item" href="${pageContext.request.contextPath}/admin/feedbacks"><i class='app-menu__icon bx bx-user-voice'></i><span
+                        class="app-menu__label">Feedback</span></a>
+                </li>
+                <li><a class="app-menu__item" href="${pageContext.request.contextPath}/admin/reports"><i class='app-menu__icon bx bx-pie-chart-alt-2'></i><span
+                        class="app-menu__label">Báo cáo thống kê</span></a>
+                </li>
+            </sec:authorize>
+        </ul>
+    </aside>
+    <!-- Sidebar menu end-->
+
+    <main class="app-content">
     <div class="app-title">
       <ul class="app-breadcrumb breadcrumb side">
         <li class="breadcrumb-item"><b>Quản lý đơn hàng</b></li>
@@ -42,10 +92,24 @@
           <div class="tile-body">
             <div class="row element-button">
               <div id="myBtnContainer">
-                <button class="filter-btn active">Chờ xử lý</button>
-                <button class="filter-btn">Đang giao hàng</button>
-                <button class="filter-btn">Hoàn thành</button>
-                <button class="filter-btn">Đã huỷ</button>
+                <a href="${pageContext.request.contextPath}/admin/orders/waiting">
+                    <button class="filter-btn <c:if test="${active eq 'waiting'}">active</c:if>">Chờ xử lý</button>
+                </a>
+                <a href="${pageContext.request.contextPath}/admin/orders/confirmed">
+                    <button class="filter-btn <c:if test="${active eq 'confirmed'}">active</c:if>">Đã xác nhận</button>
+                </a>
+                <a href="${pageContext.request.contextPath}/admin/orders/shipping">
+                    <button class="filter-btn <c:if test="${active eq 'shipping'}">active</c:if>">Đang giao hàng</button>
+                </a>
+                <a href="${pageContext.request.contextPath}/admin/orders/received">
+                    <button class="filter-btn <c:if test="${active eq 'received'}">active</c:if>">Hoàn thành</button>
+                </a>
+                <a href="${pageContext.request.contextPath}/admin/orders/cancelled">
+                    <button class="filter-btn <c:if test="${active eq 'cancelled'}">active</c:if>">Đã huỷ</button>
+                </a>
+                <a href="${pageContext.request.contextPath}/admin/orders/returned">
+                    <button class="filter-btn <c:if test="${active eq 'returned'}">active</c:if>">Đã nhận hoàn</button>
+                </a>
               </div>
             </div>
             <div class="row element-button">
@@ -97,22 +161,6 @@
 
               </tbody>
             </table>
-            <div class="pagination-row">
-              <div class="pagination-container">
-                <div class="dataTables_paginate paging_simple_numbers" id="sampleTable_paginate">
-                  <ul class="pagination">
-                    <li class="paginate_button page-item previous disabled" id="sampleTable_previous"><a href="#"
-                        aria-controls="sampleTable" data-dt-idx="0" tabindex="0" class="page-link">Lùi</a></li>
-                    <li class="paginate_button page-item active"><a href="#" aria-controls="sampleTable" data-dt-idx="1"
-                        tabindex="0" class="page-link">1</a></li>
-                    <li class="paginate_button page-item "><a href="#" aria-controls="sampleTable" data-dt-idx="2"
-                        tabindex="0" class="page-link">2</a></li>
-                    <li class="paginate_button page-item next" id="sampleTable_next"><a href="#"
-                        aria-controls="sampleTable" data-dt-idx="3" tabindex="0" class="page-link">Tiếp</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>

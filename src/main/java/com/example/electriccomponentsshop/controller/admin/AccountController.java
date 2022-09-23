@@ -1,6 +1,11 @@
 package com.example.electriccomponentsshop.controller.admin;
 
+import com.example.electriccomponentsshop.common.ERole;
 import com.example.electriccomponentsshop.dto.*;
+import com.example.electriccomponentsshop.entities.Account;
+import com.example.electriccomponentsshop.entities.Role;
+import com.example.electriccomponentsshop.repositories.AccountRepository;
+import com.example.electriccomponentsshop.repositories.RoleRepository;
 import com.example.electriccomponentsshop.services.*;
 
 import lombok.AllArgsConstructor;
@@ -20,8 +25,12 @@ import java.util.*;
 @AllArgsConstructor
 public class AccountController {
 
-    final
-    AccountService accountService;
+    final AccountService accountService;
+
+    final RoleRepository roleRepository;
+
+    final AccountRepository accountRepository;
+
     final RoleService roleService;
     final ProvinceService provinceService;
     final DistrictService districtService;
@@ -81,12 +90,45 @@ public class AccountController {
         model.addAttribute("error",mess);
         return "administrator/system-account-management";
     }
+
     @GetMapping("/customer-account")
     public String viewAllCustomerAccount(Model model){
         ArrayList<AccountDTO> customerAccounts = (ArrayList<AccountDTO>) accountService.findAllByRoleName("ROLE_CUSTOMER");
         model.addAttribute("accounts",customerAccounts);
         return "administrator/customer-account-management";
     }
+
+    @RequestMapping("/customer-account/add")
+    public String goToAddCustomerPage (ModelMap model){
+        return "administrator/add-customer";
+    }
+
+    @PostMapping("/customer-account/add")
+    public String addCustomer (ModelMap model, @RequestParam String name, @RequestParam String phone){
+        boolean isPhoneExist = accountService.existsByPhone(phone);
+
+        if (isPhoneExist) {
+            model.addAttribute("error", "Số điện thoại đã tồn tại");
+
+            return "administrator/add-customer";
+        } else {
+            Account account = new Account();
+            account.setName(name);
+            account.setPhone(phone);
+
+            List<Role> roles = new ArrayList<>();
+            Role roleCustomer = roleRepository.findByRoleName(ERole.ROLE_CUSTOMER).orElseThrow(() -> new RuntimeException("Role not found"));
+            roles.add(roleCustomer);
+
+            account.setRoles(roles);
+            account.setStatus(true);
+            accountRepository.save(account);
+        }
+
+
+        return "redirect:/admin/accounts/customer-account";
+    }
+
     @PostMapping("/edit/{id}")
         public String editInformation(Model model, @PathVariable @Valid Integer id,@Valid @ModelAttribute("accountDto")AccountDTO accountDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes){
         if(bindingResult.hasErrors()){

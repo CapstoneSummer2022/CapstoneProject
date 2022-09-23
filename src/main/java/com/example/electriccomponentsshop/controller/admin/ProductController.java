@@ -1,13 +1,10 @@
 package com.example.electriccomponentsshop.controller.admin;
 
 import com.example.electriccomponentsshop.dto.*;
-import com.example.electriccomponentsshop.entities.Product;
-import com.example.electriccomponentsshop.entities.Supplier;
 import com.example.electriccomponentsshop.services.*;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -32,10 +29,15 @@ public class ProductController {
     final SpecificationService specificationService;
     final SkuService skuService;
     @GetMapping("")
-    public String viewAll(Model model,@RequestParam(name="index",defaultValue = "0") String index){
-        Page<ProductDTO> products =  productService.findAll(PageRequest.of(Integer.parseInt(index),10));
+    public String viewAll(Model model,@RequestParam(name="index",defaultValue = "1") String index){
+        int pIndex = Integer.parseInt(index);
+
+        Page<ProductDTO> products =  productService.findAll(PageRequest.of(pIndex-1,10));
+
         model.addAttribute("productDtos", products.getContent());
         model.addAttribute("total",products.getTotalPages());
+        model.addAttribute("pageNo", pIndex);
+
         return "administrator/product-management";
     }
     @GetMapping("/specification/add")
@@ -133,12 +135,13 @@ public class ProductController {
     public String searchProduct(@RequestParam(name="text", required = false) String text, @RequestParam(name="index",defaultValue = "0") String index, ModelMap modelMap){
         int pIndex = Integer.parseInt(index);
 
-        Page<ProductDTO> productDTOS = productService.searchProduct(text,PageRequest.of(pIndex,10));
+        Page<ProductDTO> productDTOS = productService.searchProduct(text,PageRequest.of(pIndex-1,10));
 
         modelMap.addAttribute("pageNo", 1);
         modelMap.addAttribute("productDtos", productDTOS.getContent());
         modelMap.addAttribute("total", productDTOS.getTotalPages());
         modelMap.addAttribute("text", text);
+        modelMap.addAttribute("pageNo", pIndex);
 
         return "administrator/product-management";
     }

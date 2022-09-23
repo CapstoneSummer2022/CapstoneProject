@@ -64,7 +64,9 @@ public class OrderShopController {
     @PostMapping(value = "/create-order")
     public String createOrder (@RequestParam Map<String, String> order, RedirectAttributes redirectAttributes) {
         int orderId = orderService.createOrderOnline(order);
+
         redirectAttributes.addFlashAttribute("orderId",orderId);
+
         return "redirect:/order";
     }
 
@@ -72,7 +74,7 @@ public class OrderShopController {
     public String getAllOrder (Authentication authentication, ModelMap map) {
         AccountDetailImpl accountDetail = (AccountDetailImpl) authentication.getPrincipal();
         List<Category> categories = categoryService.findCategoriesByParentCategoryIdIsNull();
-        List<OrderDTO> orders = orderService.findAllOrderForCustomer(accountDetail.getId());
+        List<OrderDTO> orders = orderService.findAllOrder(accountDetail.getId());
 
         map.addAttribute("categories", categories);
         map.addAttribute("orders", orders);
@@ -88,16 +90,16 @@ public class OrderShopController {
         String page = "";
 
         if (status.equals("waiting")) {
-            orders = orderService.findOrderByStatusForCustomer(accountDetail.getId(), OrderEnum.PENDING.getName());
+            orders = orderService.findOrderByStatus(accountDetail.getId(), OrderEnum.PENDING.getName(), "ROLE_CUSTOMER");
             page = "waiting-order";
         } else if (status.equals("shipping")) {
-            orders = orderService.findOrderByStatusForCustomer(accountDetail.getId(), OrderEnum.DELIVERY.getName());
+            orders = orderService.findOrderByStatus(accountDetail.getId(), OrderEnum.DELIVERY.getName(), "ROLE_CUSTOMER");
             page = "shipping-order";
         } else if (status.equals("received")) {
-            orders = orderService.findOrderByStatusForCustomer(accountDetail.getId(), OrderEnum.DONE.getName());
+            orders = orderService.findOrderByStatus(accountDetail.getId(), OrderEnum.DONE.getName(), "ROLE_CUSTOMER");
             page = "received-order";
         } else if (status.equals("cancelled")) {
-            orders = orderService.findOrderByStatusForCustomer(accountDetail.getId(), "Đã Hủy");
+            orders = orderService.findOrderByStatus(accountDetail.getId(), "Đã Hủy", "ROLE_CUSTOMER");
             page = "cancelled-order";
         }
 
@@ -105,5 +107,12 @@ public class OrderShopController {
         map.addAttribute("orders", orders);
 
         return "customer/"+page;
+    }
+
+    @RequestMapping(value = "/cancel")
+    public String cancelOrder(@RequestParam String orderId) {
+        orderService.cancelOrder(orderId);
+
+        return "redirect:/order";
     }
 }

@@ -61,6 +61,11 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public boolean existsByPhone(String phone) {
+        return accountRepository.existsByPhone(phone);
+    }
+
+    @Override
     public AccountDTO findByEmail(String email) {
         Optional<Account> accountOptional = accountRepository.findByEmail(email);
         if(accountOptional.isEmpty()){
@@ -101,6 +106,7 @@ public class AccountServiceImpl implements AccountService {
         account.setRoles(roles);
         return accountRepository.save(account) != null;
     }
+
     @Override
     public boolean updateAccount(AccountDTO accountDTO, Integer id) {
        Optional<Account> optionalAccount = accountRepository.findById(id);
