@@ -43,7 +43,7 @@
             </div>
         </div>
     </div>
-    <form>
+    <form id="addOrder">
         <div class="row">
             <div class="col-md-12">
                 <div class="tile">
@@ -166,7 +166,7 @@
                             <p class="control-all-money-total"><span id="sum">0</span></p>
                         </div>
                         <div class="tile-footer col-md-12">
-                            <button type="button" class="btn btn-primary create-order-button" id="createOrder">Tạo đơn
+                            <button type="submit" class="btn btn-primary create-order-button" >Tạo đơn
                                 hàng</button>
                             <a class="btn btn-primary cancel-order-button" href="order-management.html"
                                type="button">Huỷ và quay về</a>
@@ -270,6 +270,7 @@ MODAL
                     </div>
                 </div>
                 <div style="display: flex; justify-content: center; padding: 10px;">
+                    <a href="${pageContext.request.contextPath}/admin/accounts/customer/create " style="margin: 5px;" class="btn btn-save">Tạo mới thông tin</a>
                     <button style="margin: 5px;" class="btn btn-save" data-dismiss="modal">Đóng</button>
                 </div>
             </div>
@@ -383,54 +384,59 @@ MODAL
 <script src="<c:url value="/js/plugins/pace.min.js"/>"></script>
 <script src="<c:url value="/resources/data.json"/>"></script>
 <script>
+        $('#addOrder').on('submit', function(evt){
+            evt.preventDefault();
+            if(validateTableLength($('#orderProductList'))){
+                var orderItems= new Array();
+                var type = $('input[name="payment_method"]:checked').val();
+                $(".order-item").each(function (){
+                    var row = $(this);
+                    var orderItem = new Object();
+                    orderItem.productId = row.find("TD").eq(0).html();
+                    orderItem.quantity = row.find("INPUT").val();
+                    orderItems.push(orderItem);
 
+                });
 
-    var element = document.getElementById("createOrder");
-    element.addEventListener('click',()=>{
-        var orderItems= new Array();
-        var type = $('input[name="payment_method"]:checked').val();
-        $(".order-item").each(function (){
-            var row = $(this);
-            var orderItem = new Object();
-            orderItem.productId = row.find("TD").eq(0).html();
-            orderItem.quantity = row.find("INPUT").val();
-            orderItems.push(orderItem);
+                var data1={
+                    accountCustomerPhone:$('#orderPhone').val(),
+                    receivedPerson: $('#receivedPerson').val(),
+                    provinceName: $('#province').val(),
+                    districtName: $('#district').val(),
+                    wardName:$('#ward').val(),
+                    detailLocation:$('#detailLocation').val(),
+                    receivedPhone:$('#receivedPhone').val(),
+                    kindId:$('#orderType').val(),
+                    paymentMethod:type,
+                    orderItems: orderItems
+                };
 
-        });
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    url: "/admin/orders/add",
+                    data:
+                        JSON.stringify(data1)
+                    ,
+                    dataType:"text",
+                    success: function (response){
+                        if(response==="thành công"){
+                            $('#successful').modal('show');
+                        }
+                        else {
+                            $('#reason').innerHTML = response;
+                            if(response === "Số điện thoại chưa có trong hệ thống"){
 
-        var data1={
-            accountCustomerPhone:$('#orderPhone').val(),
-            receivedPerson: $('#receivedPerson').val(),
-            provinceName: $('#province').val(),
-            districtName: $('#district').val(),
-            wardName:$('#ward').val(),
-            detailLocation:$('#detailLocation').val(),
-            receivedPhone:$('#receivedPhone').val(),
-            kindId:$('#orderType').val(),
-            paymentMethod:type,
-            orderItems: orderItems
-        };
+                            }
+                            $('#unsuccessful').modal('show');
+                        }
 
-        $.ajax({
-            type: "POST",
-            contentType: "application/json",
-            url: "/admin/orders/add",
-            data:
-                JSON.stringify(data1)
-            ,
-            dataType:"text",
-            success: function (response){
-                if(response==="thành công"){
-                    $('#successful').modal('show');
-                }
-                else {
-                    $('#reason').innerHTML = response;
-                    $('#unsuccessful').modal('show');
-                }
-
+                    }
+                });
             }
+
         });
-    });
+
 </script>
 <script>
     $(document).ready(function (){

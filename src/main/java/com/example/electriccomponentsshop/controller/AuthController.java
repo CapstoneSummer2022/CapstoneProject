@@ -134,7 +134,7 @@ public class AuthController {
         response.addCookie(cookie);
         if(roles.contains("ROLE_MANAGER")||roles.contains("ROLE_EMPLOYEE")){
             modelMap.addAttribute("roles", roles.get(0));
-            return "redirect:/admin/home";
+            return "redirect:/admin/orders";
 
         }
         return "redirect:/home";

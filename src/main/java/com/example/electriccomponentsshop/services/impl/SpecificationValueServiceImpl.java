@@ -22,4 +22,5 @@ public class SpecificationValueServiceImpl implements SpecificationValueService 
     public <S extends SpecificationValue> S save(S entity) {
         return specificationValueRepository.save(entity);
     }
+
 }

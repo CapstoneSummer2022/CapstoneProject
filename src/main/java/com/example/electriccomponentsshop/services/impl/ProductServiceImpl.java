@@ -7,13 +7,16 @@ import com.example.electriccomponentsshop.dto.SpecificationValueDto;
 import com.example.electriccomponentsshop.entities.*;
 import com.example.electriccomponentsshop.repositories.ExportPriceRepository;
 import com.example.electriccomponentsshop.repositories.ProductRepository;
+import com.example.electriccomponentsshop.repositories.SpecificationValueRepository;
 import com.example.electriccomponentsshop.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -23,6 +26,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductRepository productRepository;
@@ -32,8 +36,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     SupplierService supplierService;
-
-    @Autowired
+    @PersistenceContext
     EntityManager em;
 
     @Autowired
@@ -44,6 +47,8 @@ public class ProductServiceImpl implements ProductService {
     ExportPriceRepository exportPriceRepository;
     @Autowired
     SpecificationValueService specificationValueService;
+    @Autowired
+    SpecificationValueRepository specificationValueRepository;
 
     public ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
@@ -101,48 +106,67 @@ public class ProductServiceImpl implements ProductService {
             throw  new NoSuchElementException("Không có sản phẩm này");
         }
     }
+    @Override
+    public boolean existByName(String name){
+        Optional<Product> p = productRepository.findProductByName(name);
+        return p.isPresent();
+    }
+    @Override
     public boolean updateProduct(ProductDTO productDTO, String id){
-       Product product = getById(id);
-       product.setName(productDTO.getName());
-       List<CategoryDTO> categoryDTOS = productDTO.getCategories();
+        Product product = getById(id);
+        System.out.println(product.getName());
+        if(existByName(productDTO.getName())&&!product.getName().equalsIgnoreCase(productDTO.getName())){
+            throw new RuntimeException("Tên sản phẩm đã tồn tại");
+        }
 
-       List<Category> categories = new ArrayList<>();
-        for (CategoryDTO c: categoryDTOS
-             ) {
-
+        product.setImage("dd");
+        product.setName(productDTO.getName());
+        product.setUnit(productDTO.getUnit());
+        product.setAvailable(productDTO.getAvailable());
+        List<CategoryDTO> categoryDTOS = productDTO.getCategories();
+        System.out.println(categoryDTOS.size()+"dexxx");
+        List<Category> categories = new ArrayList<>();
+        for (CategoryDTO c : categoryDTOS
+        ) {
             Category category = categoryService.getById(c.getId());
             categories.add(category);
         }
+        Supplier supplier = supplierService.getBySupplierId(productDTO.getSupplierId());
+        product.setProductSupplier(supplier);
         product.setCategories(categories);
-        Optional<ExportPrice> exportPriceOptional = exportPriceRepository.findByProductId(product.getId());
-        if(exportPriceOptional.isPresent()){
-            ExportPrice exportPrice = exportPriceOptional.get();
-            exportPriceRepository.save(exportPrice);
-        }
-        else {
-            ExportPrice newExportPrice = new ExportPrice();
+        product = productRepository.save(product);
+        Optional<ExportPrice> exportPriceOptional =  exportPriceRepository.findByProductId(product.getId());
+        if(exportPriceOptional.isEmpty()){
+            throw new NoSuchElementException("Không tìm thấy giá xuất của sản phẩm này");
+        }else {
+            ExportPrice newExportPrice = exportPriceOptional.get();
             newExportPrice.setProduct(product);
             newExportPrice.setRetailPrice(productDTO.getPrice());
             exportPriceRepository.save(newExportPrice);
-        }
-        List<SpecificationValueDto> specificationValueDtos = productDTO.getSpecificationValues();
-        List<SpecificationValue> specificationValues = new ArrayList<>();
-        for (SpecificationValueDto s: specificationValueDtos
-             ) {
 
-            Specification specification = specificationService.getById(s.getSpecificationId());
-            SpecificationValue specificationValue = new SpecificationValue(new SpecificationValueId(product.getId(),specification.getId()),s.getValueFrom(),s.getValueTo(),product,specification);
-            specificationValues.add(specificationValue);
-            specificationValueService.save(specificationValue);
+            List<SpecificationValueDto> specificationValueDtos = productDTO.getSpecificationValues();
+            specificationValueRepository.deleteSpecificationValuesByProductId(product.getId());
+            List<SpecificationValue> specificationValues = new ArrayList<>();
+            for (SpecificationValueDto s: specificationValueDtos
+            ) {
+                Specification specification = specificationService.getById(s.getSpecificationId());
+                SpecificationValue specificationValue = new SpecificationValue(new SpecificationValueId(product.getId(),specification.getId()),s.getValueFrom(),s.getValueTo(),product,specification);
+                specificationValues.add(specificationValue);
+                specificationValueService.save(specificationValue);
+            }
+            product.setStatus(productDTO.getStatus());
+            product.setSpecificationValues(specificationValues);
+            product.setDescription(productDTO.getDescription());
         }
-        product.setStatus(1);
-        product.setSpecificationValues(specificationValues);
-        product.setDescription(productDTO.getDescription());
-      return  productRepository.save(product)!=null;
+
+        return  productRepository.save(product)!=null;
 
     }
     @Override
     public boolean addProduct(ProductDTO productDTO) {
+        if(existByName(productDTO.getName())){
+            throw new RuntimeException("Tên sản phẩm đã tồn tại");
+        }
         Product product = new Product();
         product.setImage("dd");
         product.setName(productDTO.getName());

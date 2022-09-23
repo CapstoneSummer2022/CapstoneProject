@@ -41,8 +41,10 @@ public class CategoryController  {
     public List<CategoryDTO> getExcept(@RequestBody ProductDTO productDTO){
         try{
             List<CategoryDTO> list = productDTO.getCategories();
-            List<CategoryDTO> categoryDTOS = categoryService.findCategoriesByIdNotIn(list);
-            return categoryDTOS;
+            if(list.isEmpty()){
+                return categoryService.findAll();
+            }
+            return categoryService.findCategoriesByIdNotIn(list);
         }
         catch (NoSuchElementException e){
             return null;

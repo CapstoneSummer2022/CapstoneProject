@@ -2,6 +2,7 @@ package com.example.electriccomponentsshop.controller.admin;
 
 import com.example.electriccomponentsshop.dto.*;
 import com.example.electriccomponentsshop.entities.Product;
+import com.example.electriccomponentsshop.entities.Specification;
 import com.example.electriccomponentsshop.entities.Supplier;
 import com.example.electriccomponentsshop.services.*;
 import lombok.AllArgsConstructor;
@@ -45,6 +46,7 @@ public class ProductController {
         modelMap.addAttribute("newSpecification",new SpecificationDto());
         return "administrator/add-product-specification";
     }
+
     @PostMapping("/specification/add")
     public String addNewSpecification(@ModelAttribute(name = "newSpecification") SpecificationDto specificationDto, BindingResult bindingResult,ModelMap modelMap){
         if(bindingResult.hasErrors()){
@@ -66,8 +68,10 @@ public class ProductController {
     public String viewById(ModelMap model,@PathVariable @Valid String id){
         try{
             ProductDTO productDTO = productService.getProductDtoById(id);
+            System.out.println(productDTO.getCategories().size()+"ddd");
             List<CategoryDTO> categoryDtos = categoryService.findCategoriesByIdNotIn(productDTO.getCategories());
             System.out.println("dcun");
+            List<SupplierDTO> supplierDTOS = supplierService.getAllSupplier();
             List<SpecificationValueDto> specificationValueDtos = productDTO.getSpecificationValues();
             List<Integer> sIds = new ArrayList<>();
             for (SpecificationValueDto c: specificationValueDtos
@@ -78,7 +82,7 @@ public class ProductController {
             List<SpecificationDto> specificationDtos =specificationService.findSpecificationsBySpecificationIdNotIn(sIds);
             model.addAttribute("specificationDtos",specificationDtos);
             model.addAttribute("listSpecificationValue",specificationValueDtos);
-
+            model.addAttribute("listSuppliers",supplierDTOS);
             model.addAttribute("productDto",productDTO);
             model.addAttribute("listCategories",categoryDtos);
 
@@ -146,11 +150,10 @@ public class ProductController {
     @ResponseBody
     public String addNewProduct(@Valid @RequestBody ProductDTO productDTO){
         try{
-            if(productService.addProduct(productDTO)){
+           productService.addProduct(productDTO);
                 return "thành công";
-            }
-            else return "thất bại";
-        }catch (Exception e){
+        }catch (RuntimeException e){
+            System.out.println(e.getMessage() + "đây k");
             return e.getMessage();
         }
     }
@@ -167,10 +170,39 @@ public class ProductController {
         }
 
     }
+    @PostMapping("/specification/getExcept")
+    @ResponseBody
+    public List<SpecificationDto> getSpecExcept(@RequestBody ProductDTO productDTO){
+        try{
+            List<SpecificationValueDto> list = productDTO.getSpecificationValues();
+            System.out.println(list.size()+ "oke");
+            List<Integer> sIds = new ArrayList<>();
+            for (SpecificationValueDto s : list
+            ) {
+                sIds.add(Integer.parseInt(s.getSpecificationId()));
+            }
+            if(list.isEmpty()){
+                return specificationService.findAll();
+            }
+            return specificationService.findSpecificationsBySpecificationIdNotIn(sIds);
+        }
+        catch (NoSuchElementException e){
+            return null;
+        }
+    }
     @PostMapping("/update/{id}")
     @ResponseBody
-    public String update(@PathVariable Integer id,@Valid @RequestBody ProductDTO productDTO){
-        return "administrator/product-management";
+    public String update(@PathVariable String id,@Valid @RequestBody ProductDTO productDTO){
+        try{
+            productService.updateProduct(productDTO,id);
+            System.out.println("săp nă");
+            return "thành công";
+        }catch (RuntimeException e){
+            System.out.println(e.getMessage()+"hoa");
+            return e.getMessage();
+        }
+
+
     }
     }
 

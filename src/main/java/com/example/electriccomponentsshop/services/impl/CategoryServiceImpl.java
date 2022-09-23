@@ -92,13 +92,16 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public boolean addCategory(CategoryDTO categoryDTO) {
+        if(isExistByName(categoryDTO.getName())){
+            throw new RuntimeException("Tên danh mục đã tồn tại");
+        }
         Category category = new Category(categoryDTO.getName());
         try {
             if (categoryDTO.getParentId() != null) {
                 Integer parentId = Integer.parseInt(categoryDTO.getParentId());
                 Optional<Category> optionalParentCategory = categoryRepository.findById(parentId);
                 if (optionalParentCategory.isEmpty()) {
-                    throw new NoSuchElementException();
+                    throw new NoSuchElementException("Không tìm thấy danh mục mã như vậy");
                 } else {
                     Category parentCategory = optionalParentCategory.get();
                     category.setParentCategory(parentCategory);
@@ -109,6 +112,11 @@ public class CategoryServiceImpl implements CategoryService {
             throw new NoSuchElementException("Không tìm thấy danh mục này");
         }
         return true;
+    }
+    @Override
+    public boolean isExistByName(String name){
+        Optional<Category> category = categoryRepository.findCategoryByName(name);
+        return category.isPresent();
     }
 
     @Override

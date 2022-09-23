@@ -70,7 +70,7 @@ public class AccountServiceImpl implements AccountService {
     }
     @Override
     public Account getAccountCustomerByPhone(String phone){
-        Optional<Account> accountOptional = accountRepository.findAccountCustomerByPhone(phone);
+        Optional<Account> accountOptional = accountRepository.findAccountByPhone(phone);
         if(accountOptional.isPresent()){
             return accountOptional.get();
         }else throw new NoSuchElementException("Không tìm thấy tài khoản khách có số điện thoại này");

@@ -1,5 +1,6 @@
 package com.example.electriccomponentsshop;
 
+import com.example.electriccomponentsshop.config.ModelMap;
 import com.example.electriccomponentsshop.dto.ProductDTO;
 import com.example.electriccomponentsshop.entities.Product;
 import com.example.electriccomponentsshop.repositories.ProductRepository;
@@ -28,6 +29,8 @@ public class ProductServiceTest {
 
     @InjectMocks
     ProductServiceImpl productService;
+    @Mock
+    ModelMap modelMap;
 
     @Test
     void whenGetAll_shouldReturnList() {
@@ -41,7 +44,7 @@ public class ProductServiceTest {
         when(productRepository.findAll()).thenReturn(products);
 
         // 3. call service method
-        List<ProductDTO> actualProduct = productService.findAll();
+        List<Product> actualProduct = productService.getAll();
 
         // 4. assert the result
         assertThat(actualProduct.size()).isEqualTo(products.size());

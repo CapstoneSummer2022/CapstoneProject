@@ -26,4 +26,7 @@ public interface ProductRepository extends JpaRepository<Product,Integer> {
     List<Product> findProductsByProductSupplierIdAndNameContains(@Param("sId") Integer sId,@Param("pName") String pName);
     @Override
     <S extends Product> S save(S entity);
+
+    Optional<Product> findProductByName(String name);
+
 }

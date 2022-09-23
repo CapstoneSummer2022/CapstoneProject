@@ -131,14 +131,20 @@ public class OrderServiceImpl implements OrderService {
         order.setPaymentMethod(orderDTO.getPaymentMethod());
         AccountDetailImpl accountDetail = (AccountDetailImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(accountDetail.getAuthorities().stream().map(item->item.getAuthority()).collect(Collectors.toList()).contains(ERole.ROLE_EMPLOYEE.name())){
-            Account customerAccount = accountService.getAccountCustomerByPhone(orderDTO.getAccountCustomerPhone());
+           try{
+               Account customerAccount = accountService.getAccountCustomerByPhone(orderDTO.getAccountCustomerPhone());
+               order.setAccountCustomer(customerAccount);
+           }catch (NoSuchElementException e){
+               throw  new RuntimeException("Số điện thoại chưa có trong hệ thống");
+           }
+
             Optional<Account> accountOptional = accountRepository.findByEmail(accountDetail.getEmail());
             System.out.println("jjh4");
             if (accountOptional.isEmpty()) {
                 throw new NoSuchElementException("Không tìm thấy nhân viên này");
             }
             order.setAccountEmployee(accountOptional.get());
-            order.setAccountCustomer(customerAccount);
+
         }
         order =  orderRepository.save(order);
         List<OrderItem> list = new ArrayList<>();

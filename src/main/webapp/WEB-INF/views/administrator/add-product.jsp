@@ -92,16 +92,18 @@
                   Thêm thông số kỹ thuật</a>
               </div>
             </div>
-            <form>
+            <form id="addProduct">
               <div class="row">
                 <div class="form-group col-md-3">
                   <label class="control-label required-field">Tên sản phẩm</label>
                   <input class="form-control" id="name" type="text" required>
+                  <span class="error" id="errorProductName"></span>
                 </div>
 
                 <div class="form-group col-md-3">
                   <label class="control-label required-field">Giá bán</label>
-                  <input class="form-control" id="price" type="number">
+                  <input class="form-control" id="price" type="number" onchange="isPricePositive()" required>
+                  <p class="error" id="negativePrice"></p>
                 </div>
                 <div class="form-group col-md-3">
                   <label for="supplierOption" class="control-label required-field">Nhà cung cấp</label>
@@ -115,7 +117,8 @@
               <div class="row">
                 <div class="form-group col-md-3">
                   <label class="control-label required-field">Đơn vị bán</label>
-                  <input class="form-control" id="unit" type="number">
+                  <input class="form-control" id="unit" type="number" onchange="isUnitPositive()" required>
+                  <span class="error" id="negativeUnit"></span>
                 </div>
                 <div class="form-group col-md-3">
                   <label for="exampleSelect1" class="control-label required-field">Danh mục</label>
@@ -205,7 +208,7 @@
               <div class="row">
                 <div class="confirm-button">
                   <div class="button">
-                    <button type="button" id="createProduct" class="btn btn-save" onclick="addProduct()" >Lưu lại</button>
+                    <button type="submit" id="createProduct" class="btn btn-save" >Lưu lại</button>
                     <button type="button" class="btn btn-cancel" onclick="location.href='product-management.html'">Hủy
                       bỏ</button>
                   </div>
@@ -263,6 +266,30 @@ MODAL CATEGORY EMPTY
             </div>
             <div class="form-group col-md-12" style="text-align: center;">
               <p class="modal-notify-unsuccessful" >Chưa có danh mục nào được chọn</p>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: center; padding: 10px;">
+            <button style="margin: 5px;" class="btn btn-save" data-dismiss="modal">Đóng</button>
+          </div>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="specEmpty" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+       data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="row">
+            <div class="form-group  col-md-12">
+              <span class="thong-tin-thanh-toan">
+                <h5>Thông báo</h5>
+              </span>
+            </div>
+            <div class="form-group col-md-12" style="text-align: center;">
+              <p class="modal-notify-unsuccessful" >Chưa có thông số nào được chọn</p>
             </div>
           </div>
           <div style="display: flex; justify-content: center; padding: 10px;">
