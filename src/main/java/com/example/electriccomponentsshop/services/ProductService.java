@@ -24,6 +24,10 @@ public interface ProductService {
 
     Product getById(String id);
 
+    boolean existByName(String name);
+
+    boolean updateProduct(ProductDTO productDTO, String id);
+
     boolean addProduct(ProductDTO productDTO);
 
     List<Product> getAll();

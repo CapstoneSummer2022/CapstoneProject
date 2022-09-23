@@ -42,7 +42,9 @@ public class OrderServiceImpl implements OrderService {
     final OrderKindRepository orderKindRepo;
 
     final ExportTransactionRepository exportTransactionRepository;
+
     final SkuService skuService;
+
     @Override
     public List<Order> findOrdersByStatus(String status) {
         return orderRepository.findOrdersByStatus(status);
@@ -66,6 +68,7 @@ public class OrderServiceImpl implements OrderService {
 
         return orders.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
+
     public OrderDTO convertToDTO(Order order) {
         return modelMap.modelMapper().map(order, OrderDTO.class);
     }
@@ -80,6 +83,7 @@ public class OrderServiceImpl implements OrderService {
         }
         return orderDTOList;
     }
+
     private void setAddress(OrderDTO orderDTO, Order order) {
         Optional<Province> provinceOptional = provinceRepository.findByName(orderDTO.getProvinceName());
 
@@ -122,6 +126,7 @@ public class OrderServiceImpl implements OrderService {
             }
         }
     }
+
     @Override
     public boolean createOrder(OrderDTO orderDTO){
         List<OrderItemDTO> orderItems = orderDTO.getOrderItems();
@@ -166,10 +171,10 @@ public class OrderServiceImpl implements OrderService {
 
         order.setOrderItems(list);
 
-
         orderRepository.save(order);
         return Boolean.TRUE;
     }
+
     @Override
     public List<OrderDTO> findByStatus(String status){
         List<Order> orderList = orderRepository.findOrdersByStatus(status);
@@ -252,7 +257,6 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     @Override
     public boolean updateOrder(String id, OrderDTO orderDTO){
-        System.out.println("vào đây");
         System.out.println(orderDTO.getProvinceName());
         System.out.println(orderDTO.getDistrictName());
         Order order = getById(id);
@@ -264,8 +268,7 @@ public class OrderServiceImpl implements OrderService {
         order.setReceivedPerson(orderDTO.getReceivedPerson());
         order.setReceivedPhone(orderDTO.getReceivedPhone());
         orderItemRepository.deleteOrderItemsByOrderId(order.getId());
-        for (OrderItemDTO o : dtos
-        ) {
+        for (OrderItemDTO o : dtos) {
             BigInteger quantity =o.getQuantity();
             Product p = getProduct(o.getProductId());
             p.setAvailable(p.getAvailable().subtract(quantity));
@@ -275,6 +278,7 @@ public class OrderServiceImpl implements OrderService {
             orderItemRepository.save(orderItem);
             totalPayment = totalPayment.add(subTotal);
         }
+
         order.setTotalPayment(totalPayment);
         setAddress(orderDTO, order);
         return orderRepository.save(order) != null;

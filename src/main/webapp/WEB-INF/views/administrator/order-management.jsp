@@ -119,14 +119,7 @@
                   Tạo đơn hàng mới</a>
               </div>
             </div>
-            <div class="search-row">
-              <form action="">
-                <div class="search-container">
-                  <input class="form-control" type="text" placeholder="Tìm kiếm" name="search">
-                  <button type="submit"><i class="fa fa-search"></i></button>
-                </div>
-              </form>
-            </div>
+
             <table class="table table-hover table-bordered" id="sampleTable">
               <thead>
                 <tr>
@@ -149,7 +142,7 @@
                   <td>${orderDto.totalPayment}</td>
                   <td><span class="badge bg-success">${orderDto.status}</span></td>
                   <td>
-                  <c:if test="${orderDto.status != 'Hoàn thành'}">
+                  <c:if test="${orderDto.status == 'Chờ Xử Lý'}">
                     <a href="${pageContext.request.contextPath}/admin/orders/update/${orderDto.id}" class="btn btn-primary btn-sm edit"
                            type="button" title="Sửa"><i class="fas fa-edit"></i></a>
                   </c:if>

@@ -73,12 +73,16 @@ public class AccountServiceImpl implements AccountService {
         }
         return convertToDto(accountOptional.get());
     }
+
     @Override
     public Account getAccountCustomerByPhone(String phone){
         Optional<Account> accountOptional = accountRepository.findAccountCustomerByPhone(phone);
-        if(accountOptional.isPresent()){
+
+        if (accountOptional.isPresent()) {
             return accountOptional.get();
-        }else throw new NoSuchElementException("Không tìm thấy tài khoản khách có số điện thoại này");
+        }else {
+            throw new NoSuchElementException("Không tìm thấy tài khoản khách có số điện thoại này");
+        }
     }
 
     @Override
@@ -175,7 +179,6 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-
     public List<AccountDTO> findAllByRoleName(String... role){
         List<Account> accounts = accountRepository.findAllByRoleName(role);
 

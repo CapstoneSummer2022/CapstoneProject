@@ -35,6 +35,7 @@ public class SupplierServiceImpl implements SupplierService {
     public SupplierDTO convertToDto(Supplier supplier){
         return modelMap.modelMapper().map(supplier,SupplierDTO.class);
     }
+
     @Override
     public Supplier getBySupplierId(String id){
         try{
@@ -47,47 +48,83 @@ public class SupplierServiceImpl implements SupplierService {
             throw  new NoSuchElementException("Không tìm nhà cung cấp này");
         }
     }
-   @Override
-   public SupplierDTO getDtoById(String id){
+
+    @Override
+    public SupplierDTO getDtoById(String id){
         return convertToDto(getBySupplierId(id));
-   }
+    }
     @Override
     public List<SupplierDTO> getAllSupplier(){
-        List<Supplier> supplierList = supplierRepository.findAll();
+        List<Supplier> supplierList = supplierRepository.findByActive(1);
         if(supplierList.isEmpty()){
             throw new NoSuchElementException("Không tìm thấy nhà cung cấp");
         }
         return supplierList.stream().map(this::convertToDto).collect(Collectors.toList());
     }
+
     @Override
     public Optional<Supplier> findById(Integer integer) {
         return supplierRepository.findById(integer);
     }
     @Override
     public void addSupplier(SupplierDTO supplierDTO){
-        Supplier supplier = new Supplier();
-        supplier.setName(supplierDTO.getName());
-        supplier.setPhone(supplierDTO.getPhone());
-        supplier.setActive(1);
-        supplierRepository.save(supplier);
+        if(isExistByName(supplierDTO.getName())){
+            throw new RuntimeException("Tên nhà cung cấp đã tồn tại");
+        }
+        else if(isExistByPhone(supplierDTO.getPhone())){
+            throw new RuntimeException("Số điện thoại nhà cung cấp đã tồn tại");
+        }
+        else {
+            Supplier supplier = new Supplier();
+            supplier.setName(supplierDTO.getName());
+            supplier.setPhone(supplierDTO.getPhone());
+            supplier.setActive(1);
+            supplierRepository.save(supplier);
+        }
+
     }
+
     @Override
     public void updateSupplier(SupplierDTO supplierDTO,String id){
-        Supplier supplier = getBySupplierId(id);
-        supplier.setName(supplierDTO.getName());
-        supplier.setPhone(supplierDTO.getPhone());
-        supplierRepository.save(supplier);
+        if(isExistByName(supplierDTO.getName())){
+            throw new RuntimeException("Tên nhà cung cấp đã tồn tại");
+        }
+        else if(isExistByPhone(supplierDTO.getPhone())){
+            throw new RuntimeException("Số điện thoại nhà cung cấp đã tồn tại");
+        }
+        else {
+            Supplier supplier = getBySupplierId(id);
+            supplier.setName(supplierDTO.getName());
+            supplier.setPhone(supplierDTO.getPhone());
+            supplierRepository.save(supplier);
+        }
+
     }
+
     @Override
     public void disableSupplier(String id){
         Supplier supplier = getBySupplierId(id);
         supplier.setActive(0);
         supplierRepository.save(supplier);
     }
+
     @Override
     public void enableSupplier(String id){
         Supplier supplier = getBySupplierId(id);
         supplier.setActive(1);
         supplierRepository.save(supplier);
+    }
+
+    @Override
+    public boolean isExistByName(String name){
+        Optional<Supplier> supplier = supplierRepository.findSupplierByName(name);
+        return supplier.isPresent();
+    }
+
+
+    @Override
+    public boolean isExistByPhone(String phone){
+        Optional<Supplier> supplier = supplierRepository.findSupplierByPhone(phone);
+        return supplier.isPresent();
     }
 }

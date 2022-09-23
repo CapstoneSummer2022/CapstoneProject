@@ -136,59 +136,13 @@
                   <td>${importTransaction.totalPayment}</td>
                   <td>${importTransaction.importDate}</td>
                   <td>
-                    <a href="${pageContext.request.contextPath}/admin/warehouses/import/update/${importTransaction.id}" class="btn btn-primary btn-sm edit"
-                       title="Sửa"><i class="fas fa-edit"></i></a>
-                    <button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng"
-                            onclick="location.href='import-transaction-detail.html'"><i class="fa fa-info"></i></button>
+                  <a href="${pageContext.request.contextPath}/admin/warehouses/import/view/${importTransaction.id}">
+                    <button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng">
+                    <i class="fa fa-info"></i></button>
+                  </a>
                   </td>
                 </tr>
               </c:forEach>
-
-                <tr>
-                  <td>2</td>
-                  <td>
-                    Hàng 2 - Cột 3 - Kệ A
-                  </td>
-                  <td>XQCV+F65, P. Văn Quán, Hà Đông, Hà Nội</td>
-                  <td>120.000 đ</td>
-                  <td>20/07/2022</td>
-                  <td>
-                    <a href="setting-warehouse-import.html" class="btn btn-primary btn-sm edit" type="button"
-                      title="Sửa"><i class="fas fa-edit"></i></a>
-                    <button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng"
-                      onclick="location.href='import-transaction-detail.html'"><i class="fa fa-info"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>
-                    Hàng 2 - Cột 3 - Kệ A
-                  </td>
-                  <td>XQCV+F65, P. Văn Quán, Hà Đông, Hà Nội</td>
-                  <td>120.000 đ</td>
-                  <td>20/07/2022</td>
-                  <td>
-                    <a href="setting-warehouse-import.html" class="btn btn-primary btn-sm edit" type="button"
-                      title="Sửa"><i class="fas fa-edit"></i></a>
-                    <button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng"
-                      onclick="location.href='import-transaction-detail.html'"><i class="fa fa-info"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>
-                    Hàng 2 - Cột 3 - Kệ A
-                  </td>
-                  <td>XQCV+F65, P. Văn Quán, Hà Đông, Hà Nội</td>
-                  <td>120.000 đ</td>
-                  <td>20/07/2022</td>
-                  <td>
-                    <a href="setting-warehouse-import.html" class="btn btn-primary btn-sm edit" type="button"
-                      title="Sửa"><i class="fas fa-edit"></i></a>
-                    <button class="btn btn-primary btn-sm" type="button" title="Chi tiết đơn hàng"
-                      onclick="location.href='import-transaction-detail.html'"><i class="fa fa-info"></i></button>
-                  </td>
-                </tr>
               </tbody>
             </table>
           </div>

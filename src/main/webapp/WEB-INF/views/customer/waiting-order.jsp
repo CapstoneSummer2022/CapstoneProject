@@ -51,7 +51,9 @@
                           <td style="font-size: 20px;"><span style="font-weight: bold;">Tổng thanh toán:</span>  ${order.totalPayment}</td>
                         </tr>
                         <tr>
+                        <a href="${pageContext.request.contextPath}/cancel?orderId=${order.id}" onclick="return confirm('Bạn muốn huỷ đơn mã ${order.id}?')">
                           <td colspan="2"><button>Hủy đơn hàng</button></td>
+                        </a>
                         </tr style="font-size: 20px;">
 
                       </table>

@@ -40,6 +40,7 @@ public class ProductController {
 
         return "administrator/product-management";
     }
+
     @GetMapping("/specification/add")
     public String getAddSpecForm(ModelMap modelMap){
         List<SpecificationDto> specificationDtos = specificationService.findAll();
@@ -47,6 +48,7 @@ public class ProductController {
         modelMap.addAttribute("newSpecification",new SpecificationDto());
         return "administrator/add-product-specification";
     }
+
     @PostMapping("/specification/add")
     public String addNewSpecification(@ModelAttribute(name = "newSpecification") SpecificationDto specificationDto, BindingResult bindingResult,ModelMap modelMap){
         if(bindingResult.hasErrors()){
@@ -62,25 +64,28 @@ public class ProductController {
         }
         List<SpecificationDto> specificationDtos = specificationService.findAll();
         modelMap.addAttribute("listSpec",specificationDtos);
-            return "administrator/add-product-specification";
+
+        return "administrator/add-product-specification";
     }
+
     @GetMapping("/view/{id}")
     public String viewById(ModelMap model,@PathVariable @Valid String id){
         try{
             ProductDTO productDTO = productService.getProductDtoById(id);
+
             List<CategoryDTO> categoryDtos = categoryService.findCategoriesByIdNotIn(productDTO.getCategories());
-            System.out.println("dcun");
+
+            List<SupplierDTO> supplierDTOS = supplierService.getAllSupplier();
             List<SpecificationValueDto> specificationValueDtos = productDTO.getSpecificationValues();
             List<Integer> sIds = new ArrayList<>();
-            for (SpecificationValueDto c: specificationValueDtos
-            ) {
+            for (SpecificationValueDto c: specificationValueDtos) {
                 System.out.println(c.getSpecificationId()+"gia");
                 sIds.add(Integer.parseInt(c.getSpecificationId()));
             }
             List<SpecificationDto> specificationDtos =specificationService.findSpecificationsBySpecificationIdNotIn(sIds);
             model.addAttribute("specificationDtos",specificationDtos);
             model.addAttribute("listSpecificationValue",specificationValueDtos);
-
+            model.addAttribute("listSuppliers",supplierDTOS);
             model.addAttribute("productDto",productDTO);
             model.addAttribute("listCategories",categoryDtos);
 
@@ -90,22 +95,27 @@ public class ProductController {
         }
         return "administrator/setting-product";
     }
+
     @GetMapping("/getBySupplier")
     @ResponseBody
     public List<ProductDTO> getBySupplier(@RequestParam(name = "id") String id){
         SupplierDTO supplierDTO =supplierService.getDtoById(id);
-        return   supplierDTO.getProducts();
+        return supplierDTO.getProducts();
     }
+
     @GetMapping("/add")
         public String viewProduct(ModelMap modelMap){
         List<CategoryDTO> listCategories = categoryService.findAll();
         List<SpecificationDto> specificationDtos = specificationService.findAll();
         List<SupplierDTO> supplierDTOS = supplierService.getAllSupplier();
+
         modelMap.addAttribute("listCategories",listCategories);
         modelMap.addAttribute("specificationDtos", specificationDtos);
         modelMap.addAttribute("listSuppliers",supplierDTOS);
-            return "administrator/add-product";
+
+        return "administrator/add-product";
         }
+
     @PostMapping("/disable")
     @ResponseBody
     public String disable(@RequestParam(name="id") String id ){
@@ -116,6 +126,7 @@ public class ProductController {
             return e.getMessage();
         }
     }
+
     @PostMapping("/enable")
     @ResponseBody
     public String enable(@RequestParam(name="id") String id ){
@@ -126,11 +137,13 @@ public class ProductController {
             return e.getMessage();
         }
     }
+
     @GetMapping ("search-import")
     @ResponseBody
     public List<ProductDTO> getProductImport(@RequestParam(name="text") String text,@RequestParam(name="sId",defaultValue = "0")String sId){
-            return productService.findBySupplierIdAndNameContain(sId,text);
+        return productService.findBySupplierIdAndNameContain(sId,text);
     }
+
     @GetMapping("search")
     public String searchProduct(@RequestParam(name="text", required = false) String text, @RequestParam(name="index",defaultValue = "0") String index, ModelMap modelMap){
         int pIndex = Integer.parseInt(index);
@@ -145,18 +158,18 @@ public class ProductController {
 
         return "administrator/product-management";
     }
+
     @PostMapping("/add")
     @ResponseBody
     public String addNewProduct(@Valid @RequestBody ProductDTO productDTO){
         try{
-            if(productService.addProduct(productDTO)){
-                return "thành công";
-            }
-            else return "thất bại";
-        }catch (Exception e){
+            productService.addProduct(productDTO);
+            return "thành công";
+        }catch (RuntimeException e){
             return e.getMessage();
         }
     }
+
     @GetMapping("/getSku")
     @ResponseBody
     public List<SkuDTO> getSku(@RequestParam(name = "id") String id){
@@ -170,11 +183,40 @@ public class ProductController {
         }
 
     }
+
+    @PostMapping("/specification/getExcept")
+    @ResponseBody
+    public List<SpecificationDto> getSpecExcept(@RequestBody ProductDTO productDTO){
+        try{
+            List<SpecificationValueDto> list = productDTO.getSpecificationValues();
+            System.out.println(list.size()+ "oke");
+            List<Integer> sIds = new ArrayList<>();
+            for (SpecificationValueDto s : list
+            ) {
+                sIds.add(Integer.parseInt(s.getSpecificationId()));
+            }
+            if(list.isEmpty()){
+                return specificationService.findAll();
+            }
+            return specificationService.findSpecificationsBySpecificationIdNotIn(sIds);
+        }
+        catch (NoSuchElementException e){
+            return null;
+        }
+    }
+
     @PostMapping("/update/{id}")
     @ResponseBody
-    public String update(@PathVariable Integer id,@Valid @RequestBody ProductDTO productDTO){
-        return "administrator/product-management";
-    }
-    }
+    public String update(@PathVariable String id,@Valid @RequestBody ProductDTO productDTO){
+        try{
+            productService.updateProduct(productDTO,id);
+            System.out.println("săp nă");
+            return "thành công";
+        }catch (RuntimeException e){
+            System.out.println(e.getMessage()+"hoa");
+            return e.getMessage();
+        }
 
 
+    }
+}

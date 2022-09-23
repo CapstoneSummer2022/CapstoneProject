@@ -29,4 +29,8 @@ public interface SupplierService {
     void disableSupplier(String id);
 
     void enableSupplier(String id);
+
+    boolean isExistByName(String name);
+
+    boolean isExistByPhone(String phone);
 }

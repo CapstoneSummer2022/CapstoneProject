@@ -32,14 +32,17 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryDTO> findCategoriesByIdNotIn(List<CategoryDTO> cId) {
         List<Integer> cIds = new ArrayList<>();
-        for (CategoryDTO c : cId
-        ) {
+
+        for (CategoryDTO c : cId) {
             cIds.add(Integer.parseInt(c.getId()));
         }
+
         List<Category> categories = categoryRepository.findCategoriesByIdNotIn(cIds.toArray(new Integer[cIds.size()]));
         if (categories.isEmpty()) {
             throw new NoSuchElementException("Không có danh mục nào");
-        } else return categories.stream().map(this::convertToDto).collect(Collectors.toList());
+        } else {
+            return categories.stream().map(this::convertToDto).collect(Collectors.toList());
+        }
 
     }
 
@@ -109,6 +112,12 @@ public class CategoryServiceImpl implements CategoryService {
             throw new NoSuchElementException("Không tìm thấy danh mục này");
         }
         return true;
+    }
+
+    @Override
+    public boolean isExistByName(String name) {
+        Optional<Category> category = categoryRepository.findCategoryByName(name);
+        return category.isPresent();
     }
 
     @Override

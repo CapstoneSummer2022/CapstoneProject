@@ -1,5 +1,6 @@
 <jsp:useBean id="orderDto" scope="request" type="com.example.electriccomponentsshop.dto.OrderDTO"/>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -149,7 +150,7 @@
                                         <button class="btn btn-primary" data-toggle="modal"
                                                 data-target="#confirmReturned">Đã nhận hoàn</button>
                                     </c:if>
-                                    <c:if test="${orderDto.status != 'Hoàn Thành' && orderDto.status != 'Đã Nhận Hoàn'}">
+                                    <c:if test="${orderDto.status != 'Hoàn Thành' && orderDto.status != 'Đã Nhận Hoàn' && orderDto.status != 'Đã Hủy'}">
                                         <button class="btn btn-cancel" data-toggle="modal"
                                                 data-target="#confirmCancel">Huỷ đơn hàng</button>
                                     </c:if>

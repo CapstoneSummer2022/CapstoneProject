@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -47,43 +48,20 @@
                             <thead>
                                 <tr>
                                     <th class="order-item-number">Mã sản phẩm</th>
-                                    <th class="order-item-number" width="200">Tên sản phẩm</th>
                                     <th class="order-item-number" width="100">Đơn giá</th>
                                     <th class="order-item-number" width="10">Số lượng</th>
                                     <th class="order-item-number">Thành tiền</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                <c:forEach var="item" items="${importTransactionDto.importItems}">
                                 <tr>
-                                    <td>1-A-9-1</td>
-                                    <td>Diode Xung Đôi SBL3040 TO-247 600V 30A</td>
-                                    <td>5.600 đ</td>
-                                    <td>1</td>
-                                    <td>5.600 đ</td>
+                                    <td>${item.productId}</td>
+                                    <td>${item.importPrice}</td>
+                                    <td>${item.quantity}</td>
+                                    <td>${item.subTotal}</td>
                                 </tr>
-                                <tr>
-                                    <td>1-A-5-2</td>
-                                    <td>Diode SS34 SMD</td>
-                                    <td>33.235 đ</td>
-                                    <td>1</td>
-                                    <td>33.235 đ</td>
-                                </tr>
-                                <tr>
-                                    <td>1-A-8-2</td>
-                                    <td>Diode Cầu 25A Dẹt 1000V KBJ2510</td>
-                                    <td>33.235 đ</td>
-                                    <td>1</td>
-                                    <td>16.770 đ</td>
-                                </tr>
-                                <tr>
-
-                                    <td>1-A-7-5</td>
-                                    <td>Tụ Cao Áp 102K 2kV</td>
-                                    <td>33.235 đ</td>
-                                    <td>1</td>
-                                    <td>22.650 đ</td>
-                                </tr>
-                                <tr>
+                                </c:forEach>
                             </tbody>
                         </table>
                     </div>
@@ -95,33 +73,19 @@
                     <div class="tile-body">
                         <div class="form-group col-md-12">
                             <label for="exampleSelect1" class="control-label">Ngày nhập</label>
-                            <p>20/7/2022</p>
+                            <p>${importTransactionDto.importDate}</p>
                         </div>
                         <div class="form-group col-md-12">
                             <label for="exampleSelect1" class="control-label">Nhà cung cấp</label>
-                            <p>DAEWOO</p>
+                            <p>${importTransactionDto.supplierName}</p>
                         </div>
                         <div class="form-group col-md-12">
                             <label for="exampleSelect1" class="control-label">Vị trí lưu kho</label>
-                            <p> XQCV+F65, P. Văn Quán, Hà Đông, Hà Nội</p>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-4">
-                                <label class="control-label">Số hàng</label>
-                                <p>2</p>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label class="control-label">Số cột</label>
-                                <p>3</p>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label class="control-label">Mã kệ hàng</label>
-                                <p>A</p>
-                            </div>
+                            <p> ${importTransactionDto.wardName}, ${importTransactionDto.districtName}, ${importTransactionDto.provinceName}</p>
                         </div>
                         <div class="form-group col-md-12">
                             <label class="control-label">Tổng tiền: </label>
-                            <p class="control-all-money-total">= 450.000 đ</p>
+                            <p class="control-all-money-total"> ${importTransactionDto.totalPayment} đ</p>
                         </div>
                     </div>
                     <div class="middle-button">

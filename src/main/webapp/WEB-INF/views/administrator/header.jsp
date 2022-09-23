@@ -101,7 +101,6 @@
         <div class="app-nav__button">
             <div class="app-nav__item"><i class='bx bx-cog'></i></div>
             <div class="app-nav__item-content">
-                <a href="personal-info.html">Thông tin cá nhân</a>
                 <a href="/sign-out">Đăng xuất</a>
             </div>
         </div>

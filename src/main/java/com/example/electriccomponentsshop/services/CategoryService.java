@@ -28,7 +28,10 @@ public interface CategoryService {
 
     Page<Category> findAll(Pageable pageable);
     boolean addCategory(CategoryDTO categoryDTO);
-    boolean updateCategory(CategoryDTO categoryDTO,String strId);
+
+    boolean isExistByName(String name);
+
+    boolean updateCategory(CategoryDTO categoryDTO, String strId);
     CategoryDTO findById(Integer id);
 
 }

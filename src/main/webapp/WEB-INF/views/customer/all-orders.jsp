@@ -63,7 +63,11 @@
                         </tr>
                         <c:if test="${order.status ne 'Đã Hủy' && order.status ne 'Hoàn Thành'}">
                             <tr>
-                              <td colspan="2"><button>Hủy đơn hàng</button></td>
+                              <td colspan="2">
+                              <a href="${pageContext.request.contextPath}/cancel?orderId=${order.id}" onclick="return confirm('Bạn muốn huỷ đơn mã ${order.id}?')">
+                              <button>Hủy đơn hàng</button>
+                              </a>
+                              </td>
                             </tr>
                         </c:if>
 

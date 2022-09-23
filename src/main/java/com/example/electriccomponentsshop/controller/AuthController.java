@@ -80,6 +80,7 @@ public class AuthController {
         cookie.setHttpOnly(true);
         return new ModelAndView("logout");
     }
+
     @GetMapping("/signin")
     public String login(Model model, ModelMap map){
         model.addAttribute("signinRequest", new SigninRequest());
@@ -89,6 +90,7 @@ public class AuthController {
 
         return "customer/html/signin";
     }
+
     @PostMapping("/signin")
     public String authenticateUser(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response, @Valid @ModelAttribute("signinRequest") SigninRequest signinRequest, BindingResult bindingResult) {
 

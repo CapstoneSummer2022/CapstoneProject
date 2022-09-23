@@ -28,28 +28,25 @@ public class CategoryController  {
     public String list(Model model){
         ArrayList<CategoryDTO> categories = (ArrayList<CategoryDTO>)categoryService.findAll();
         model.addAttribute("categories", categories);
-        for (CategoryDTO ca: categories
-             ) {
-            System.out.println(ca.getName() + " đây này");
-        }
-        System.out.println(categories.size()+"sizfff");
-        return "administrator/category-management";
 
+        return "administrator/category-management";
     }
+
     @PostMapping("/getExcept")
     @ResponseBody
     public List<CategoryDTO> getExcept(@RequestBody ProductDTO productDTO){
         try{
             List<CategoryDTO> list = productDTO.getCategories();
-            List<CategoryDTO> categoryDTOS = categoryService.findCategoriesByIdNotIn(list);
-            return categoryDTOS;
+            if(list.isEmpty()){
+                return categoryService.findAll();
+            }
+            return categoryService.findCategoriesByIdNotIn(list);
         }
         catch (NoSuchElementException e){
             return null;
         }
-
-
     }
+
     @PostMapping("/add")
     public String addCategory(@Valid @ModelAttribute("categoryDto") CategoryDTO categoryDTO,BindingResult bindingResult,Model model){
         if(bindingResult.hasErrors()){
@@ -67,31 +64,13 @@ public class CategoryController  {
     }
     @PostMapping("edit/{id}")
     public String editCategory(@PathVariable String id,Model model, @Valid @ModelAttribute("categoryDto") CategoryDTO categoryDTO, BindingResult bindingResult){
-//      try{
-//
-//          Category category = categoryService.findById(id);
-//          if(category.getParentCategory()==null){
-//              category.setName(categoryDTO.getName());
-//              categoryService.save(category);
-//          }
-//          else if(category.getParentCategory()!=null){
-//              Category parent = categoryService.findById(categoryDTO.getParentId());
-//              category.setParentCategory(parent);
-//              Set<Category> childCategories = parent.getChildCategories();
-//              childCategories.add(category);
-//              categoryService.save(category);
-//          }
-//      }
-//      catch(NoSuchElementException e){
-//            return new ModelAndView("Không tìm thấy category");
-//
-//      }
         if(bindingResult.hasErrors()){
             bindingResult.getFieldErrors().forEach(fieldError -> model.addAttribute(fieldError.getField(),fieldError.getDefaultMessage()));
         }
         categoryService.updateCategory(categoryDTO,id);
         return "administrator/setting-category";
     }
+
     @Autowired
     CategoryRepository categoryRepository;
     @GetMapping("edit/{id}")
@@ -99,10 +78,8 @@ public class CategoryController  {
 
         try {
             CategoryDTO categoryDTO = categoryService.findById(Integer.parseInt(id));
-            System.out.println(categoryRepository.findEx().size()+"dhic");
             List<CategoryDTO> categoryDTOS = categoryService.findAllSubAndParCategories(37);
-            System.out.println(categoryDTOS.size());
-            System.out.println(categoryDTOS.size()+ "kai");
+
             model.addAttribute( "categories",categoryDTOS);
             model.addAttribute("categoryDto",categoryDTO);
         }

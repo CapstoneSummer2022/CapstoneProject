@@ -19,4 +19,5 @@ public class ImportItemDto {
     private BigInteger quantity;
     private String importTransactionId;
     private String containerId;
+    private BigDecimal subTotal;
 }

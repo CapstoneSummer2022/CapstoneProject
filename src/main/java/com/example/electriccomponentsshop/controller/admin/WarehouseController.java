@@ -124,17 +124,19 @@ public class WarehouseController {
         }
 
     }
-    @GetMapping("/import/update/{id}")
-    public String updateImportTransaction(ModelMap modelMap, @PathVariable(name = "id") String id){
+    @GetMapping("/import/view/{id}")
+    public String viewImportTransactionDetail (ModelMap modelMap, @PathVariable(name = "id") String id){
         try{
             ImportTransactionDto importTransactionDto = importTransactionService.getDtoById(id);
-            modelMap.addAttribute("importTransactionDto",importTransactionDto);
+            System.out.println(importTransactionDto.getImportItems().size() + "thuong ne");
+            modelMap.addAttribute("importTransactionDto", importTransactionDto);
 
         }catch (NoSuchElementException e){
             modelMap.addAttribute("notFound","Không tìm thấy giao dịch này");
             modelMap.addAttribute("success", 0);
         }
-        return "administrator/setting-warehouse-import";
+
+        return "administrator/import-transaction-detail";
     }
     @PostMapping("/disable")
     @ResponseBody

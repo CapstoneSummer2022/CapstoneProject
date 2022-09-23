@@ -112,7 +112,7 @@ function validatePhone(phone) {
 let phonePattern = /^(84|0[3|5|7|8|9])+([0-9]{8})\b$/;
 let emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 let passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-let textPattern = /^[a-zA-Z0-9 '\(\)àáãạảăắằẳẵặâấầẩẫậèéẹẻẽêềếểễệđìíĩỉịòóõọỏôốồổỗộơớờởỡợùúũụủưứừửữựỳỵỷỹýÀÁÃẠẢĂẮẰẲẴẶÂẤẦẨẪẬÈÉẸẺẼÊỀẾỂỄỆĐÌÍĨỈỊÒÓÕỌỎÔỐỒỔỖỘƠỚỜỞỠỢÙÚŨỤỦƯỨỪỬỮỰỲỴỶỸÝ]*$/;
+let textPattern = /^[a-zA-Z0-9 '\(\)àáãạảăắằẳẵặâấầẩẫậèéẹẻẽêềếểễệđìíĩỉịòóõọỏôốồổỗộơớờởỡợùúũụủưứừửữựỳỵỷỹýÀÁÃẠẢĂẮẰẲẴẶÂẤẦẨẪẬÈÉẸẺẼÊỀẾỂỄỆĐÌÍĨỈỊÒÓÕỌỎÔỐỒỔỖỘƠỚỜỞỠỢÙÚŨỤỦƯỨỪỬỮỰỲỴỶỸÝ.]*$/;
 let passwordMessage = "Mật khẩu của bạn cần đủ 8 kí tự, có ít nhất 1 chữ hoa, 1 chữ thường, 1 chữ số và 1 kí tự đặc biệt";
 
 
@@ -290,7 +290,7 @@ function validateSigninForm() {
  * @returns boolean value
  */
 function validateRegisterForm() {
-    const NAME = document.signUpForm.name.value.trim();
+    const NAME = document.signupForm.name.value.trim();
     const EMAIL = document.signupForm.email.value.trim();
     const PWD = document.signupForm.pwd.value.trim();
     const RE_PWD = document.signupForm.repwd.value.trim();
