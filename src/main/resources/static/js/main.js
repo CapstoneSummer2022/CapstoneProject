@@ -490,6 +490,7 @@ function duplicateRow(e) {
         cell1.innerHTML = currentRow.cells[1].innerHTML;
         cell2.innerHTML = currentRow.cells[2].innerHTML;
         cell3.innerHTML = currentRow.cells[3].innerHTML;
+
         cell4.innerHTML = currentRow.cells[4].innerHTML;
         cell5.innerHTML = currentRow.cells[5].innerHTML;
         cell6.appendChild(deleteButton.cloneNode(true));
@@ -1060,6 +1061,34 @@ function validateTableLength(e){
         return true;
     }
     else return false;
+}
+function getBYPhone(){
+    var pattern = /^[0-9]{10,11}$/;
+    var phone = $("#orderPhone").val();
+    if(pattern.test(phone)){
+
+        $.ajax({
+            type:"GET",
+            url:"/admin/accounts/getByPhone?phone="+phone,
+            data:JSON.stringify(phone),
+            contentType:"application/json",
+            success: function (response){
+                console.log("hoang dex");
+                console.log(response.length);
+
+                if (parseInt(response.length) === 0){
+                    alert("hoang");
+                    $('#reason').text("Chưa có số điện thoại này trong hệ thống");
+                    $('#unsuccessful').modal('show');
+                }
+                if(response!=null){
+                    $('#receivedPerson').val(response.name);
+                    $('#receivedPhone').val(response.phone);
+                }
+            }
+        });
+    }
+
 }
 
 

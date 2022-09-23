@@ -52,7 +52,7 @@
                         <div class="row">
                             <div class="form-group col-md-4">
                                 <label class="control-label required-field">Số điện thoại</label>
-                                <input class="form-control" type="number" id="orderPhone" required>
+                                <input class="form-control" type="number" id="orderPhone" onchange="getBYPhone()" required>
                             </div>
                         </div>
                     </div>
@@ -270,7 +270,7 @@ MODAL
                     </div>
                 </div>
                 <div style="display: flex; justify-content: center; padding: 10px;">
-                    <a href="${pageContext.request.contextPath}/admin/accounts/customer/create " style="margin: 5px;" class="btn btn-save">Tạo mới thông tin</a>
+                    <a href="${pageContext.request.contextPath}/admin/accounts/customer-account/add" style="margin: 5px;" class="btn btn-save">Tạo mới thông tin</a>
                     <button style="margin: 5px;" class="btn btn-save" data-dismiss="modal">Đóng</button>
                 </div>
             </div>

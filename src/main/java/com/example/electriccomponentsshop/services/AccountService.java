@@ -16,6 +16,8 @@ public interface AccountService {
 
     Account getAccountCustomerByPhone(String phone);
 
+    AccountDTO findAccountByPhone(String phone);
+
     AccountDTO convertToDto(Account account) ;
 
     boolean updateAccount(AccountDTO accountDTO,Integer id);

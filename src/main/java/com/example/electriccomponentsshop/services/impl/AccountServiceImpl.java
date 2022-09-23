@@ -77,6 +77,15 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public AccountDTO findAccountByPhone(String phone) {
+        Optional<Account> accountOptional = accountRepository.findAccountByPhone(phone);
+        if(accountOptional.isEmpty()){
+            throw  new NoSuchElementException("Không có số điện thoại trong hệ thống");
+        }
+        return convertToDto(accountOptional.get());
+    }
+
+    @Override
     public AccountDTO convertToDto(Account account){
         return modelMap.modelMapper().map(account,AccountDTO.class);
     }

@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.*;
 
@@ -125,6 +126,18 @@ public class AccountController {
 
 
         return "administrator/setting-employee";
+    }
+    @GetMapping("/getByPhone")
+    @ResponseBody
+    public AccountDTO getByPhone(@RequestParam(name="phone") String phone){
+        System.out.println("dcm");
+        try{
+            System.out.println("hoang vcl");
+            return accountService.findAccountByPhone(phone);
+        }catch (NoSuchElementException e){
+            System.out.println("gedsa");
+            return null;
+        }
     }
 
 }
